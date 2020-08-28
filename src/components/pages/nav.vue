@@ -9,87 +9,64 @@
         </router-link>
       </a-menu-item>
 
-      <a-menu-item key="runset">
-        <!-- <a-icon type="upload" /> -->
-        <router-link to="/runset">
-          <span>运行设置</span>
-        </router-link>
-      </a-menu-item>
-      <a-menu-item key="taskset">
-        <!-- <a-icon type="upload" /> -->
-        <router-link to="/taskset">
-          <span>任务设置</span>
-        </router-link>
-      </a-menu-item>
-
-      <a-sub-menu key="warning" title="系统警告">
-        <a-menu-item key="warning">
+      <a-sub-menu key="administrativedivision" title="基础配置">
+        <a-menu-item key="administrativedivision">
           <!-- <a-icon type="upload" /> -->
-          <router-link to="/warning">
-            <span>警报列表</span>
+          <router-link to="/administrativedivision">
+            <span>行政区划</span>
           </router-link>
         </a-menu-item>
-        <a-menu-item key="evlist">
+        <a-menu-item key="dictionary">
           <!-- <a-icon type="upload" /> -->
-          <router-link to="/warning/evlist">
-            <span>事件列表</span>
+          <router-link to="/dictionary">
+            <span>数字字典</span>
           </router-link>
         </a-menu-item>
-        <a-menu-item key="police">
+        <a-menu-item key="RunParameters">
           <!-- <a-icon type="upload" /> -->
-          <router-link to="/warning/police">
-            <span>警报关注</span>
+          <router-link to="/RunParameters">
+            <span>运行参数</span>
           </router-link>
         </a-menu-item>
-        <a-menu-item key="push">
+        <a-menu-item key="systemmenu">
           <!-- <a-icon type="upload" /> -->
-          <router-link to="/warning/push">
-            <span>推送设置</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="transfer">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to="/warning/transfer">
-            <span>转警设置</span>
+          <router-link to="/systemmenu">
+            <span>系统菜单</span>
           </router-link>
         </a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="dataanaly" title="数据分析">
-        <a-menu-item key="watthourmeter">
+      <a-sub-menu key="devicetypes" title="设备配置">
+        <a-menu-item key="devicetypes">
           <!-- <a-icon type="upload" /> -->
-          <router-link to="/dataanaly/watthourmeter">
-            <span>电表运行数据</span>
+          <router-link to="devicetypes">
+            <span>设备类型</span>
           </router-link>
         </a-menu-item>
-        <a-menu-item key="terminaldata">
+        <a-menu-item key="brand">
           <!-- <a-icon type="upload" /> -->
-          <router-link to="/dataanaly/terminaldata">
-            <span>终端运行数据</span>
+          <router-link to="/brand">
+            <span>设备品牌</span>
           </router-link>
         </a-menu-item>
-        <a-menu-item key="terminaldetails">
+        <a-menu-item key="DeviceModel">
           <!-- <a-icon type="upload" /> -->
-          <router-link to="/dataanaly/terminaldetails">
-            <span>终端运行明细</span>
+          <router-link to="/DeviceModel">
+            <span>设备型号</span>
           </router-link>
         </a-menu-item>
-        <a-menu-item key="equipmentdetails">
+        <a-menu-item key="deviceevent">
           <!-- <a-icon type="upload" /> -->
-          <router-link to="/dataanaly/equipmentdetails">
-            <span>设备运行明细</span>
+          <router-link to="/deviceevent">
+            <span>设备事件</span>
+          </router-link>
+        </a-menu-item>
+        <a-menu-item key="devicewarning">
+          <!-- <a-icon type="upload" /> -->
+          <router-link to="/devicewarning">
+            <span>设备警报</span>
           </router-link>
         </a-menu-item>
       </a-sub-menu>
-      <a-menu-item key="logfile">
-        <router-link to="/logfile">
-          <span>操作日志</span>
-        </router-link>
-      </a-menu-item>
-      <a-menu-item key="system">
-        <router-link to="/system">
-          <span>系统参数</span>
-        </router-link>
-      </a-menu-item>
     </a-menu>
   </a-layout-sider>
 </template>

@@ -40,7 +40,7 @@ export default new Router({
           component: supervision
         },
         {
-          path: 'administrativedivision',
+          path: '/administrativedivision',
           name: 'administrativedivision',
           meta: {
             title: '行政区划'
@@ -48,7 +48,7 @@ export default new Router({
           component: administrativedivision
         },
         {
-          path: 'dictionary',
+          path: '/dictionary',
           name: 'dictionary',
           meta: {
             title: '数字字典'
@@ -56,7 +56,7 @@ export default new Router({
           component: dictionary
         },
         {
-          path: 'RunParameters',
+          path: '/RunParameters',
           name: 'RunParameters',
           meta: {
             title: '运行参数'
@@ -64,7 +64,7 @@ export default new Router({
           component: RunParameters
         },
         {
-          path: 'systemmenu',
+          path: '/systemmenu',
           name: 'systemmenu',
           meta: {
             title: '系统菜单'
@@ -72,7 +72,7 @@ export default new Router({
           component: systemmenu
         },
         {
-          path: 'devicetypes',
+          path: '/devicetypes',
           name: 'devicetypes',
           meta: {
             title: '设备类型'
@@ -80,7 +80,7 @@ export default new Router({
           component: devicetypes
         },
         {
-          path: 'brand',
+          path: '/brand',
           name: 'brand',
           meta: {
             title: '设备品牌'
@@ -88,7 +88,7 @@ export default new Router({
           component: brand
         },
         {
-          path: 'DeviceModel',
+          path: '/DeviceModel',
           name: 'DeviceModel',
           meta: {
             title: '设备型号'
@@ -96,7 +96,7 @@ export default new Router({
           component: DeviceModel
         },
         {
-          path: 'deviceevent',
+          path: '/deviceevent',
           name: 'deviceevent',
           meta: {
             title: '设备事件'
@@ -104,7 +104,7 @@ export default new Router({
           component: deviceevent
         },
         {
-          path: 'devicewarning',
+          path: '/devicewarning',
           name: 'devicewarning',
           meta: {
             title: '设备警报'
