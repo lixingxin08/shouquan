@@ -62,3 +62,28 @@ border-right: none!important;
     color: #fff!important;
     border-bottom: 1px solid #e8e8e8!important;
   } */
+.btn_blue{
+    width: 88px;
+    height: 36px;
+    background: #1890ff;
+    border: 1px solid #1890ff;
+    border-radius: 8px; 
+    font-size: 12px;
+    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+    font-weight: 400;
+    text-align: center;
+    line-height: 36px;
+    color:#fff
+}
+.btn_gray{
+    width: 88px;
+    height: 36px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+    font-weight: 400;
+    text-align: center;
+    color: #333333;
+    line-height: 36px;
+}

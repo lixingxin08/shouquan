@@ -7,11 +7,18 @@ const administrativedivision = () => import('@/views/base/administrativedivision
 const dictionary = () => import('@/views/base/dictionary/dictionary') //数字字典
 const RunParameters = () => import('@/views/base/RunParameters/RunParameters') //运行参数
 const systemmenu = () => import('@/views/base/systemmenu/systemmenu') //系统菜单
+
 const devicetypes = () => import('@/views/deviceconfig/devicetypes/devicetypes') //设备类型
 const brand = () => import('@/views/deviceconfig/brand/brand') //设备品牌
 const DeviceModel = () => import('@/views/deviceconfig/DeviceModel/DeviceModel') //设备型号
 const deviceevent = () => import('@/views/deviceconfig/deviceevent/deviceevent') //设备事件
 const devicewarning = () => import('@/views/deviceconfig/devicewarning/devicewarning') //设备警报
+
+
+const customerprofile = () => import('@/views/customer/customerprofile/customerprofile') //客户档案
+const essentialinformation = () => import('@/views/customer/essentialinformation/essentialinformation') //基本信息
+const dpartmentManagement = () => import('@/views/customer/dpartmentManagement/dpartmentManagement') //人员管理
+const personnelManagement = () => import('@/views/customer/personnelManagement/personnelManagement') //personnelManagement
 const error_404 = () => import('@/components/error_page/404.vue')
 const error_403 = () => import('@/components/error_page/403.vue')
 const error_500 = () => import('@/components/error_page/500.vue')
@@ -20,25 +27,17 @@ export default new Router({
   routes: [
     {
       path: '',
-      redirect: '/home'
+      redirect: '/administrativedivision'
   },
     {
       path: '/home',
       name: 'home',
-      redirect: '/home/supervision',
+      redirect: '/administrativedivision',
       meta: {
         title: '首页'
       },
       component: home,
       children: [
-        {
-          path: 'supervision',
-          name: 'supervision',
-          meta: {
-            title: '运行监管'
-          },
-          component: supervision
-        },
         {
           path: '/administrativedivision',
           name: 'administrativedivision',
