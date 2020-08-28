@@ -10,11 +10,12 @@
     <div>
       <div class="right">
         <div class="r_top flex_f">
-            <div class="r_t_text">区划名称</div>
-           <a-input placeholder="请输入区划名称"  class="r_t_inp" />
+          <div class="r_t_text">区划名称</div>
+          <a-input placeholder="请输入区划名称" class="r_t_inp" />
           <div class="btn_blue btn">查询</div>
           <div class="btn_gray">清除</div>
         </div>
+        <div class="btn_blue btn2">新增</div>
         <!-- <div class="tree" @click="getareatree()">行政区划树</div>
       <div class="tree" @click="getareadetail()">行政区划详情接口</div>
       <div class="tree" @click="getareaform()">行政区划表单接口</div>
@@ -194,15 +195,19 @@ export default {
   color: #333333;
   margin-right: 10px;
 }
-.r_t_inp{
+.r_t_inp {
   width: 200px;
-height: 36px;
-background: #ffffff;
-border: 1px solid #dcdcdc;
-border-radius: 8px;
+  height: 36px;
+  background: #ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
 }
-.btn{
+.btn {
   margin-right: 20px;
   margin-left: 20px;
+}
+.btn2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 </style>
