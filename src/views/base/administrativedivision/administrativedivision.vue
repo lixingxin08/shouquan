@@ -5,8 +5,15 @@
       :replaceFields="replaceFields"
       :defaultExpandedKeys="defaultExpandedKeys"
       @selectdata="getselectdata"
+      v-if="showtree"
     ></is-left>
-    <div class="tree" @click="gettree()">gettree</div>
+    <div>
+      <div class="tree" @click="getareatree()">行政区划树</div>
+    <div class="tree" @click="getareadetail()">行政区划详情接口</div>
+    <div class="tree" @click="getareaform()">行政区划表单接口</div>
+    <div class="tree" @click="getareapage()">行政区划分页列表接口</div>
+    <div class="tree" @click="getarearemove()">行政区划删除接口</div>
+    </div>
   </div>
 </template>
 <script>
@@ -17,6 +24,7 @@ export default {
   },
   data() {
     return {
+      showtree: false,
       treedata: null,
       isselectdata: "",
       replaceFields: {
@@ -24,78 +32,94 @@ export default {
         key: "id",
       },
       defaultExpandedKeys: [],
-      data: [
-        {
-          id: "100000000000000000000000000000000000000000000000000000000000",
-          name: "中国",
-          isParent: true,
-          levelType: 1,
-          open: true,
-          pid: "0",
-        },
-        {
-          id: "100001000000000000000000000000000000000000000000000000000000",
-          name: "北京",
-          isParent: true,
-          levelType: 2,
-          open: true,
-          pid: "100000000000000000000000000000000000000000000000000000000000",
-        },
-        {
-          id: "100001001000000000000000000000000000000000000000000000000000",
-          name: "北京市",
-          isParent: true,
-          levelType: 3,
-          open: true,
-          pid: "100001000000000000000000000000000000000000000000000000000000",
-        },
-        {
-          id: "100001001001000000000000000000000000000000000000000000000000",
-          name: "东城区",
-          isParent: true,
-          levelType: 4,
-          open: true,
-          pid: "100001001000000000000000000000000000000000000000000000000000",
-        },
-        {
-          id: "100001001001001000000000000000000000000000000000000000000000",
-          name: "东四街道",
-          isParent: true,
-          levelType: 5,
-          open: false,
-          pid: "100001001001000000000000000000000000000000000000000000000000",
-        },
-        {
-          id: "100001001001001001000000000000000000000000000000000000000000",
-          name: "二条社区",
-          isParent: false,
-          levelType: 6,
-          open: false,
-          pid: "100001001001001000000000000000000000000000000000000000000000",
-        },
-        {
-          id: "100002000000000000000000000000000000000000000000000000000000",
-          name: "天津",
-          isParent: true,
-          levelType: 2,
-          open: true,
-          pid: "100000000000000000000000000000000000000000000000000000000000",
-        },
-        {
-          id: "100002001000000000000000000000000000000000000000000000000000",
-          name: "天津市",
-          isParent: false,
-          levelType: 3,
-          open: true,
-          pid: "100002000000000000000000000000000000000000000000000000000000",
-        },
-      ],
+      data: "",
     };
   },
   created() {
-    this.setdata();
+    this.getareatree();
   },
   methods: {
+    //行政区划树
+    async getareatree() {
+      this.showtree = false;
+      let prame = {};
+      let res = await this.$http.post(this.$api.areatree, prame);
+      console.log(res, 11);
+      if (res.data.resultCode == "10000") {
+        this.data = res.data.data;
+      }
+      this.setdata();
+      this.showtree = true;
+    },
+    //行政区划详情接口
+    async getareadetail() {
+      let prame = {
+        areaId: "string",
+        areaName: "string",
+        latitude: 0,
+        list: [{}],
+        longitude: 0,
+        pageIndex: 0,
+        pageSize: 0,
+        parentId: "string",
+        remark: "string",
+        searchIndex: 0,
+      };
+      let res = await this.$http.post(this.$api.areadetail, prame);
+      console.log(res);
+    },
+    //行政区划表单接口
+    async getareaform() {
+      let prame = {
+        areaId: "string",
+        areaName: "string",
+        latitude: 0,
+        list: [{}],
+        longitude: 0,
+        pageIndex: 0,
+        pageSize: 0,
+        parentId: "string",
+        remark: "string",
+        searchIndex: 0,
+      };
+      let res = await this.$http.post(this.$api.areaform, prame);
+      console.log(res);
+    },
+    //行政区划分页列表接口
+    async getareapage() {
+      let prame = {
+        areaId: "string",
+        areaName: "string",
+        latitude: 0,
+        list: [{}],
+        longitude: 0,
+        pageIndex: 0,
+        pageSize: 0,
+        parentId: "string",
+        remark: "string",
+        searchIndex: 0,
+      };
+      let res = await this.$http.post(this.$api.areapage, prame);
+      console.log(res);
+    },
+    //行政区划删除接口
+    async getarearemove() {
+      let prame = {
+        areaId: "string",
+        areaName: "string",
+        latitude: 0,
+        list: [{}],
+        longitude: 0,
+        pageIndex: 0,
+        pageSize: 0,
+        parentId: "string",
+        remark: "string",
+        searchIndex: 0,
+      };
+      let res = await this.$http.post(this.$api.arearemove, prame);
+      console.log(res);
+    },
+
     toTree(data) {
       let result = [];
       if (!Array.isArray(data)) {
@@ -128,17 +152,6 @@ export default {
     },
     getselectdata(val) {
       this.isselectdata = val;
-      console.log(this.isselectdata, 3333);
-    },
-    gettree() {
-      this.$http
-        .post(this.$api.areatree, {
-          areaId:
-            "100000000000000000000000000000000000000000000000000000000000",
-        })
-        .then((res) => {
-          console.log(res, 11);
-        });
     },
   },
 };

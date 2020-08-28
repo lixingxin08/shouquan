@@ -1,4 +1,6 @@
 // export const domain= process.env.API_ROOT; //silke矿池接口线上环境
+
+
 export default {
     areadetail: `/config/area/detail`,//行政区划详情接口
     areaform: `/config/area/form`,//行政区划表单接口
