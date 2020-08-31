@@ -3,13 +3,7 @@
     <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
       v-if="showtree"></is-left>
     <div class="flexcolumn" style="width: 100%;padding: 20px;">
-      <is-list ref="dictionarylist"></is-list>
-
-      <!-- <div class="tree" @click="getdictionarytree()">树</div>
-      <div class="tree" @click="getdictionarydetail()">划详情接口</div>
-      <div class="tree" @click="getdictionaryform()">表单接口</div>
-      <div class="tree" @click="getdictionarypage()">分页列表接口</div>
-      <div class="tree" @click="getdictionaryremove()">删除接口</div> -->
+     <is-list v-show="isselectdata" ref="dictionarylist"></is-list>
     </div>
   </div>
 </template>
@@ -32,7 +26,6 @@
         },
         defaultExpandedKeys: [],
         data: "",
-
       };
     },
     created() {
@@ -46,7 +39,8 @@
       //数据字典树接口
       async getdictionarytree() {
         this.showtree = false;
-        let prame = {};
+        let prame = {
+        };
         let res = await this.$http.post(this.$api.dictionarytree, prame);
         console.log(res, 11);
         if (res.data.resultCode == "10000") {
@@ -156,7 +150,8 @@
       },
       getselectdata(val) {
         this.isselectdata = val;
-        this.$refs.dictionarylist.getDictionnaryData(val)
+        if(this.$refs.dictionarylist)
+        this.$refs.dictionarylist.getDictionnaryInfo(val)
       },
     },
   };
