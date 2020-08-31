@@ -5,6 +5,7 @@ const home = () => import('@/views/home/home')
 const supervision = () => import('@/views/supervision/supervision') //运行监控
 const administrativedivision = () => import('@/views/base/administrativedivision/administrativedivision') //行政区划
 const dictionary = () => import('@/views/base/dictionary/dictionary') //数字字典
+const adddictionary = () => import('@/views/base/dictionary/adddictionary') //添加编辑数字字典
 const RunParameters = () => import('@/views/base/RunParameters/RunParameters') //运行参数
 const systemmenu = () => import('@/views/base/systemmenu/systemmenu') //系统菜单
 
@@ -57,6 +58,14 @@ export default new Router({
             title: '数字字典'
           },
           component: dictionary
+        },
+        {
+          path: '/adddictionary',
+          name: 'dictionary',
+          meta: {
+            title: '数字字典'
+          },
+          component: adddictionary
         },
         {
           path: '/RunParameters',

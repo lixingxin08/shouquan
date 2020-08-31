@@ -1,11 +1,11 @@
 <template>
-  <div class="administrativedivision flex_fs" >
+  <div class="administrativedivision flex_fs">
     <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
       v-if="showtree"></is-left>
-    <div class="flexcolumn"style="width: 100%;padding: 20px;">
-      <is-list v-if="!isShowAddDictionary" @addDictionary="addDictionary"></is-list>
-      <is-add-dictionary v-if="isShowAddDictionary"></is-add-dictionary>
-     <!-- <div class="tree" @click="getdictionarytree()">树</div>
+    <div class="flexcolumn" style="width: 100%;padding: 20px;">
+      <is-list ref="dictionarylist"></is-list>
+
+      <!-- <div class="tree" @click="getdictionarytree()">树</div>
       <div class="tree" @click="getdictionarydetail()">划详情接口</div>
       <div class="tree" @click="getdictionaryform()">表单接口</div>
       <div class="tree" @click="getdictionarypage()">分页列表接口</div>
@@ -14,19 +14,15 @@
   </div>
 </template>
 <script>
-
   import isLeft from "../../../components/tree/tree.vue";
-  import isAddDictionary from './adddictionary.vue'
   import isList from './list.vue'
   export default {
     components: {
       isLeft,
-      isAddDictionary:isAddDictionary,
-      isList:isList
+      isList: isList
     },
     data() {
       return {
-        isShowAddDictionary:false,
         showtree: false,
         treedata: null,
         isselectdata: "",
@@ -43,9 +39,9 @@
       this.getdictionarytree();
     },
     methods: {
-      
-      addDictionary(){//添加字典
-        this.isShowAddDictionary=!this.isShowAddDictionary
+
+      addDictionary() { //添加字典
+        this.isShowAddDictionary = !this.isShowAddDictionary
       },
       //数据字典树接口
       async getdictionarytree() {
@@ -160,8 +156,8 @@
       },
       getselectdata(val) {
         this.isselectdata = val;
+        this.$refs.dictionarylist.getDictionnaryData(val)
       },
-
     },
   };
 </script>
@@ -169,5 +165,4 @@
   .tree {
     text-align: left;
   }
-
 </style>
