@@ -8,6 +8,7 @@ const dictionary = () => import('@/views/base/dictionary/dictionary') //数字�
 const adddictionary = () => import('@/views/base/dictionary/adddictionary') //添加编辑数字字典
 const RunParameters = () => import('@/views/base/RunParameters/RunParameters') //运行参数
 const systemmenu = () => import('@/views/base/systemmenu/systemmenu') //系统菜单
+const addsystemmenu = () => import('@/views/base/systemmenu/addsystem') //系统菜单
 
 const devicetypes = () => import('@/views/deviceconfig/devicetypes/devicetypes') //设备类型
 const brand = () => import('@/views/deviceconfig/brand/brand') //设备品牌
@@ -82,6 +83,14 @@ export default new Router({
             title: '系统菜单'
           },
           component: systemmenu
+        },
+        {
+          path: '/addsystem',
+          name: 'systemmenu',
+          meta: {
+            title: '系统菜单'
+          },
+          component: addsystemmenu
         },
         {
           path: '/devicetypes',

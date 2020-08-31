@@ -5,15 +5,11 @@
         "width": "80px",
         "align": "center"
       }, {
-        "title": "字典名称",
+        "title": "菜单名称",
         "align": "center"
       },
       {
-        "title": "字典代码",
-        "align": "center"
-      },
-      {
-        "title": "字典等级",
+        "title": "菜单类型",
         "align": "center"
       },
       {
@@ -21,15 +17,15 @@
         "align": "center"
       },
       {
-        "title": "上级代码",
+        "title": "上级等级",
         "align": "center"
       },
       {
-        "title": "子节点数",
+        "title": "授权类型",
         "align": "center"
       },
       {
-        "title": "数值个数",
+        "title": "菜单图标",
         "align": "center"
       },
       {
@@ -42,7 +38,7 @@
       }
     ],
     "adddictionaryColumns": [{
-        "title": "数值名称",
+        "title": "接口名称",
         "dataIndex": "name",
         "width": "25%",
         "align": "center",
@@ -51,7 +47,7 @@
         }
       },
       {
-        "title": "数值代码",
+        "title": "URL地址",
         "dataIndex": "code",
         "width": "25%",
         "align": "center",
@@ -60,16 +56,7 @@
         }
       },
       {
-        "title": "数值描述",
-        "dataIndex": "info",
-        "width": "25%",
-        "align": "center",
-        "scopedSlots": {
-          "customRender": "info"
-        }
-      },
-      {
-        "title": "操作",
+        "title": "是否默认",
         "dataIndex": "operation",
         "width": "25%",
         "align": "center",
