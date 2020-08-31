@@ -17,8 +17,12 @@ const devicewarning = () => import('@/views/deviceconfig/devicewarning/devicewar
 
 const customerprofile = () => import('@/views/customer/customerprofile/customerprofile') //客户档案
 const essentialinformation = () => import('@/views/customer/essentialinformation/essentialinformation') //基本信息
-const dpartmentManagement = () => import('@/views/customer/dpartmentManagement/dpartmentManagement') //人员管理
-const personnelManagement = () => import('@/views/customer/personnelManagement/personnelManagement') //personnelManagement
+const dpartmentManagement = () => import('@/views/customer/dpartmentManagement/dpartmentManagement') //部门管理
+const personnelManagement = () => import('@/views/customer/personnelManagement/personnelManagement') //人员管理
+const project = () => import('@/views/customer/project/project') //项目管理
+
+
+
 const error_404 = () => import('@/components/error_page/404.vue')
 const error_403 = () => import('@/components/error_page/403.vue')
 const error_500 = () => import('@/components/error_page/500.vue')

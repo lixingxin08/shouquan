@@ -73,7 +73,8 @@ border-right: none!important;
     font-weight: 400;
     text-align: center;
     line-height: 36px;
-    color:#fff
+    color:#fff;
+    cursor: pointer;
 }
 .btn_gray{
     width: 88px;
@@ -86,4 +87,14 @@ border-right: none!important;
     text-align: center;
     color: #333333;
     line-height: 36px;
+    cursor: pointer;
+}
+.col_blue{
+    color:#1890FF;
+}
+.col_gray{
+    color: #DCDCDC;
+}
+.col_red{
+    color:#FF0033;
 }

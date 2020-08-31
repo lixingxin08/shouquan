@@ -1,8 +1,8 @@
 <template>
   <div id="search">
-    <div class="search">
+    <!-- <div class="search">
       <a-input-search placeholder enter-button="搜索" size="default" @search="onSearch" />
-    </div>
+    </div> -->
     <div class="istree">
       <a-tree
         :show-line="showLine"
@@ -45,7 +45,7 @@ export default {
 <style scoped>
 #search {
   width: 280px;
-  height: 840px;
+  height: 100%;
   padding: 20px;
   background-color: #fff;
   overflow: scroll;
