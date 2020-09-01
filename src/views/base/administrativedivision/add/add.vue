@@ -91,12 +91,37 @@ export default {
         parentId: "string",
         remark: "string",
       },
+      areadetailprame: {
+        //行政区划详情接口参数
+        areaId: "",
+        keyword: "",
+        latitude: 0,
+        list: [{}],
+        longitude: 0,
+        pageIndex: 0,
+        pageSize: 0,
+        parentId: "",
+        remark: "",
+        searchIndex: 0,
+      },
     };
   },
-  mounted() {},
+  mounted() {
+    if (this.$route.query.type=='edit') {
+      console.log(444);
+      this.areadetailprame=this.$route.query.id
+      this.getareadetail()
+    }
+  },
   methods: {
+    //行政区划详情接口
+    async getareadetail() {
+      let res = await this.$http.post(this.$api.areadetail,this.areadetailprame);
+      console.log(res,8888);
+    },
     cancel() {
       this.visible = false;
+      this.adress = "";
     },
     showdialog() {
       this.visible = true;
@@ -176,7 +201,7 @@ export default {
       });
     },
     define() {
-      if (this.form.longitude == "") {     
+      if (this.form.longitude == "") {
         return this.$message.error("请选择地图位置");
       } else {
         this.cancel();
@@ -208,7 +233,6 @@ export default {
     onError(e) {
       console.log(e, "onError ");
     },
-    getlang() {},
   },
 };
 </script>

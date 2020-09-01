@@ -3,16 +3,7 @@
     <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
       v-if="showtree"></is-left>
     <div class="flexcolumn" style="width: 100%;padding: 20px;">
-
-     <!-- <div class="tree" @click="getdictionarytree()">树</div>
-      <div class="tree" @click="getdictionarydetail()">划详情接口</div>
-      <div class="tree" @click="getdictionaryform()">表单接口</div>
-      <div class="tree" @click="getdictionarypage()">分页列表接口</div>
-      <div class="tree" @click="getdictionaryremove()">删除接口</div> -->
-
-     <is-list v-show="isselectdata" ref="dictionarylist"></is-list>
-
-    </div>
+     <is-list v-show="isselectdata" ref="dictionarylist"></is-list>    </div>
   </div>
 </template>
 <script>
@@ -59,7 +50,7 @@
         console.log(this.treedata)
         this.getselectdata(this.treedata[0])
       },
-    
+     
 
       toTree(data) {
         let result = [];

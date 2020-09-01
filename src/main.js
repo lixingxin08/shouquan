@@ -13,7 +13,7 @@ Vue.prototype.$http = axios;
 Vue.prototype.$api = api;
 import 'ant-design-vue/dist/antd.css';
 
-import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker ,Switch,Popconfirm,Modal,message,Radio,Upload } from 'ant-design-vue';
+import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker ,Switch,Popconfirm,Modal,message ,Radio,Upload} from 'ant-design-vue';
 
 Vue.use(Dropdown);
 Vue.use(Layout);
@@ -33,7 +33,6 @@ Vue.use(Modal);
 Vue.prototype.$message = message
 Vue.use(Radio);
 Vue.use(Upload);
-
 
 import md5 from 'js-md5';
 Vue.prototype.$md5 = md5

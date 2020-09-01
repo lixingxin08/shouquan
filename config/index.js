@@ -12,6 +12,9 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {//代理api
+
+        // target: "http://192.168.3.171:8091/authorization",// 代理接口
+
         target: "http://192.168.3.38:8091/authorization",// 代理接口
         changeOrigin: true,//是否跨域
         pathRewrite: {//重写路径
@@ -23,6 +26,7 @@ module.exports = {
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 8091, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
