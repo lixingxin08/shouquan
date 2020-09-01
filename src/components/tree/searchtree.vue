@@ -1,8 +1,8 @@
 <template>
   <div id="search">
-    <!-- <div class="search">
+    <div class="search">
       <a-input-search placeholder enter-button="搜索" size="default" @search="onSearch" />
-    </div>-->
+    </div>
     <div class="istree">
       <a-tree
         :show-line="showLine"
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -37,7 +38,6 @@ export default {
       this.$emit("selectdata", selectedNodes.selectedNodes[0].data.props || "");
     },
     onSearch(value) {
-      console.log(value, 88292);
       this.$emit("searchdata", value);
     },
   },

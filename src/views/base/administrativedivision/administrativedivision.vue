@@ -1,51 +1,73 @@
 <template>
-  <div class="administrativedivision flex_fs">
-    <is-left
-      :treedata="treedata"
-      :replaceFields="replaceFields"
-      :defaultExpandedKeys="defaultExpandedKeys"
-      @selectdata="getselectdata"
-      v-if="showtree"
-    ></is-left>
-    <div>
-      <div class="right">
-        <div class="r_top flex_f">
-          <div class="r_t_text">区划名称</div>
-          <a-input placeholder="请输入区划名称" class="r_t_inp" v-model="inp_data" />
-          <div class="btn_blue btn" @click="search()">查询</div>
-          <div class="btn_gray" @click="clear()">清除</div>
+  <div class="administrativedivision">
+    <div class="flex_fs">
+      <is-left
+        :treedata="treedata"
+        :replaceFields="replaceFields"
+        :defaultExpandedKeys="defaultExpandedKeys"
+        @selectdata="getselectdata"
+        @searchdata="getsearchdata"
+        v-if="showtree"
+      ></is-left>
+      <div>
+        <div class="right">
+          <div class="r_top flex_f">
+            <div class="r_t_text" @click="showdialog()">区划名称</div>
+            <a-input placeholder="请输入区划名称" class="r_t_inp" v-model="inp_data" />
+            <div class="btn_blue btn" @click="search()">查询</div>
+            <div class="btn_gray" @click="clear()">清除</div>
+          </div>
+          <router-link to="/addadministrativedivision">
+            <div class="btn_blue btn2">新增</div>
+          </router-link>
+          <div class="table" v-if="tabletype">
+            <a-table
+              :columns="tablecolumns"
+              :data-source="tabledata"
+              bordered
+              :pagination="pagination"
+            >
+              <div slot="edit" class="flex_a" slot-scope="childTotal">
+                <div class="col_blue">编辑 {{childTotal}}</div>
+                <div class="col_red" v-if="childTotal==0">删除</div>
+                <div class="col_gray" v-if="childTotal!==0">删除</div>
+              </div>
+            </a-table>
+          </div>
         </div>
-        <div class="btn_blue btn2">新增</div>
-        <div class="table" v-if="tabletype">
-          <a-table
-            :columns="tablecolumns"
-            :data-source="tabledata"
-            bordered
-            :pagination="pagination"
-          >
-            <div slot="edit" class="flex_a" slot-scope="childTotal">
-              <div class="col_blue">编辑 {{childTotal}}</div>
-              <div class="col_red" v-if="condition==0">删除</div>
-              <div class="col_gray" v-if="condition!==0">删除</div>
-            </div>
-          </a-table>
+      </div>
+    </div>
+    <div class="dialog" v-if="visible">
+      <div class="dialog_t flex_b">
+        <div></div>
+        <div @click="cancel()">
+          <a-icon type="close" />
+        </div>
+      </div>
+      <div class="dialog_c flex_a">您确定要删除吗？</div>
+      <div class="dialog_f flex_a">
+        <div class="flex_f">
+          <div class="ok_btn">确定</div>
+          <div class="cancel_btn" @click="cancel()">取消</div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import isLeft from "../../../components/tree/tree.vue";
+import isLeft from "../../../components/tree/searchtree.vue";
 export default {
   components: {
     isLeft,
   },
   data() {
     return {
+      ModalText: "您确定要删除吗？",
+      visible: false,
       showtree: false,
       treedata: null,
       tabletype: false,
-      inp_data:'',
+      inp_data: "",
       isselectdata: {
         id: "",
         icon: "",
@@ -115,7 +137,7 @@ export default {
           align: "center",
           title: "操作",
           ellipsis: true,
-           key: "2",
+          key: "2",
           dataIndex: "childTotal",
           scopedSlots: { customRender: "edit" },
         },
@@ -132,6 +154,74 @@ export default {
         pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
         showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
       },
+      testdata: [
+        {
+          id: "100000000000000000000000000000000000000000000000000000000000",
+          name: "中国",
+          isParent: true,
+          levelType: 1,
+          open: true,
+          pid: "0",
+        },
+        {
+          id: "100001000000000000000000000000000000000000000000000000000000",
+          name: "北京",
+          isParent: true,
+          levelType: 2,
+          open: true,
+          pid: "100000000000000000000000000000000000000000000000000000000000",
+        },
+        {
+          id: "100001001000000000000000000000000000000000000000000000000000",
+          name: "北京市",
+          isParent: true,
+          levelType: 3,
+          open: true,
+          pid: "100001000000000000000000000000000000000000000000000000000000",
+        },
+        {
+          id: "100001001001000000000000000000000000000000000000000000000000",
+          name: "东城区",
+          isParent: true,
+          levelType: 4,
+          open: true,
+          pid: "100001001000000000000000000000000000000000000000000000000000",
+        },
+        {
+          id: "100001001001001000000000000000000000000000000000000000000000",
+          name: "东四街道",
+          isParent: true,
+          levelType: 5,
+          open: false,
+          pid: "100001001001000000000000000000000000000000000000000000000000",
+        },
+        {
+          id: "100001001001001001000000000000000000000000000000000000000000",
+          name: "二条社区",
+          isParent: false,
+          levelType: 6,
+          open: false,
+          pid: "100001001001001000000000000000000000000000000000000000000000",
+        },
+        {
+          id: "100002000000000000000000000000000000000000000000000000000000",
+          name: "天津",
+          isParent: true,
+          levelType: 2,
+          open: true,
+          pid: "100000000000000000000000000000000000000000000000000000000000",
+        },
+        {
+          id: "100002001000000000000000000000000000000000000000000000000000",
+          name: "天津市",
+          isParent: false,
+          levelType: 3,
+          open: true,
+          pid: "100002000000000000000000000000000000000000000000000000000000",
+        },
+      ],
+      issearchdata: "",
+      filterdata:[]
     };
   },
   created() {
@@ -144,14 +234,19 @@ export default {
       let prame = {
         areaId: "",
       };
+      this.data = this.testdata;
+      this.setdata();
+      this.showtree = true;
+      this.getareapage();
+      return;
       let res = await this.$http.post(this.$api.areatree, prame);
       console.log(res, 11);
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
       }
-      this.setdata();
-      this.showtree = true;
-       this.getareapage();
+      // this.setdata();
+      // this.showtree = true;
+      // this.getareapage();
     },
     //行政区划详情接口
     async getareadetail() {
@@ -258,20 +353,60 @@ export default {
       }
       this.treedata = this.toTree(this.data);
     },
+    //获取树搜索数据
+    getsearchdata(val) {
+      this.issearchdata = val;
+          this.getareatree();
+      if (val=="") { 
+          return
+      }
+      
+       this.filterdata=[]
+      this.setfilltertree(this.treedata,this.issearchdata);
+    },
+    //过滤树搜索数据
+    setfilltertree(datas,filtersdata) {
+      let _that=this
+      for (var i in datas) {
+        let name=datas[i].name+""
+        if (name.search(_that.issearchdata) != -1) {
+          _that.filterdata.push(datas[i]);
+        }
+        if (datas[i].children) {
+          _that.setfilltertree(datas[i].children);
+        }
+      }
+      _that.treedata= _that.toTree(this.filterdata);
+    },
     getselectdata(val) {
       this.isselectdata = val;
+      this.isselectdata.id = val.id;
+      this.isselectdata.name = val.name;
+      this.isselectdata.pid = val.pid;
       console.log(this.isselectdata, 9999);
+      this.getareapage();
     },
     //查询
-    search(){
-     this.isselectdata.name= this.inp_data
+    search() {
+      this.isselectdata.name = this.inp_data;
       this.getareapage();
     },
     //清除
-    clear(){
-        this.isselectdata.name= ""
-        this.inp_data=""
+    clear() {
+      this.isselectdata.name = "";
+      this.inp_data = "";
       this.getareapage();
+    },
+    //弹窗
+    showdialog() {
+      this.visible = true;
+    },
+    cancel() {
+      this.visible = false;
+    },
+    handleCancel(e) {
+      console.log("Clicked cancel button");
+      this.visible = false;
     },
     //分页
     handleTableChange(pagination) {
@@ -311,6 +446,10 @@ export default {
   background: #ffffff;
   border: 1px solid #dcdcdc;
   border-radius: 8px;
+  box-sizing: border-box;
+}
+.r_t_inp:focus {
+  border: 1px solid #1890ff;
 }
 .btn {
   margin-right: 20px;
@@ -322,5 +461,35 @@ export default {
 }
 .table_list {
   height: 42px;
+}
+
+.dialog {
+  width: 920px;
+  height: 492px;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #000;
+  margin-top: 330px;
+  border-radius: 8px;
+  background-color: #fff;
+  z-index: 2;
+}
+.dialog_t {
+  width: 920px;
+  height: 72px;
+  background: #1890ff;
+  border: 1px solid #1890ff;
+  padding: 0 40px;
+  color: #fff;
+  font-size: 24px;
+}
+.dialog_c {
+  height: 348px;
+  font-size: 20px;
+  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+  font-weight: 400;
+  text-align: center;
+  color: #333333;
 }
 </style>

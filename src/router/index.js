@@ -4,6 +4,8 @@ import Router from 'vue-router'
 const home = () => import('@/views/home/home')
 const supervision = () => import('@/views/supervision/supervision') //运行监控
 const administrativedivision = () => import('@/views/base/administrativedivision/administrativedivision') //行政区划
+const addadministrativedivision = () => import('@/views/base/administrativedivision/add/add') //行政区划新增
+const editadministrativedivision = () => import('@/views/base/administrativedivision/edit/edit') //行政区划编辑
 const dictionary = () => import('@/views/base/dictionary/dictionary') //数字字典
 const RunParameters = () => import('@/views/base/RunParameters/RunParameters') //运行参数
 const systemmenu = () => import('@/views/base/systemmenu/systemmenu') //系统菜单
@@ -33,6 +35,7 @@ export default new Router({
       path: '',
       redirect: '/administrativedivision'
   },
+  
     {
       path: '/home',
       name: 'home',
@@ -48,7 +51,23 @@ export default new Router({
           meta: {
             title: '行政区划'
           },
-          component: administrativedivision
+          component: administrativedivision,
+        },
+        {
+          path: '/addadministrativedivision',
+          name: 'administrativedivision',
+          component:addadministrativedivision,
+          meta: {
+            title: '行政区划'
+          },
+        },
+        {
+          path: '/editadministrativedivision',
+          name: 'administrativedivision',
+          component:addadministrativedivision,
+          meta: {
+            title: '行政区划'
+          },
         },
         {
           path: '/dictionary',

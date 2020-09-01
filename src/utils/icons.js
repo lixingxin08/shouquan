@@ -46,4 +46,13 @@ export {
 export {
     default as DowntOutline
   } from '@ant-design/icons/lib/outline/DownOutline'
+export {
+    default as EnvironmentOutline
+  } from '@ant-design/icons/lib/outline/EnvironmentOutline'
+export {
+    default as CloseOutline
+  } from '@ant-design/icons/lib/outline/CloseOutline'
+export {
+    default as CloseCircleOutline
+  } from '@ant-design/icons/lib/outline/CloseCircleOutline'
   

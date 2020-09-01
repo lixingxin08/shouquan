@@ -12,7 +12,7 @@ import api from './js/api_config.js';
 Vue.prototype.$http = axios;
 Vue.prototype.$api = api;
 import 'ant-design-vue/dist/antd.css';
-import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker ,Switch,Popconfirm} from 'ant-design-vue';
+import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker ,Switch,Popconfirm,Modal,message } from 'ant-design-vue';
 Vue.use(Dropdown);
 Vue.use(Layout);
 Vue.use(Button);
@@ -27,7 +27,8 @@ Vue.use(Table);
 Vue.use(DatePicker);
 Vue.use(Switch);
 Vue.use(Popconfirm);
-
+Vue.use(Modal);
+Vue.prototype.$message = message
 import md5 from 'js-md5';
 Vue.prototype.$md5 = md5
 // const isDebug_mode = process.env.NODE_ENV !== 'production'

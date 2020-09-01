@@ -2,7 +2,7 @@
   <div class="administrativedivision flex_fs" >
     <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
       v-if="showtree"></is-left>
-    <div class="flexcolumn"style="width: 100%;padding: 20px;">
+    <div class="flexcolumn" style="width: 100%;padding: 20px;">
       <is-list v-if="!isShowAddDictionary" @addDictionary="addDictionary"></is-list>
       <is-add-dictionary v-if="isShowAddDictionary"></is-add-dictionary>
      <!-- <div class="tree" @click="getdictionarytree()">树</div>
