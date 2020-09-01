@@ -12,11 +12,9 @@ import api from './js/api_config.js';
 Vue.prototype.$http = axios;
 Vue.prototype.$api = api;
 import 'ant-design-vue/dist/antd.css';
-<<<<<<< HEAD
-import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker ,Switch,Popconfirm,Modal,message } from 'ant-design-vue';
-=======
-import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker ,Switch,Popconfirm,Radio,Upload} from 'ant-design-vue';
->>>>>>> d8c8f7444a2e9bfc0451c7b7ed0dfb49967e6207
+
+import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker ,Switch,Popconfirm,Modal,message,Radio,Upload } from 'ant-design-vue';
+
 Vue.use(Dropdown);
 Vue.use(Layout);
 Vue.use(Button);
@@ -31,15 +29,12 @@ Vue.use(Table);
 Vue.use(DatePicker);
 Vue.use(Switch);
 Vue.use(Popconfirm);
-<<<<<<< HEAD
 Vue.use(Modal);
 Vue.prototype.$message = message
-=======
 Vue.use(Radio);
 Vue.use(Upload);
 
 
->>>>>>> d8c8f7444a2e9bfc0451c7b7ed0dfb49967e6207
 import md5 from 'js-md5';
 Vue.prototype.$md5 = md5
 // const isDebug_mode = process.env.NODE_ENV !== 'production'

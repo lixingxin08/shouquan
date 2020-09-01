@@ -11,10 +11,10 @@
       <a-button type="primary" @click="add">新增</a-button>
     </div>
     <a-table v-if="!isEdit" :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="dictonaryList" bordered
-      size="small" :pagination="pagination">
+      size="small" :pagination="pagination" @change="handleTableChange">
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
-          <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm">
+          <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
           <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 10px;margin-right: 10px;"></div>
@@ -40,13 +40,21 @@
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
-          showSizeChange: (current, pageSize) => this.pageSize = pageSize, // 改变每页数量时更新显示
         },
         parentItem: null,
+        pageSize: 20,
+        pageIndex: 1
       }
     },
 
     methods: {
+
+      handleTableChange(pagination) {
+        this.pageSize = pagination.pageSize
+        this.pageIndex = pagination.current
+        this.getDictionnaryData()
+      },
+
       cleanTxt() { //清除搜索条件
         this.dicName = '';
         this.dicCode = ''
@@ -61,29 +69,46 @@
         let param = {
           keyword: this.dicName,
           parentId: this.parentItem.id,
-          pageSize: 20,
-          pageIndex: 1
+          pageSize: this.pageSize,
+          pageIndex: this.pageIndex
         };
         let res = await this.$http.post(this.$api.dictionarypage, param);
+        console.log(res)
         if (res.data.resultCode == "10000") {
           this.dictonaryList = res.data.data.list;
+        this.$forceUpdate();
         }
       },
       add() {
-        this.$router.push('/dictionary/adddictionary')
-      },
-      confirm() {
-
-      },
-      editDictionary(item) {
-        console.log(item)
         this.$router.push({
           path: '/adddictionary',
           query: {
-            dictid: item.dictionaryId
+            add: true,
+            dictid: this.parentItem.id
           }
         });
+      },
+      async confirm(item) {
+        let param = {
+          dictionaryId: item.dictionaryId
+        }
+        let res = await this.$http.post(this.$api.dictionaryremove, param);
+        if (res.data.resultCode == 10000) {
+          this.$message.success(res.data.resultMsg);
+          this.getDictionnaryData()
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
 
+      },
+      editDictionary(item) {
+        this.$router.push({
+          path: '/adddictionary',
+          query: {
+            add: false,
+            dictid: item.dictionaryId,
+          }
+        });
       }
     }
   }

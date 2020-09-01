@@ -3,17 +3,15 @@
     <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
       v-if="showtree"></is-left>
     <div class="flexcolumn" style="width: 100%;padding: 20px;">
-<<<<<<< HEAD
-      <is-list v-if="!isShowAddDictionary" @addDictionary="addDictionary"></is-list>
-      <is-add-dictionary v-if="isShowAddDictionary"></is-add-dictionary>
+
      <!-- <div class="tree" @click="getdictionarytree()">树</div>
       <div class="tree" @click="getdictionarydetail()">划详情接口</div>
       <div class="tree" @click="getdictionaryform()">表单接口</div>
       <div class="tree" @click="getdictionarypage()">分页列表接口</div>
       <div class="tree" @click="getdictionaryremove()">删除接口</div> -->
-=======
+
      <is-list v-show="isselectdata" ref="dictionarylist"></is-list>
->>>>>>> d8c8f7444a2e9bfc0451c7b7ed0dfb49967e6207
+
     </div>
   </div>
 </template>
@@ -58,75 +56,10 @@
         }
         this.setdata();
         this.showtree = true;
+        console.log(this.treedata)
+        this.getselectdata(this.treedata[0])
       },
-      //数据字典详情接口
-      async getdictionarydetail() {
-        let prame = {
-          areaId: "string",
-          areaName: "string",
-          latitude: 0,
-          list: [{}],
-          longitude: 0,
-          pageIndex: 0,
-          pageSize: 0,
-          parentId: "string",
-          remark: "string",
-          searchIndex: 0,
-        };
-        let res = await this.$http.post(this.$api.dictionarydetail, prame);
-        console.log(res);
-      },
-      //表单接口
-      async getdictionaryform() {
-        let prame = {
-          areaId: "string",
-          areaName: "string",
-          latitude: 0,
-          list: [{}],
-          longitude: 0,
-          pageIndex: 0,
-          pageSize: 0,
-          parentId: "string",
-          remark: "string",
-          searchIndex: 0,
-        };
-        let res = await this.$http.post(this.$api.dictionaryform, prame);
-        console.log(res);
-      },
-      //分页列表接口
-      async getdictionarypage() {
-        let prame = {
-          areaId: "string",
-          areaName: "string",
-          latitude: 0,
-          list: [{}],
-          longitude: 0,
-          pageIndex: 0,
-          pageSize: 0,
-          parentId: "string",
-          remark: "string",
-          searchIndex: 0,
-        };
-        let res = await this.$http.post(this.$api.dictionarypage, prame);
-        console.log(res);
-      },
-      //删除接口
-      async getdictionaryremove() {
-        let prame = {
-          areaId: "string",
-          areaName: "string",
-          latitude: 0,
-          list: [{}],
-          longitude: 0,
-          pageIndex: 0,
-          pageSize: 0,
-          parentId: "string",
-          remark: "string",
-          searchIndex: 0,
-        };
-        let res = await this.$http.post(this.$api.dictionaryremove, prame);
-        console.log(res);
-      },
+    
 
       toTree(data) {
         let result = [];
