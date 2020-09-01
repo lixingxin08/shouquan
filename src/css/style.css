@@ -125,3 +125,6 @@ cursor: pointer;
     border: 1px solid #1890ff;
     color: #1890ff;
 }
+.ispointer{
+    cursor: pointer;
+}

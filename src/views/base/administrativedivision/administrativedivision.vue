@@ -13,13 +13,16 @@
         <div class="right">
           <div class="r_top flex_f">
             <div class="r_t_text" @click="showdialog()">区划名称</div>
-            <a-input placeholder="请输入区划名称" class="r_t_inp" v-model="inp_data" />
-            <div class="btn_blue btn" @click="search()">查询</div>
+            <a-input
+              placeholder="请输入区划名称"
+              class="r_t_inp"
+              v-model="inp_data"
+              @keydown.enter="tosearch()"
+            />
+            <div class="btn_blue btn" @click="tosearch()">查询</div>
             <div class="btn_gray" @click="clear()">清除</div>
           </div>
-          <router-link to="/addadministrativedivision">
-            <div class="btn_blue btn2">新增</div>
-          </router-link>
+          <div class="btn_blue btn2" @click="toadd('add')">新增</div>
           <div class="table" v-if="tabletype">
             <a-table
               :columns="tablecolumns"
@@ -27,10 +30,12 @@
               bordered
               :pagination="pagination"
             >
-              <div slot="edit" class="flex_a" slot-scope="childTotal">
-                <div class="col_blue">编辑 {{childTotal}}</div>
-                <div class="col_red" v-if="childTotal==0">删除</div>
-                <div class="col_gray" v-if="childTotal!==0">删除</div>
+              <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
+                <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
+                <div class="col_red ispointer" v-if="childTotal==0" @click="showdialog()">
+                  <span>删除</span>
+                </div>
+                <div class="col_gray ispointer" v-if="childTotal!==0">删除</div>
               </div>
             </a-table>
           </div>
@@ -55,7 +60,7 @@
   </div>
 </template>
 <script>
-import isLeft from "../../../components/tree/searchtree.vue";
+import isLeft from "../../../components/tree/tree.vue";
 export default {
   components: {
     isLeft,
@@ -154,74 +159,21 @@ export default {
         pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
         showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
       },
-      testdata: [
-        {
-          id: "100000000000000000000000000000000000000000000000000000000000",
-          name: "中国",
-          isParent: true,
-          levelType: 1,
-          open: true,
-          pid: "0",
-        },
-        {
-          id: "100001000000000000000000000000000000000000000000000000000000",
-          name: "北京",
-          isParent: true,
-          levelType: 2,
-          open: true,
-          pid: "100000000000000000000000000000000000000000000000000000000000",
-        },
-        {
-          id: "100001001000000000000000000000000000000000000000000000000000",
-          name: "北京市",
-          isParent: true,
-          levelType: 3,
-          open: true,
-          pid: "100001000000000000000000000000000000000000000000000000000000",
-        },
-        {
-          id: "100001001001000000000000000000000000000000000000000000000000",
-          name: "东城区",
-          isParent: true,
-          levelType: 4,
-          open: true,
-          pid: "100001001000000000000000000000000000000000000000000000000000",
-        },
-        {
-          id: "100001001001001000000000000000000000000000000000000000000000",
-          name: "东四街道",
-          isParent: true,
-          levelType: 5,
-          open: false,
-          pid: "100001001001000000000000000000000000000000000000000000000000",
-        },
-        {
-          id: "100001001001001001000000000000000000000000000000000000000000",
-          name: "二条社区",
-          isParent: false,
-          levelType: 6,
-          open: false,
-          pid: "100001001001001000000000000000000000000000000000000000000000",
-        },
-        {
-          id: "100002000000000000000000000000000000000000000000000000000000",
-          name: "天津",
-          isParent: true,
-          levelType: 2,
-          open: true,
-          pid: "100000000000000000000000000000000000000000000000000000000000",
-        },
-        {
-          id: "100002001000000000000000000000000000000000000000000000000000",
-          name: "天津市",
-          isParent: false,
-          levelType: 3,
-          open: true,
-          pid: "100002000000000000000000000000000000000000000000000000000000",
-        },
-      ],
       issearchdata: "",
-      filterdata:[]
+      filterdata: [],
+      areatreeprame: {
+        //行政区划树接口参数
+        areaId: "",
+        keyword: "",
+        keyword: "",
+        latitude: 0,
+        longitude: 0,
+        operatorId: "",
+        pageIndex: 0,
+        pageSize: 10,
+        parentId: "",
+        remark: "",
+      },
     };
   },
   created() {
@@ -231,45 +183,22 @@ export default {
     //行政区划树
     async getareatree() {
       this.showtree = false;
-      let prame = {
-        areaId: "",
-      };
-      this.data = this.testdata;
-      this.setdata();
-      this.showtree = true;
-      this.getareapage();
-      return;
-      let res = await this.$http.post(this.$api.areatree, prame);
+      let res = await this.$http.post(this.$api.areatree, this.areatreeprame);
       console.log(res, 11);
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
+      } else {
+        this.$message.error(res.data.resultMsg);
       }
-      // this.setdata();
-      // this.showtree = true;
-      // this.getareapage();
-    },
-    //行政区划详情接口
-    async getareadetail() {
-      let prame = {
-        areaId: "string",
-        areaName: "string",
-        latitude: 0,
-        list: [{}],
-        longitude: 0,
-        pageIndex: 0,
-        pageSize: 0,
-        parentId: "string",
-        remark: "string",
-        searchIndex: 0,
-      };
-      let res = await this.$http.post(this.$api.areadetail, prame);
-      console.log(res);
+      this.setdata();
+      this.showtree = true;
+      this.getareapage();
     },
     //行政区划表单接口
     async getareaform() {
       let prame = {
         areaId: "string",
-        areaName: "string",
+        keyword: "string",
         latitude: 0,
         list: [{}],
         longitude: 0,
@@ -287,7 +216,7 @@ export default {
       this.tabletype = false;
       let prame = {
         areaId: this.isselectdata.id,
-        areaName: this.isselectdata.name,
+        keyword: this.isselectdata.name,
         latitude: 0,
         list: [{}],
         longitude: 0,
@@ -309,7 +238,7 @@ export default {
     async getarearemove() {
       let prame = {
         areaId: "string",
-        areaName: "string",
+        keyword: "string",
         latitude: 0,
         list: [{}],
         longitude: 0,
@@ -321,6 +250,15 @@ export default {
       };
       let res = await this.$http.post(this.$api.arearemove, prame);
       console.log(res);
+    },
+
+    toadd(val,id) {
+      if (val=='add') {
+        this.$router.push({path:'/addadministrativedivision',query:{type:val}})
+      }else{
+         this.$router.push({path:'/addadministrativedivision',query:{type:val,id:id}})
+      }
+     
     },
 
     toTree(data) {
@@ -356,19 +294,19 @@ export default {
     //获取树搜索数据
     getsearchdata(val) {
       this.issearchdata = val;
-          this.getareatree();
-      if (val=="") { 
-          return
+      this.getareatree();
+      if (val == "") {
+        return;
       }
-      
-       this.filterdata=[]
-      this.setfilltertree(this.treedata,this.issearchdata);
+
+      this.filterdata = [];
+      this.setfilltertree(this.treedata, this.issearchdata);
     },
     //过滤树搜索数据
-    setfilltertree(datas,filtersdata) {
-      let _that=this
+    setfilltertree(datas, filtersdata) {
+      let _that = this;
       for (var i in datas) {
-        let name=datas[i].name+""
+        let name = datas[i].name + "";
         if (name.search(_that.issearchdata) != -1) {
           _that.filterdata.push(datas[i]);
         }
@@ -376,7 +314,7 @@ export default {
           _that.setfilltertree(datas[i].children);
         }
       }
-      _that.treedata= _that.toTree(this.filterdata);
+      _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
       this.isselectdata = val;
@@ -387,7 +325,7 @@ export default {
       this.getareapage();
     },
     //查询
-    search() {
+    tosearch() {
       this.isselectdata.name = this.inp_data;
       this.getareapage();
     },
@@ -395,7 +333,7 @@ export default {
     clear() {
       this.isselectdata.name = "";
       this.inp_data = "";
-      this.getareapage();
+      // this.getareapage();
     },
     //弹窗
     showdialog() {
@@ -421,6 +359,8 @@ export default {
 <style  scoped>
 .administrativedivision {
   height: 100%;
+  width: 100%;
+  position: relative;
 }
 .tree {
   text-align: left;
@@ -468,6 +408,7 @@ export default {
   height: 492px;
   position: relative;
   left: 50%;
+  top: -870px;
   transform: translate(-50%, -50%);
   border: 1px solid #000;
   margin-top: 330px;

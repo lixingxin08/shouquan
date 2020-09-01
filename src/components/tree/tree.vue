@@ -23,6 +23,7 @@ export default {
     return {
       showLine: true,
       showIcon: true,
+      olddata:""
     };
   },
   props: {
@@ -33,6 +34,11 @@ export default {
   created() {},
   methods: {
     onSelect(selectedKeys, selectedNodes) {
+      console.log(selectedKeys, selectedNodes,8889999);
+      if (selectedNodes.selected==false) {
+        return
+      }
+      this.olddata=selectedNodes.selectedNodes[0].data.props
       this.$emit("selectdata", "");
       this.$emit("selectdata", selectedNodes.selectedNodes[0].data.props || "");
     },

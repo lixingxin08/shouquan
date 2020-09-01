@@ -3,17 +3,7 @@
     <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
       v-if="showtree"></is-left>
     <div class="flexcolumn" style="width: 100%;padding: 20px;">
-<<<<<<< HEAD
-      <is-list v-if="!isShowAddDictionary" @addDictionary="addDictionary"></is-list>
-      <is-add-dictionary v-if="isShowAddDictionary"></is-add-dictionary>
-     <!-- <div class="tree" @click="getdictionarytree()">树</div>
-      <div class="tree" @click="getdictionarydetail()">划详情接口</div>
-      <div class="tree" @click="getdictionaryform()">表单接口</div>
-      <div class="tree" @click="getdictionarypage()">分页列表接口</div>
-      <div class="tree" @click="getdictionaryremove()">删除接口</div> -->
-=======
      <is-list v-show="isselectdata" ref="dictionarylist"></is-list>
->>>>>>> d8c8f7444a2e9bfc0451c7b7ed0dfb49967e6207
     </div>
   </div>
 </template>
