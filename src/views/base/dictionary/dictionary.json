@@ -3,42 +3,96 @@
     "dictionaryColumns": [{
         "title": "序号",
         "width": "80px",
-        "align": "center"
+         "dataIndex": "dictionaryId",
+        "align": "center",
+        "ellipsis":true
       }, {
-      "title": "字典名称",
-      "align": "center"
+        "title": "字典名称",
+        "align": "center",
+           "ellipsis":true,
+         "dataIndex": "className"
       },
       {
-      "title": "字典代码",
-      "align": "center"
+        "title": "字典代码",
+        "align": "center",
+           "ellipsis":true,
+         "dataIndex": "classCode"
       },
       {
-       "title": "字典等级",
-       "align": "center"
+        "title": "字典等级",
+        "align": "center",
+           "ellipsis":true,
+         "dataIndex": "grade"
       },
       {
-       "title": "上级名称",
-       "align": "center"
+        "title": "上级名称",
+        "align": "center",
+           "ellipsis":true,
+         "dataIndex": "parentName"
       },
       {
-       "title": "上级代码",
-       "align": "center"
+        "title": "上级代码",
+        "align": "center",
+           "ellipsis":true,
+         "dataIndex": "parentCode"
       },
       {
-      "title": "子节点数",
-      "align": "center"
+        "title": "子节点数",
+        "align": "center",
+           "ellipsis":true,
+         "dataIndex": "childTotal"
       },
       {
-       "title": "数值个数",
-       "align": "center"
+        "title": "数值个数",
+        "align": "center",
+           "ellipsis":true,
+         "dataIndex": "valueTotal"
       },
       {
-       "title": "操作",
-       "align": "center",
+        "title": "操作",
+        "align": "center",
         "width": "160px",
-       "scopedSlots": {
-         "customRender": "operation"
-       }
+           "ellipsis":true,
+        "scopedSlots": {
+          "customRender": "operation"
+        }
+      }
+    ],
+    "adddictionaryColumns": [{
+        "title": "数值名称",
+        "dataIndex": "numName",
+        "width": "25%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "numName"
+        }
+      },
+      {
+        "title": "数值代码",
+        "dataIndex": "numCode",
+        "width": "25%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "numCode"
+        }
+      },
+      {
+        "title": "数值描述",
+        "dataIndex": "numRemark",
+        "width": "25%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "numRemark"
+        }
+      },
+      {
+        "title": "操作",
+        "dataIndex": "operation",
+        "width": "25%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "operation"
+        }
       }
     ]
   }

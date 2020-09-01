@@ -7,8 +7,10 @@ const administrativedivision = () => import('@/views/base/administrativedivision
 const addadministrativedivision = () => import('@/views/base/administrativedivision/add/add') //行政区划新增
 const editadministrativedivision = () => import('@/views/base/administrativedivision/edit/edit') //行政区划编辑
 const dictionary = () => import('@/views/base/dictionary/dictionary') //数字字典
+const adddictionary = () => import('@/views/base/dictionary/adddictionary') //添加编辑数字字典
 const RunParameters = () => import('@/views/base/RunParameters/RunParameters') //运行参数
 const systemmenu = () => import('@/views/base/systemmenu/systemmenu') //系统菜单
+const addsystemmenu = () => import('@/views/base/systemmenu/addsystem') //系统菜单
 
 const devicetypes = () => import('@/views/deviceconfig/devicetypes/devicetypes') //设备类型
 const brand = () => import('@/views/deviceconfig/brand/brand') //设备品牌
@@ -78,6 +80,14 @@ export default new Router({
           component: dictionary
         },
         {
+          path: '/adddictionary',
+          name: 'dictionary',
+          meta: {
+            title: '数字字典'
+          },
+          component: adddictionary
+        },
+        {
           path: '/RunParameters',
           name: 'RunParameters',
           meta: {
@@ -92,6 +102,14 @@ export default new Router({
             title: '系统菜单'
           },
           component: systemmenu
+        },
+        {
+          path: '/addsystem',
+          name: 'systemmenu',
+          meta: {
+            title: '系统菜单'
+          },
+          component: addsystemmenu
         },
         {
           path: '/devicetypes',

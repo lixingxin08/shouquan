@@ -1,8 +1,9 @@
 <template>
-  <div class="administrativedivision flex_fs" >
+  <div class="administrativedivision flex_fs">
     <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
       v-if="showtree"></is-left>
     <div class="flexcolumn" style="width: 100%;padding: 20px;">
+<<<<<<< HEAD
       <is-list v-if="!isShowAddDictionary" @addDictionary="addDictionary"></is-list>
       <is-add-dictionary v-if="isShowAddDictionary"></is-add-dictionary>
      <!-- <div class="tree" @click="getdictionarytree()">树</div>
@@ -10,23 +11,22 @@
       <div class="tree" @click="getdictionaryform()">表单接口</div>
       <div class="tree" @click="getdictionarypage()">分页列表接口</div>
       <div class="tree" @click="getdictionaryremove()">删除接口</div> -->
+=======
+     <is-list v-show="isselectdata" ref="dictionarylist"></is-list>
+>>>>>>> d8c8f7444a2e9bfc0451c7b7ed0dfb49967e6207
     </div>
   </div>
 </template>
 <script>
-
   import isLeft from "../../../components/tree/tree.vue";
-  import isAddDictionary from './adddictionary.vue'
   import isList from './list.vue'
   export default {
     components: {
       isLeft,
-      isAddDictionary:isAddDictionary,
-      isList:isList
+      isList: isList
     },
     data() {
       return {
-        isShowAddDictionary:false,
         showtree: false,
         treedata: null,
         isselectdata: "",
@@ -36,21 +36,21 @@
         },
         defaultExpandedKeys: [],
         data: "",
-
       };
     },
     created() {
       this.getdictionarytree();
     },
     methods: {
-      
-      addDictionary(){//添加字典
-        this.isShowAddDictionary=!this.isShowAddDictionary
+
+      addDictionary() { //添加字典
+        this.isShowAddDictionary = !this.isShowAddDictionary
       },
       //数据字典树接口
       async getdictionarytree() {
         this.showtree = false;
-        let prame = {};
+        let prame = {
+        };
         let res = await this.$http.post(this.$api.dictionarytree, prame);
         console.log(res, 11);
         if (res.data.resultCode == "10000") {
@@ -160,8 +160,9 @@
       },
       getselectdata(val) {
         this.isselectdata = val;
+        if(this.$refs.dictionarylist)
+        this.$refs.dictionarylist.getDictionnaryInfo(val)
       },
-
     },
   };
 </script>
@@ -169,5 +170,4 @@
   .tree {
     text-align: left;
   }
-
 </style>
