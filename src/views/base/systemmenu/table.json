@@ -36,13 +36,17 @@
         "title": "授权类型",
         "align": "center",
         "dataIndex": "authFlag",
-        "ellipsis": true
+        "ellipsis": true,
+        "scopedSlots": {
+          "customRender": "authFlag"
+        }
       },
       {
         "title": "菜单图标",
         "align": "center",
         "dataIndex": "menuIcon",
         "ellipsis": true
+        
       },
       {
         "title": "操作",

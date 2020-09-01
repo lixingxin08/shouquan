@@ -15,13 +15,19 @@
       <template slot="index" slot-scope="text, record,index">
         {{index+1}}
       </template>
+      <template slot="authFlag" slot-scope="text, record,index">
+        <div v-if="record.authFlag==0">默认拥有类</div>
+        <div v-if="record.authFlag==1">系统配置类</div>
+        <div v-if="record.authFlag==2">客户授权类</div>
+        <div v-if="record.authFlag==2">均可操作类</div>
+      </template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
           <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 10px;margin-right: 10px;"></div>
-          <a href="#" style='font-size: 12px;' @click="editDictionary">编辑</a>
+          <a href="#" style='font-size: 12px;' @click="editDictionary(record)">编辑</a>
         </div>
       </template>
     </a-table>
@@ -92,11 +98,12 @@
 
       },
       editDictionary(item) {
+        console.log(item)
         this.$router.push({
           path: '/addsystem',
           query: {
-            add: true,
-            id: item.id
+            add: false,
+            id: item.menuId
           }
         });
       }

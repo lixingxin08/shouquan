@@ -60,14 +60,17 @@
       </div>
 
     </div>
-
+    <is-add v-if='showAddDialog' @close='closeDialog'></is-add>
   </div>
 </template>
 
 <script>
   import tableTitleData from "./dictionary.json";
-
+  import isAdd from './adddialog.vue'
   export default {
+    components: {
+      isAdd: isAdd
+    },
     data() {
 
       return {
@@ -84,6 +87,7 @@
         szList: [],
         dictid: '',
         isAdd: false,
+        showAddDialog: false
       }
     },
     created() {
@@ -94,7 +98,9 @@
       }
     },
     methods: {
-
+      closeDialog() {
+        this.showAddDialog = false
+      },
       async getDictionaryInfo(dictionaryId) { //或者字典信息
         let param = {
           dictionaryId: dictionaryId
@@ -137,11 +143,7 @@
         this.submitHttp(this.isAdd == 'true', this.className, this.classCode, this.remark, 1000)
       },
       addLine() { //添加数值空行
-        this.szList.push({
-          "numName": "",
-          "numCode": "",
-          "numRemark": "",
-        })
+        this.showAddDialog = true
       },
       onChangeConfig(e) { //修改字典描述
         this.congigmidLenght = this.remark.length
@@ -158,10 +160,8 @@
       },
 
       save(index) { //保存数值请求
-
         let item = this.szList[index]
         this.submitHttp(true, item.numName, item.numCode, item.numRemark, 2000)
-
       },
 
       async submitHttp(add, className, classCode, remark, typeCode) {

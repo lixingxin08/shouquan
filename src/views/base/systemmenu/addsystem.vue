@@ -1,4 +1,5 @@
 <template>
+
   <div class="flexcolumn" style="background-color: #FFFFFF;">
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item">
@@ -38,8 +39,8 @@
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">菜单描述:</div>
         <div style="position: relative;">
-          <a-textarea class='edit_a_input' :rows="5" placeholder="顶级字典" />
-          <div class="edit_number">0/500</div>
+          <a-textarea class='edit_a_input' :rows="5" v-model='remark' :maxLength='500' placeholder="请输入描述" @change="onChangeConfig" />
+          <div class="edit_number">{{num}}/500</div>
         </div>
       </div>
 
@@ -63,12 +64,13 @@
         <a-button type="primary" style="margin-left: 20px;">重置</a-button>
       </div>
     </div>
-
+    <is-add v-if='showAddDialog' @close='closeDialog'></is-add>
   </div>
 </template>
 
 <script>
   import tableTitleData from "./table.json";
+  import isAdd from './adddialog.vue'
   const plainOptions = ['页签', '按钮'];
 
   function getBase64(img, callback) {
@@ -77,15 +79,20 @@
     reader.readAsDataURL(img);
   }
   export default {
+    components: {
+      isAdd:isAdd
+    },
     data() {
 
       return {
         dictionaryColumns: tableTitleData.data.adddictionaryColumns,
         editingKey: '',
-        value1:'页签',
-        menuName:'',
+        value1: '页签',
+        menuName: '', //菜单名称
+        remark: '', //备注
+        num: 0, //描述长度
         plainOptions,
-        cacheData: [{
+        authList: [{
           name: "1",
           code: "1111",
           info: "1111111"
@@ -95,17 +102,26 @@
         imageUrl: '',
         isAdd: false,
         menuId: '',
-        cacheData:{}
+        cacheData: {},
+        showAddDialog:false
       }
     },
     created() {
-  this.menuId = this.$route.query.id
+      this.menuId = this.$route.query.id
       this.isAdd = this.$route.query.add
+
       if (this.menuId) { //编辑
+
         this.getMenuInfo();
       }
     },
     methods: {
+      closeDialog(){
+         this.showAddDialog=false
+      },
+      onChangeConfig(e) { //修改字典描述
+        this.num = this.remark.length
+      },
       async getMenuInfo() {
         let param = {
           menuId: this.menuId
@@ -114,7 +130,15 @@
         console.log(res)
         if (res.data.resultCode == "10000") {
           this.cacheData = res.data.data
-         // this.setShowData();
+          this.setShowData();
+        }
+      },
+      setShowData() {
+        this.menuName = this.cacheData.menuName
+         this.remark=this.cacheData.remark
+        if (this.isAdd == 'true') {
+          this.menuName = ''
+          this.remark=''
         }
       },
       handleImageChange(info) {
@@ -142,7 +166,7 @@
       },
 
       addLine() { //添加鉴权接口
-        this.szList.push({})
+        this.showAddDialog=true
       },
       onChange1(e) { //菜单类型选择
         console.log('radio1 checked', e.target.value);
@@ -167,8 +191,6 @@
           this.szList = newData;
         }
       },
-
-
     },
   }
 </script>
@@ -202,6 +224,10 @@
   .edit_a_input {
     width: 667px;
     height: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 10px;
   }
 
   .edit_number {
