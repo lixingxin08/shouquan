@@ -1,135 +1,171 @@
-#bg{
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(to bottom, #00001e, #000737, #001f7f, #002daf);
+#bg {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to bottom, #00001e, #000737, #001f7f, #002daf);
 }
-#cbox{
-    width: 80%;
-    margin: 0 auto;
+
+#cbox {
+  width: 80%;
+  margin: 0 auto;
 }
-.flex_f{
-    display: flex;
-    justify-content: start;
-    align-items: center;
+
+.flex_f {
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }
-.flex_fs{
-    display: flex;
-    justify-content: start;
-    align-items: flex-start;
+
+.flex_fs {
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
 }
-.flex_a{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+
+.flex_a {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
-.flex_b{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+.flex_b {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
 .flexrow {
-	display: flex;
-	flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .flexcolumn {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
+}
+
+.ps_ab {
+  z-index: 9999999;
+  position: absolute;
+  color: rgba(51, 51, 51, 1);
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  line-height: 14px;
+}
+
+.ps_flex {
+  width: 800px;
+  position: fixed;
+  left: 30%;
+  padding: 40px;
+  top: 20%;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 0px 16px rgba(87, 174, 255, 1);
+}
+
+.dialog_title {
+  font-size: 24px;
+  opacity: 1;
 }
 
 .flexac {
-	align-items: center;
+  align-items: center;
 }
 
 .flexjc {
-	justify-content: center;
-	justify-items: center;
+  justify-content: center;
+  justify-items: center;
 }
 
 .flexsb {
-	justify-content: space-between;
+  justify-content: space-between;
 }
-.table_list{
-    background-color: #fff!important;
-    color: #666666;
+
+.table_list {
+  background-color: #fff !important;
+  color: #666666;
 }
-.islist .ant-table-selection-column{
-border-right: none!important;
+
+.islist .ant-table-selection-column {
+  border-right: none !important;
 }
+
 /* .ant-table-thead > tr > th {
     white-space: nowrap !important;
     background: #1890FF !important;
     color: #fff!important;
     border-bottom: 1px solid #e8e8e8!important;
   } */
-.btn_blue{
-    width: 68px;
-    height: 36px;
-    background: #1890ff;
-    border: 1px solid #1890ff;
-    border-radius: 8px; 
-    font-size: 12px;
-    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-    font-weight: 400;
-    text-align: center;
-    line-height: 36px;
-    color:#fff;
-    cursor: pointer;
+.btn_blue {
+  width: 88px;
+  height: 36px;
+  background: #1890ff;
+  border: 1px solid #1890ff;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+  font-weight: 400;
+  text-align: center;
+  line-height: 36px;
+  color: #fff;
+  cursor: pointer;
 }
-.btn_gray{
-    width: 68px;
-    height: 36px;
-    border: 1px solid #dcdcdc;
-    border-radius: 8px;
-    font-size: 12px;
-    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-    font-weight: 400;
-    text-align: center;
-    color: #333333;
-    line-height: 36px;
-    cursor: pointer;
+
+.btn_gray {
+  width: 88px;
+  height: 36px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+  font-weight: 400;
+  text-align: center;
+  color: #333333;
+  line-height: 36px;
+  cursor: pointer;
 }
-.col_blue{
-    color:#1890FF;
+
+.col_blue {
+  color: #1890FF;
 }
-.col_gray{
-    color: #DCDCDC;
+
+.col_gray {
+  color: #DCDCDC;
 }
-.col_red{
-    color:#FF0033;
+
+.col_red {
+  color: #FF0033;
 }
-.ok_btn{
-    width: 66px;
-height: 32px;
-background: #1890ff;
-border: 1px solid #1890ff;
-border-radius: 2px;
-font-size: 14px;
-color: #fff;
-text-align: center;
-line-height: 32px;
-margin-right: 60px;
-cursor: pointer;
+
+.ok_btn {
+  width: 66px;
+  height: 32px;
+  background: #1890ff;
+  border: 1px solid #1890ff;
+  border-radius: 2px;
+  font-size: 14px;
+  color: #fff;
+  text-align: center;
+  line-height: 32px;
+  margin-right: 60px;
+  cursor: pointer;
 }
-.cancel_btn{
-    width: 66px;
-height: 32px;
-font-size: 14px;
-color: #333;
-border: 1px solid #dcdcdc;
-text-align: center;
-line-height: 32px;
-cursor: pointer;
+
+.cancel_btn {
+  width: 66px;
+  height: 32px;
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #dcdcdc;
+  text-align: center;
+  line-height: 32px;
+  cursor: pointer;
 }
-.cancel_btn:hover{
-    border: 1px solid #1890ff;
-    color: #1890ff;
+
+.cancel_btn:hover {
+  border: 1px solid #1890ff;
+  color: #1890ff;
 }
-.ispointer{
-    cursor: pointer;
-}
-.ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected{
-    background-color: #1890ff!important;
-    color: #fff;
-    opacity: 1;
+
+.ispointer {
+  cursor: pointer;
 }

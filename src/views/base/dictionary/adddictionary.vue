@@ -3,32 +3,32 @@
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">上级名称:</div>
-        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{dictionnaryName}}</div>
+        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{parentName}}</div>
         <div class="edit_item_toast">注：不可选</div>
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">上级代码:</div>
-        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{dictionaryClassCode}}</div>
+        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{parentCode}}</div>
         <div class="edit_item_toast">注：不可选</div>
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>字典名称:</div>
-        <a-input class='edit_a_input' v-model='configName' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        <a-input class='edit_a_input' v-model='className' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
         <div class="edit_item_toast">注：区划名字不超过30个字</div>
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>字典代码:</div>
-        <a-input class='edit_a_input' v-model='configCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        <a-input class='edit_a_input' v-model='classCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">字典等级:</div>
-        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{dictionnaryGrade}}</div>
+        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{grade}}</div>
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">字典描述:</div>
         <div style="position: relative;">
           <a-textarea class='edit_a_input' :maxLength='256' :rows="5" placeholder="字典描述" @change="onChangeConfig"
-            v-model="configmid" />
+            v-model="remark" />
           <div class="edit_number">{{congigmidLenght}}/256</div>
         </div>
       </div>
@@ -47,8 +47,8 @@
         <template slot="operation" slot-scope="text, record, index">
           <div class="editable-row-operations">
             <span>
-              <a v-if='record.edit&&record.numCode&&record.numName&&record' @click="() => save(index)">保存</a>
-              <a-popconfirm v-if='record.numCode' title="确定删除数值吗?" @confirm="() => cancel(record)">
+              <a v-if='record.edit&&record.numCode&&record.numName' @click="() => save(index)">保存</a>
+              <a-popconfirm v-if='record.id' title="确定删除数值吗?" @confirm="() => cancel(record)">
                 <a style="color: ff0000;">删除</a>
               </a-popconfirm>
             </span>
@@ -60,43 +60,48 @@
       </div>
 
     </div>
-
+    <is-add v-if='showAddDialog' @close='closeDialog'></is-add>
   </div>
 </template>
 
 <script>
   import tableTitleData from "./dictionary.json";
-
+  import isAdd from './adddialog.vue'
   export default {
+    components: {
+      isAdd: isAdd
+    },
     data() {
 
       return {
         dictionaryColumns: tableTitleData.data.adddictionaryColumns,
         editingKey: '',
-        dictionaryClassCode: '', //上级代码
-        dictionnaryName: '', //上级名称
-        dictionnaryGrade: '', //字典等级
-        configName: '', //字典名称
-        configCode: '', //字典代码
-        configmid: '', //字典描述
+        classCode: '', //上级代码
+        parentName: '', //上级名称
+        grade: '', //字典等级
+        className: '', //字典名称
+        parentCode: '', //字典代码
+        remark: '', //字典描述
         congigmidLenght: 0,
         cacheData: {},
         szList: [],
-        dictid: ''
+        dictid: '',
+        isAdd: false,
+        showAddDialog: false
       }
     },
     created() {
       this.dictid = this.$route.query.dictid
+      this.isAdd = this.$route.query.add
       if (this.dictid) { //编辑
         this.getDictionaryInfo(this.dictid);
-      } else { //新增
-
       }
-
     },
     methods: {
-
-      async getDictionaryInfo(dictionaryId) {
+      closeDialog() {
+        this.showAddDialog = false
+      },
+      async getDictionaryInfo(dictionaryId) { //或者字典信息
         let param = {
           dictionaryId: dictionaryId
         }
@@ -114,37 +119,37 @@
           for (let i = 0; i < 5; i++) {
             this.addLine()
           }
-        this.dictionaryClassCode = this.cacheData.parentCode;
-        this.dictionnaryName = this.cacheData.parentName;
-        this.dictionnaryGrade = this.cacheData.grade;
-        this.configName = this.cacheData.dictionaryName;
-        this.configCode = this.cacheData.classCode;
-        this.configmid = this.cacheData.remark;
-      },
-      async submit() {
-        let param = {
-          dictionaryId: this.dictid,
-          parentId: this.dictionaryClassCode,
-          className: this.configName,
-          classCode: this.configCode,
-          remark: this.configmid,
-          grade: this.dictionnaryGrade
+        this.classCode = this.cacheData.classCode;
+        this.className = this.cacheData.className;
+        this.parentName = this.cacheData.parentName;
+        this.grade = this.cacheData.grade;
+        this.parentCode = this.cacheData.parentCode;
+        this.remark = this.cacheData.remark;
+        if (this.isAdd == 'true') {
+          console.log(this.isAdd)
+          this.classCode = "";
+          this.className = "";
         }
-          let res = await this.$http.post(this.$api.dictionaryform, param);
-          console.log(res)
       },
-      addLine() {
-        this.szList.push({
-          "numName": "",
-          "numCode": "",
-          "numRemark": "",
-        })
+      submit() { //保存
+        if (!this.className) {
+          this.$message.warning('字典名称不能为空');
+          return
+        }
+        if (!this.classCode) {
+          this.$message.warning('字典代码不能为空');
+          return
+        }
+        this.submitHttp(this.isAdd == 'true', this.className, this.classCode, this.remark, 1000)
+      },
+      addLine() { //添加数值空行
+        this.showAddDialog = true
       },
       onChangeConfig(e) { //修改字典描述
-        this.congigmidLenght = this.configmid.length
+        this.congigmidLenght = this.remark.length
       },
 
-      handleChange(value, key, column) {
+      handleChange(value, key, column) { //修改数值
         const newData = [...this.szList];
         const target = newData[key];
         if (target) {
@@ -154,12 +159,41 @@
         }
       },
 
-      save(index) {
+      save(index) { //保存数值请求
         let item = this.szList[index]
-        console.log(this.szList[index])
+        this.submitHttp(true, item.numName, item.numCode, item.numRemark, 2000)
       },
-      cancel(record) {
 
+      async submitHttp(add, className, classCode, remark, typeCode) {
+
+        let param = {
+          dictionaryId: add ? '' : this.dictid,
+          parentId: this.cacheData.parentId, //父级id
+          parentCode: this.cacheData.parentCode, //父级代码
+          className: className, //类型
+          classCode: classCode, //字典代码
+          remark: remark, //备注
+          grade: this.grade, //等级
+          operatorId: '5172dadd6d7c404e8ac657f32f81d969',
+          typeCode: typeCode
+        }
+        console.log(param)
+        let res = await this.$http.post(this.$api.dictionaryform, param);
+        if (res.data.resultCode == 10000) {
+          this.$message.success(res.data.resultMsg);
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
+        this.getDictionaryInfo(this.dictid);
+        console.log(res)
+      },
+
+      async cancel(item) { //删除数值行
+        let param = {
+          dictionaryId: item.dictionaryId
+        }
+        let res = await this.$http.post(this.$api.dictionaryremove, param);
+        this.getDictionaryInfo(this.dictid);
       },
     },
   }

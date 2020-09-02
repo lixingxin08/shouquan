@@ -3,30 +3,50 @@
     "dictionaryColumns": [{
         "title": "序号",
         "width": "80px",
-        "align": "center"
+        "align": "center",
+        "ellipsis": true,
+        "scopedSlots": {
+          "customRender": "index"
+        }
       }, {
         "title": "菜单名称",
-        "align": "center"
+        "align": "center",
+        "dataIndex": "menuName",
+        "ellipsis": true
       },
       {
         "title": "菜单类型",
-        "align": "center"
+        "align": "center",
+        "dataIndex": "menuTypeName",
+        "ellipsis": true
       },
       {
         "title": "上级名称",
-        "align": "center"
+        "align": "center",
+        "dataIndex": "parentName",
+        "ellipsis": true
       },
       {
         "title": "上级等级",
-        "align": "center"
+        "align": "center",
+        "dataIndex": "parentId",
+        "ellipsis": true
       },
       {
         "title": "授权类型",
-        "align": "center"
+        "align": "center",
+        "dataIndex": "authFlag",
+        "ellipsis": true,
+        "scopedSlots": {
+          "customRender": "authFlag"
+        }
       },
       {
         "title": "菜单图标",
-        "align": "center"
+        "align": "center",
+        "dataIndex": "menuIcon",
+        "ellipsis": true
+        
       },
       {
         "title": "操作",
