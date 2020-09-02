@@ -60,7 +60,7 @@
       </div>
 
     </div>
-    <is-add v-if='showAddDialog' @close='closeDialog'></is-add>
+    <is-add v-if='showAddDialog' @close='closeDialog' @submitNum="addNum"></is-add>
   </div>
 </template>
 
@@ -74,59 +74,55 @@
     data() {
 
       return {
-        dictionaryColumns: tableTitleData.data.adddictionaryColumns,
-        editingKey: '',
+        dictionaryColumns: tableTitleData.data.adddictionaryColumns, //数值title
         classCode: '', //上级代码
         parentName: '', //上级名称
         grade: '', //字典等级
         className: '', //字典名称
         parentCode: '', //字典代码
         remark: '', //字典描述
-        congigmidLenght: 0,
-        cacheData: {},
-        szList: [],
-        dictid: '',
-        isAdd: false,
-        showAddDialog: false
+        congigmidLenght: 0, //描述的文字长度
+        cacheData: {}, //编辑缓存的原始数据
+        szList: [], //数值列表
+        dictid: '', //页面传的字典id
+        isAdd: false, //是否是添加/编辑
+        showAddDialog: false //是否展示添加dialog
       }
     },
-    created() {
+    created() { //获取页面传过来的数据
       this.dictid = this.$route.query.dictid
       this.isAdd = this.$route.query.add
-      if (this.dictid) { //编辑
+      if (this.dictid) { //编辑状态，请求字典详细信息
         this.getDictionaryInfo(this.dictid);
       }
     },
     methods: {
-      closeDialog() {
+      closeDialog() { //关闭dialog
         this.showAddDialog = false
       },
-      async getDictionaryInfo(dictionaryId) { //或者字典信息
+      async getDictionaryInfo(dictionaryId) { //请求获取字典信息
         let param = {
-          dictionaryId: dictionaryId
+          dictionaryId: dictionaryId //字典id
         }
         let res = await this.$http.post(this.$api.dictionarydetail, param);
-        console.log(res)
-        if (res.data.resultCode == "10000") {
+        if (res.data.resultCode == "10000") { //请求成功
           this.cacheData = res.data.data
           this.setShowData();
+        } else {
+          this.$message.error(res.data.resultMsg);
         }
       },
       setShowData() { //设置展示的数据
         if (this.cacheData.dictionaryList)
-          this.szList = this.cacheData.dictionaryList;
-        if (this.szList.length <= 0)
-          for (let i = 0; i < 5; i++) {
-            this.addLine()
-          }
-        this.classCode = this.cacheData.classCode;
-        this.className = this.cacheData.className;
-        this.parentName = this.cacheData.parentName;
-        this.grade = this.cacheData.grade;
-        this.parentCode = this.cacheData.parentCode;
-        this.remark = this.cacheData.remark;
+          this.szList = this.cacheData.dictionaryList;//数值列表
+
+        this.classCode = this.cacheData.classCode; //字典代码
+        this.className = this.cacheData.className; //字典名称
+        this.parentName = this.cacheData.parentName; //上级名称
+        this.grade = this.cacheData.grade; //字典等级
+        this.parentCode = this.cacheData.parentCode; //上级代码
+        this.remark = this.cacheData.remark; //字典描述
         if (this.isAdd == 'true') {
-          console.log(this.isAdd)
           this.classCode = "";
           this.className = "";
         }
@@ -142,14 +138,14 @@
         }
         this.submitHttp(this.isAdd == 'true', this.className, this.classCode, this.remark, 1000)
       },
-      addLine() { //添加数值空行
-        this.showAddDialog = true
-      },
+
       onChangeConfig(e) { //修改字典描述
         this.congigmidLenght = this.remark.length
       },
-
-      handleChange(value, key, column) { //修改数值
+      addLine() { //展示添加数值dialog
+        this.showAddDialog = true
+      },
+      handleChange(value, key, column) { //修改某一项数值
         const newData = [...this.szList];
         const target = newData[key];
         if (target) {
@@ -163,11 +159,13 @@
         let item = this.szList[index]
         this.submitHttp(true, item.numName, item.numCode, item.numRemark, 2000)
       },
-
-      async submitHttp(add, className, classCode, remark, typeCode) {
+      addNum(item){//添加数值
+        this.submitHttp(true, item.autoName, item.autoCode, item.autoDescribe, 2000)
+      },
+      async submitHttp(add, className, classCode, remark, typeCode) {//保存请求
 
         let param = {
-          dictionaryId: add ? '' : this.dictid,
+          dictionaryId: add ? '' : this.dictid,//新增不传id
           parentId: this.cacheData.parentId, //父级id
           parentCode: this.cacheData.parentCode, //父级代码
           className: className, //类型
@@ -175,9 +173,8 @@
           remark: remark, //备注
           grade: this.grade, //等级
           operatorId: '5172dadd6d7c404e8ac657f32f81d969',
-          typeCode: typeCode
+          typeCode: typeCode//添加数值 2000 添加字典 1000
         }
-        console.log(param)
         let res = await this.$http.post(this.$api.dictionaryform, param);
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
@@ -185,6 +182,8 @@
           this.$message.error(res.data.resultMsg);
         }
         this.getDictionaryInfo(this.dictid);
+        console.log(this.$api.dictionaryform)
+        console.log(param)
         console.log(res)
       },
 

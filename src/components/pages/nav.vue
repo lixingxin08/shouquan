@@ -170,7 +170,7 @@
           </router-link>
         </a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="MaintenanceAuthorization" title="账号管理">
+      <a-sub-menu key="accountManagement" title="账号管理">
         <a-menu-item key="SystemRole">
           <router-link to="/SystemRole">
             <span>系统角色</span>

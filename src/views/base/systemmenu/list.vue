@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!isEdit" class='flexrow flexac flexsb' style="margin-bottom: 20px;">
+    <div  class='flexrow flexac flexsb' style="margin-bottom: 20px;">
       <div class="flexrow flexac">
         <div class='title_tx'>菜单名称:</div>
         <a-input placeholder="请输入菜单名称" />
@@ -10,7 +10,7 @@
       </div>
       <a-button type="primary" @click="add">新增</a-button>
     </div>
-    <a-table v-if="!isEdit" :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="menuList" bordered size="small"
+    <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="menuList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
         {{index+1}}
@@ -24,7 +24,7 @@
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm">
-            <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
+            <a href="#" style='color: #FF0000;font-size: 12px;' @click='deletMenu(record)'>删除</a>
           </a-popconfirm>
           <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 10px;margin-right: 10px;"></div>
           <a href="#" style='font-size: 12px;' @click="editDictionary(record)">编辑</a>
@@ -40,7 +40,6 @@
 
     data() {
       return {
-        isEdit: false,
         keyword: '',
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         menuList: [], //字典数据
@@ -52,7 +51,7 @@
         },
         pageSize: 20,
         pageIndex: 1,
-        menuItem: '',
+        parentItem: '',
       }
     },
 
@@ -63,7 +62,7 @@
         this.getMenuData()
       },
       setMenuItem(val) {
-        this.menuItem = val
+        this.parentItem = val
         this.getMenuData()
       },
       cleanKeyWord() {
@@ -73,7 +72,7 @@
       async getMenuData() {
         let param = {
           keyword: this.keyword,
-          parentId: this.menuItem.id,
+          parentId: this.parentItem.id,
           pageSize: this.pageSize,
           pageIndex: this.pageIndex
         };
@@ -86,16 +85,30 @@
         }
       },
       add() {
+        console.log(this.parentItem)
         this.$router.push({
           path: '/addsystem',
           query: {
             add: true,
-            id: this.menuItem.id
+            id: this.parentItem.id
           }
         });
       },
       confirm() {
 
+      },
+     async deletMenu(item){
+        let param = {
+          menuId: item.id,
+        };
+        let res = await this.$http.post(this.$api.menuremove, param);
+        console.log(res)
+        if (res.data.resultCode == "10000") {
+          this.getMenuData()
+           this.$message.success(res.data.resultMsg)
+        }else{
+          this.$message.error(res.data.resultMsg)
+        }
       },
       editDictionary(item) {
         console.log(item)

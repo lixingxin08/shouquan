@@ -3,9 +3,12 @@
     "dictionaryColumns": [{
         "title": "序号",
         "width": "80px",
-         "dataIndex": "dictionaryId",
+         "dataIndex": "index",
         "align": "center",
-        "ellipsis":true
+        "ellipsis":true,
+        "scopedSlots": {
+          "customRender": "index"
+        }
       }, {
         "title": "字典名称",
         "align": "center",

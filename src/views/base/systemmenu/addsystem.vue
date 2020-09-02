@@ -4,7 +4,7 @@
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">上级名称:</div>
-        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{cacheData.parentName}}</div>
+        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{cacheData.parentName?cacheData.parentName:"null"}}</div>
         <div class="edit_item_toast">注：不可选</div>
       </div>
       <div class="flexrow flexac edit_item">
@@ -14,18 +14,18 @@
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">上级等级:</div>
-        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{cacheData.parentGrade}}</div>
+        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{cacheData.parentGrade?cacheData.parentGrade:'null'}}</div>
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">菜单类型:</div>
-        <a-radio-group :options="plainOptions" :default-value="value1" @change="onChange1" />
+        <a-radio-group :options="menuTypeList" :default-value="menuValue" @change="onChange1" />
         <br />
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">授权类型:</div>
-        <a-select default-value="lucy" style="width: 100%;margin-right: 80px;" @change="handleSelectChange">
-          <a-select-option value="jack">
-            Jack
+        <a-select :default-value="0" style="width: 100%;margin-right: 80px;" @change="handleSelectChange">
+          <a-select-option v-for='(item,index) in empowerList' :key='item.name' :value="index">
+            {{item.name}}
           </a-select-option>
         </a-select>
       </div>
@@ -71,7 +71,6 @@
 <script>
   import tableTitleData from "./table.json";
   import isAdd from './adddialog.vue'
-  const plainOptions = ['页签', '按钮'];
 
   function getBase64(img, callback) {
     const reader = new FileReader();
@@ -80,30 +79,46 @@
   }
   export default {
     components: {
-      isAdd:isAdd
+      isAdd: isAdd
     },
     data() {
-
       return {
         dictionaryColumns: tableTitleData.data.adddictionaryColumns,
         editingKey: '',
-        value1: '页签',
+        menuValue: '页签',
         menuName: '', //菜单名称
         remark: '', //备注
         num: 0, //描述长度
-        plainOptions,
+        menuTypeList: ['子系统', '子栏目', '子菜单','页签','按钮'],
+        empowerList: [{
+          key: '0',
+          name: '默认拥有类'
+        },
+        {
+          key: '1',
+          name: '系统配置类'
+        },
+        {
+          key: '2',
+          name: '客户授权类'
+        },
+        {
+          key: '3',
+          name: '均可操作类'
+        }
+        ],
         authList: [{
           name: "1",
           code: "1111",
           info: "1111111"
         }],
-        szList: [{}, {}, {}, {}, {}],
+        szList: [],
         loading: false,
         imageUrl: '',
         isAdd: false,
         menuId: '',
         cacheData: {},
-        showAddDialog:false
+        showAddDialog: false
       }
     },
     created() {
@@ -116,8 +131,8 @@
       }
     },
     methods: {
-      closeDialog(){
-         this.showAddDialog=false
+      closeDialog() {
+        this.showAddDialog = false
       },
       onChangeConfig(e) { //修改字典描述
         this.num = this.remark.length
@@ -135,10 +150,10 @@
       },
       setShowData() {
         this.menuName = this.cacheData.menuName
-         this.remark=this.cacheData.remark
+        this.remark = this.cacheData.remark
         if (this.isAdd == 'true') {
           this.menuName = ''
-          this.remark=''
+          this.remark = ''
         }
       },
       handleImageChange(info) {
@@ -166,13 +181,13 @@
       },
 
       addLine() { //添加鉴权接口
-        this.showAddDialog=true
+        this.showAddDialog = true
       },
       onChange1(e) { //菜单类型选择
         console.log('radio1 checked', e.target.value);
       },
-      handleSelectChange() { //授权类型下拉选择
-        console.log(`selected ${value}`);
+      handleSelectChange(value) { //授权类型下拉选择
+        console.log(value)
       },
       handleChange(value, key, column) {
         const newData = [...this.szList];
@@ -224,7 +239,9 @@
   .edit_a_input {
     width: 667px;
     height: 32px;
+    text-align: left;
     display: flex;
+    justify-content: flex-start;
     flex-direction: row;
     align-items: center;
     padding-left: 10px;

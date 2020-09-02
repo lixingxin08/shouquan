@@ -21,17 +21,18 @@
         "ellipsis": true
       },
       {
+        "title": "菜单等级",
+        "align": "center",
+        "dataIndex": "grade",
+        "ellipsis": true
+      },
+      {
         "title": "上级名称",
         "align": "center",
         "dataIndex": "parentName",
         "ellipsis": true
       },
-      {
-        "title": "上级等级",
-        "align": "center",
-        "dataIndex": "parentId",
-        "ellipsis": true
-      },
+     
       {
         "title": "授权类型",
         "align": "center",
