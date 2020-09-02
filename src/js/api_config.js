@@ -28,9 +28,9 @@ export default {
     menutree: `/config/dictionary/tree`,//系统菜单树
 
     rundetail:`/config/parameter/detail ` , //运行参数详情接口
-    runform: `/config/parameter/form`,//运行菜单表单接
-    runpage: `/config/parameter/page`,//运行菜单列表接口
-    runremove: `/config/dictionary/remove`,//运行菜单删除接口
+    runform: `/config/parameter/form`,//运行参数表单接
+    runpage: `/config/parameter/page`,//运行参数列表接口
+    runremove: `/config/dictionary/remove`,//运行参数删除接口
 
 
 

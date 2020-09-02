@@ -47,6 +47,8 @@ let instance = axios.create({ timeout: 10000 });
 // instance.defaults.headers.common['Authorization'] = "Bearer " + getCookie("userToken");//携带cookie
 //instance.defaults.withCredentials = true;//让ajax携带cookie
 instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+let token="1"
+instance.defaults.headers.common["operatorId"] = token;
 instance.interceptors.request.use(
   config => {
     // if (sessionStorage.getItem('token')) { // 若存在token，则每个Http Header都加上token
@@ -98,6 +100,34 @@ instance.interceptors.response.use(
     return Promise.reject(error.response.data) // 返回接口返回的错误信息
   }
 )
+
+
+
+
+
+
+
+
+
+
+//校验2到16个中文字符
+Vue.prototype.vify_cn = function (phone) {
+  let myreg = /^[\u4e00-\u9fa5a-z\d_]{2,16}$/gi;
+  if (myreg.test(phone) !== true) {
+    return false;
+  } else {
+    return true;
+  }
+  return true;
+};
+
+
+
+
+
+
+
+
 
 /* eslint-disable no-new */
 new Vue({

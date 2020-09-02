@@ -29,10 +29,11 @@
               :data-source="tabledata"
               bordered
               :pagination="pagination"
+              @change="handleTableChange"
             >
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
-                <div class="col_red ispointer" v-if="childTotal==0" @click="showdialog()">
+                <div class="col_red ispointer" v-if="childTotal==0" @click="showdialog(areaName)">
                   <span>删除</span>
                 </div>
                 <div class="col_gray ispointer" v-if="childTotal!==0">删除</div>
@@ -52,7 +53,7 @@
       <div class="dialog_c flex_a">您确定要删除吗？</div>
       <div class="dialog_f flex_a">
         <div class="flex_f">
-          <div class="ok_btn">确定</div>
+          <div class="ok_btn" @click="getarearemove()">确定</div>
           <div class="cancel_btn" @click="cancel()">取消</div>
         </div>
       </div>
@@ -72,6 +73,7 @@ export default {
       showtree: false,
       treedata: null,
       tabletype: false,
+      totoltype:true,
       inp_data: "",
       isselectdata: {
         id: "",
@@ -174,6 +176,9 @@ export default {
         parentId: "",
         remark: "",
       },
+      removeparam: {
+        areaId: "",
+      },
     };
   },
   created() {
@@ -194,37 +199,15 @@ export default {
       this.showtree = true;
       this.getareapage();
     },
-    //行政区划表单接口
-    async getareaform() {
-      let prame = {
-        areaId: "string",
-        keyword: "string",
-        latitude: 0,
-        list: [{}],
-        longitude: 0,
-        pageIndex: 0,
-        pageSize: 0,
-        parentId: "string",
-        remark: "string",
-        searchIndex: 0,
-      };
-      let res = await this.$http.post(this.$api.areaform, prame);
-      console.log(res);
-    },
     //行政区划分页列表接口
     async getareapage() {
       this.tabletype = false;
       let prame = {
         areaId: this.isselectdata.id,
         keyword: this.isselectdata.name,
-        latitude: 0,
-        list: [{}],
-        longitude: 0,
-        pageIndex: this.pagination.page,
+        pageIndex: this.pagination.current,
         pageSize: this.pagination.pageSize,
         parentId: this.isselectdata.pid,
-        remark: "",
-        searchIndex: 0,
       };
       let res = await this.$http.post(this.$api.areapage, prame);
       console.log(res, "getareapage");
@@ -232,33 +215,37 @@ export default {
         this.tabledata = res.data.data.list;
         this.pagination.total = res.data.data.length;
         this.tabletype = true;
+      }else{      
+        this.$message.error(res.data.resultMsg)
       }
     },
     //行政区划删除接口
     async getarearemove() {
-      let prame = {
-        areaId: "string",
-        keyword: "string",
-        latitude: 0,
-        list: [{}],
-        longitude: 0,
-        pageIndex: 0,
-        pageSize: 0,
-        parentId: "string",
-        remark: "string",
-        searchIndex: 0,
-      };
-      let res = await this.$http.post(this.$api.arearemove, prame);
-      console.log(res);
+      console.log(this.removeparam);
+      let res = await this.$http.post(this.$api.arearemove, this.removeparam);
+      if (res.data.resultCode == "10000") {
+        this.visible = false;
+        this.getareatree();
+        this.getareapage();
+      } else {
+        this.$message.error(res.data.resultMsg);
+      }
+      console.log(res, 898989);
     },
 
-    toadd(val,id) {
-      if (val=='add') {
-        this.$router.push({path:'/addadministrativedivision',query:{type:val}})
-      }else{
-         this.$router.push({path:'/addadministrativedivision',query:{type:val,id:id}})
+    toadd(val, id) {
+      if (val == "add") {
+        this.$router.push({
+          path: "/addadministrativedivision",
+          query: { type: val, id: this.treedata[0].id },
+        });
+      } else {
+        console.log(id, 898989);
+        this.$router.push({
+          path: "/addadministrativedivision",
+          query: { type: val, id: id.areaId },
+        });
       }
-     
     },
 
     toTree(data) {
@@ -321,22 +308,26 @@ export default {
       this.isselectdata.id = val.id;
       this.isselectdata.name = val.name;
       this.isselectdata.pid = val.pid;
-      console.log(this.isselectdata, 9999);
+      this.pagination.current = 1;
+      this.pagination.pageSize = 10;
       this.getareapage();
     },
     //查询
     tosearch() {
       this.isselectdata.name = this.inp_data;
+      this.pagination.current = 1;
+      this.pagination.pageSize = 10;
       this.getareapage();
     },
     //清除
     clear() {
       this.isselectdata.name = "";
       this.inp_data = "";
-      // this.getareapage();
     },
     //弹窗
-    showdialog() {
+    showdialog(val) {
+      console.log(val, 222);
+      this.removeparam.areaId = val.areaId;
       this.visible = true;
     },
     cancel() {
@@ -348,10 +339,10 @@ export default {
     },
     //分页
     handleTableChange(pagination) {
+      console.log(pagination, 88878);
       this.pagination.current = pagination.current;
       this.pagination.pageSize = pagination.pageSize;
-      this.queryParam.page = pagination.current;
-      this.queryParam.size = pagination.pageSize;
+      this.getareapage();
     },
   },
 };
@@ -426,7 +417,7 @@ export default {
   font-size: 24px;
 }
 .dialog_c {
-  height: 348px;
+  height: 276px;
   font-size: 20px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;
   font-weight: 400;

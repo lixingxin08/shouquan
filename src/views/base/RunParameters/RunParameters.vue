@@ -5,24 +5,30 @@
         <div class="right">
           <div class="r_top flex_f">
             <div class="r_t_text" @click="showdialog()">区划名称</div>
-            <a-input placeholder="请输入区划名称" class="r_t_inp" v-model="inp_data" />
-            <div class="btn_blue btn" @click="search()">查询</div>
+            <a-input
+              placeholder="请输入区划名称"
+              class="r_t_inp"
+              v-model="inp_data"
+              @keydown.enter="tosearch()"
+            />
+            <div class="btn_blue btn" @click="tosearch()">查询</div>
             <div class="btn_gray" @click="clear()">清除</div>
           </div>
-          <router-link to="/addadministrativedivision">
-            <div class="btn_blue btn2">新增</div>
-          </router-link>
+          <div class="btn_blue btn2" @click="toadd('add')">新增</div>
           <div class="table" v-if="tabletype">
             <a-table
               :columns="tablecolumns"
               :data-source="tabledata"
               bordered
               :pagination="pagination"
+              @change="handleTableChange"
             >
-              <div slot="edit" class="flex_a" slot-scope="childTotal">
-                <div class="col_blue">编辑 {{childTotal}}</div>
-                <div class="col_red" v-if="childTotal==0">删除</div>
-                <div class="col_gray" v-if="childTotal!==0">删除</div>
+              <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
+                <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
+                <div class="col_red ispointer" v-if="childTotal==0" @click="showdialog(areaName)">
+                  <span>删除</span>
+                </div>
+                <div class="col_gray ispointer" v-if="childTotal!==0">删除</div>
               </div>
             </a-table>
           </div>
@@ -39,7 +45,7 @@
       <div class="dialog_c flex_a">您确定要删除吗？</div>
       <div class="dialog_f flex_a">
         <div class="flex_f">
-          <div class="ok_btn">确定</div>
+          <div class="ok_btn" @click="getarearemove()">确定</div>
           <div class="cancel_btn" @click="cancel()">取消</div>
         </div>
       </div>
@@ -83,7 +89,7 @@ export default {
         {
           width: 100,
           align: "center",
-          title: "区划名称",
+          title: "参数名称",
           dataIndex: "areaName",
           key: "areaName",
           ellipsis: true,
@@ -91,7 +97,7 @@ export default {
         {
           width: 208,
           align: "center",
-          title: "区划等级",
+          title: "参数代码",
           dataIndex: "levelType",
           key: "levelType",
           ellipsis: true,
@@ -99,7 +105,7 @@ export default {
         {
           width: 208,
           align: "center",
-          title: "上级区划",
+          title: "参数数值",
           key: "parentName",
           dataIndex: "parentName",
           ellipsis: true,
@@ -107,7 +113,7 @@ export default {
         {
           width: 208,
           align: "center",
-          title: "子节点数",
+          title: "参数分组",
           key: "childTotal",
           dataIndex: "childTotal",
           ellipsis: true,
@@ -115,7 +121,7 @@ export default {
         {
           width: 208,
           align: "center",
-          title: "授权次数",
+          title: "参数描述",
           key: "authTotal",
           dataIndex: "authTotal",
           ellipsis: true,
@@ -143,61 +149,38 @@ export default {
         showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
       },
       issearchdata: "",
-      filterdata:[]
+      filterdata: [],
+      areatreeprame: {
+        //行政区划树接口参数
+        areaId: "",
+        keyword: "",
+        keyword: "",
+        latitude: 0,
+        longitude: 0,
+        operatorId: "",
+        pageIndex: 0,
+        pageSize: 10,
+        parentId: "",
+        remark: "",
+      },
+      removeparam: {
+        areaId: "",
+      },
     };
   },
   created() {
     this.getareatree();
   },
   methods: {
-    //运行参数详情接口
-    async getrundetail() {
-      let prame = {
-        areaId: "string",
-        areaName: "string",
-        latitude: 0,
-        list: [{}],
-        longitude: 0,
-        pageIndex: 0,
-        pageSize: 0,
-        parentId: "string",
-        remark: "string",
-        searchIndex: 0,
-      };
-      let res = await this.$http.post(this.$api.rundetail, prame);
-      console.log(res);
-    },
-    //运行参数表单接
-    async getrunform() {
-      let prame = {
-        areaId: "string",
-        areaName: "string",
-        latitude: 0,
-        list: [{}],
-        longitude: 0,
-        pageIndex: 0,
-        pageSize: 0,
-        parentId: "string",
-        remark: "string",
-        searchIndex: 0,
-      };
-      let res = await this.$http.post(this.$api.runform, prame);
-      console.log(res);
-    },
     //行政区划分页列表接口
     async getareapage() {
       this.tabletype = false;
       let prame = {
         areaId: this.isselectdata.id,
-        areaName: this.isselectdata.name,
-        latitude: 0,
-        list: [{}],
-        longitude: 0,
-        pageIndex: this.pagination.page,
+        keyword: this.isselectdata.name,
+        pageIndex: this.pagination.current,
         pageSize: this.pagination.pageSize,
         parentId: this.isselectdata.pid,
-        remark: "",
-        searchIndex: 0,
       };
       let res = await this.$http.post(this.$api.areapage, prame);
       console.log(res, "getareapage");
@@ -205,39 +188,119 @@ export default {
         this.tabledata = res.data.data.list;
         this.pagination.total = res.data.data.length;
         this.tabletype = true;
+      }else{      
+        this.$message.error(res.data.resultMsg)
       }
     },
     //行政区划删除接口
     async getarearemove() {
-      let prame = {
-        areaId: "string",
-        areaName: "string",
-        latitude: 0,
-        list: [{}],
-        longitude: 0,
-        pageIndex: 0,
-        pageSize: 0,
-        parentId: "string",
-        remark: "string",
-        searchIndex: 0,
-      };
-      let res = await this.$http.post(this.$api.arearemove, prame);
-      console.log(res);
+      console.log(this.removeparam);
+      let res = await this.$http.post(this.$api.arearemove, this.removeparam);
+      if (res.data.resultCode == "10000") {
+        this.visible = false;
+        this.getareatree();
+        this.getareapage();
+      } else {
+        this.$message.error(res.data.resultMsg);
+      }
+      console.log(res, 898989);
     },
 
+    toadd(val, id) {
+      if (val == "add") {
+        this.$router.push({
+          path: "/addadministrativedivision",
+          query: { type: val, id: this.treedata[0].id },
+        });
+      } else {
+        console.log(id, 898989);
+        this.$router.push({
+          path: "/addadministrativedivision",
+          query: { type: val, id: id.areaId },
+        });
+      }
+    },
+
+    toTree(data) {
+      let result = [];
+      if (!Array.isArray(data)) {
+        return result;
+      }
+      data.forEach((item) => {
+        delete item.children;
+      });
+      let map = {};
+      data.forEach((item) => {
+        map[item.id] = item;
+      });
+      data.forEach((item) => {
+        let parent = map[item.pid];
+        if (parent) {
+          (parent.children || (parent.children = [])).push(item);
+        } else {
+          result.push(item);
+        }
+      });
+      return result;
+    },
+    setdata() {
+      for (let i = 0; i < this.data.length; i++) {
+        if (this.data[i].open == true) {
+          this.defaultExpandedKeys.push(this.data[i].id);
+        }
+      }
+      this.treedata = this.toTree(this.data);
+    },
+    //获取树搜索数据
+    getsearchdata(val) {
+      this.issearchdata = val;
+      this.getareatree();
+      if (val == "") {
+        return;
+      }
+
+      this.filterdata = [];
+      this.setfilltertree(this.treedata, this.issearchdata);
+    },
+    //过滤树搜索数据
+    setfilltertree(datas, filtersdata) {
+      let _that = this;
+      for (var i in datas) {
+        let name = datas[i].name + "";
+        if (name.search(_that.issearchdata) != -1) {
+          _that.filterdata.push(datas[i]);
+        }
+        if (datas[i].children) {
+          _that.setfilltertree(datas[i].children);
+        }
+      }
+      _that.treedata = _that.toTree(this.filterdata);
+    },
+    getselectdata(val) {
+      this.isselectdata = val;
+      this.isselectdata.id = val.id;
+      this.isselectdata.name = val.name;
+      this.isselectdata.pid = val.pid;
+      this.pagination.current = 1;
+      this.pagination.pageSize = 10;
+      this.getareapage();
+    },
     //查询
-    search() {
+    tosearch() {
       this.isselectdata.name = this.inp_data;
+      this.pagination.current = 1;
+      this.pagination.pageSize = 10;
       this.getareapage();
     },
     //清除
     clear() {
       this.isselectdata.name = "";
       this.inp_data = "";
-      this.getareapage();
     },
     //弹窗
-    showdialog() {
+    showdialog(val) {
+      console.log(val, 222);
+      this.removeparam.areaId = val.areaId;
       this.visible = true;
     },
     cancel() {
@@ -249,10 +312,10 @@ export default {
     },
     //分页
     handleTableChange(pagination) {
+      console.log(pagination, 88878);
       this.pagination.current = pagination.current;
       this.pagination.pageSize = pagination.pageSize;
-      this.queryParam.page = pagination.current;
-      this.queryParam.size = pagination.pageSize;
+      this.getareapage();
     },
   },
 };
@@ -260,6 +323,8 @@ export default {
 <style  scoped>
 .administrativedivision {
   height: 100%;
+  width: 100%;
+  position: relative;
 }
 .tree {
   text-align: left;
@@ -307,6 +372,7 @@ export default {
   height: 492px;
   position: relative;
   left: 50%;
+  top: -870px;
   transform: translate(-50%, -50%);
   border: 1px solid #000;
   margin-top: 330px;
@@ -324,7 +390,7 @@ export default {
   font-size: 24px;
 }
 .dialog_c {
-  height: 348px;
+  height: 276px;
   font-size: 20px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;
   font-weight: 400;

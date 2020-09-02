@@ -63,7 +63,7 @@ border-right: none!important;
     border-bottom: 1px solid #e8e8e8!important;
   } */
 .btn_blue{
-    width: 88px;
+    width: 68px;
     height: 36px;
     background: #1890ff;
     border: 1px solid #1890ff;
@@ -77,7 +77,7 @@ border-right: none!important;
     cursor: pointer;
 }
 .btn_gray{
-    width: 88px;
+    width: 68px;
     height: 36px;
     border: 1px solid #dcdcdc;
     border-radius: 8px;
@@ -127,4 +127,9 @@ cursor: pointer;
 }
 .ispointer{
     cursor: pointer;
+}
+.ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected{
+    background-color: #1890ff!important;
+    color: #fff;
+    opacity: 1;
 }
