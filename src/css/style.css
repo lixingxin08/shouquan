@@ -169,3 +169,6 @@
 .ispointer {
   cursor: pointer;
 }
+.text_s{
+    text-align: start;
+}

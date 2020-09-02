@@ -5,10 +5,10 @@ const home = () => import('@/views/home/home')
 
 const administrativedivision = () => import('@/views/base/administrativedivision/administrativedivision') //行政区划
 const addadministrativedivision = () => import('@/views/base/administrativedivision/add/add') //行政区划新增
-const editadministrativedivision = () => import('@/views/base/administrativedivision/edit/edit') //行政区划编辑
 const dictionary = () => import('@/views/base/dictionary/dictionary') //数字字典
 const adddictionary = () => import('@/views/base/dictionary/adddictionary') //添加编辑数字字典
 const RunParameters = () => import('@/views/base/RunParameters/RunParameters') //运行参数
+const addRunParameters = () => import('@/views/base/RunParameters/add/add') //运行参数
 const systemmenu = () => import('@/views/base/systemmenu/systemmenu') //系统菜单
 const addsystemmenu = () => import('@/views/base/systemmenu/addsystem') //系统菜单
 
@@ -27,7 +27,7 @@ const project = () => import('@/views/customer/project/project') //项目管理
 
 const wechat= () => import('@/views/message/wechat/wechat') //微信账号
 const email= () => import('@/views/message/email/email') //邮箱账号
-const sms= () => import('@/views/message/sms/sms') //微信账号
+const sms= () => import('@/views/message/sms/sms') //短信帐号
 
 const template= () => import('@/views/business/template/template') //菜单模板
 const menuauthorization= () => import('@/views/business/menuauthorization/menuauthorization') //菜单授权
@@ -116,6 +116,14 @@ export default new Router({
             title: '运行参数'
           },
           component: RunParameters
+        },
+        {
+          path: '/addRunParameters',
+          name: 'RunParameters',
+          meta: {
+            title: '运行参数'
+          },
+          component: addRunParameters
         },
         {
           path: '/systemmenu',

@@ -1,5 +1,5 @@
 <template>
-  <div id="search">
+  <div class="search">
     <!-- <div class="search">
       <a-input-search placeholder enter-button="搜索" size="default" @search="onSearch" />
     </div>-->
@@ -50,7 +50,7 @@ export default {
 };
 </script>
 <style scoped>
-#search {
+.search {
   width: 280px;
   height: 100%;
   min-height: 909px;
@@ -59,7 +59,7 @@ export default {
   overflow: scroll;
   box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.16);
 }
-#search::-webkit-scrollbar {
+.search::-webkit-scrollbar {
   display: none;
 }
 .search {

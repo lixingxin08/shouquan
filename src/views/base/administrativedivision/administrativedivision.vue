@@ -151,6 +151,9 @@
         removeparam:{
           areaName:"",
           areaId:""
+        },
+        istotal:{
+          type:1,
         }
       };
     },
@@ -205,10 +208,12 @@
           searchIndex: 0,
         };
         let res = await this.$http.post(this.$api.areapage, prame);
-        console.log(res, "getareapage");
         if (res.data.resultCode == "10000") {
           this.tabledata = res.data.data.list;
-          this.pagination.total = res.data.data.length;
+          if (this.istotal.type==1) {
+               this.pagination.total = res.data.data.length;
+          }
+          this.istotal.type++ 
           this.tabletype = true;
         }
       },
@@ -306,12 +311,13 @@
         this.isselectdata.id = val.id;
         this.isselectdata.name = val.name;
         this.isselectdata.pid = val.pid;
-        console.log(this.isselectdata, 9999);
+        this.istotal.type=1
         this.getareapage();
       },
       //查询
       tosearch() {
         this.isselectdata.name = this.inp_data;
+        this.istotal.type=1
              this.pagination.page = 1;
         this.pagination.pageSize = 10;
         this.getareapage();
@@ -343,6 +349,7 @@
       //分页
       handleTableChange(pagination) {
         this.pagination.page = pagination.current;
+        this.pagination.current = pagination.current;
         this.pagination.pageSize = pagination.pageSize;
         this.getareapage()
       },

@@ -115,13 +115,26 @@ instance.interceptors.response.use(
 Vue.prototype.vify_cn = function (phone) {
   let myreg = /^[\u4e00-\u9fa5a-z\d_]{2,16}$/gi;
   if (myreg.test(phone) !== true) {
+ 
     return false;
   } else {
+   
     return true;
   }
   return true;
 };
-
+//校验中文字符
+Vue.prototype.vify_cn2 = function (phone) {
+  let myreg = /^[\u4e00-\u9fa5]+$/gi;
+  if (myreg.test(phone) !== true) {
+    console.log(211);
+    return false;
+  } else {
+    console.log(3111);
+    return true;
+  }
+  return true;
+};
 
 
 

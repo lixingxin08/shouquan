@@ -1,73 +1,76 @@
 <template>
   <div class="isedit">
     <div class="flexrow flexac edit_item">
-      <div class="edit_item_title">上级区域:</div>
-      <a-input class="edit_a_input" v-model="form.parentId" />
-      <div class="edit_item_toast">注：不可选</div>
-    </div>
-    <div class="flexrow flexac edit_item">
-      <div class="edit_item_title">区划等级:</div>
-      <a-input class="edit_a_input" v-model="form.levelType" />
-      <div class="edit_item_toast">注：不可选</div>
+      <div class="edit_item_title">
+        <span class="col_red">*</span>参数分组:
+      </div>
+      <div v-if="this.$route.query.type=='add'">
+        <a-select
+          show-search
+          placeholder="全部"
+          option-filter-prop="children"
+          style=" width: 667px;height: 32px;"
+          :filter-option="filterOption"
+          v-model="form.parameterId"
+          @focus="handleFocus"
+          @blur="handleBlur"
+          @change="handleChange"
+        >
+          <a-select-option value>全部</a-select-option>
+          <a-select-option
+            v-for="(item,index) in sel_data"
+            :key="index"
+            :value="item.comboBoxId"
+          >{{item.comboBoxName}}</a-select-option>
+        </a-select>
+      </div>
+      <div v-if="this.$route.query.type!=='add'">
+        <a-input class="edit_a_input" disabled v-model="form.parameterId" />
+      </div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
-        <span class="col_red">*</span>区划名称:
+        <span class="col_red">*</span>参数名称:
       </div>
-      <a-input class="edit_a_input" placeholder="2-16个中文汉字组合" v-model="form.areaName" />
-      <!-- <div class="edit_item_toast">注：区划名字不超过30个字</div> -->
+      <a-input class="edit_a_input" v-model="form.parameterName" placeholder="请输入参数名称" />
+      <div class="edit_item_toast">注:50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
-        <span class="col_red">*</span>地图位置:
+        <span class="col_red">*</span>参数代码:
       </div>
-      <a-input class="edit_a_input" v-model="form.position" placeholder="在地图定位后获取" />
-      <div class="edit_item_toast btn_blue mapbtn" @click="showdialog()">
-        <a-icon type="environment"></a-icon>地图定位
-      </div>
+      <a-input class="edit_a_input" placeholder="请输入参数代码" v-model="form.parameterCode" />
+      <div class="edit_item_toast">注:50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
     </div>
     <div class="flexrow flexac edit_item">
-      <div class="edit_item_title">备注:</div>
+      <div class="edit_item_title">
+        <span class="col_red">*</span>参数数值:
+      </div>
       <div style="position: relative;">
         <a-textarea
           class="edit_a_input"
           :rows="5"
           placeholder="格式不限制，256个字符以内，包含标点符号"
-          v-model="form.remark"
+          v-model="form.parameterValue"
         />
         <div class="edit_number">0/256</div>
       </div>
-      <div class="edit_item_toast">注：不可选</div>
+    </div>
+    <div class="flexrow flexac edit_item">
+      <div class="edit_item_title">参数描述:</div>
+      <div style="position: relative;">
+        <a-textarea
+          class="edit_a_input"
+          :rows="5"
+          placeholder="格式不限制，256个字符以内，包含标点符号"
+          v-model="form.description"
+        />
+        <div class="edit_number">0/256</div>
+      </div>
     </div>
     <div class="flexrow" style="margin-top: 30px;justify-item: flex-start;margin-left: 325px;">
-      <a-button @click="getareaform()">保存</a-button>
+      <a-button @click="getrunform()">保存</a-button>
       <a-button type="primary" style="margin-left: 20px;" @click="reset()">重置</a-button>
-    </div>
-
-    <div class="dialog" v-if="visible">
-      <div class="dialog_t flex_b">
-        <div>地理位置</div>
-        <div @click="cancel()">
-          <a-icon type="close" />
-        </div>
-      </div>
-      <div class="dialog_c">
-        <div class="flex_f dialog_c_t">
-          <div>
-            <a-input placeholder="输入位置名称" id="searinp" class="dialog_inp" v-model="city" />
-          </div>
-          <div class="edit_item_toast btn_blue mapbtn" @click="getLatLngLocation()">
-            <a-icon type="environment"></a-icon>地图定位
-          </div>
-        </div>
-        <div id="map-container" class="map"></div>
-      </div>
-      <div class="dialog_f flex_a">
-        <div class="flex_f">
-          <div class="ok_btn" @click="define()">确定</div>
-          <div class="cancel_btn" @click="cancel()">取消</div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -77,56 +80,36 @@ import AMap from "AMap";
 export default {
   data() {
     return {
-      visible: false,
-      inttype: true,
-      inp_data: "",
-      lng: [116.397428, 39.90923],
-      city: "",
-      markertype: false,
-      marker: "",
-      form:{
-        areaId: "",
-        areaName: "",
-        levelType: "",
-        position: "",
-        remark: "",
-        parentId: "",
-        parentName: "",
-        operatorId:1
+      sel_data: "",
+      form: {
+        parameterId: "",
+        typeCode: "",
+        parameterName: "",
+        parameterCode: "",
+        parameterValue: "",
+        operatorId: "1",
+        description: "",
       },
-      areadetailprame: {
-        //行政区划详情接口参数
-        areaId: "",
-        keyword: "",
-        latitude: 0,
-        list: [{}],
-        longitude: 0,
-        pageIndex: 0,
-        pageSize: 0,
-        parentId: "",
-        remark: "",
-        searchIndex: 0,
+      rundetailparam: {
+        parameterId: "",
       },
     };
   },
   created() {
-    if (this.$route.query.type == "add") {
-      // console.log(this.$route.query.id, 7777);
-      // this.areadetailprame.areaId = this.$route.query.id;
-      // this.getareadetail();
+    if (this.$route.query.type == "add") {    
+      this.sel_data = JSON.parse(localStorage.getItem("sel"));
+        console.log(this.sel_data,88992);
     }
     if (this.$route.query.type == "edit") {
-      this.areadetailprame.areaId = this.$route.query.id;
-      this.getareadetail();
+      this.rundetailparam.parameterId = this.$route.query.id;
+      console.log(this.rundetailparam, 8899);
+      this.getrundetail();
     }
   },
   methods: {
-    //行政区划详情接口
-    async getareadetail() {
-      let res = await this.$http.post(
-        this.$api.areadetail,
-        this.areadetailprame
-      );
+    //运行参数详情接口
+    async getrundetail() {
+      let res = await this.$http.post(this.$api.rundetail, this.rundetailparam);
       if (res.data.resultCode == "10000") {
         this.form = res.data.data;
       } else {
@@ -134,138 +117,45 @@ export default {
       }
       console.log(res, 8888);
     },
-        //行政区划表单接口
-    async getareaform() {
-      if (this.form.areaName=="") {
-        return  this.$message.error("请输入区划名称")
+    //运行参数表单接
+    async getrunform() {
+      if (this.form.parameterId == "") {
+        return this.$message.error("请选择参数分组");
       }
-      if (this.form.position=="") {
-        return  this.$message.error("请输入地图位置")
+      if (this.form.parameterName == "") {
+        return this.$message.error("请输入参数名称");
       }
-      this.form.operatorId="1"
-      let res = await this.$http.post(this.$api.areaform, this.form);
+      if (this.form.parameterValue == "") {
+        return this.$message.error("请输入参数数值");
+      }
+      if (this.form.parameterCode == "") {
+        return this.$message.error("请输入参数代码");
+      }
+      this.form.operatorId = "1";
+      let res = await this.$http.post(this.$api.runform, this.form);
       if (res.data.resultCode == "10000") {
-         this.$message.success(res.data.resultMsg);
+        this.$message.success(res.data.resultMsg);
       } else {
         this.$message.error(res.data.resultMsg);
       }
     },
-    define() {
-      if (this.form.position == "") {
-        return this.$message.error("请选择地图位置");
+    reset() {
+      if (this.$route.query.type == "add") {
+        console.log(44422);
+        this.form = {
+          parameterId: "",
+          typeCode: "",
+          parameterName: "",
+          parameterCode: "",
+          parameterValue: "",
+          operatorId: "1",
+          description: "",
+        };
       } else {
-      this.visible = false;
-      }
-    },
-    cancel() {
-      this.visible = false;
-      this.form.position = "";
-    },
-    showdialog() {
-      this.visible = true;
-      this.$nextTick(() => {
-        this.init();
-      });
-    },
-    //地图
-    init() {
-      let _that = this;
-      console.log(this.lng, 222);
-      const map = new AMap.Map("map-container", {
-        zoom: 13,
-        center: _that.lng,
-        viewMode: "3D",
-      });
-      map.plugin(
-        ["AMap.ToolBar", "AMap.MapType", "AMap.Geolocation"],
-        function () {
-          map.addControl(new AMap.ToolBar());
-          map.addControl(
-            new AMap.MapType({ showTraffic: false, showRoad: false })
-          );
-          const geolocation = new AMap.Geolocation({
-            // 是否使用高精度定位，默认：true
-            enableHighAccuracy: true,
-            showButton: true, // 是否显示定位按钮
-            buttonPosition: "LB", // 定位按钮的位置
-            buttonOffset: new AMap.Pixel(10, 20), // 定位按钮距离对应角落的距离
-            showMarker: true, // 是否显示定位点
-            showCircle: false, // 是否显示定位精度圈
-            circleOptions: {
-              // 定位精度圈的样式
-              strokeColor: "#0093FF",
-              noSelect: true,
-              strokeOpacity: 0.5,
-              strokeWeight: 1,
-              fillColor: "#02B0FF",
-              fillOpacity: 0.25,
-            },
-            zoomToAccuracy: true, // 定位成功后是否自动调整地图视野到定位点
-            // 设置定位超时时间，默认：无穷大
-            timeout: 10000,
-          });
-
-          // 把定位插件加入地图实例
-          map.addControl(geolocation);
-
-          // 添加地图全局定位事件
-          AMap.event.addListener(geolocation, "complete", _that.onComplete); //返回定位信息
-          AMap.event.addListener(geolocation, "error", _that.onError); //返回定位出错信息
-          console.log(geolocation, 2222);
-          // 调用定位
-          if (_that.inttype == true) {
-            geolocation.getCurrentPosition();
-          }
-        }
-      );
-      map.on("click", function (params) {
-        console.log(params, 112);
-        if (_that.markertype == true) {
-          map.remove(_that.marker);
-        }
-        _that.form.position = params.lnglat.lng + "," + params.lnglat.lat;
-        _that.marker = new AMap.Marker({
-          position: new AMap.LngLat(params.lnglat.lng, params.lnglat.lat),
-          offset: new AMap.Pixel(-10, -10),
-          icon: "//vdata.amap.com/icons/b18/1/2.png", // 添加 Icon 图标 URL
-        });
-        _that.$message.success(
-          "当前经纬度为" + _that.form.position
-        );
-        map.add(_that.marker);
-        _that.markertype = true;
-      });
-    },
-    getLatLngLocation() {
-      if (this.city == "") {
-        return this.$message.error("请先输入位置名称");
-      }
-      this.inttype = false;
-      let _that = this;
-      let geocoder = new AMap.Geocoder();
-      geocoder.getLocation(_that.city, (status, result) => {
-        if (status === "complete" && result.geocodes.length) {
-          console.log(result);
-          const lnglat = result.geocodes[0].location;
-          _that.lng[1] = lnglat.lat;
-          _that.lng[0] = lnglat.lng;
-          _that.form.position = lnglat.lng + "," + lnglat.lat;
-          this.init();
-        } else {
-          console.log(result);
-        }
-      });
-    },
-    reset(){
-      this.form={
-         areaId: "",
-        areaName: "",
-        levelType: "",
-        position: "",
-        remark: "",
-        parentId: "",
-        parentName: "",
-        operatorId:1
+        this.form.parameterName=""
+        this.form.parameterCode=""
+        this.form.parameterValue=""
+        this.form.description=""
       }
     },
 
@@ -275,12 +165,30 @@ export default {
     onError(e) {
       console.log(e, "onError ");
     },
+    handleChange(value,key) {
+      this.form.typeCode=this.sel_data[key.data.key].comboBoxId
+      console.log( this.form.typeCode,88);
+    },
+    handleBlur() {
+      console.log("blur");
+    },
+    handleFocus() {
+      console.log("focus");
+    },
+    filterOption(input, option) {
+      return (
+        option.componentOptions.children[0].text
+          .toLowerCase()
+          .indexOf(input.toLowerCase()) >= 0
+      );
+    },
   },
 };
 </script>
 <style>
 .edit_item_title {
   width: 315px;
+  height: 100%;
   text-align: right;
   font-size: 14px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;
