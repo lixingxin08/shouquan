@@ -4,34 +4,25 @@
 
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>类型名称:</div>
+        <div class="edit_item_title"><a style="color: #FF0000;">*</a>品牌名称:</div>
      <a-input class='edit_a_input' v-model='typeName' placeholder="平台" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>菜单名称:</div>
+        <div class="edit_item_title"><a style="color: #FF0000;">*</a>品牌代码:</div>
         <a-input class='edit_a_input' v-model='typeCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
 
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>业务类别:</div>
-        <a-select default-value="lucy" style="width: 667px;" @change="handleSelectChange">
-          <a-select-option value="jack">
-            Jack
-          </a-select-option>
-        </a-select>
-        <div class="edit_item_toast">注：数字字典</div>
-      </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">类型描述:</div>
+        <div class="edit_item_title">品牌描述:</div>
         <div style="position: relative;">
           <a-textarea class='edit_a_input' :rows="5" v-model='remark' :maxLength='500' placeholder="请输入描述" @change="onChangeConfig" />
           <div class="edit_number">{{num}}/500</div>
         </div>
       </div>
 
-      <div class="flexrow edit_item_title" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">设备品牌</div>
+      <div class="flexrow edit_item_title" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a style="color: #FF0000;">*</a>设备类型</div>
 
       <a-table :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true' size='small'>
 

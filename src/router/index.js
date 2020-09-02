@@ -13,12 +13,22 @@ const systemmenu = () => import('@/views/base/systemmenu/systemmenu') //系统�
 const addsystemmenu = () => import('@/views/base/systemmenu/addsystem') //系统菜单
 
 const devicetypes = () => import('@/views/deviceconfig/devicetypes/devicetypes') //设备类型
-const adddevicetypes = () => import('@/views/deviceconfig/devicetypes/add/add') //设备类型
-const brand = () => import('@/views/deviceconfig/brand/brand') //设备品牌
-const DeviceModel = () => import('@/views/deviceconfig/DeviceModel/DeviceModel') //设备型号
-const deviceevent = () => import('@/views/deviceconfig/deviceevent/deviceevent') //设备事件
-const devicewarning = () => import('@/views/deviceconfig/devicewarning/devicewarning') //设备警报
+const adddevicetypes = () => import('@/views/deviceconfig/devicetypes/add/add') //设备类型新增/编辑
+const devicetypesatt = () => import('@/views/deviceconfig/devicetypes/att/att') //设备类型属性
 
+const brand = () => import('@/views/deviceconfig/brand/brand') //设备品牌
+const addbrand = () => import('@/views/deviceconfig/brand/add/add') //设备品牌新增/编辑
+
+const DeviceModel = () => import('@/views/deviceconfig/DeviceModel/DeviceModel') //设备型号
+const adddeviceModel = () => import('@/views/deviceconfig/DeviceModel/add/add') //设备型号新增/编辑
+const deviceModelParam = () => import('@/views/deviceconfig/DeviceModel/param/param') //设备型号属性
+const deviceModelAtt = () => import('@/views/deviceconfig/DeviceModel/att/att') //设备型号属性
+
+const deviceevent = () => import('@/views/deviceconfig/deviceevent/deviceevent') //设备事件
+const adddeviceevent = () => import('@/views/deviceconfig/deviceevent/add/add') //设备事件添加/编辑
+
+const devicewarning = () => import('@/views/deviceconfig/devicewarning/devicewarning') //设备警报
+const adddevicewarning = () => import('@/views/deviceconfig/devicewarning/add/add') //设备警报添加/编辑
 
 const customerprofile = () => import('@/views/customer/customerprofile/customerprofile') //客户档案
 const essentialinformation = () => import('@/views/customer/essentialinformation/essentialinformation') //基本信息
@@ -26,28 +36,29 @@ const dpartmentManagement = () => import('@/views/customer/dpartmentManagement/d
 const personnelManagement = () => import('@/views/customer/personnelManagement/personnelManagement') //人员管理
 const project = () => import('@/views/customer/project/project') //项目管理
 
-const wechat= () => import('@/views/message/wechat/wechat') //微信账号
-const email= () => import('@/views/message/email/email') //邮箱账号
-const sms= () => import('@/views/message/sms/sms') //微信账号
+const wechat = () => import('@/views/message/wechat/wechat') //微信账号
+const email = () => import('@/views/message/email/email') //邮箱账号
+const sms = () => import('@/views/message/sms/sms') //微信账号
 
-const template= () => import('@/views/business/template/template') //菜单模板
-const menuauthorization= () => import('@/views/business/menuauthorization/menuauthorization') //菜单授权
-const zoningauthorization= () => import('@/views/business/zoningauthorization/zoningauthorization') //区划授权
-const modelauthorization= () => import('@/views/business/modelauthorization/modelauthorization') //型号授权
-const alertauthorization= () => import('@/views/business/alertauthorization/alertauthorization') //警报授权
-const messageauthorization= () => import('@/views/business/messageauthorization/messageauthorization') //消息授权
+const template = () => import('@/views/business/template/template') //菜单模板
+const menuauthorization = () => import('@/views/business/menuauthorization/menuauthorization') //菜单授权
+const zoningauthorization = () => import('@/views/business/zoningauthorization/zoningauthorization') //区划授权
+const modelauthorization = () => import('@/views/business/modelauthorization/modelauthorization') //型号授权
+const alertauthorization = () => import('@/views/business/alertauthorization/alertauthorization') //警报授权
+const messageauthorization = () => import('@/views/business/messageauthorization/messageauthorization') //消息授权
 
-const CustomerAuthorization= () => import('@/views/MaintenanceAuthorization/CustomerAuthorization/CustomerAuthorization') //客户授权
-const Myclients= () => import('@/views/MaintenanceAuthorization/Myclients/Myclients') //我的客户
+const CustomerAuthorization = () => import(
+  '@/views/MaintenanceAuthorization/CustomerAuthorization/CustomerAuthorization') //客户授权
+const Myclients = () => import('@/views/MaintenanceAuthorization/Myclients/Myclients') //我的客户
 
 
-const SystemRole= () => import('@/views/accountManagement/SystemRole/SystemRole') //系统角色
-const systemAccount= () => import('@/views/accountManagement/systemAccount/systemAccount') //系统帐号
-const CustomerRole= () => import('@/views/accountManagement/CustomerRole/CustomerRole') //客户角色
-const CustomerUser= () => import('@/views/accountManagement/CustomerUser/CustomerUser') //客户帐号
-const MyAccount= () => import('@/views/accountManagement/MyAccount/MyAccount') //我的帐号
+const SystemRole = () => import('@/views/accountManagement/SystemRole/SystemRole') //系统角色
+const systemAccount = () => import('@/views/accountManagement/systemAccount/systemAccount') //系统帐号
+const CustomerRole = () => import('@/views/accountManagement/CustomerRole/CustomerRole') //客户角色
+const CustomerUser = () => import('@/views/accountManagement/CustomerUser/CustomerUser') //客户帐号
+const MyAccount = () => import('@/views/accountManagement/MyAccount/MyAccount') //我的帐号
 
-const LogManagement= () => import('@/views/LogManagement/LogManagement') //日志管理
+const LogManagement = () => import('@/views/LogManagement/LogManagement') //日志管理
 
 
 const error_404 = () => import('@/components/error_page/404.vue')
@@ -55,12 +66,11 @@ const error_403 = () => import('@/components/error_page/403.vue')
 const error_500 = () => import('@/components/error_page/500.vue')
 Vue.use(Router)
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: '',
       redirect: '/administrativedivision'
-  },
-  
+    },
+
     {
       path: '/home',
       name: 'home',
@@ -69,8 +79,7 @@ export default new Router({
         title: '首页'
       },
       component: home,
-      children: [
-        {
+      children: [{
           path: '/administrativedivision',
           name: 'administrativedivision',
           meta: {
@@ -81,7 +90,7 @@ export default new Router({
         {
           path: '/addadministrativedivision',
           name: 'administrativedivision',
-          component:addadministrativedivision,
+          component: addadministrativedivision,
           meta: {
             title: '行政区划'
           },
@@ -89,7 +98,7 @@ export default new Router({
         {
           path: '/editadministrativedivision',
           name: 'administrativedivision',
-          component:addadministrativedivision,
+          component: addadministrativedivision,
           meta: {
             title: '行政区划'
           },
@@ -110,6 +119,7 @@ export default new Router({
           },
           component: adddictionary
         },
+
         {
           path: '/RunParameters',
           name: 'RunParameters',
@@ -142,14 +152,22 @@ export default new Router({
           },
           component: devicetypes
         },
-		{
-		  path: '/adddevicetypes',
-		  name: 'devicetypes',
-		  meta: {
-		    title: '添加设备类型'
-		  },
-		  component: adddevicetypes
-		},
+        {
+          path: '/adddevicetypes',
+          name: 'devicetypes',
+          meta: {
+            title: '设备类型'
+          },
+          component: adddevicetypes
+        },
+        {
+          path: '/devicetypesatt',
+          name: 'devicetypes',
+          meta: {
+            title: '设备类型'
+          },
+          component: devicetypesatt
+        },
         {
           path: '/brand',
           name: 'brand',
@@ -157,6 +175,14 @@ export default new Router({
             title: '设备品牌'
           },
           component: brand
+        },
+        {
+          path: '/addbrand',
+          name: 'brand',
+          meta: {
+            title: '设备品牌'
+          },
+          component: addbrand
         },
         {
           path: '/DeviceModel',
@@ -167,6 +193,31 @@ export default new Router({
           component: DeviceModel
         },
         {
+          path: '/adddeviceModel',
+          name: 'DeviceModel',
+          meta: {
+            title: '设备型号'
+          },
+          component: adddeviceModel
+        },
+        {
+          path: '/deviceModelParam',
+          name: 'DeviceModel',
+          meta: {
+            title: '设备型号'
+          },
+          component: deviceModelParam
+        },
+        {
+          path: '/deviceModelAtt',
+          name: 'DeviceModel',
+          meta: {
+            title: '设备型号'
+          },
+          component: deviceModelAtt
+        },
+
+        {
           path: '/deviceevent',
           name: 'deviceevent',
           meta: {
@@ -175,12 +226,29 @@ export default new Router({
           component: deviceevent
         },
         {
+          path: '/adddeviceevent',
+          name: 'deviceevent',
+          meta: {
+            title: '设备事件'
+          },
+          component: adddeviceevent
+        },
+        {
           path: '/devicewarning',
           name: 'devicewarning',
           meta: {
             title: '设备警报'
           },
           component: devicewarning
+        },
+        
+        {
+          path: '/adddevicewarning',
+          name: 'devicewarning',
+          meta: {
+            title: '设备警报'
+          },
+          component: adddevicewarning
         },
         {
           path: '/customerprofile',

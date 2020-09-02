@@ -9,7 +9,7 @@
           Jack
         </a-select-option>
       </a-select>
-      <a-button type="primary" v-model='keyword' class="title_btn" @click='getMenuData'>查询</a-button>
+      <a-button type="primary" v-model='keyword' class="title_btn" @click='getDeviceData'>查询</a-button>
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div style="width: 100%;height: 1px;background: #cccccc;margin: 20px auto;"></div>
@@ -29,13 +29,13 @@
       </template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
-            <a href="#" style='font-size: 12px;' @click="editDictionary(record)">编辑</a>
+          <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>
           <div class="item-line"></div>
           <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
           <div class="item-line"></div>
-          <a href="#" style='font-size: 12px;' @click="editDictionary(record)">属性</a>
+          <a href="#" style='font-size: 12px;' @click="deviceAtt(record)">属性</a>
         </div>
       </template>
     </a-table>
@@ -66,11 +66,38 @@
         this.pageIndex = pagination.current
         this.getDeviceData()
       },
-      handleSelectChange(e){},
+      handleSelectChange(e) {},
       getDeviceData() {},
-      add() {
-        this.$router.push()
-      }
+      confirm(){//确定
+
+      },
+      cleanKeyWord(){
+
+      },
+      add() {//新增
+        this.$router.push({
+          path: '/adddevicetypes',
+          query: {
+            add: true
+          }
+        });
+      },
+      editDevice(){
+        this.$router.push({
+          path: '/adddevicetypes',
+          query: {
+            add: false
+          }
+        });
+      },
+      deviceAtt(){
+        this.$router.push({
+          path: '/devicetypesatt',
+          query: {
+            add: true
+          }
+        });
+      },
     }
   }
 </script>

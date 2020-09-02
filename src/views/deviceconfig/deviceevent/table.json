@@ -9,38 +9,30 @@
           "customRender": "index"
         }
       }, {
-        "title": "类型名称",
+        "title": "事件名称",
         "align": "center",
         "dataIndex": "menuName",
         "ellipsis": true
       },
       {
-        "title": "类型代码",
+        "title": "事件代码",
         "align": "center",
         "dataIndex": "menuTypeName",
         "ellipsis": true
       },
       {
-        "title": "业务类别",
+        "title": "事件类型",
         "align": "center",
         "dataIndex": "parentName",
         "ellipsis": true
       },
       {
-        "title": "品牌数量",
+        "title": "关联警报数",
         "align": "center",
         "dataIndex": "parentId",
         "ellipsis": true
       },
-      {
-        "title": "型号数量",
-        "align": "center",
-        "dataIndex": "authFlag",
-        "ellipsis": true,
-        "scopedSlots": {
-          "customRender": "authFlag"
-        }
-      },
+    
       {
         "title": "操作",
         "align": "center",

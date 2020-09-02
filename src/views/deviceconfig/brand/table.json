@@ -9,37 +9,29 @@
           "customRender": "index"
         }
       }, {
-        "title": "类型名称",
+        "title": "品牌名称",
         "align": "center",
         "dataIndex": "menuName",
         "ellipsis": true
       },
       {
-        "title": "类型代码",
+        "title": "品牌代码",
         "align": "center",
         "dataIndex": "menuTypeName",
         "ellipsis": true
       },
       {
-        "title": "业务类别",
+        "title": "设备类型数量",
         "align": "center",
         "dataIndex": "parentName",
         "ellipsis": true
       },
+
       {
-        "title": "品牌数量",
+        "title": "设备型号数量",
         "align": "center",
-        "dataIndex": "parentId",
+        "dataIndex": "parentName",
         "ellipsis": true
-      },
-      {
-        "title": "型号数量",
-        "align": "center",
-        "dataIndex": "authFlag",
-        "ellipsis": true,
-        "scopedSlots": {
-          "customRender": "authFlag"
-        }
       },
       {
         "title": "操作",
@@ -55,11 +47,11 @@
         "scopedSlots": {
           "customRender": "index2"
         },
-          "width": "3%",
+          "width": "4%",
             "align": "center"
       },
       {
-        "title": "属性名称",
+        "title": "类型名称",
         "dataIndex": "name",
         "width": "10%",
         "align": "center",
@@ -68,30 +60,12 @@
         }
       },
       {
-        "title": "属性代码",
+        "title": "类型代码",
         "dataIndex": "code",
         "width": "10%",
         "align": "center",
         "scopedSlots": {
           "customRender": "code"
-        }
-      },
-      {
-        "title": "属性描述",
-        "dataIndex": "remark",
-        "width": "40%",
-        "align": "center",
- "scopedSlots": {
-          "customRender": "remark"
-        }
-      },
-      {
-        "title": "操作",
-        "dataIndex": "operation",
-        "width": "15%",
-        "align": "center",
-        "scopedSlots": {
-          "customRender": "operation"
         }
       }
     ]

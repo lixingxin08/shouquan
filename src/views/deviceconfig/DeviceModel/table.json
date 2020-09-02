@@ -1,0 +1,142 @@
+{
+  "data": {
+    "dictionaryColumns": [{
+        "title": "序号",
+        "width": "80px",
+        "align": "center",
+        "ellipsis": true,
+        "scopedSlots": {
+          "customRender": "index"
+        }
+      }, {
+        "title": "型号名称",
+        "align": "center",
+        "dataIndex": "menuName",
+        "ellipsis": true
+      },
+      {
+        "title": "型号代码",
+        "align": "center",
+        "dataIndex": "menuTypeName",
+        "ellipsis": true
+      },
+      {
+        "title": "设备品牌",
+        "align": "center",
+        "dataIndex": "parentName2",
+        "ellipsis": true
+      },
+
+      {
+        "title": "设备类型",
+        "align": "center",
+        "dataIndex": "parentName3",
+        "ellipsis": true
+      },
+      {
+        "title": "业务类型",
+        "align": "center",
+        "dataIndex": "parentNam5",
+        "ellipsis": true
+      },
+      {
+        "title": "关联警报数",
+        "align": "center",
+        "dataIndex": "parentName6",
+        "ellipsis": true
+      },
+      {
+        "title": "授权次数",
+        "align": "center",
+        "dataIndex": "parentNam7e",
+        "ellipsis": true
+      },
+      {
+        "title": "操作",
+        "align": "center",
+        "width": "320px",
+        "scopedSlots": {
+          "customRender": "operation"
+        }
+      }
+    ],
+
+    "add": [{
+        "title": "序号",
+        "scopedSlots": {
+          "customRender": "index"
+        },
+        "width": "4%",
+        "align": "center"
+      },
+      {
+        "title": "警报名称",
+        "dataIndex": "name",
+        "width": "10%",
+        "align": "center"
+
+      },
+      {
+        "title": "警报代码",
+        "dataIndex": "code",
+        "width": "10%",
+        "align": "center"
+
+      },
+      {
+        "title": "警报类型",
+        "dataIndex": "code",
+        "width": "10%",
+        "align": "center"
+
+      }
+    ],
+    "param": [{
+        "title": "序号",
+        "scopedSlots": {
+          "customRender": "index"
+        },
+        "width": "4%",
+        "align": "center"
+      },
+      {
+        "title": "参数名称",
+        "dataIndex": "name",
+        "width": "10%",
+        "align": "center"
+
+      },
+      {
+        "title": "参数代码",
+        "dataIndex": "code",
+        "width": "10%",
+        "align": "center"
+
+      },
+      {
+        "title": "参数数值",
+        "dataIndex": "code",
+        "width": "10%",
+        "align": "center"
+
+      },
+
+      {
+        "title": "参数描述",
+        "dataIndex": "code",
+        "width": "10%",
+        "align": "center"
+
+      },
+      
+      {
+        "title": "操作",
+        "align": "center",
+        "width": "320px",
+        "scopedSlots": {
+          "customRender": "operation"
+        }
+      }
+    ]
+  }
+}

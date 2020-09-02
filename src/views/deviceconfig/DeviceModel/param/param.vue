@@ -1,20 +1,30 @@
 <template>
   <div class="content2">
-    <div class="flexrow flexac">
-      <div class='title_tx'>事件名称/代码:</div>
-      <a-input style='width: 200px;' placeholder="请输入名称/代码" />
-      <div class='title_tx' style="margin-left: 20px;">事件类别:</div>
-      <a-select default-value="lucy" style="width: 200px;" @change="handleSelectChange">
-        <a-select-option value="jack">
-          Jack
-        </a-select-option>
-      </a-select>
-      <a-button type="primary" v-model='keyword' class="title_btn" @click='getDeviceData'>查询</a-button>
-      <a-button @click='cleanKeyWord'>清除</a-button>
+    <div class="flexrow flexac" style="margin-bottom: 20px;">
+      <div class='title_tx'>业务类别:</div>
+      <div class="flexrow flexac flexsb title_item">
+        类别1
+       <a-icon type="down" />
+      </div>
+      <div class='title_tx'>设备类型:</div>
+      <div class="flexrow flexac flexsb title_item">
+        类别1
+       <a-icon type="down" />
+      </div>
+      <div class='title_tx'>设备品牌:</div>
+      <div class="flexrow flexac flexsb title_item">
+        类别1
+       <a-icon type="down" />
+      </div>
+      <div class='title_tx'>型号名称:</div>
+      <div class="flexrow flexac flexsb title_item">
+        类别1
+       <a-icon type="down" />
+      </div>
     </div>
-    <div style="width: 100%;height: 1px;margin: 10px auto;"></div>
+
     <div class="flexrow flexjc flexac addbtn" @click="add">
-      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
+      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增运行参数
     </div>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
@@ -37,16 +47,20 @@
         </div>
       </template>
     </a-table>
+    <div class="flexrow flexjc" style="margin-top: 40px;margin-bottom: 100px;">
+      <a-button>保存</a-button>
+      <a-button type="primary" style="margin-left: 20px;">重置</a-button>
+    </div>
   </div>
 </template>
 <script>
-  import tableTitleData from "./table.json";
+  import tableTitleData from "../table.json";
   const plainOptions = ['页签', '按钮'];
   export default {
     data() {
       return {
         keyword: '',
-        dictionaryColumns: tableTitleData.data.dictionaryColumns,
+        dictionaryColumns: tableTitleData.data.param,
         deviceList: [{}], //字典数据
         pagination: {
           pageSize: 20, // 默认每页显示数量
@@ -66,36 +80,46 @@
       },
       handleSelectChange(e) {},
       getDeviceData() {},
-      confirm(){//确定
+      confirm() { //确定
 
       },
-      cleanKeyWord(){
+      cleanKeyWord() {
 
       },
-      add() {//新增
+
+      add() { //新增
         this.$router.push({
-          path: '/adddevicetypes',
+          path: '/adddeviceModel',
           query: {
             add: true
           }
         });
       },
-      editDevice(){
+      paramDevice() { //運行參數
         this.$router.push({
-          path: '/adddeviceevent',
+          path: '/deviceModelParam',
           query: {
             add: false
           }
         });
       },
-      deviceAtt(){
+      deviceInfo() { //屬性值
         this.$router.push({
-          path: '/adddeviceevent',
+          path: '/deviceModelAtt',
           query: {
-            add: true
+            add: false
           }
         });
       },
+      editDevice() { //編輯
+        this.$router.push({
+          path: '/adddeviceModel',
+          query: {
+            add: false
+          }
+        });
+      },
+
     }
   }
 </script>
@@ -106,7 +130,8 @@
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
     text-align: left;
-    margin-right: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
     color: #333333;
   }
 
@@ -121,7 +146,7 @@
     font-weight: 400;
     text-align: left;
     color: #ffffff;
-    width: 80px;
+    width: 120px;
     margin-bottom: 20px;
     height: 36px;
     background: #1890ff;
@@ -135,5 +160,17 @@
     background-color: #e5e5e5;
     margin-left: 10px;
     margin-right: 10px;
+  }
+  .title_item{
+    background: #f5f5f5;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 12px;
+    width: 200px;
+    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #999999;
   }
 </style>
