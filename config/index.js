@@ -15,7 +15,7 @@ module.exports = {
 
         // target: "http://192.168.3.171:8091/authorization",// 代理接口
 
-        target: "http://192.168.3.38:8091/authorization",// 代理接口
+        target: "http://192.168.3.171:8091/authorization",// 代理接口
         changeOrigin: true,//是否跨域
         pathRewrite: {//重写路径
           "^/api": ''//代理路径

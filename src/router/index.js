@@ -13,6 +13,7 @@ const systemmenu = () => import('@/views/base/systemmenu/systemmenu') //系统�
 const addsystemmenu = () => import('@/views/base/systemmenu/addsystem') //系统菜单
 
 const devicetypes = () => import('@/views/deviceconfig/devicetypes/devicetypes') //设备类型
+const adddevicetypes = () => import('@/views/deviceconfig/devicetypes/add/add') //设备类型
 const brand = () => import('@/views/deviceconfig/brand/brand') //设备品牌
 const DeviceModel = () => import('@/views/deviceconfig/DeviceModel/DeviceModel') //设备型号
 const deviceevent = () => import('@/views/deviceconfig/deviceevent/deviceevent') //设备事件
@@ -141,6 +142,14 @@ export default new Router({
           },
           component: devicetypes
         },
+		{
+		  path: '/adddevicetypes',
+		  name: 'devicetypes',
+		  meta: {
+		    title: '添加设备类型'
+		  },
+		  component: adddevicetypes
+		},
         {
           path: '/brand',
           name: 'brand',
