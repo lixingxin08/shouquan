@@ -21,7 +21,7 @@
     methods:{
       confirm(){
         //  this.isremove()
-        this.$emit("confirm")    
+        this.$emit("confirm")
       },
       cancel(){
          this.$emit("cancle")
@@ -38,7 +38,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border: 1px solid #000;
-    margin-top: 330px;
     border-radius: 8px;
     background-color: #fff;
     z-index: 2;

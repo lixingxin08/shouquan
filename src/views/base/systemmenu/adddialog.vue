@@ -18,7 +18,7 @@
       <div class="flexrow flexac item">
         <a style="color: #FFFFFF;">*</a>
         <div class="item-title">是否默认：</div>
-        <a-switch></a-switch>
+        <a-switch :default-checked='defaultFlag' @change="onChange"></a-switch>
       </div>
       <a-button type='primary' style='margin-top: 120px;margin-bottom: 30px;' @click='submit'>确定</a-button>
     </div>
@@ -31,22 +31,30 @@
       return {
         autoName: "", //名称
         autoCode: '', //代码
-        autoDescribe: '' //描述
+        defaultFlag: false //描述
       }
     },
     methods: {
+       onChange(checked) {
+         
+          this.defaultFlag=checked
+          },
       submit() {
-        if (!this.autoCode) {
-          this.$message.warning('菜单不能为空');
-          return
-        }
         if (!this.autoName) {
-          this.$message.warning('菜单字典不能为空');
+          this.$message.warning('接口名称不能为空');
           return
         }
-        let param = {
-
+        if (!this.autoCode) {
+          this.$message.warning('URL地址不能为空');
+          return
         }
+
+        let param = {
+          actionName: this.autoName,
+          linkURL: this.autoCode,
+          defaultFlag: this.defaultFlag
+        }
+        this.$emit('callback', param)
       },
       closedialog() {
         this.$emit('close')

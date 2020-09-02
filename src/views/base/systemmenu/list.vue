@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div  class='flexrow flexac flexsb' style="margin-bottom: 20px;">
+    <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
       <div class="flexrow flexac">
         <div class='title_tx'>菜单名称:</div>
-        <a-input placeholder="请输入菜单名称" />
+        <a-input maxLenght='50' placeholder="请输入菜单名称" />
 
         <a-button type="primary" v-model='keyword' class="title_btn" @click='getMenuData'>查询</a-button>
         <a-button @click='cleanKeyWord'>清除</a-button>
@@ -23,53 +23,62 @@
       </template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
-          <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm">
-            <a href="#" style='color: #FF0000;font-size: 12px;' @click='deletMenu(record)'>删除</a>
-          </a-popconfirm>
+
+          <a href="#" style='color: #FF0000;font-size: 12px;' @click='cancel'>删除</a>
+
           <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 10px;margin-right: 10px;"></div>
           <a href="#" style='font-size: 12px;' @click="editDictionary(record)">编辑</a>
         </div>
       </template>
     </a-table>
+    <is-delete-dialog v-if="isShowDelete" @confirm='confirm' @cancle='cancel'></is-delete-dialog>
   </div>
 </template>
 
 <script>
   import tableTitleData from "./table.json";
+  import isDeleteDialog from '../../../components/delete_confir/delete.vue'
   export default {
-
+    components: {
+      isDeleteDialog
+    },
     data() {
       return {
-        keyword: '',
+        isShowDelete: false,
+        keyword: '', //搜索条件
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         menuList: [], //字典数据
         pagination: {
-          pageSize: 20, // 默认每页显示数量
-          showSizeChanger: true, // 显示可改变每页数量
-          pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
-          showQuickJumper: true,
+          total: 50, //总页数
+          pageSize: 10, //每页中显示10条数据
+          showSizeChanger: true,
+          current: 1, //当前页
+          page: 1, //几页
+          pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
+          showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
-        pageSize: 20,
-        pageIndex: 1,
+        pageSize: 20, //每页多少条
+        pageIndex: 1, //当前页
         parentItem: '',
+        deleteItem: {}
       }
     },
 
     methods: {
-      handleTableChange(pagination) {
+      handleTableChange(pagination) { //切换页数
         this.pageSize = pagination.pageSize
         this.pageIndex = pagination.current
         this.getMenuData()
       },
-      setMenuItem(val) {
+      setMenuItem(val) { //设置当前的菜单
         this.parentItem = val
         this.getMenuData()
       },
-      cleanKeyWord() {
+      cleanKeyWord() { //清除搜索条件keyword
         this.keyword = ''
         this.getMenuData()
       },
-      async getMenuData() {
+      async getMenuData() { //获取菜单数据
         let param = {
           keyword: this.keyword,
           parentId: this.parentItem.id,
@@ -84,20 +93,18 @@
           this.menuList = []
         }
       },
-      add() {
-        console.log(this.parentItem)
-        this.$router.push({
-          path: '/addsystem',
-          query: {
-            add: true,
-            id: this.parentItem.id
-          }
-        });
-      },
-      confirm() {
 
+      confirm() {
+        this.deletMenu(this.deleteItem);
       },
-     async deletMenu(item){
+      cancel() {
+        this.isShowDelete = !this.isShowDelete
+      },
+      showDelete(item) {
+        this.deleteItem = item
+        this.isShowDelete = !this.isShowDelete
+      },
+      async deletMenu(item) {
         let param = {
           menuId: item.id,
         };
@@ -105,8 +112,9 @@
         console.log(res)
         if (res.data.resultCode == "10000") {
           this.getMenuData()
-           this.$message.success(res.data.resultMsg)
-        }else{
+          this.isShowDelete = !this.isShowDelete
+          this.$message.success(res.data.resultMsg)
+        } else {
           this.$message.error(res.data.resultMsg)
         }
       },
@@ -116,10 +124,22 @@
           path: '/addsystem',
           query: {
             add: false,
+            grade:this.parentItem.levelType+1,
             id: item.menuId
           }
         });
-      }
+      },
+      add() { //新增
+        this.$router.push({
+          path: '/addsystem',
+          query: {
+            add: true,
+            grade:this.parentItem.levelType+1,
+            name: this.parentItem.name,
+            id: this.parentItem.id,
+          }
+        });
+      },
     }
   }
 </script>

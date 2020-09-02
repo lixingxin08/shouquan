@@ -39,7 +39,7 @@
       <div class="flexrow edit_item_title" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">数值列表</div>
 
       <a-table :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true' size='small'>
-        <template v-for="col in ['numName', 'numCode', 'numRemark']" :slot="col" slot-scope="text, record, index">
+        <template v-for="col in ['className', 'classCode', 'remark']" :slot="col" slot-scope="text, record, index">
           <div :key="col">
             <a-input style="margin: -5px 0;border: 0px;" :value="text" @change="e => handleChange(e.target.value, index, col)" />
           </div>
@@ -47,8 +47,8 @@
         <template slot="operation" slot-scope="text, record, index">
           <div class="editable-row-operations">
             <span>
-              <a v-if='record.edit&&record.numCode&&record.numName' @click="() => save(index)">保存</a>
-              <a-popconfirm v-if='record.id' title="确定删除数值吗?" @confirm="() => cancel(record)">
+              <a v-if='record.edit&&record.className&&record.classCode' @click="() => save(index)">保存</a>
+              <a-popconfirm v-if='record.dictionaryId' title="确定删除数值吗?" @confirm="() => cancel(record)">
                 <a style="color: ff0000;">删除</a>
               </a-popconfirm>
             </span>
@@ -105,6 +105,7 @@
           dictionaryId: dictionaryId //字典id
         }
         let res = await this.$http.post(this.$api.dictionarydetail, param);
+        console.log(res)
         if (res.data.resultCode == "10000") { //请求成功
           this.cacheData = res.data.data
           this.setShowData();
@@ -228,9 +229,10 @@
     width: 667px;
     text-align: left;
     display: flex;
+
     padding-left: 10px;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: flex-start;
     height: 32px;
   }
 
