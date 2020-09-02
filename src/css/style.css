@@ -169,15 +169,13 @@
 .ispointer {
   cursor: pointer;
 }
-<<<<<<< HEAD
 .text_s{
     text-align: start;
-=======
+}
 .content2{
   display: flex;
   flex-direction: column;
   background-color: #FFFFFF;
 justify-content: flex-start;
 	padding: 20px;
->>>>>>> 9fd30fb4b9bbc9c239ca78948498e7f4424e4cf9
 }

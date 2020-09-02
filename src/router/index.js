@@ -36,15 +36,9 @@ const dpartmentManagement = () => import('@/views/customer/dpartmentManagement/d
 const personnelManagement = () => import('@/views/customer/personnelManagement/personnelManagement') //人员管理
 const project = () => import('@/views/customer/project/project') //项目管理
 
-<<<<<<< HEAD
-const wechat= () => import('@/views/message/wechat/wechat') //微信账号
-const email= () => import('@/views/message/email/email') //邮箱账号
-const sms= () => import('@/views/message/sms/sms') //短信帐号
-=======
 const wechat = () => import('@/views/message/wechat/wechat') //微信账号
 const email = () => import('@/views/message/email/email') //邮箱账号
 const sms = () => import('@/views/message/sms/sms') //微信账号
->>>>>>> 9fd30fb4b9bbc9c239ca78948498e7f4424e4cf9
 
 const template = () => import('@/views/business/template/template') //菜单模板
 const menuauthorization = () => import('@/views/business/menuauthorization/menuauthorization') //菜单授权
@@ -52,9 +46,7 @@ const zoningauthorization = () => import('@/views/business/zoningauthorization/z
 const modelauthorization = () => import('@/views/business/modelauthorization/modelauthorization') //型号授权
 const alertauthorization = () => import('@/views/business/alertauthorization/alertauthorization') //警报授权
 const messageauthorization = () => import('@/views/business/messageauthorization/messageauthorization') //消息授权
-
-const CustomerAuthorization = () => import(
-  '@/views/MaintenanceAuthorization/CustomerAuthorization/CustomerAuthorization') //客户授权
+const CustomerAuthorization = () => import('@/views/MaintenanceAuthorization/CustomerAuthorization/CustomerAuthorization') //客户授权
 const Myclients = () => import('@/views/MaintenanceAuthorization/Myclients/Myclients') //我的客户
 
 
