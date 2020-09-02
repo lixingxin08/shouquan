@@ -1,0 +1,73 @@
+{
+  "data": {
+    "dictionaryColumns": [{
+        "title": "序号",
+        "width": "80px",
+        "align": "center",
+        "ellipsis": true,
+        "scopedSlots": {
+          "customRender": "index"
+        }
+      }, {
+        "title": "品牌名称",
+        "align": "center",
+        "dataIndex": "menuName",
+        "ellipsis": true
+      },
+      {
+        "title": "品牌代码",
+        "align": "center",
+        "dataIndex": "menuTypeName",
+        "ellipsis": true
+      },
+      {
+        "title": "设备类型数量",
+        "align": "center",
+        "dataIndex": "parentName",
+        "ellipsis": true
+      },
+
+      {
+        "title": "设备型号数量",
+        "align": "center",
+        "dataIndex": "parentName",
+        "ellipsis": true
+      },
+      {
+        "title": "操作",
+        "align": "center",
+        "width": "160px",
+        "scopedSlots": {
+          "customRender": "operation"
+        }
+      }
+    ],
+    "adddictionaryColumns": [{
+        "title": "序号",
+        "scopedSlots": {
+          "customRender": "index2"
+        },
+          "width": "4%",
+            "align": "center"
+      },
+      {
+        "title": "类型名称",
+        "dataIndex": "name",
+        "width": "10%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "name"
+        }
+      },
+      {
+        "title": "类型代码",
+        "dataIndex": "code",
+        "width": "10%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "code"
+        }
+      }
+    ]
+  }
+}
