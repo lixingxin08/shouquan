@@ -13,7 +13,7 @@
           </div>
           <div class="btn_blue btn2" @click="toadd('add')">新增</div>
           <div class="table" v-if="tabletype">
-            <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination">
+            <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination" @change="handleTableChange" >
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
                 <div class="col_red ispointer" v-if="childTotal==0" @click="showdialog(areaName)">
@@ -134,6 +134,7 @@
         },
         issearchdata: "",
         filterdata: [],
+
         areatreeprame: {
           //行政区划树接口参数
           areaId: "",
@@ -147,6 +148,10 @@
           parentId: "",
           remark: "",
         },
+        removeparam:{
+          areaName:"",
+          areaId:""
+        }
       };
     },
     created() {
@@ -209,20 +214,14 @@
       },
       //行政区划删除接口
       async getarearemove() {
-        let prame = {
-          areaId: "string",
-          keyword: "string",
-          latitude: 0,
-          list: [{}],
-          longitude: 0,
-          pageIndex: 0,
-          pageSize: 0,
-          parentId: "string",
-          remark: "string",
-          searchIndex: 0,
-        };
-        let res = await this.$http.post(this.$api.arearemove, prame);
-        console.log(res);
+        let res = await this.$http.post(this.$api.arearemove, this.removeparam);
+            if (res.data.resultCode == "10000") {
+          this.$message.success(res.data.resultMsg);
+          this.getareaform()
+           this.visible = false;         
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
       },
       confirm() {
         this.visible = false;
@@ -313,6 +312,8 @@
       //查询
       tosearch() {
         this.isselectdata.name = this.inp_data;
+             this.pagination.page = 1;
+        this.pagination.pageSize = 10;
         this.getareapage();
       },
       //清除
@@ -322,14 +323,18 @@
         // this.getareapage();
       },
       //弹窗
-      showdialog() {
+      showdialog(val) {
+        console.log(val,221212);
+        this.removeparam.areaName=val.areaName
+        this.removeparam.areaId=val.areaId
         this.visible = true;
       },
       cancel() {
         this.visible = false;
       },
       confirm() {
-        this.visible = false;
+        this.getarearemove()
+       
       },
       handleCancel(e) {
         console.log("Clicked cancel button");
@@ -337,10 +342,9 @@
       },
       //分页
       handleTableChange(pagination) {
-        this.pagination.current = pagination.current;
+        this.pagination.page = pagination.current;
         this.pagination.pageSize = pagination.pageSize;
-        this.queryParam.page = pagination.current;
-        this.queryParam.size = pagination.pageSize;
+        this.getareapage()
       },
     },
   };

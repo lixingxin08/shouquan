@@ -20,12 +20,13 @@
   export default{
     methods:{
       confirm(){
-        this.$emit("confirm")
+        //  this.isremove()
+        this.$emit("confirm")    
       },
       cancel(){
          this.$emit("cancle")
       },
-    }
+    },
   }
 </script>
 
