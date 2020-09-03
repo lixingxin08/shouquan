@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div v-if="!isEdit" class='flexrow flexac flexsb' style="margin-bottom: 20px;">
+  <div class="content2">
+    <div  class='flexrow flexac flexsb' style="margin-bottom: 20px;">
       <div class="flexrow flexac">
         <div class='title_tx'>字典名称:</div>
         <a-input placeholder="请输入字典名称" v-model="dicName" />
@@ -10,8 +10,9 @@
       </div>
       <a-button type="primary" @click="add">新增</a-button>
     </div>
-    <a-table v-if="!isEdit" :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="dictonaryList" bordered
+    <a-table  :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="dictonaryList" bordered
       size="small" :pagination="pagination" @change="handleTableChange">
+      <template slot="index" slot-scope="text, record,index">{{index+1}}</template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm(record)">
@@ -31,8 +32,7 @@
 
     data() {
       return {
-        isEdit: false,
-        dictionaryColumns: tableTitleData.data.dictionaryColumns,
+        dictionaryColumns: tableTitleData.data.dictionaryColumns,//数值标头
         dictonaryList: [], //字典数据
         dicName: '', //搜索字典名称
         pagination: {
@@ -41,9 +41,9 @@
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
         },
-        parentItem: null,
-        pageSize: 20,
-        pageIndex: 1
+        parentItem: null,//父级信息
+        pageSize: 20,//请求的每页的大小
+        pageIndex: 1//请求第几页
       }
     },
 

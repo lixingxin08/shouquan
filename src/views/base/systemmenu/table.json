@@ -21,17 +21,18 @@
         "ellipsis": true
       },
       {
+        "title": "菜单等级",
+        "align": "center",
+        "dataIndex": "grade",
+        "ellipsis": true
+      },
+      {
         "title": "上级名称",
         "align": "center",
         "dataIndex": "parentName",
         "ellipsis": true
       },
-      {
-        "title": "上级等级",
-        "align": "center",
-        "dataIndex": "parentId",
-        "ellipsis": true
-      },
+
       {
         "title": "授权类型",
         "align": "center",
@@ -46,7 +47,7 @@
         "align": "center",
         "dataIndex": "menuIcon",
         "ellipsis": true
-        
+
       },
       {
         "title": "操作",
@@ -59,29 +60,29 @@
     ],
     "adddictionaryColumns": [{
         "title": "接口名称",
-        "dataIndex": "name",
+        "dataIndex": "actionName",
         "width": "25%",
         "align": "center",
         "scopedSlots": {
-          "customRender": "name"
+          "customRender": "actionName"
         }
       },
       {
         "title": "URL地址",
-        "dataIndex": "code",
+        "dataIndex": "linkURL",
         "width": "25%",
         "align": "center",
         "scopedSlots": {
-          "customRender": "code"
+          "customRender": "linkURL"
         }
       },
       {
         "title": "是否默认",
-        "dataIndex": "operation",
+        "dataIndex": "defaultFlag",
         "width": "25%",
         "align": "center",
         "scopedSlots": {
-          "customRender": "operation"
+          "customRender": "defaultFlag"
         }
       }
     ]

@@ -3,9 +3,12 @@
     "dictionaryColumns": [{
         "title": "序号",
         "width": "80px",
-         "dataIndex": "dictionaryId",
+         "dataIndex": "index",
         "align": "center",
-        "ellipsis":true
+        "ellipsis":true,
+        "scopedSlots": {
+          "customRender": "index"
+        }
       }, {
         "title": "字典名称",
         "align": "center",
@@ -60,29 +63,29 @@
     ],
     "adddictionaryColumns": [{
         "title": "数值名称",
-        "dataIndex": "numName",
+        "dataIndex": "className",
         "width": "25%",
         "align": "center",
         "scopedSlots": {
-          "customRender": "numName"
+          "customRender": "className"
         }
       },
       {
         "title": "数值代码",
-        "dataIndex": "numCode",
+        "dataIndex": "classCode",
         "width": "25%",
         "align": "center",
         "scopedSlots": {
-          "customRender": "numCode"
+          "customRender": "classCode"
         }
       },
       {
         "title": "数值描述",
-        "dataIndex": "numRemark",
+        "dataIndex": "remark",
         "width": "25%",
         "align": "center",
         "scopedSlots": {
-          "customRender": "numRemark"
+          "customRender": "remark"
         }
       },
       {

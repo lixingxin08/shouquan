@@ -44,9 +44,13 @@
           this.$message.warning('数值名称不能为空');
           return
         }
-        let param = {
-
+        let param={
+          autoCode:this.autoCode,
+          autoName:this.autoName,
+          autoDescribe:this.autoDescribe
         }
+        console.log(param)
+        this.$emit('submitNum',param)
       },
       closedialog() {
         this.$emit('close')

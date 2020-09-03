@@ -61,4 +61,23 @@ export default {
     emailAccountform:`/message/email/account/form`,// 邮箱帐号基础信息表单接口
     emailAccountpage:`/message/email/account/page`,//邮箱帐号基础信息分页查询接口
 
+    devicetypedetail:`/device/type/detail`,//设备类型查询详情接口
+    devicetypeform:`/device/type/form`,//设备类型表单接口)
+    devicetypepage:`/device/type/page`,//设备类型分页查询接口
+    devicetyperemove:`/device/type/remove`,//设备类型删除接口
+    
+    devicebrandsdetail:`/device/brands/detail`,//设备品牌查询详情接口
+    devicebrandsform:`/device/brands/form`,//设备品牌表单接口
+    devicebrandspage:`/device/brands/page`,//设备品牌分页查询接口
+    devicebrandsremove:`/device/brands/remove`,//设备品牌删除接口
+    
+    devicemodeldetail:`/device/model/detail`,//设备型号查询详情接口
+    devicemodelform:`/device/model/form`,//设备型号表单接口
+    devicemodelpage:`/device/model/page`,//设备型号分页查询接口
+    devicemodelremove:`/device/model/remove`,//设备型号删除接口
+    
+    deviceeventdetail:`/device/event/detail`,//设备型号查询详情接口
+    deviceeventform:`/device/event/form`,//设备型号表单接口
+    deviceeventpage:`/device/event/page`,//设备型号分页查询接口
+    deviceeventremove:`/device/event/remove`,//设备型号删除接口
 }
