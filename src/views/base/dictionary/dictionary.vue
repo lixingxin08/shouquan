@@ -3,7 +3,7 @@
     <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
       v-if="showtree"></is-left>
     <div class="flexcolumn" style="width: 100%;padding: 20px;">
-     <is-list v-show="isselectdata" ref="dictionarylist"></is-list>    </div>
+     <is-list v-show="isselectdata" ref="dictionarylist" @refreshtree='getdictionarytree'></is-list>    </div>
   </div>
 </template>
 <script>
@@ -41,7 +41,7 @@
         let prame = {
         };
         let res = await this.$http.post(this.$api.dictionarytree, prame);
-        console.log(res, 11);
+        console.log("-----------",res);
         if (res.data.resultCode == "10000") {
           this.data = res.data.data;
         }
@@ -50,7 +50,7 @@
         console.log(this.treedata)
         this.getselectdata(this.treedata[0])
       },
-     
+
 
       toTree(data) {
         let result = [];
@@ -84,7 +84,7 @@
       },
       getselectdata(val) {
         this.isselectdata = val;
-        if(this.$refs.dictionarylist)
+        if(val)
         this.$refs.dictionarylist.getDictionnaryInfo(val)
       },
     },

@@ -11,40 +11,38 @@
       }, {
         "title": "类型名称",
         "align": "center",
-        "dataIndex": "menuName",
+        "dataIndex": "deviceTypeName",
         "ellipsis": true
       },
       {
         "title": "类型代码",
         "align": "center",
-        "dataIndex": "menuTypeName",
+        "dataIndex": "deviceTypeCode",
         "ellipsis": true
       },
       {
         "title": "业务类别",
         "align": "center",
-        "dataIndex": "parentName",
+        "dataIndex": "serviceTypeName",
         "ellipsis": true
       },
       {
         "title": "品牌数量",
         "align": "center",
-        "dataIndex": "parentId",
+        "dataIndex": "brandTotal",
         "ellipsis": true
       },
       {
         "title": "型号数量",
         "align": "center",
-        "dataIndex": "authFlag",
-        "ellipsis": true,
-        "scopedSlots": {
-          "customRender": "authFlag"
-        }
+        "dataIndex": "modelTotal",
+        "ellipsis": true
+
       },
       {
         "title": "操作",
         "align": "center",
-        "width": "160px",
+        "width": "360px",
         "scopedSlots": {
           "customRender": "operation"
         }
@@ -52,44 +50,64 @@
     ],
     "adddictionaryColumns": [{
         "title": "序号",
+        "width": "80px",
+        "align": "center"
+
+      },
+      {
+        "title": "品牌名称",
+        "dataIndex": "brandName",
+        "align": "center"
+
+      },
+      {
+        "title": "品牌代码",
+        "dataIndex": "brandCode",
+        "align": "center"
+      }
+    ],
+    "attList": [{
+        "title": "序号",
+        "width": "3%",
+        "align": "center",
         "scopedSlots": {
-          "customRender": "index2"
-        },
-          "width": "3%",
-            "align": "center"
+          "customRender": "index"
+        }
       },
       {
         "title": "属性名称",
-        "dataIndex": "name",
-        "width": "10%",
+        "dataIndex": "propertyName",
         "align": "center",
+        "width": "15%",
         "scopedSlots": {
-          "customRender": "name"
+          "customRender": "propertyName"
         }
       },
       {
         "title": "属性代码",
-        "dataIndex": "code",
-        "width": "10%",
+        "dataIndex": "propertyCode",
         "align": "center",
+        "width": "15%",
         "scopedSlots": {
-          "customRender": "code"
+          "customRender": "propertyCode"
         }
       },
+
       {
         "title": "属性描述",
-        "dataIndex": "remark",
-        "width": "40%",
+        "dataIndex": "propertyDesc",
         "align": "center",
- "scopedSlots": {
-          "customRender": "remark"
+        "width": "40%",
+        "scopedSlots": {
+          "customRender": "propertyDesc"
         }
       },
+
       {
         "title": "操作",
-        "dataIndex": "operation",
-        "width": "15%",
+        "dataIndex": "brandCode",
         "align": "center",
+        "width": "25%",
         "scopedSlots": {
           "customRender": "operation"
         }

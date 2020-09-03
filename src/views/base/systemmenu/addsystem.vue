@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <div class="flexrow edit_item_title" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">鉴权接口</div>
+      <div class="flexrow edit_item_title" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a style="color: #FF0000;">*</a>鉴权接口</div>
 
       <a-table :columns="dictionaryColumns" :data-source="authList" :pagination='false' :bordered='true' size='small'>
         <template v-for="col in ['actionName', 'linkURL', 'defaultFlag']" :slot="col" slot-scope="text, record, index">
@@ -53,7 +53,7 @@
           </div>
         </template>
         <template slot="defaultFlag" slot-scope="text, record, index">
-          <a-switch :default-checked='record.defaultFlag' @change="onChangeSwitch(index)"></a-switch>
+          <a-switch :checked='record.defaultFlag==1' @change="onChangeSwitch(index)"></a-switch>
         </template>
       </a-table>
       <div class="flexrow edit_item_title" style="margin-top: 10px;justify-item: flex-start;margin-bottom: 50px;font-size: 16px;">
@@ -134,8 +134,11 @@
         this.showAddDialog = false
       },
       addCallback(item) { //添加鉴权回调
-      console.log(item)
+
         this.authList.push(item)
+        if(item.defaultFlag||this.authList.length==1){
+          this.changeAutoListState(this.authList.length-1)
+        }
         this.closeDialog()
       },
       onChangeConfig(e) { //修改字典描述
@@ -212,18 +215,18 @@
         }
       },
       onChangeSwitch(index) { //switch 接口
-        console.log(index)
-        this.autoIndex = index
+
+        this.changeAutoListState(index)
       },
-      submit() { //提交保存
+      async submit() { //提交保存
         if (!this.menuName) {
           this.$message.warning('菜单名称不能为空');
           return
         }
-        if (!this.imageUrl) {
-          this.$message.warning('菜单图标不能为空');
-          return
-        }
+        // if (!this.imageUrl) {
+        //   this.$message.warning('菜单图标不能为空');
+        //   return
+        // }
         if (this.authList.length <= 0) {
           this.$message.warning('鉴权接口不能为空');
           return
@@ -235,11 +238,33 @@
           menuName: this.menuName,
           menuType: this.menuType,
           authFlag: this.authFlag,
-          menuIcon: '',
-          operatorId: '',
+          menuIcon: '未填',
+          grade:this.grade,
+          operatorId: '5172dadd6d7c404e8ac657f32f81d969',
           authList: this.authList,
           remark: this.remark
         }
+
+        let res = await this.$http.post(this.$api.menuform, param);
+        console.log(param)
+        console.log(res)
+        if (res.data.resultCode == 10000) {
+          this.$message.success(res.data.resultMsg);
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
+        if (this.isAdd == 'false') { //编辑
+          this.getMenuInfo();
+        }
+
+      },
+      changeAutoListState(index) {
+        for (let i = 0; i < this.authList.length; i++) {
+          let item = this.authList[i]
+          item.defaultFlag = (index == i?1:0)
+          this.$set(this.authList, this.authList[i], item)
+        }
+        console.log(this.authList)
       }
     },
   }

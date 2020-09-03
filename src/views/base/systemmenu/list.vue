@@ -3,9 +3,9 @@
     <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
       <div class="flexrow flexac">
         <div class='title_tx'>菜单名称:</div>
-        <a-input maxLenght='50' placeholder="请输入菜单名称" />
+        <a-input maxLenght='50' v-model='keyword' placeholder="请输入菜单名称" />
 
-        <a-button type="primary" v-model='keyword' class="title_btn" @click='getMenuData'>查询</a-button>
+        <a-button type="primary"  class="title_btn" @click='getMenuData'>查询</a-button>
         <a-button @click='cleanKeyWord'>清除</a-button>
       </div>
       <a-button type="primary" @click="add">新增</a-button>
@@ -24,7 +24,7 @@
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
 
-          <a href="#" style='color: #FF0000;font-size: 12px;' @click='cancel'>删除</a>
+          <a href="#" style='color: #FF0000;font-size: 12px;' @click='showDelete(record)'>删除</a>
 
           <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 10px;margin-right: 10px;"></div>
           <a href="#" style='font-size: 12px;' @click="editDictionary(record)">编辑</a>
@@ -79,6 +79,7 @@
         this.getMenuData()
       },
       async getMenuData() { //获取菜单数据
+                this.pagination.total = 0;
         let param = {
           keyword: this.keyword,
           parentId: this.parentItem.id,
@@ -89,6 +90,7 @@
         console.log(res)
         if (res.data.resultCode == "10000") {
           this.menuList = res.data.data.list;
+            this.pagination.total = res.data.data.length;
         } else {
           this.menuList = []
         }
@@ -101,15 +103,15 @@
         this.isShowDelete = !this.isShowDelete
       },
       showDelete(item) {
+        console.log(item)
         this.deleteItem = item
         this.isShowDelete = !this.isShowDelete
       },
-      async deletMenu(item) {
+      async deletMenu(item) {//删除菜单
         let param = {
-          menuId: item.id,
+          menuId: item.menuId,
         };
         let res = await this.$http.post(this.$api.menuremove, param);
-        console.log(res)
         if (res.data.resultCode == "10000") {
           this.getMenuData()
           this.isShowDelete = !this.isShowDelete

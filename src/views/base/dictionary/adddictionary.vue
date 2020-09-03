@@ -85,6 +85,7 @@
         cacheData: {}, //编辑缓存的原始数据
         szList: [], //数值列表
         dictid: '', //页面传的字典id
+
         isAdd: false, //是否是添加/编辑
         showAddDialog: false //是否展示添加dialog
       }
@@ -105,7 +106,7 @@
           dictionaryId: dictionaryId //字典id
         }
         let res = await this.$http.post(this.$api.dictionarydetail, param);
-        console.log(res)
+   console.log(res)
         if (res.data.resultCode == "10000") { //请求成功
           this.cacheData = res.data.data
           this.setShowData();
@@ -126,6 +127,7 @@
         if (this.isAdd == 'true') {
           this.classCode = "";
           this.className = "";
+          
         }
       },
       submit() { //保存
@@ -137,7 +139,7 @@
           this.$message.warning('字典代码不能为空');
           return
         }
-        this.submitHttp(this.isAdd == 'true', this.className, this.classCode, this.remark, 1000)
+        this.submitHttp(this.isAdd == 'true', false,(this.isAdd == 'true' ? '' : this.dictid),this.className, this.classCode, this.remark, 1000)
       },
 
       onChangeConfig(e) { //修改字典描述
@@ -158,17 +160,18 @@
 
       save(index) { //保存数值请求
         let item = this.szList[index]
-        this.submitHttp(true, item.numName, item.numCode, item.numRemark, 2000)
+        console.log(item)
+        this.submitHttp(false,true,item.dictionaryId, item.className, item.classCode, item.remark, 2000)
       },
       addNum(item){//添加数值
-        this.submitHttp(true, item.autoName, item.autoCode, item.autoDescribe, 2000)
+        this.submitHttp(true, true,item.dictionaryId,item.autoName, item.autoCode, item.autoDescribe, 2000)
       },
-      async submitHttp(add, className, classCode, remark, typeCode) {//保存请求
+      async submitHttp(add, num,dictionaryId,className, classCode, remark, typeCode) {//保存请求
 
         let param = {
-          dictionaryId: add ? '' : this.dictid,//新增不传id
-          parentId: this.cacheData.parentId, //父级id
-          parentCode: this.cacheData.parentCode, //父级代码
+          dictionaryId: dictionaryId,//新增不传id
+          parentId: num?this.cacheData.dictionaryId:this.cacheData.parentId, //父级id
+          parentCode: num?this.cacheData.classCode:this.cacheData.parentCode, //父级代码
           className: className, //类型
           classCode: classCode, //字典代码
           remark: remark, //备注
@@ -182,10 +185,9 @@
         } else {
           this.$message.error(res.data.resultMsg);
         }
+        this.showAddDialog=false
         this.getDictionaryInfo(this.dictid);
-        console.log(this.$api.dictionaryform)
-        console.log(param)
-        console.log(res)
+
       },
 
       async cancel(item) { //删除数值行

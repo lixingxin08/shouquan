@@ -4,21 +4,21 @@
       <div class='title_tx'>类型名称/代码:</div>
       <a-input style='width: 200px;' placeholder="请输入名称/代码" />
       <div class='title_tx' style="margin-left: 20px;">设备品牌:</div>
-      <a-select default-value="lucy" style="width: 200px;" @change="handleSelectChange">
-        <a-select-option value="jack">
-          Jack
+      <a-select default-value="全部" style="width: 200px;" @change="brandSelectChange">
+        <a-select-option v-for='(item,index) in brandList' :key='index' :value="item.brandId">
+          {{item.brandName}}
         </a-select-option>
       </a-select>
       <div class='title_tx' style="margin-left: 20px;">设备类型:</div>
-      <a-select default-value="lucy" style="width: 200px;" @change="handleSelectChange">
-        <a-select-option value="jack">
-          Jack
+      <a-select default-value="全部" style="width: 200px;" @change="deviceTypeSelectChange">
+        <a-select-option v-for='(item,index) in typeList' :key='index' :value="item.deviceTypeId">
+          {{item.deviceTypeName}}
         </a-select-option>
       </a-select>
       <div class='title_tx' style="margin-left: 20px;">业务类别:</div>
-      <a-select default-value="lucy" style="width: 200px;" @change="handleSelectChange">
-        <a-select-option value="jack">
-          Jack
+      <a-select default-value="全部" style="width: 200px;" @change="serviceSelectChange">
+        <a-select-option v-for='(item,index) in severList' :key='index' >
+          {{item.comboBoxName}}
         </a-select-option>
       </a-select>
       <a-button type="primary" v-model='keyword' class="title_btn" @click='getDeviceData'>查询</a-button>
@@ -61,9 +61,24 @@
   export default {
     data() {
       return {
-        keyword: '',
+        keyword: '', //搜索条件
+        brandList: [{ //设备品牌
+          brandName: '全部',
+          brandId: ''
+        }],
+        brandSelect: '', //设备品牌选择
+        typeList: [{ //设备类型
+          deviceTypeName: '全部',
+          deviceTypeId: ''
+        }],
+        typeSelect: '', //设备类型选择
+        severList: [{ //业务类别
+          comboBoxId: '',
+          comboBoxName: '全部'
+        }],
+        severSelect: '', //业务类别选择
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
-        deviceList: [{}], //字典数据
+        deviceList: [{}], //设备型号数据
         pagination: {
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
@@ -74,21 +89,68 @@
         pageIndex: 1,
       }
     },
+    created() {
+      this.getBrandList()
+      this.getTypeList()
+      this.getCombobox()
+    },
     methods: {
       handleTableChange(pagination) {
         this.pageSize = pagination.pageSize
         this.pageIndex = pagination.current
         this.getDeviceData()
       },
-      handleSelectChange(e) {},
-      getDeviceData() {},
+
+      getDeviceData() {
+        let param = {
+          pageIndex: this.pageIndex,
+          pageSize: this.pageSize,
+          serviceType: this.severSelect, //业务类别
+          deviceTypeId: this.typeSelect, //设备类型
+          brandId: this.brandSelect, //设备品牌
+          keyword: '' //搜索条件
+        }
+      },
       confirm() { //确定
 
       },
       cleanKeyWord() {
-
+        this.keyword = ''
+        this.getDeviceData()
       },
-
+      async getBrandList() { //获取品牌列表
+        let param = {
+          pageIndex: 1,
+          pageSize: 200,
+          keyword: ''
+        }
+        let res = await this.$http.post(this.$api.devicebrandspage, param)
+        if (res.data.resultCode == 10000) {
+          this.brandList = this.brandList.concat(res.data.data.list)
+        }
+      },
+      async getTypeList() { //获取设备类型列表
+        let param = {
+          keyword: '',
+          serviceType: '',
+          pageIndex: 1,
+          pageSize: 200
+        }
+        let res = await this.$http.post(this.$api.devicetypepage, param)
+        if (res.data.resultCode == 10000) {
+          this.typeList = this.typeList.concat(res.data.data.list)
+        }
+      },
+      async getCombobox() { //获取业务类别
+        let param = {
+          classCode: 'device_service_type'
+        }
+        let res = await this.$http.post(this.$api.dictionarycombobox, param)
+        console.log(res)
+         if (res.data.resultCode == 10000) {
+           this.severList = this.severList.concat(res.data.data.list)
+         }
+      },
       add() { //新增
         this.$router.push({
           path: '/adddeviceModel',
@@ -121,7 +183,15 @@
           }
         });
       },
-
+      serviceSelectChange(e) { //业务类别
+        this.getDeviceData()
+      },
+      deviceTypeSelectChange(e) { //设备类型
+        this.getDeviceData()
+      },
+      brandSelectChange(e) { //品牌类别
+        this.getDeviceData()
+      },
     }
   }
 </script>

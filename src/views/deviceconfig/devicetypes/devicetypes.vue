@@ -2,14 +2,14 @@
   <div class="content2">
     <div class="flexrow flexac">
       <div class='title_tx'>类型名称/代码:</div>
-      <a-input style='width: 200px;' placeholder="请输入名称/代码" />
+      <a-input style='width: 200px;' v-model='keyword' placeholder="请输入名称/代码" />
       <div class='title_tx' style="margin-left: 20px;">业务类别:</div>
-      <a-select default-value="lucy" style="width: 200px;" @change="handleSelectChange">
-        <a-select-option value="jack">
-          Jack
+      <a-select default-value='全部' style="width: 200px;" @change="handleSelectChange">
+        <a-select-option v-for='(item,index) in selectList' :key='index' :value="item.comboBoxId">
+          {{item.comboBoxName}}
         </a-select-option>
       </a-select>
-      <a-button type="primary" v-model='keyword' class="title_btn" @click='getDeviceData'>查询</a-button>
+      <a-button type="primary" class="title_btn" @click='getDeviceData'>查询</a-button>
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div style="width: 100%;height: 1px;background: #cccccc;margin: 20px auto;"></div>
@@ -21,17 +21,12 @@
       <template slot="index" slot-scope="text, record,index">
         {{index+1}}
       </template>
-      <template slot="authFlag" slot-scope="text, record,index">
-        <div v-if="record.authFlag==0">默认拥有类</div>
-        <div v-if="record.authFlag==1">系统配置类</div>
-        <div v-if="record.authFlag==2">客户授权类</div>
-        <div v-if="record.authFlag==2">均可操作类</div>
-      </template>
+
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>
           <div class="item-line"></div>
-          <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm">
+          <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
           <div class="item-line"></div>
@@ -43,14 +38,19 @@
 </template>
 <script>
   import tableTitleData from "./table.json";
-  const plainOptions = ['页签', '按钮'];
   export default {
     data() {
       return {
         keyword: '',
+        selectList: [{
+          comboBoxId: "",
+          comboBoxName: "全部"
+        }], //业务列表下拉列表
+        serviceType: "",
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
-        deviceList: [{}], //字典数据
+        deviceList: [], //设备类型数据
         pagination: {
+
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
@@ -60,41 +60,82 @@
         pageIndex: 1,
       }
     },
+    created() {
+      this.getCombobox()
+      this.getDeviceData()
+    },
     methods: {
       handleTableChange(pagination) {
         this.pageSize = pagination.pageSize
         this.pageIndex = pagination.current
         this.getDeviceData()
       },
-      handleSelectChange(e) {},
-      getDeviceData() {},
-      confirm(){//确定
-
+      handleSelectChange(e) {
+        this.serviceType = e
+        this.getDeviceData()
       },
-      cleanKeyWord(){
-
+      async getDeviceData() {
+        let param = {
+          keyword: this.keyword,
+          serviceType: this.serviceType,
+          pageIndex: this.pageIndex,
+          pageSize: this.pageSize
+        }
+        let res = await this.$http.post(this.$api.devicetypepage, param)
+        if (res.data.resultCode == 10000) {
+          this.deviceList = res.data.data.list
+        } else {
+          this.deviceList = []
+          this.$message.error(res.data.resultMsg);
+        }
       },
-      add() {//新增
+      async confirm(item) { //确定
+        let param = {
+          deviceTypeId: item.deviceTypeId
+        }
+        let res = await this.$http.post(this.$api.devicetyperemove, param);
+        console.log(res)
+        if (res.data.resultCode == 10000) {
+          this.getDeviceData();
+          this.$message.success(res.data.resultMsg);
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
+      },
+      cleanKeyWord() {
+        this.keyword = ''
+        this.getDeviceData()
+      },
+      async getCombobox() {
+        let param = {
+          classCode: 'device_service_type'
+        }
+        let res = await this.$http.post(this.$api.dictionarycombobox, param)
+        for (let i = 0; i < res.data.data.length; i++) {
+          this.selectList.push(res.data.data[i])
+        }
+      },
+      add() { //新增
         this.$router.push({
           path: '/adddevicetypes',
           query: {
-            add: true
+            id: ""
           }
         });
       },
-      editDevice(){
+      editDevice(item) {
         this.$router.push({
           path: '/adddevicetypes',
           query: {
-            add: false
+            id: item.deviceTypeId
           }
         });
       },
-      deviceAtt(){
+      deviceAtt(item) {
         this.$router.push({
           path: '/devicetypesatt',
           query: {
-            add: true
+            id: item.deviceTypeId
           }
         });
       },

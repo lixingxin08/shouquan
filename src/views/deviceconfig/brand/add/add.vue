@@ -5,7 +5,7 @@
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>品牌名称:</div>
-     <a-input class='edit_a_input' v-model='typeName' placeholder="平台" />
+        <a-input class='edit_a_input' v-model='typeName' placeholder="平台" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item">
@@ -22,15 +22,19 @@
         </div>
       </div>
 
-      <div class="flexrow edit_item_title" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a style="color: #FF0000;">*</a>设备类型</div>
+      <div class="flexrow edit_item_title" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
+          style="color: #FF0000;">*</a>设备类型</div>
 
-      <a-table :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true' size='small'>
-
+      <a-table :columns="dictionaryColumns" :data-source="typeList" :pagination='false' :bordered='true' size='small'
+        :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
+        <template slot="index" slot-scope="text, record,index">
+          {{index+1}}
+        </template>
       </a-table>
 
       <div class="flexrow flexjc" style="margin-top: 30px;margin-bottom: 100px;">
-        <a-button type="primary">保存</a-button>
-        <a-button  style="margin-left: 60px;">重置</a-button>
+        <a-button type="primary" @click='submit'>保存</a-button>
+        <a-button style="margin-left: 60px;" @change='reset'>重置</a-button>
       </div>
     </div>
 
@@ -39,118 +43,122 @@
 
 <script>
   import tableTitleData from "../table.json";
-  const plainOptions = ['页签', '按钮'];
 
 
   export default {
 
     data() {
-
       return {
         dictionaryColumns: tableTitleData.data.adddictionaryColumns,
-        typeName:'',
-        typeCode:'',
-        value1: '页签',
+        typeName: '',
+        typeCode: '',
         remark: '', //备注
         num: 0, //描述长度
-        plainOptions,
-        authList: [{
-          name: "1",
-          code: "1111",
-          info: "1111111"
-        }],
-        szList: [],
-        isAdd: false,
-        menuId: '',
-        cacheData: {},
-        showAddDialog:false
+        typeList: [],
+        selectedRowKeys: [],
+        id: '',
       }
     },
     created() {
-      this.menuId = this.$route.query.id
-      this.isAdd = this.$route.query.add
-
-      if (this.menuId) { //编辑
-
-        this.getMenuInfo();
+      this.id = this.$route.query.id
+      if (this.id) { //编辑
+        this.getBrandInfo();
+      } else {
+        this.getTypeList();
       }
     },
     methods: {
-      closeDialog(){
-         this.showAddDialog=false
+      reset() { //重置
+        if (this.id) {
+
+        } else {
+          this.typeName = ''
+          this.typeCode = ''
+          this.remark = ''
+          this.selectedRowKeys = []
+        }
+      },
+      async submit() { //提交设备类型
+        if (!this.typeName) {
+          this.$message.warning('品牌名称不能为空')
+          return
+        }
+        if (!this.typeCode) {
+          this.$message.warning('品牌代码不能为空')
+          return
+        }
+        if (this.selectedRowKeys.length <= 0) {
+          this.$message.warning('请关联设备类型')
+          return
+        }
+        let param = {
+          brandId: this.id == '' ? '' : this.id,
+          brandName: this.typeName,
+          brandCode: this.typeCode,
+          operatorId: '5172dadd6d7c404e8ac657f32f81d969',
+          remark: this.remark,
+          typeIds: this.getTypeListIds()
+        }
+        let res = await this.$http.post(this.$api.devicebrandsform, param)
+        if (res.data.resultCode == 10000) {
+          this.getBrandInfo()
+          this.$message.success(res.data.resultMsg);
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
       },
       onChangeConfig(e) { //修改字典描述
         this.num = this.remark.length
       },
-      async getMenuInfo() {
+      getTypeListIds(){
+        let typelist1 = []
+        for (let i = 0; i < this.selectedRowKeys.length; i++) {
+         typelist1.push(this.typeList[this.selectedRowKeys[i]].deviceTypeId)
+        }
+        return typelist1
+      },
+      async getBrandInfo() { //获取设备类型
         let param = {
-          menuId: this.menuId
+          brandId: this.id
         }
-        let res = await this.$http.post(this.$api.menudetail, param);
+        let res = await this.$http.post(this.$api.devicebrandsdetail, param);
         console.log(res)
-        if (res.data.resultCode == "10000") {
-          this.cacheData = res.data.data
-          this.setShowData();
+        if (res.data.resultCode == 10000) {
+
+          this.typeName = res.data.data.brandName
+          this.typeCode = res.data.data.brandCode
+          this.remark =res.data.data.remark
+          this.typeList = res.data.data.deviceTypeList
+          if (this.typeList.length > 0) {
+            this.selectedRowKeys = []
+            let that = this
+            for (let i = 0; i < this.typeList.length; i++) {
+              if (this.typeList[i].select)
+                this.selectedRowKeys.push(i)
+            }
+          }
+        } else {
+          this.$message.error(res.data.resultMsg);
         }
-      },
-      setShowData() {
-        this.menuName = this.cacheData.menuName
-         this.remark=this.cacheData.remark
-        if (this.isAdd == 'true') {
-          this.menuName = ''
-          this.remark=''
-        }
-      },
-      handleImageChange(info) {
-        if (info.file.status === 'uploading') {
-          this.loading = true;
-          return;
-        }
-        if (info.file.status === 'done') {
-          getBase64(info.file.originFileObj, imageUrl => {
-            this.imageUrl = imageUrl;
-            this.loading = false;
-          });
-        }
-      },
-      beforeUpload(file) {
-        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-        if (!isJpgOrPng) {
-          this.$message.error('You can only upload JPG file!');
-        }
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isLt2M) {
-          this.$message.error('Image must smaller than 2MB!');
-        }
-        return isJpgOrPng && isLt2M;
       },
 
-      addLine() { //添加鉴权接口
-        this.showAddDialog=true
+      onSelectChange(selectedRowKeys) { //选择类型
+        this.selectedRowKeys = selectedRowKeys;
       },
-      onChange1(e) { //菜单类型选择
-        console.log('radio1 checked', e.target.value);
-      },
-      handleSelectChange() { //授权类型下拉选择
-        console.log(`selected ${value}`);
-      },
-      handleChange(value, key, column) {
-        const newData = [...this.szList];
-        const target = newData.filter(item => key === item.key)[0];
-        if (target) {
-          target[column] = value;
-          this.szList = newData;
+      async getTypeList() { //获取设备类型列表
+        let param = {
+          keyword: '',
+          serviceType: '',
+          pageIndex: 1,
+          pageSize: 200
         }
-      },
-      edit(key) {
-        const newData = [...this.szList];
-        const target = newData.filter(item => key === item.key)[0];
-        this.editingKey = key;
-        if (target) {
-          target.editable = true;
-          this.szList = newData;
+        let res = await this.$http.post(this.$api.devicetypepage, param)
+        if (res.data.resultCode == 10000) {
+          this.typeList = res.data.data.list
+        } else {
+          this.typeList = []
         }
-      },
+      }
     },
   }
 </script>

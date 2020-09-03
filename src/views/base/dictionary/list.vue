@@ -1,6 +1,6 @@
 <template>
   <div class="content2">
-    <div  class='flexrow flexac flexsb' style="margin-bottom: 20px;">
+    <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
       <div class="flexrow flexac">
         <div class='title_tx'>字典名称:</div>
         <a-input placeholder="请输入字典名称" v-model="dicName" />
@@ -10,8 +10,8 @@
       </div>
       <a-button type="primary" @click="add">新增</a-button>
     </div>
-    <a-table  :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="dictonaryList" bordered
-      size="small" :pagination="pagination" @change="handleTableChange">
+    <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="dictonaryList" bordered size="small"
+      :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">{{index+1}}</template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
@@ -32,7 +32,7 @@
 
     data() {
       return {
-        dictionaryColumns: tableTitleData.data.dictionaryColumns,//数值标头
+        dictionaryColumns: tableTitleData.data.dictionaryColumns, //数值标头
         dictonaryList: [], //字典数据
         dicName: '', //搜索字典名称
         pagination: {
@@ -41,9 +41,9 @@
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
         },
-        parentItem: null,//父级信息
-        pageSize: 20,//请求的每页的大小
-        pageIndex: 1//请求第几页
+        parentItem: null, //父级信息
+        pageSize: 20, //请求的每页的大小
+        pageIndex: 1 //请求第几页
       }
     },
 
@@ -73,10 +73,11 @@
           pageIndex: this.pageIndex
         };
         let res = await this.$http.post(this.$api.dictionarypage, param);
-        console.log(res)
         if (res.data.resultCode == "10000") {
           this.dictonaryList = res.data.data.list;
-        this.$forceUpdate();
+          this.$forceUpdate();
+        } else {
+          this.dictonaryList = []
         }
       },
       add() {
@@ -99,7 +100,7 @@
         } else {
           this.$message.error(res.data.resultMsg);
         }
-
+        this.$emit('refreshtree')
       },
       editDictionary(item) {
         this.$router.push({
