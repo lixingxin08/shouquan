@@ -147,8 +147,7 @@ export default {
       },
       issearchdata: "",
       removeparam: {
-        areaName: "",
-        areaId: "",
+        parameterId: "",
       },
       istotal: {
         type: 1,
@@ -210,9 +209,10 @@ export default {
         this.$message.error(res.data.resultMsg);
       }
     },
-    //行政区划删除接口
-    async getarearemove() {
-      let res = await this.$http.post(this.$api.arearemove, this.removeparam);
+    //删除接口
+    async getarunremove() {
+      let prame={parameterId:this.removeparam.parameterId}
+      let res = await this.$http.post(this.$api.runremove,prame);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
         this.getareaform();
@@ -240,6 +240,7 @@ export default {
           query: {
             type: val,
             id: id.parameterId,
+            typeName:id.typeName
           },
         });
       }
@@ -260,15 +261,14 @@ export default {
     //弹窗
     showdialog(val) {
       console.log(val, 221212);
-      this.removeparam.areaName = val.areaName;
-      this.removeparam.areaId = val.areaId;
+      this.removeparam.parameterId = val.parameterId;
       this.visible = true;
     },
     cancel() {
       this.visible = false;
     },
     confirm() {
-      this.getarearemove();
+      this.getarunremove();
     },
     handleCancel(e) {
       console.log("Clicked cancel button");

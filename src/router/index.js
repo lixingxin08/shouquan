@@ -33,7 +33,9 @@ const adddevicewarning = () => import('@/views/deviceconfig/devicewarning/add/ad
 const customerprofile = () => import('@/views/customer/customerprofile/customerprofile') //客户档案
 const essentialinformation = () => import('@/views/customer/essentialinformation/essentialinformation') //基本信息
 const dpartmentManagement = () => import('@/views/customer/dpartmentManagement/dpartmentManagement') //部门管理
+const adddpartmentManagement = () => import('@/views/customer/dpartmentManagement/add/add') //部门管理
 const personnelManagement = () => import('@/views/customer/personnelManagement/personnelManagement') //人员管理
+const addpersonnelManagement = () => import('@/views/customer/personnelManagement/add/add') //人员管理
 const project = () => import('@/views/customer/project/project') //项目管理
 
 const wechat = () => import('@/views/message/wechat/wechat') //微信账号
@@ -281,12 +283,28 @@ export default new Router({
           component: dpartmentManagement
         },
         {
+          path: '/adddpartmentManagement',
+          name: 'dpartmentManagement',
+          meta: {
+            title: '部门管理'
+          },
+          component: adddpartmentManagement
+        },
+        {
           path: '/personnelManagement',
           name: 'personnelManagement',
           meta: {
             title: '人员管理'
           },
           component: personnelManagement
+        },
+        {
+          path: '/addpersonnelManagement',
+          name: 'personnelManagement',
+          meta: {
+            title: '人员管理'
+          },
+          component: addpersonnelManagement
         },
         {
           path: '/project',

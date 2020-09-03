@@ -1,15 +1,17 @@
 <template>
-  <div id="search">
-    <div class="search">
+  <div class="search">
+    <!-- <div class="search">
       <a-input-search placeholder enter-button="搜索" size="default" @search="onSearch" />
-    </div>
+    </div>-->
     <div class="istree">
       <a-tree
         :show-line="showLine"
         @select="onSelect"
+        checkable
         :tree-data="treedata"
         :replaceFields="replaceFields"
         :default-expanded-keys="defaultExpandedKeys"
+        @check="onCheck"
       >
         <a-icon slot="icon" type="carry-out" />
       </a-tree>
@@ -18,12 +20,12 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       showLine: true,
       showIcon: true,
+      olddata: "",
     };
   },
   props: {
@@ -31,33 +33,43 @@ export default {
     replaceFields: Object, //替换属性
     defaultExpandedKeys: Array, //默认展开
   },
-  created() {},
+  created() {
+    console.log(this.treedata, 123221);
+  },
   methods: {
     onSelect(selectedKeys, selectedNodes) {
+      console.log(selectedKeys, selectedNodes, 8889999);
+      if (selectedNodes.selected == false) {
+        return;
+      }
+      this.olddata = selectedNodes.selectedNodes[0].data.props;
       this.$emit("selectdata", "");
       this.$emit("selectdata", selectedNodes.selectedNodes[0].data.props || "");
     },
     onSearch(value) {
+      console.log(value, 88292);
       this.$emit("searchdata", value);
+    },
+    onCheck(checkedKeys, info) {
+      console.log("onCheck", checkedKeys, info);
+        this.$emit("checkedKeys", checkedKeys);
     },
   },
 };
 </script>
 <style scoped>
-#search {
+.search {
   width: 100%;
   height: 100%;
-  min-height: 909px;
   padding: 20px;
   background-color: #fff;
   overflow: scroll;
-  box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.16);
 }
-#search::-webkit-scrollbar {
+.search::-webkit-scrollbar {
   display: none;
 }
 .search {
-  width: 240px;
+  width: 100%;
 }
 .istree {
   text-align: left;

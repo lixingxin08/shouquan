@@ -28,6 +28,24 @@ export default {
     runpage: `/config/parameter/page`,//运行参数列表接口
     runremove: `/config/dictionary/remove`,//运行参数删除接口
 
+    //客户人员信息表API
+    persondeleteByPersonId:`/customer/person/deleteByPersonId`,  
+    persondetail:`/customer/person/detail`,  
+    personform:`/customer/person/form`,  
+    personpage:`/customer/person/page`,   
+
+   //客户基础信息表API
+   informationdeleteByInformationId:`/customer/information/deleteByInformationId`,
+   informationdetail:`/customer/information/detail`,
+   informationform:`/customer/information/form`,
+   informationpage:`/customer/information/page`,
+ 
+   //客户部门信息表API
+   departmentdeleteByDepartmentId:`/customer/department/deleteByDepartmentId`,
+   departmentdetail:`/customer/department/detail`,
+   departmentform:`/customer/department/form`,
+   departmentpage:`/customer/department/page`,
+   departmenttree:`/customer/department/tree`,
 
 
 

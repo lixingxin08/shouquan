@@ -2,7 +2,7 @@
   <div class="administrativedivision">
     <div class="flex_fs">
       <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys"
-        @selectdata="getselectdata" @searchdata="getsearchdata" v-if="showtree"></is-left>
+        @selectdata="getselectdata" @searchdata="getsearchdata"  v-if="showtree"></is-left>
       <div>
         <div class="right">
           <div class="r_top flex_f">
@@ -173,6 +173,7 @@
         }
         this.setdata();
         this.showtree = true;
+        console.log(1111111);
         this.getareapage();
       },
       //行政区划表单接口
@@ -233,10 +234,16 @@
       },
       toadd(val, id) {
         if (val == 'add') {
+          if (this.isselectdata.id=='') {
+            this.isselectdata.id=this.treedata[0].id
+            this.isselectdata.name=this.treedata[0].name
+          }
           this.$router.push({
             path: '/addadministrativedivision',
             query: {
-              type: val
+              type: val,
+              id: this.isselectdata.id,   
+              name: this.isselectdata.name,   
             }
           })
         } else {
@@ -244,7 +251,7 @@
             path: '/addadministrativedivision',
             query: {
               type: val,
-              id: id
+              id: id.areaId
             }
           })
         }
@@ -307,10 +314,9 @@
         _that.treedata = _that.toTree(this.filterdata);
       },
       getselectdata(val) {
-        this.isselectdata = val;
         this.isselectdata.id = val.id;
         this.isselectdata.name = val.name;
-        this.isselectdata.pid = val.pid;
+        this.isselectdata.pid = val.pid;;
         this.istotal.type=1
         this.getareapage();
       },
@@ -320,6 +326,7 @@
         this.istotal.type=1
              this.pagination.page = 1;
         this.pagination.pageSize = 10;
+        console.log(33333);
         this.getareapage();
       },
       //清除
@@ -351,6 +358,7 @@
         this.pagination.page = pagination.current;
         this.pagination.current = pagination.current;
         this.pagination.pageSize = pagination.pageSize;
+        console.log(4444);
         this.getareapage()
       },
     },
