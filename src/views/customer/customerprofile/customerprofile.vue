@@ -1,0 +1,403 @@
+<template>
+  <div class="administrativedivision">
+    <div class="flex_fs">
+      <div>
+        <div class="right">
+          <div class="r_top flex_f">
+            <div class="r_t_text" @click="showdialog()">客户名称:</div>
+            <a-input
+              placeholder="请输入名称/代码"
+              class="r_t_inp"
+              v-model="inp_data"
+              @keydown.enter="tosearch()"
+            />
+
+            <div class="r_t_text" @click="showdialog()">客户状态:</div>
+            <a-select
+              show-search
+              placeholder="全部"
+              option-filter-prop="children"
+              style="width: 200px;margin-right:20px"
+              :filter-option="filterOption"
+              v-model="runpageparam.typeCode"
+              @focus="handleFocus"
+              @blur="handleBlur"
+              @change="handleChange"
+            >
+              <a-select-option value>全部</a-select-option>
+              <a-select-option
+                v-for="(item,index) in sel_data"
+                :key="index"
+                :value="item.comboBoxId"
+              >{{item.comboBoxName}}</a-select-option>
+            </a-select>
+            <div class="btn_blue btn" @click="tosearch()">查询</div>
+            <div class="btn_gray" @click="clear()">清除</div>
+          </div>
+          <div class="btn_blue btn2" @click="toadd('add')">新增</div>
+          <div class="table" v-if="tabletype">
+            <a-table
+              :columns="tablecolumns"
+              :data-source="tabledata"
+              bordered
+              :pagination="pagination"
+              @change="handleTableChange"
+            >
+              <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
+                <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
+                <div class="col_red ispointer" @click="showdialog(areaName)">
+                  <span>删除</span>
+                </div>
+              </div>
+            </a-table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+  </div>
+</template>
+<script>
+import isDeleteDialog from "../../../components/delete_confir/delete.vue";
+export default {
+  components: {
+    isDeleteDialog,
+  },
+  data() {
+    return {
+      ModalText: "您确定要删除吗？",
+      visible: false,
+      showtree: false,
+      tabletype: false,
+      inp_data: "",
+      sel_data: "",
+      replaceFields: {
+        title: "name",
+        key: "id",
+      },
+      tablecolumns: [
+        {
+          width: 110,
+          align: "center",
+          title: "序号",
+          dataIndex: "parameterId",
+          key: "parameterId",
+          ellipsis: true,
+        },
+        {
+          width: 158,
+          align: "center",
+          title: "客户全称",
+          dataIndex: "parameterName",
+          key: "parameterName",
+          ellipsis: true,
+        },
+        {
+          width: 158,
+          align: "center",
+          title: "客户简称",
+          dataIndex: "parameterCode",
+          key: "parameterCode",
+          ellipsis: true,
+        },
+        {
+          width: 108,
+          align: "center",
+          title: "联系人姓名",
+          key: "parameterValue",
+          dataIndex: "parameterValue",
+          ellipsis: true,
+        },
+        {
+          width: 208,
+          align: "center",
+          title: "联系人手机",
+          key: "typeName",
+          dataIndex: "typeName",
+          ellipsis: true,
+        },
+        {
+          width: 208,
+          align: "center",
+          title: "客户状态",
+          key: "description",
+          dataIndex: "description",
+          ellipsis: true,
+        },
+        {
+          width: 208,
+          align: "center",
+          title: "是否授权",
+          ellipsis: true,
+        },
+        {
+          width: 208,
+          align: "center",
+          title: "是否建立部门",
+          ellipsis: true,
+        },
+        {
+          width: 208,
+          align: "center",
+          title: "操作",
+          ellipsis: true,
+          key: "2",
+          dataIndex: "childTotal",
+          scopedSlots: {
+            customRender: "edit",
+          },
+        },
+      ],
+      tabledata: "",
+      pagination: {
+        total: 50,
+        pageSize: 10, //每页中显示10条数据
+        showSizeChanger: true,
+        current: 1,
+        page: 1,
+        pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
+        showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
+      },
+      issearchdata: "",
+      removeparam: {
+        areaName: "",
+        areaId: "",
+      },
+      istotal: {
+        type: 1,
+      },
+      runpageparam: {
+        description: "",
+        keyword: "",
+        operatorId: "",
+        pageIndex: 1,
+        pageSize: 10,
+        parameterCode: "",
+        parameterId: "",
+        parameterName: "",
+        parameterValue: "",
+        typeCode: "",
+      },
+    };
+  },
+  created() {
+    this.getdictionarycombobox();
+    this.getrunpage();
+  },
+  methods: {
+    //数据字典下拉列表框接口
+    async getdictionarycombobox() {
+      let pram = {
+        classCode: "runngin_parameter_type",
+      };
+      let res = await this.$http.post(this.$api.dictionarycombobox, pram);
+      console.log(res, 12221);
+      if (res.data.resultCode == "10000") {
+        this.sel_data = res.data.data;
+      } else {
+        this.$message.error(res.data.resultMsg);
+      }
+    },
+    //运行参数列表接口
+    async getrunpage() {
+      this.tabletype = false;
+      this.runpageparam.pageIndex = this.pagination.current;
+      this.runpageparam.pageSize = this.pagination.pageSize;
+      if (this.vify_cn2(this.inp_data) == true) {
+        this.runpageparam.keyword = this.inp_data;
+      } else {
+        this.runpageparam.parameterCode = this.inp_data;
+      }
+      let res = await this.$http.post(this.$api.runpage, this.runpageparam);
+      if (res.data.resultCode == "10000") {
+        this.tabledata = res.data.data.list;
+        this.runpageparam.keyword = "";
+        this.runpageparam.parameterCode = "";
+        if (this.istotal.type == 1) {
+          this.pagination.total = res.data.data.length;
+        }
+        this.istotal.type++;
+        this.tabletype = true;
+      } else {
+        this.$message.error(res.data.resultMsg);
+      }
+    },
+    //行政区划删除接口
+    async getarearemove() {
+      let res = await this.$http.post(this.$api.arearemove, this.removeparam);
+      if (res.data.resultCode == "10000") {
+        this.$message.success(res.data.resultMsg);
+        this.getareaform();
+        this.visible = false;
+      } else {
+        this.$message.error(res.data.resultMsg);
+      }
+    },
+    confirm() {
+      this.visible = false;
+    },
+    toadd(val, id) {
+      localStorage.setItem("sel", JSON.stringify(this.sel_data));
+      if (val == "add") {
+        this.$router.push({
+          path: "/addRunParameters",
+          query: {
+            type: val,
+          },
+        });
+      } else {
+        console.log(id, 9899);
+        this.$router.push({
+          path: "/addRunParameters",
+          query: {
+            type: val,
+            id: id.parameterId,
+          },
+        });
+      }
+    },
+    //查询
+    tosearch() {
+      this.pagination.current = 1;
+      this.pagination.pageSize = 10;
+      this.istotal.type = 1;
+      this.getrunpage();
+    },
+    //清除
+    clear() {
+      this.inp_data = "";
+      this.runpageparam.typeCode = "";
+      // this.getareapage();
+    },
+    //弹窗
+    showdialog(val) {
+      console.log(val, 221212);
+      this.removeparam.areaName = val.areaName;
+      this.removeparam.areaId = val.areaId;
+      this.visible = true;
+    },
+    cancel() {
+      this.visible = false;
+    },
+    confirm() {
+      this.getarearemove();
+    },
+    handleCancel(e) {
+      console.log("Clicked cancel button");
+      this.visible = false;
+    },
+    //分页
+    handleTableChange(pagination) {
+      this.pagination.current = pagination.current;
+      this.pagination.pageSize = pagination.pageSize;
+      this.getrunpage();
+    },
+
+    handleChange(value) {
+      console.log(`selected ${value}`);
+      this.runpageparam.typeCode = value;
+      console.log(this.runpageparam);
+    },
+    handleBlur() {
+      console.log("blur");
+    },
+    handleFocus() {
+      console.log("focus");
+    },
+    filterOption(input, option) {
+      return (
+        option.componentOptions.children[0].text
+          .toLowerCase()
+          .indexOf(input.toLowerCase()) >= 0
+      );
+    },
+  },
+};
+</script>
+<style scoped>
+.administrativedivision {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.tree {
+  text-align: left;
+}
+
+.right {
+  width: 1372px;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.r_t_text {
+  height: 16px;
+  font-size: 12px;
+  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+  font-weight: 400;
+  text-align: left;
+  color: #333333;
+  margin-right: 10px;
+}
+
+.r_t_inp {
+  width: 200px;
+  height: 36px;
+  background: #ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.r_t_inp:focus {
+  border: 1px solid #1890ff;
+}
+
+.btn {
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.btn2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.table_list {
+  height: 42px;
+}
+
+.dialog {
+  width: 920px;
+  height: 492px;
+  position: relative;
+  left: 50%;
+  top: -870px;
+  transform: translate(-50%, -50%);
+  border: 1px solid #000;
+  margin-top: 330px;
+  border-radius: 8px;
+  background-color: #fff;
+  z-index: 2;
+}
+
+.dialog_t {
+  width: 920px;
+  height: 72px;
+  background: #1890ff;
+  border: 1px solid #1890ff;
+  padding: 0 40px;
+  color: #fff;
+  font-size: 24px;
+}
+
+.dialog_c {
+  height: 348px;
+  font-size: 20px;
+  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+  font-weight: 400;
+  text-align: center;
+  color: #333333;
+}
+</style>

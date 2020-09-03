@@ -179,3 +179,10 @@
 justify-content: flex-start;
 	padding: 20px;
 }
+.right .ant-select-selection{
+  border-radius: 8px!important;
+}
+.right .ant-select-selection,.right .ant-select-selection__rendered{
+  height: 36px!important;
+  line-height: 36px!important;
+}

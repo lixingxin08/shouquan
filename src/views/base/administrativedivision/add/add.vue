@@ -2,12 +2,12 @@
   <div class="isedit">
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">上级区域:</div>
-      <a-input class="edit_a_input" v-model="form.parentId" />
+      <a-input class="edit_a_input" v-model="form.parentName" disabled />
       <div class="edit_item_toast">注：不可选</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">区划等级:</div>
-      <a-input class="edit_a_input" v-model="form.levelType" />
+      <a-input class="edit_a_input" v-model="form.levelType"  />
       <div class="edit_item_toast">注：不可选</div>
     </div>
     <div class="flexrow flexac edit_item">
@@ -111,9 +111,8 @@ export default {
   },
   created() {
     if (this.$route.query.type == "add") {
-      // console.log(this.$route.query.id, 7777);
-      // this.areadetailprame.areaId = this.$route.query.id;
-      // this.getareadetail();
+      this.form.parentId = this.$route.query.id;
+      this.form.parentName = this.$route.query.name;
     }
     if (this.$route.query.type == "edit") {
       this.areadetailprame.areaId = this.$route.query.id;
@@ -146,6 +145,7 @@ export default {
       let res = await this.$http.post(this.$api.areaform, this.form);
       if (res.data.resultCode == "10000") {
          this.$message.success(res.data.resultMsg);
+            this.$router.go(-1)
       } else {
         this.$message.error(res.data.resultMsg);
       }

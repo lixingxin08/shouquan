@@ -39,7 +39,6 @@ export default {
         return
       }
       this.olddata=selectedNodes.selectedNodes[0].data.props
-      this.$emit("selectdata", "");
       this.$emit("selectdata", selectedNodes.selectedNodes[0].data.props || "");
     },
     onSearch(value) {

@@ -4,24 +4,28 @@
       <div class="edit_item_title">
         <span class="col_red">*</span>参数分组:
       </div>
-      <div>
+      <div v-if="this.$route.query.type=='add'">
         <a-select
           show-search
-          placeholder="请选择"
+          placeholder="全部"
           option-filter-prop="children"
           style=" width: 667px;height: 32px;"
           :filter-option="filterOption"
+          v-model="form.parameterId"
           @focus="handleFocus"
           @blur="handleBlur"
-          v-model="typeName"
           @change="handleChange"
         >
+          <a-select-option value>全部</a-select-option>
           <a-select-option
             v-for="(item,index) in sel_data"
             :key="index"
             :value="item.comboBoxId"
           >{{item.comboBoxName}}</a-select-option>
         </a-select>
+      </div>
+      <div v-if="this.$route.query.type!=='add'">
+        <a-input class="edit_a_input" disabled v-model="form.parameterId" />
       </div>
     </div>
     <div class="flexrow flexac edit_item">
@@ -86,17 +90,19 @@ export default {
         operatorId: "1",
         description: "",
       },
-      typeName:"",
       rundetailparam: {
         parameterId: "",
       },
     };
   },
   created() {
+    if (this.$route.query.type == "add") {    
       this.sel_data = JSON.parse(localStorage.getItem("sel"));
+        console.log(this.sel_data,88992);
+    }
     if (this.$route.query.type == "edit") {
       this.rundetailparam.parameterId = this.$route.query.id;
-      this.typeName=this.$route.query.typeName||"";
+      console.log(this.rundetailparam, 8899);
       this.getrundetail();
     }
   },
@@ -113,6 +119,9 @@ export default {
     },
     //运行参数表单接
     async getrunform() {
+      if (this.form.parameterId == "") {
+        return this.$message.error("请选择参数分组");
+      }
       if (this.form.parameterName == "") {
         return this.$message.error("请输入参数名称");
       }
@@ -122,16 +131,18 @@ export default {
       if (this.form.parameterCode == "") {
         return this.$message.error("请输入参数代码");
       }
-      this.form.operatorId = 1
+      this.form.operatorId = "1";
       let res = await this.$http.post(this.$api.runform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
+           this.$router.go(-1)
       } else {
         this.$message.error(res.data.resultMsg);
       }
     },
     reset() {
       if (this.$route.query.type == "add") {
+        console.log(44422);
         this.form = {
           parameterId: "",
           typeCode: "",

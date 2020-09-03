@@ -78,7 +78,7 @@ instance.interceptors.response.use(
               redirect: router.currentRoute.fullPath
             }
           })
-          case 500:
+          case 504:
           // 返回 401 (未授权) 清除 token 并跳转到登录页面
 
           router.replace({
@@ -135,7 +135,24 @@ Vue.prototype.vify_cn2 = function (phone) {
   }
   return true;
 };
-
+//验证邮箱格式
+Vue.prototype.verEmail = function (str) {
+  var re = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+  if (re.test(str) !== true) {
+    return false;
+  } else {
+    return true;
+  }
+};
+//验证手机号码
+Vue.prototype.verPhone = function (str) {
+  var re =/^1[3456789]\d{9}$/
+  if (re.test(str) !== true) {
+    return false;
+  } else {
+    return true;
+  }
+};
 
 
 
