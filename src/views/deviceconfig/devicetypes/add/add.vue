@@ -91,7 +91,7 @@
         }
         let res = await this.$http.post(this.$api.devicetypedetail, param)
         if (res.data.resultCode == 10000) {
-     
+
           this.typeName = res.data.data.deviceTypeName
           this.typeCode = res.data.data.deviceTypeCode
           this.selectDefault = res.data.data.serviceTypeName
@@ -103,9 +103,7 @@
             for (let i = 0; i < this.brandList.length; i++) {
               if (this.brandList[i].select)
                 this.selectedRowKeys.push(i)
-
             }
-
           }
         } else {
           this.$message.error(res.data.resultMsg);
@@ -156,7 +154,7 @@
           return
         }
         let param = {
-          deviceTypeId: this.deviceId == '' ? '' : this.deviceId,
+          deviceTypeId: this.deviceId,
           deviceTypeName: this.typeName,
           deviceTypeCode: this.typeCode,
           serviceType: this.getServiceType(),

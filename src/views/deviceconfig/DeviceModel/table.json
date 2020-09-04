@@ -11,44 +11,44 @@
       }, {
         "title": "型号名称",
         "align": "center",
-        "dataIndex": "menuName",
+        "dataIndex": "modelName",
         "ellipsis": true
       },
       {
         "title": "型号代码",
         "align": "center",
-        "dataIndex": "menuTypeName",
+        "dataIndex": "modelCode",
         "ellipsis": true
       },
       {
         "title": "设备品牌",
         "align": "center",
-        "dataIndex": "parentName2",
+        "dataIndex": "brandName",
         "ellipsis": true
       },
 
       {
         "title": "设备类型",
         "align": "center",
-        "dataIndex": "parentName3",
+        "dataIndex": "deviceTypeName",
         "ellipsis": true
       },
       {
         "title": "业务类型",
         "align": "center",
-        "dataIndex": "parentNam5",
+        "dataIndex": "serviceTypeName",
         "ellipsis": true
       },
       {
         "title": "关联警报数",
         "align": "center",
-        "dataIndex": "parentName6",
+        "dataIndex": "alarmNum",
         "ellipsis": true
       },
       {
         "title": "授权次数",
         "align": "center",
-        "dataIndex": "parentNam7e",
+        "dataIndex": "authNum",
         "ellipsis": true
       },
       {
@@ -66,29 +66,24 @@
         "scopedSlots": {
           "customRender": "index"
         },
-        "width": "4%",
         "align": "center"
       },
       {
         "title": "警报名称",
-        "dataIndex": "name",
-        "width": "10%",
-        "align": "center"
-
+        "dataIndex": "alarmName",
+        "align": "center",
+        "width": "30%"
       },
       {
         "title": "警报代码",
-        "dataIndex": "code",
-        "width": "10%",
+        "dataIndex": "alarmCode",
         "align": "center"
 
       },
       {
         "title": "警报类型",
-        "dataIndex": "code",
-        "width": "10%",
+        "dataIndex": "alarmType",
         "align": "center"
-
       }
     ],
     "param": [{
@@ -97,44 +92,90 @@
           "customRender": "index"
         },
         "width": "4%",
+          "ellipsis": true,
         "align": "center"
       },
       {
         "title": "参数名称",
-        "dataIndex": "name",
-        "width": "10%",
+        "dataIndex": "parameterName",
+        "width": "12%",
+           "ellipsis": true,
         "align": "center"
-
       },
       {
         "title": "参数代码",
-        "dataIndex": "code",
-        "width": "10%",
+        "dataIndex": "parameterCode",
+        "width": "12%",
+           "ellipsis": true,
         "align": "center"
-
       },
       {
         "title": "参数数值",
-        "dataIndex": "code",
-        "width": "10%",
+        "dataIndex": "parameterValue",
+        "width": "12%",
+           "ellipsis": true,
         "align": "center"
-
       },
-
       {
         "title": "参数描述",
-        "dataIndex": "code",
-        "width": "10%",
+        "dataIndex": "description",
+        "width": "35%",
+           "ellipsis": true,
         "align": "center"
-
       },
-      
       {
         "title": "操作",
         "align": "center",
         "width": "320px",
         "scopedSlots": {
           "customRender": "operation"
+        }
+      }
+    ],
+    "attList": [{
+        "title": "序号",
+        "width": "3%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "index"
+        }
+      },
+      {
+        "title": "属性名称",
+        "dataIndex": "propertyName",
+        "align": "center",
+        "width": "15%",
+        "scopedSlots": {
+          "customRender": "propertyName"
+        }
+      },
+      {
+        "title": "属性代码",
+        "dataIndex": "propertyCode",
+        "align": "center",
+        "width": "15%",
+        "scopedSlots": {
+          "customRender": "propertyCode"
+        }
+      },
+
+      {
+        "title": "属性描述",
+        "dataIndex": "propertyDesc",
+        "align": "center",
+        "width": "40%",
+        "scopedSlots": {
+          "customRender": "propertyDesc"
+        }
+      },
+
+      {
+        "title": "属性值",
+        "dataIndex": "propertyValue",
+        "align": "center",
+        "width": "25%",
+        "scopedSlots": {
+          "customRender": "propertyValue"
         }
       }
     ]

@@ -2,14 +2,14 @@
   <div class="content2">
     <div class="flexcolumn" v-for="(item,index) in groups" :key='index'>
       <div class="flexrow flexac" style="margin-top: 10px;margin-bottom: 10px;">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>类型名称:</div>
+        <div class="edit_item_title"><a style="color: #FF0000;">*</a>属性分组:</div>
         <a-input class='edit_a_input' v-model='item.propertyName' placeholder="注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
         <a-button class='top-btn' type='primary' @click='saveGroup(item)'>保存</a-button>
         <a-button class='top-btn' :disabled='!item.propertyId' @click='addGroupAtt(index)'>新增属性</a-button>
-        <a-button class='top-btn' :disabled='!item.propertyId'>删除</a-button>
+        <a-button class='top-btn' :disabled='!item.propertyId' @click='deleteGroup(item)'>删除</a-button>
       </div>
-      <a-table v-if='item.childrenList&&item.childrenList.length>0' style='margin-top: 20px;margin-bottom: 20px;' :columns="dictionaryColumns"
-        :data-source="item.childrenList" :pagination='false' :bordered='true' size='small'>
+      <a-table v-if='item.childrenList&&item.childrenList.length>0' style='margin-top: 20px;margin-bottom: 20px;'
+        :columns="dictionaryColumns" :data-source="item.childrenList" :pagination='false' :bordered='true' size='small'>
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
         </template>
@@ -21,11 +21,10 @@
         <template slot="operation" slot-scope="text, record, index2">
           <div class="flexrow flexjc">
 
-            <a @click="() => save(index2)">保存</a>
+            <a @click="() => save(record,item)">保存</a>
             <div class="item-line"></div>
-            <a-popconfirm v-if="record.delete" title="确定删除数值吗?" @confirm="() => cancel(record)">
+            <a-popconfirm v-if="record.hasValueNum<=0" title="确定删除数值吗?" @confirm="() => cancel(record)">
               <a style="color: #FF0033;">删除</a>
-
             </a-popconfirm>
             <a v-else style="color: #DCDCDC;">删除</a>
           </div>
@@ -35,18 +34,25 @@
     <div class="flexrow flexjc flexac addbtn" @click="add">
       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增分组
     </div>
+    <is-delete-dialog v-if="visible" @confirm='confirmDialog' @cancle='cancelDialog'></is-delete-dialog>
   </div>
 </template>
 
 <script>
   import tableTitleData from "../table.json";
+  import isDeleteDialog from '../../../../components/delete_confir/delete.vue'
   export default {
+    components: {
+      isDeleteDialog
+    },
     data() {
 
       return {
+        visible: false,
         dictionaryColumns: tableTitleData.data.attList,
         groups: [],
-        id:''
+        id: '',
+        deleteItem: ""
       }
     },
     created() {
@@ -54,37 +60,83 @@
       this.getProperty()
     },
     methods: {
-      save() {
-
+      async save(item, groupItem) {//保存属性
+        let param = {
+          propertyDesc: item.propertyDesc, //属性描述
+          propertyName: item.propertyName, //属性名称
+          propertyCode: item.propertyCode, //属性代码
+          propertyId: item.propertyId ? this.propertyId : "",
+          deviceTypeId: this.id, //属性id 为空新增
+          parentId: groupItem.propertyId, //父级属性id
+          operatorId: '5172dadd6d7c404e8ac657f32f81d969'
+        }
+        let res = await this.$http.post(this.$api.propertyform, param)
+        if (res.data.resultCode == 10000) {
+          this.getProperty()
+          this.$message.success(res.data.resultMsg);
+          //this.getProperty()
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
       },
-      cancel(item) {
-
+     async cancel(item) {//删除子属性
+        let param = {
+          propertyId: item.propertyId
+        }
+        let res = await this.$http.post(this.$api.propertyremove, param)
+        if (res.data.resultCode == 10000) {
+          this.$message.success(res.data.resultMsg);
+          this.getProperty()
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
       },
-      add() {
+      add() { //添加分组
         this.groups.push({})
       },
-      addGroupAtt(index) {
-
+      addGroupAtt(index) { //添加子属性
+        this.groups[index].childrenList.push({
+          propertyCode: '',
+          propertyId: '',
+          propertyName: '',
+          propertyDesc: ''
+        })
       },
 
-      async getProperty() {
+      deleteGroup(item) { //删除属性分组
+        this.deleteItem = item
+        this.visible = true
+      },
+      async getProperty() { //获取分组信息
         let param = {
           deviceTypeId: this.id
         }
-         let res = await this.$http.post(this.$api.propertylist, param)
-         console.log(param)
-         console.log(res)
+        let res = await this.$http.post(this.$api.propertylist, param)
+        console.log(param)
+        console.log(res)
         if (res.data.resultCode == 10000) {
-          this.groups=res.data.data
-          this.$message.success(res.data.resultMsg);
+          let data = res.data.data
+          for (let i = 0; i < data.length; i++) {
+
+            if (!data[i].childrenList) {
+              data[i].childrenList = []
+            }
+          }
+          this.groups = data
+
         } else {
           this.groups.push({})
           this.$message.error(res.data.resultMsg);
         }
       },
       async saveGroup(item) {
+        if (!item.propertyName) {
+          this.$message.warning('属性分组名称不能为空')
+          return
+        }
+
         let param = {
-          propertyName:item.propertyName,
+          propertyName: item.propertyName,
           deviceTypeId: this.id,
           operatorId: '5172dadd6d7c404e8ac657f32f81d969'
         }
@@ -103,6 +155,23 @@
           this.groups = newData;
         }
       },
+      async confirmDialog() {
+        this.visible = false
+        let param = {
+          propertyId: this.deleteItem.propertyId
+        }
+        let res = await this.$http.post(this.$api.propertyremove, param)
+
+        if (res.data.resultCode == 10000) {
+          this.$message.success(res.data.resultMsg);
+          this.getProperty()
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
+      },
+      cancleDialog() {
+        this.visible = false
+      }
     }
   }
 </script>

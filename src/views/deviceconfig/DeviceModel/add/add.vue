@@ -2,31 +2,29 @@
 
   <div class="flexcolumn" style="background-color: #FFFFFF;">
     <div style="margin: 0 auto;">
-
-
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>业务类别:</div>
-        <a-select default-value="lucy" class='select_item' @change="handleSelectChange">
-          <a-select-option value="jack">
-            Jack
+        <a-select :value="severSelect?severSelect:'请选择业务类别'" class='select_item' @change="handleServerChange">
+          <a-select-option v-for='(item,index) in severList' :key='index' :value="item.comboBoxId">
+            {{item.comboBoxName}}
           </a-select-option>
         </a-select>
         <div class="edit_item_toast">注：可直接选择业务类型</div>
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>设备类型:</div>
-        <a-select default-value="lucy" class='select_item' @change="handleSelectChange">
-          <a-select-option value="jack">
-            Jack
+        <a-select :value="typeSelect?typeSelect:'请选择设备类型'" class='select_item' @change="handleTypeChange">
+          <a-select-option v-for='(item,index) in typeList' :key='index' :value="item.deviceTypeId">
+            {{item.deviceTypeName}}
           </a-select-option>
         </a-select>
         <div class="edit_item_toast">注：可直接选择设备类型</div>
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>设备品牌:</div>
-        <a-select default-value="lucy" class='select_item' @change="handleSelectChange">
-          <a-select-option value="jack">
-            Jack
+        <a-select :value="brandSelect?brandSelect:'请选择设备品牌'" class='select_item' @change="handleBrandChange">
+          <a-select-option v-for='(item,index) in brandList' :key='index' :value="item.brandId">
+            {{item.brandName}}
           </a-select-option>
         </a-select>
         <div class="edit_item_toast">注：可直接选择设备品牌</div>
@@ -34,19 +32,19 @@
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>型号名称:</div>
 
-        <a-input class='edit_a_input' v-model='menuName' placeholder="请输入您选择的型号名称" />
+        <a-input class='edit_a_input' v-model='modelName' placeholder="请输入您选择的型号名称" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>型号代码:</div>
-        <a-input class='edit_a_input' v-model='menuName' placeholder="请输入您选择的型号代码" />
+        <a-input class='edit_a_input' v-model='modelCode' placeholder="请输入您选择的型号代码" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">通信方式:</div>
-        <a-select default-value="lucy" class='select_item' @change="handleSelectChange">
-          <a-select-option value="jack">
-            Jack
+        <a-select :value="msgSelect?msgSelect:'请选择通信方式'" class='select_item' @change="handleMsgChange">
+          <a-select-option v-for='(item,index) in msgList' :key='index' :value="item.comboBoxId">
+            {{item.comboBoxName}}
           </a-select-option>
         </a-select>
         <div class="edit_item_toast">注：通信方式数据字典设置</div>
@@ -68,28 +66,27 @@
       </div>
 
 
-      <div class="flexrow edit_item_title" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">关联警报</div>
+      <div class="flexrow edit_item_title" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
+          style="color: #FF0000;">*</a>关联警报</div>
 
-      <a-table :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true' size='small'>
-
-
-          <template slot="index" slot-scope="text, record,index">
-            {{index+1}}
-          </template>
+      <a-table :columns="dictionaryColumns" :data-source="warningList" :pagination='false' :bordered='true' size='small'
+        :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
+        <template slot="index" slot-scope="text, record,index">
+          {{index+1}}
+        </template>
       </a-table>
-
       <div class="flexrow flexjc" style="margin-top: 40px;margin-bottom: 100px;">
-        <a-button>保存</a-button>
-        <a-button type="primary" style="margin-left: 20px;">重置</a-button>
+        <a-button type="primary" @click='submit'>保存</a-button>
+        <a-button style="margin-left: 20px;" @click='reset'>重置</a-button>
       </div>
     </div>
-    <is-add v-if='showAddDialog' @close='closeDialog'></is-add>
+
   </div>
 </template>
 
 <script>
   import tableTitleData from "../table.json";
-  const plainOptions = ['页签', '按钮'];
+
 
   function getBase64(img, callback) {
     const reader = new FileReader();
@@ -102,60 +99,125 @@
 
       return {
         dictionaryColumns: tableTitleData.data.add,
-        editingKey: '',
-        value1: '页签',
-        menuName: '', //菜单名称
+        selectedRowKeys: [],
+        brandList: [], //设备品牌
+        brandSelect: '', //设备品牌选择
+        typeList: [], //设备类型
+        typeSelect: '', //设备类型选择
+        severList: [], //业务类别
+        severSelect: '', //业务类别选择
+        msgList: [{ //通信方式列表
+          comboBoxId: '',
+          comboBoxName: '无'
+        }],
+        msgSelect: '', //通信方式选择
+        warningList: [], //警报列表
+        modelName: '', //型号名称
+        modelCode: '', //型号代码
         remark: '', //备注
         num: 0, //描述长度
-        plainOptions,
-        authList: [{
-          name: "1",
-          code: "1111",
-          info: "1111111"
-        }],
-        szList: [{}, {}, {}, {}, {}],
+        szList: [],
         loading: false,
         imageUrl: '',
-        isAdd: false,
-        menuId: '',
-        cacheData: {},
-        showAddDialog: false
+        Id: '',
       }
     },
     created() {
-      this.menuId = this.$route.query.id
-      this.isAdd = this.$route.query.add
-
-      if (this.menuId) { //编辑
-
-        this.getMenuInfo();
+      this.getBrandList()
+      this.getCombobox('device_service_type')
+      this.getCombobox('device_communication_mode')
+      this.getTypeList()
+      this.Id = this.$route.query.id
+      if (this.Id) { //编辑
+        this.getModelInfo();
+      } else {
+        this.getWarninngData()
       }
     },
     methods: {
-      closeDialog() {
-        this.showAddDialog = false
-      },
-      onChangeConfig(e) { //修改字典描述
-        this.num = this.remark.length
-      },
-      async getMenuInfo() {
+
+      /* 获取设备型号信息 */
+      async getModelInfo() {
         let param = {
-          menuId: this.menuId
+          modelId: this.Id
         }
-        let res = await this.$http.post(this.$api.menudetail, param);
-        console.log(res)
-        if (res.data.resultCode == "10000") {
-          this.cacheData = res.data.data
-          this.setShowData();
+        let res = await this.$http.post(this.$api.devicemodeldetail, param);
+
+        if (res.data.resultCode == 10000) {
+          this.msgSelect = res.data.data.communicationMode
+          this.brandSelect = res.data.data.brandId
+          this.typeSelect = res.data.data.deviceTypeId
+          this.severSelect = res.data.data.serviceTypeName
+          this.modelName = res.data.data.modelName
+          this.modelCode = res.data.data.modelCode
+          this.remark = res.data.data.remark
+          this.warningList = res.data.data.deviceAlarmList
+          if (this.warningList.length > 0) {
+            this.selectedRowKeys = []
+            let that = this
+            for (let i = 0; i < this.warningList.length; i++) {
+              if (this.warningList[i].select)
+                this.selectedRowKeys.push(i)
+            }
+          }
         }
       },
-      setShowData() {
-        this.menuName = this.cacheData.menuName
-        this.remark = this.cacheData.remark
-        if (this.isAdd == 'true') {
-          this.menuName = ''
-          this.remark = ''
+      /* 提交保存业务类别*/
+      async submit() {
+
+        if (!this.severSelect) {
+
+          this.$message.warning('请选择业务类别')
+          return
         }
+        if (!this.typeSelect) {
+          this.$message.warning('请选择设备类型')
+          return
+        }
+        if (!this.brandSelect) {
+          this.$message.warning('请选择设备品牌')
+          return
+        }
+        if (!this.modelName) {
+          this.$message.warning('型号名称不能为空')
+          return
+        }
+        if (!this.modelCode) {
+          this.$message.warning('型号代码不能为空')
+          return
+        }
+        if (this.selectedRowKeys.length <= 0) {
+          this.$message.warning('请至少关联一个警报')
+          return
+        }
+        let param = {
+          modelId: this.Id, //设备型号序号
+          modelName: this.modelName, //设备型号名称
+          modelCode: this.modelCode, //设备型号代码
+          serviceType: this.severSelect, //归属业务类型代码
+          deviceTypeId: this.typeSelect, //设备类型序号
+          brandId: this.brandSelect, //品牌序号
+          communicationMode: this.msgSelect, //通讯方式
+          imageJson: 'ceshi', //型号图例
+          operatorId: '5172dadd6d7c404e8ac657f32f81d969', //操作者id
+          remark: this.remark, //备注信息
+          deviceAlarmList: this.getAlramList() //设备警报列表
+        }
+        console.log()
+        let res = await this.$http.post(this.$api.devicemodelform, param)
+        if (res.data.resultCode == 10000) {
+          this.$message.success(res.data.resultMsg);
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
+      },
+      /* 获取警报列表*/
+      getAlramList() {
+        let list = []
+        for (let i = 0; i < this.selectedRowKeys.length; i++) {
+          list.push(this.warningList[this.selectedRowKeys[i]].alarmId)
+        }
+        return list
       },
       handleImageChange(info) {
         if (info.file.status === 'uploading') {
@@ -181,31 +243,96 @@
         return isJpgOrPng && isLt2M;
       },
 
-      addLine() { //添加鉴权接口
-        this.showAddDialog = true
-      },
-      onChange1(e) { //菜单类型选择
-        console.log('radio1 checked', e.target.value);
-      },
-      handleSelectChange() { //授权类型下拉选择
-        console.log(`selected ${value}`);
-      },
-      handleChange(value, key, column) {
-        const newData = [...this.szList];
-        const target = newData.filter(item => key === item.key)[0];
-        if (target) {
-          target[column] = value;
-          this.szList = newData;
+
+      /* 获取品牌列表 */
+      async getBrandList() {
+        let param = {
+          pageIndex: 1,
+          pageSize: 200,
+          keyword: ''
+        }
+        let res = await this.$http.post(this.$api.devicebrandspage, param)
+        if (res.data.resultCode == 10000) {
+          this.brandList = this.brandList.concat(res.data.data.list)
         }
       },
-      edit(key) {
-        const newData = [...this.szList];
-        const target = newData.filter(item => key === item.key)[0];
-        this.editingKey = key;
-        if (target) {
-          target.editable = true;
-          this.szList = newData;
+      /* 获取设备类型列表*/
+      async getTypeList() {
+        let param = {
+          keyword: '',
+          serviceType: '',
+          pageIndex: 1,
+          pageSize: 200
         }
+        let res = await this.$http.post(this.$api.devicetypepage, param)
+        if (res.data.resultCode == 10000) {
+          this.typeList = this.typeList.concat(res.data.data.list)
+        }
+      },
+      /* 获取业务类别*/
+      async getCombobox(type) {
+        let param = {
+          classCode: type
+        }
+        let res = await this.$http.post(this.$api.dictionarycombobox, param)
+        if (res.data.resultCode == 10000) {
+          if (type == 'device_communication_mode')
+            this.msgList = this.msgList.concat(res.data.data)
+          else
+            this.severList = this.severList.concat(res.data.data)
+        }
+      },
+
+      /* 选择品牌 */
+      onSelectChange(selectedRowKeys) {
+        this.selectedRowKeys = selectedRowKeys;
+      },
+      /* 添加时获取警报列表*/
+      async getWarninngData() {
+        let param = {
+          pageIndex: 1,
+          pageSize: 200,
+          keyword: ''
+        }
+        let res = await this.$http.post(this.$api.alramlist, param)
+        if (res.data.resultCode == 10000) {
+          this.warningList = res.data.data.list
+        }
+      },
+      /* 授权类型下拉选择 */
+      handleServerChange(e) {
+        this.severSelect = e
+      },
+      /* 设备类型下拉选择*/
+      handleTypeChange(e) {
+        this.typeSelect = e
+      },
+      /* 品牌下拉选择*/
+      handleBrandChange(e) {
+        this.brandSelect = e
+      },
+      /* 通信方式下拉选择*/
+      handleMsgChange(e) {
+        this.msgSelect = e
+      },
+      /* 重置*/
+      reset() {
+        if (this.Id) {
+          this.getModelInfo()
+        } else {
+          this.msgSelect = ''
+          this.brandSelect = ''
+          this.typeSelect = ''
+          this.severSelect = ''
+          this.modelName = ''
+          this.modelCode = ''
+          this.remark = ''
+          this.selectedRowKeys = []
+        }
+      },
+      /* 修改字典描述*/
+      onChangeConfig(e) { 
+        this.num = this.remark.length
       },
     },
   }
@@ -227,9 +354,11 @@
     margin: 0 auto;
     margin-top: 24px;
   }
-.select_item{
-   width: 667px;
-}
+
+  .select_item {
+    width: 667px;
+  }
+
   .edit_item_toast {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;

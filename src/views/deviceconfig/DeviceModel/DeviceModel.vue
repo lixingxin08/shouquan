@@ -2,26 +2,26 @@
   <div class="content2">
     <div class="flexrow flexac">
       <div class='title_tx'>类型名称/代码:</div>
-      <a-input style='width: 200px;' placeholder="请输入名称/代码" />
+      <a-input style='width: 200px;' v-model='keyword' placeholder="请输入名称/代码" />
       <div class='title_tx' style="margin-left: 20px;">设备品牌:</div>
-      <a-select default-value="全部" style="width: 200px;" @change="brandSelectChange">
+      <a-select :value="brandSelect?brandSelect:'全部'" style="width: 200px;" @change="brandSelectChange">
         <a-select-option v-for='(item,index) in brandList' :key='index' :value="item.brandId">
           {{item.brandName}}
         </a-select-option>
       </a-select>
       <div class='title_tx' style="margin-left: 20px;">设备类型:</div>
-      <a-select default-value="全部" style="width: 200px;" @change="deviceTypeSelectChange">
+      <a-select :value="typeSelect?typeSelect:'全部'" style="width: 200px;" @change="deviceTypeSelectChange">
         <a-select-option v-for='(item,index) in typeList' :key='index' :value="item.deviceTypeId">
           {{item.deviceTypeName}}
         </a-select-option>
       </a-select>
       <div class='title_tx' style="margin-left: 20px;">业务类别:</div>
-      <a-select default-value="全部" style="width: 200px;" @change="serviceSelectChange">
-        <a-select-option v-for='(item,index) in severList' :key='index' >
+      <a-select :value="severSelect?severSelect:'全部'" style="width: 200px;" @change="serviceSelectChange">
+        <a-select-option v-for='(item,index) in severList' :key='index' :value="item.comboBoxId">
           {{item.comboBoxName}}
         </a-select-option>
       </a-select>
-      <a-button type="primary" v-model='keyword' class="title_btn" @click='getDeviceData'>查询</a-button>
+      <a-button type="primary" class="title_btn" @click='getDeviceData'>查询</a-button>
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div style="width: 100%;height: 1px;background: #cccccc;margin: 20px auto;"></div>
@@ -43,7 +43,7 @@
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>
           <div class="item-line"></div>
-          <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm">
+          <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
           <div class="item-line"></div>
@@ -57,7 +57,6 @@
 </template>
 <script>
   import tableTitleData from "./table.json";
-  const plainOptions = ['页签', '按钮'];
   export default {
     data() {
       return {
@@ -78,7 +77,7 @@
         }],
         severSelect: '', //业务类别选择
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
-        deviceList: [{}], //设备型号数据
+        deviceList: [], //设备型号数据
         pagination: {
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
@@ -93,32 +92,56 @@
       this.getBrandList()
       this.getTypeList()
       this.getCombobox()
+      this.getDeviceData()
     },
     methods: {
+      /* table 页面 页码更改*/
       handleTableChange(pagination) {
         this.pageSize = pagination.pageSize
         this.pageIndex = pagination.current
         this.getDeviceData()
       },
-
-      getDeviceData() {
+/* 获取设备类型 */
+      async getDeviceData() {
         let param = {
           pageIndex: this.pageIndex,
           pageSize: this.pageSize,
           serviceType: this.severSelect, //业务类别
           deviceTypeId: this.typeSelect, //设备类型
           brandId: this.brandSelect, //设备品牌
-          keyword: '' //搜索条件
+          keyword: this.keyword //搜索条件
+        }
+        let res = await this.$http.post(this.$api.devicemodelpage, param)
+        if (res.data.resultCode == 10000) {
+          this.deviceList = res.data.data.list
+        } else {
+          this.deviceList = []
+          this.$message.error(res.data.resultMsg);
         }
       },
-      confirm() { //确定
-
+      /* 确定删除*/
+      async confirmDelete(item) { 
+        let param = {
+          modelId: item.modelId
+        }
+        let res = await this.$http.post(this.$api.devicemodelremove, param);
+        if (res.data.resultCode == 10000) {
+          this.getDeviceData()
+          this.$message.success(res.data.resultMsg);
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
       },
+      /* 清除搜索条件*/
       cleanKeyWord() {
         this.keyword = ''
+        this.severSelect = ''
+        this.typeSelect = ''
+        this.brandSelect = ''
         this.getDeviceData()
       },
-      async getBrandList() { //获取品牌列表
+      /* 获取品牌列表*/
+      async getBrandList() { 
         let param = {
           pageIndex: 1,
           pageSize: 200,
@@ -129,7 +152,8 @@
           this.brandList = this.brandList.concat(res.data.data.list)
         }
       },
-      async getTypeList() { //获取设备类型列表
+      /* 获取设备类型列表*/
+      async getTypeList() { 
         let param = {
           keyword: '',
           serviceType: '',
@@ -141,56 +165,65 @@
           this.typeList = this.typeList.concat(res.data.data.list)
         }
       },
-      async getCombobox() { //获取业务类别
+      /* 获取业务类别*/
+      async getCombobox() { 
         let param = {
           classCode: 'device_service_type'
         }
         let res = await this.$http.post(this.$api.dictionarycombobox, param)
-        console.log(res)
-         if (res.data.resultCode == 10000) {
-           this.severList = this.severList.concat(res.data.data.list)
-         }
+
+        if (res.data.resultCode == 10000) {
+          this.severList = this.severList.concat(res.data.data)
+        }
       },
-      add() { //新增
+      /* 新增*/
+      add() { 
         this.$router.push({
           path: '/adddeviceModel',
           query: {
-            add: true
+            id: ""
           }
         });
       },
-      paramDevice() { //運行參數
+     /* 運行參數*/
+      paramDevice(item) { 
+      
         this.$router.push({
           path: '/deviceModelParam',
           query: {
-            add: false
+            id: item.modelId
           }
         });
       },
-      deviceInfo() { //屬性值
+      /* 屬性值*/
+      deviceInfo(item) { 
         this.$router.push({
           path: '/deviceModelAtt',
           query: {
-            add: false
+            id: item.modelId
           }
         });
       },
-      editDevice() { //編輯
+      /* 編輯*/
+      editDevice(item) { 
         this.$router.push({
           path: '/adddeviceModel',
           query: {
-            add: false
+            id: item.modelId
           }
         });
       },
-      serviceSelectChange(e) { //业务类别
-        this.getDeviceData()
+      /* 业务类别*/
+      serviceSelectChange(e) { 
+        this.severSelect = e
       },
-      deviceTypeSelectChange(e) { //设备类型
-        this.getDeviceData()
+      /* 设备类型*/
+      deviceTypeSelectChange(e) {
+        this.typeSelect = e
       },
-      brandSelectChange(e) { //品牌类别
-        this.getDeviceData()
+      /* 品牌类别*/
+      brandSelectChange(e) { 
+        this.brandSelect = e
       },
     }
   }

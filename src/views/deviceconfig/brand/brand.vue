@@ -50,12 +50,13 @@
       this.getBrandData()
     },
     methods: {
-      handleTableChange(pagination) { //切换分页
+       /* 切换分页 */
+      handleTableChange(pagination) {
         this.pageSize = pagination.pageSize
         this.pageIndex = pagination.current
         this.getBrandData()
       },
-
+      /* 获取品牌列表数据*/
       async getBrandData() {
         let param = {
           keyword: this.keyword,
@@ -70,7 +71,8 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-      async confirm(item) { //删除品牌确定
+      /* 删除品牌确定*/
+      async confirm(item) { 
         let param = {
           brandId: item.brandId
         }
@@ -82,16 +84,19 @@
           this.$message.error(res.data.resultMsg);
         }
       },
+     /* 清除搜索条件*/
       cleanKeyWord() {
         this.keyword = ''
         this.getBrandData()
       },
-      add() { //新增品牌
+      /* 新增品牌 */
+      add() {
         this.$router.push({
           path: '/addbrand'
         });
       },
-      editDevice(item) { //编辑品牌
+      /* 编辑品牌*/
+      editDevice(item) {
         this.$router.push({
           path: '/addbrand',
           query: {

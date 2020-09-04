@@ -11,20 +11,23 @@
       }, {
         "title": "事件名称",
         "align": "center",
-        "dataIndex": "menuName",
+        "dataIndex": "eventName",
         "ellipsis": true
       },
       {
         "title": "事件代码",
         "align": "center",
-        "dataIndex": "menuTypeName",
+        "dataIndex": "eventCode",
         "ellipsis": true
       },
       {
         "title": "事件类型",
         "align": "center",
-        "dataIndex": "parentName",
-        "ellipsis": true
+        "dataIndex": "eventType",
+        "ellipsis": true,
+        "scopedSlots": {
+          "customRender": "eventType"
+        }
       },
       {
         "title": "关联警报数",
@@ -32,11 +35,11 @@
         "dataIndex": "parentId",
         "ellipsis": true
       },
-    
+
       {
         "title": "操作",
         "align": "center",
-        "width": "160px",
+        "width": "320px",
         "scopedSlots": {
           "customRender": "operation"
         }

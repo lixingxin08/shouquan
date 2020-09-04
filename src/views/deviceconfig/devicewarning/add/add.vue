@@ -7,19 +7,19 @@
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>警报名称:</div>
 
-        <a-input class='edit_a_input' v-model='menuName' placeholder="请输入您选择的型号名称" />
+        <a-input class='edit_a_input' v-model='warning.alarmName' placeholder="请输入您选择的型号名称" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>警报代码:</div>
-        <a-input class='edit_a_input' v-model='menuName' placeholder="请输入您选择的型号代码" />
+        <a-input class='edit_a_input' v-model='warning.alarmCode' placeholder="请输入您选择的型号代码" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>警报类型:</div>
-        <a-select default-value="lucy" class='select_item' @change="handleSelectChange">
-          <a-select-option value="jack">
-            Jack
+        <a-select :value="warningSelect?warningSelect:'请选择警报类型'" class='select_item' @change="handleSelectChange">
+          <a-select-option v-for='(item,index) in warningTypeList' :key='index' :value="item.comboBoxId">
+            {{item.comboBoxName}}
           </a-select-option>
         </a-select>
         <div class="edit_item_toast">注：可直接选择设备品牌</div>
@@ -28,7 +28,7 @@
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">警报描述:</div>
         <div style="position: relative;">
-          <a-textarea class='edit_a_input' :rows="5" v-model='remark' :maxLength='500' placeholder="请输入描述" @change="onChangeConfig" />
+          <a-textarea class='edit_a_input' :rows="5" v-model='warning.remark' :maxLength='500' placeholder="请输入描述" @change="onChangeConfig" />
           <div class="edit_number">{{num}}/500</div>
         </div>
       </div>
@@ -44,143 +44,156 @@
 
       <div class="flexrow edit_item_title" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">转警事件</div>
 
-      <a-table :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true' size='small'>
-
-
-          <template slot="index" slot-scope="text, record,index">
-            {{index+1}}
-          </template>
+      <a-table :columns="dictionaryColumns" :data-source="eventList" :pagination='false' :bordered='true' size='small'
+        :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
+        <template slot="index" slot-scope="text, record,index">
+          {{index+1}}
+        </template>
       </a-table>
-
       <div class="flexrow flexjc" style="margin-top: 40px;margin-bottom: 100px;">
-        <a-button>保存</a-button>
-        <a-button type="primary" style="margin-left: 20px;">重置</a-button>
+        <a-button type="primary" @click='submit'>保存</a-button>
+        <a-button style="margin-left: 20px;" @click='reset'>重置</a-button>
       </div>
     </div>
-    <is-add v-if='showAddDialog' @close='closeDialog'></is-add>
   </div>
 </template>
 
 <script>
   import tableTitleData from "../table.json";
-  const plainOptions = ['页签', '按钮'];
 
-  function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-  }
   export default {
 
     data() {
 
       return {
+        selectedRowKeys: [], //选择转警事件
+        eventList: [], //转警事件
+        warningTypeList: [], //转警事件列表
+        warningSelect: '', //转警选择
+        warning: {}, //警告信息
         dictionaryColumns: tableTitleData.data.add,
-        editingKey: '',
-        value1: '页签',
-        menuName: '', //菜单名称
-        remark: '', //备注
         num: 0, //描述长度
-        plainOptions,
-        authList: [{
-          name: "1",
-          code: "1111",
-          info: "1111111"
-        }],
-        szList: [{}, {}, {}, {}, {}],
-        loading: false,
-        imageUrl: '',
-        isAdd: false,
-        menuId: '',
-        cacheData: {},
-        showAddDialog: false
+        id: '' //修改的id
       }
     },
     created() {
-      this.menuId = this.$route.query.id
-      this.isAdd = this.$route.query.add
-
-      if (this.menuId) { //编辑
-
-        this.getMenuInfo();
+      this.id = this.$route.query.id
+      this.getCombobox()
+      if (this.id) { //编辑
+        this.getWarnInfo();
+      } else {
+        this.getEventList()
       }
     },
     methods: {
-      closeDialog() {
-        this.showAddDialog = false
-      },
-      onChangeConfig(e) { //修改字典描述
-        this.num = this.remark.length
-      },
-      async getMenuInfo() {
+      /* 保存警报事件 */
+      async submit() {
+        if (!this.warning.alarmName) {
+          this.$message.warning('警报名字不能为空')
+          return
+        }
+        if (!this.warning.alarmCode) {
+          this.$message.warning('警报代码不能为空')
+          return
+        }
+        if (!this.warningSelect) {
+          this.$message.warning('请选择警报类型')
+          return
+        }
+        if (!this.selectedRowKeys) {
+          this.$message.warning('请至少勾选一个转警事件')
+          return
+        }
         let param = {
-          menuId: this.menuId
+          alarmId: this.id, //警报id 为空添加
+          alarmName: this.warning.alarmName, //警报名称
+          alarmCode: this.warning.alarmCode, //警报代码
+          alarmType: this.warningSelect, //警报类型
+          flowImage: this.warning.flowImage, //流程示意图
+          operatorId: '5172dadd6d7c404e8ac657f32f81d969', //操作者id
+          remark: this.warning.remark, //警报描述
+          eventList: this.getEventSelectList() //转警事件
         }
-        let res = await this.$http.post(this.$api.menudetail, param);
-        console.log(res)
-        if (res.data.resultCode == "10000") {
-          this.cacheData = res.data.data
-          this.setShowData();
+        let res = await this.$http.post(this.$api.alramform, param)
+        if (res.data.resultCode == 10000) {
+          this.$message.success(res.data.resultMsg);
+        } else {
+          this.$message.error(res.data.resultMsg);
         }
-      },
-      setShowData() {
-        this.menuName = this.cacheData.menuName
-        this.remark = this.cacheData.remark
-        if (this.isAdd == 'true') {
-          this.menuName = ''
-          this.remark = ''
-        }
-      },
-      handleImageChange(info) {
-        if (info.file.status === 'uploading') {
-          this.loading = true;
-          return;
-        }
-        if (info.file.status === 'done') {
-          getBase64(info.file.originFileObj, imageUrl => {
-            this.imageUrl = imageUrl;
-            this.loading = false;
-          });
-        }
-      },
-      beforeUpload(file) {
-        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-        if (!isJpgOrPng) {
-          this.$message.error('You can only upload JPG file!');
-        }
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isLt2M) {
-          this.$message.error('Image must smaller than 2MB!');
-        }
-        return isJpgOrPng && isLt2M;
       },
 
-      addLine() { //添加鉴权接口
-        this.showAddDialog = true
-      },
-      onChange1(e) { //菜单类型选择
-        console.log('radio1 checked', e.target.value);
-      },
-      handleSelectChange( value ) { //授权类型下拉选择
-        console.log(`selected ${value}`);
-      },
-      handleChange(value, key, column) {
-        const newData = [...this.szList];
-        const target = newData.filter(item => key === item.key)[0];
-        if (target) {
-          target[column] = value;
-          this.szList = newData;
+      /* 获取警报类别列表 */
+      async getCombobox() {
+        let param = {
+          classCode: 'device_alarm_type'
+        }
+        let res = await this.$http.post(this.$api.dictionarycombobox, param)
+        if (res.data.resultCode == 10000) {
+          this.warningTypeList = res.data.data
         }
       },
-      edit(key) {
-        const newData = [...this.szList];
-        const target = newData.filter(item => key === item.key)[0];
-        this.editingKey = key;
-        if (target) {
-          target.editable = true;
-          this.szList = newData;
+      /* 获取事件列表*/
+      async getEventList() {
+        let param = {
+          pageSize: 1,
+          pageIndex: 200,
+          keyword: '',
+          eventType: ''
+        }
+        let res = await this.$http.post(this.$api.deviceeventpage, param)
+        if (res.data.resultCode == 10000) {
+          this.eventList = res.data.data.list
         }
       },
+      /* 获取警告详情*/
+      async getWarnInfo() {
+        let param = {
+          alarmId: this.id
+        }
+        let res = await this.$http.post(this.$api.menudetail, param);
+        if (res.data.resultCode == 10000) {
+          this.warning = res.data.data
+          this.eventList = this.warning.list
+          if (this.eventList.length > 0) {
+            this.selectedRowKeys = []
+            let that = this
+            for (let i = 0; i < this.eventList.length; i++) {
+              if (this.eventList[i].select)
+                this.selectedRowKeys.push(i)
+            }
+          }
+        }
+      },
+
+      /* 获取关联品牌 */
+      getEventSelectList() {
+        let list = []
+        for (let i = 0; i < this.selectedRowKeys.length; i++) {
+          list.push(this.eventList[this.selectedRowKeys[i]].eventId)
+        }
+        return list
+      },
+      /**
+       * 修改描述
+       * */
+      onChangeConfig(e) {
+        this.num = this.warning.remark.length
+      },
+      handleSelectChange(value) { //授权类型下拉选择
+        this.warningSelect = value
+      },
+      onSelectChange(selectedRowKeys) { //选择警报类型
+        this.selectedRowKeys = selectedRowKeys;
+      },
+      /* 重置*/
+      reset() {
+        if (this.id) {
+          this.getWarnInfo()
+        } else {
+          this.selectedRowKeys = []
+          this.warning = {}
+        }
+      }
     },
   }
 </script>
@@ -201,9 +214,11 @@
     margin: 0 auto;
     margin-top: 24px;
   }
-.select_item{
-   width: 667px;
-}
+
+  .select_item {
+    width: 667px;
+  }
+
   .edit_item_toast {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;

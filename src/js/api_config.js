@@ -28,27 +28,27 @@ export default {
   runpage: `/config/parameter/page`, //运行参数列表接口
   runremove: `/config/dictionary/remove`, //运行参数删除接口
 
-    //客户人员信息表API
-    persondeleteByPersonId:`/customer/person/deleteByPersonId`,  
-    persondetail:`/customer/person/detail`,  
-    personform:`/customer/person/form`,  
-    personpage:`/customer/person/page`,   
+  //客户人员信息表API
+  persondeleteByPersonId: `/customer/person/deleteByPersonId`,
+  persondetail: `/customer/person/detail`,
+  personform: `/customer/person/form`,
+  personpage: `/customer/person/page`,
 
-   //客户基础信息表API
-   informationdeleteByInformationId:`/customer/information/deleteByInformationId`,
-   informationdetail:`/customer/information/detail`,
-   informationform:`/customer/information/form`,
-   informationpage:`/customer/information/page`,
- 
-   //客户部门信息表API
-   departmentdeleteByDepartmentId:`/customer/department/deleteByDepartmentId`,
-   departmentdetail:`/customer/department/detail`,
-   departmentform:`/customer/department/form`,
-   departmentpage:`/customer/department/page`,
-   departmenttree:`/customer/department/tree`,
+  //客户基础信息表API
+  informationdeleteByInformationId: `/customer/information/deleteByInformationId`,
+  informationdetail: `/customer/information/detail`,
+  informationform: `/customer/information/form`,
+  informationpage: `/customer/information/page`,
+
+  //客户部门信息表API
+  departmentdeleteByDepartmentId: `/customer/department/deleteByDepartmentId`,
+  departmentdetail: `/customer/department/detail`,
+  departmentform: `/customer/department/form`,
+  departmentpage: `/customer/department/page`,
+  departmenttree: `/customer/department/tree`,
 
 
-    WechatAccountpage:`/message/wechat/account/page`,//微信帐号基础信息分页查询接口
+  WechatAccountpage: `/message/wechat/account/page`, //微信帐号基础信息分页查询接口
 
 
   deleteByemailAccountId: `/message/email/account/deleteByWechatAccountId`, //邮箱帐号基础信息删除接口
@@ -79,4 +79,17 @@ export default {
   propertylist: `/device/property/list`, //设备属性列表接口
   propertyform: `/device/property/form`, //设备属性表单接口
   propertyremove: `/device/property/remove`, //设备属性删除接口
+
+  alramlist: `/device/alarm/page`, //事件警报表分页查询接口
+  alramform: `/device/alram/form`, //事件警报表单接口
+  alramdetail: `/device/alram/detail`, //事件警报详情接口
+  alramremove: `/device/alram/remove`, //事件警报删除接口
+
+  paramdetail: `/config/parameter/detail`, //运行参数详情接口
+  paramform: `/config/parameter/form`, //运行参数表单接口
+  parampage: `/config/parameter/page`, //运行参数列表接口
+  paramremove: `/config/parameter/remove`, //运行参数删除接口
+
+  propertyvaluelist :`/propertyValue/page`,//属性值列表接口
+  propertyvalueform:`/propertyValue/form`,//属性值表单接口
 }

@@ -68,9 +68,10 @@
       }
     },
     methods: {
-      reset() { //重置
+      /* 重置*/
+      reset() {
         if (this.id) {
-
+          this.getBrandInfo()
         } else {
           this.typeName = ''
           this.typeCode = ''
@@ -78,7 +79,8 @@
           this.selectedRowKeys = []
         }
       },
-      async submit() { //提交设备类型
+      /* 提交设备类型*/
+      async submit() {
         if (!this.typeName) {
           this.$message.warning('品牌名称不能为空')
           return
@@ -93,10 +95,10 @@
         }
         let param = {
           brandId: this.id == '' ? '' : this.id,
-          brandName: this.typeName,
-          brandCode: this.typeCode,
+          brandName: this.typeName, //品牌名称
+          brandCode: this.typeCode, //品牌代码
           operatorId: '5172dadd6d7c404e8ac657f32f81d969',
-          remark: this.remark,
+          remark: this.remark, //描述
           typeIds: this.getTypeListIds()
         }
         let res = await this.$http.post(this.$api.devicebrandsform, param)
@@ -107,17 +109,20 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-      onChangeConfig(e) { //修改字典描述
+      /* 修改字典描述*/
+      onChangeConfig(e) {
         this.num = this.remark.length
       },
-      getTypeListIds(){
+      /* 获取选择的类型列表*/
+      getTypeListIds() {
         let typelist1 = []
         for (let i = 0; i < this.selectedRowKeys.length; i++) {
-         typelist1.push(this.typeList[this.selectedRowKeys[i]].deviceTypeId)
+          typelist1.push(this.typeList[this.selectedRowKeys[i]].deviceTypeId)
         }
         return typelist1
       },
-      async getBrandInfo() { //获取设备类型
+      /* 获取设备类型*/
+      async getBrandInfo() {
         let param = {
           brandId: this.id
         }
@@ -127,7 +132,7 @@
 
           this.typeName = res.data.data.brandName
           this.typeCode = res.data.data.brandCode
-          this.remark =res.data.data.remark
+          this.remark = res.data.data.remark
           this.typeList = res.data.data.deviceTypeList
           if (this.typeList.length > 0) {
             this.selectedRowKeys = []
@@ -141,11 +146,12 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-
-      onSelectChange(selectedRowKeys) { //选择类型
+/* 选择类型 */
+      onSelectChange(selectedRowKeys) { 
         this.selectedRowKeys = selectedRowKeys;
       },
-      async getTypeList() { //获取设备类型列表
+      /* 获取设备类型列表*/
+      async getTypeList() { 
         let param = {
           keyword: '',
           serviceType: '',
