@@ -23,7 +23,7 @@
       {
         "title": "事件类型",
         "align": "center",
-        "dataIndex": "eventTypeName",
+        "dataIndex": "eventType",
         "ellipsis": true,
         "scopedSlots": {
           "customRender": "eventType"
@@ -32,7 +32,7 @@
       {
         "title": "关联警报数",
         "align": "center",
-        "dataIndex": "alarmTotal",
+        "dataIndex": "parentId",
         "ellipsis": true
       },
 

@@ -13,7 +13,7 @@ Vue.prototype.$http = axios;
 Vue.prototype.$api = api;
 import 'ant-design-vue/dist/antd.css';
 
-import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker ,Switch,Popconfirm,Modal,message ,Radio,Upload} from 'ant-design-vue';
+import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker ,Switch,Popconfirm,Modal,message ,Radio,Upload,Steps} from 'ant-design-vue';
 
 Vue.use(Dropdown);
 Vue.use(Layout);
@@ -33,6 +33,7 @@ Vue.use(Modal);
 Vue.prototype.$message = message
 Vue.use(Radio);
 Vue.use(Upload);
+Vue.use(Steps);
 
 import md5 from 'js-md5';
 Vue.prototype.$md5 = md5
@@ -115,10 +116,10 @@ instance.interceptors.response.use(
 Vue.prototype.vify_cn = function (phone) {
   let myreg = /^[\u4e00-\u9fa5a-z\d_]{2,16}$/gi;
   if (myreg.test(phone) !== true) {
- 
+
     return false;
   } else {
-   
+
     return true;
   }
   return true;

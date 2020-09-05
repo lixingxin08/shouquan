@@ -33,12 +33,7 @@
       <template slot="index" slot-scope="text, record,index">
         {{index+1}}
       </template>
-      <template slot="authFlag" slot-scope="text, record,index">
-        <div v-if="record.authFlag==0">默认拥有类</div>
-        <div v-if="record.authFlag==1">系统配置类</div>
-        <div v-if="record.authFlag==2">客户授权类</div>
-        <div v-if="record.authFlag==2">均可操作类</div>
-      </template>
+  
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>

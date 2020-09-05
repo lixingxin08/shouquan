@@ -36,7 +36,7 @@
         "title": "授权次数",
         "align": "center",
         "ellipsis": true,
-        "dataIndex": "alarmTotal"
+        "dataIndex": "authTotal"
       },
       {
         "title": "操作",
@@ -59,13 +59,13 @@
         "title": "事件名称",
         "dataIndex": "eventName",
         "align": "center",
-           "width": "30%"
+        "width": "30%"
       },
       {
         "title": "事件代码",
         "dataIndex": "eventCode",
         "align": "center",
-   "width": "30%"
+        "width": "30%"
       },
       {
         "title": "事件类型",

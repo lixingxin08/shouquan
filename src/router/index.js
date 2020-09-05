@@ -39,8 +39,11 @@ const addpersonnelManagement = () => import('@/views/customer/personnelManagemen
 const project = () => import('@/views/customer/project/project') //项目管理
 
 const wechat = () => import('@/views/message/wechat/wechat') //微信账号
+const addwechat = () => import('@/views/message/wechat/add/add')
 const email = () => import('@/views/message/email/email') //邮箱账号
+const addemail = () => import('@/views/message/email/add/add') //邮箱账号
 const sms = () => import('@/views/message/sms/sms') //微信账号
+const addsms = () => import('@/views/message/sms/add/add') //微信账号
 
 const template = () => import('@/views/business/template/template') //菜单模板
 const menuauthorization = () => import('@/views/business/menuauthorization/menuauthorization') //菜单授权
@@ -249,7 +252,7 @@ export default new Router({
           },
           component: devicewarning
         },
-        
+
         {
           path: '/adddevicewarning',
           name: 'devicewarning',
@@ -323,6 +326,14 @@ export default new Router({
           component: wechat
         },
         {
+          path: '/addwechat',
+          name: 'wechat',
+          meta: {
+            title: '微信账号'
+          },
+          component: addwechat
+        },
+        {
           path: '/email',
           name: 'email',
           meta: {
@@ -331,12 +342,28 @@ export default new Router({
           component: email
         },
         {
+          path: '/addemail',
+          name: 'email',
+          meta: {
+            title: '邮箱账号'
+          },
+          component: addemail
+        },
+        {
           path: '/sms',
           name: 'sms',
           meta: {
             title: '短信账号'
           },
           component: sms
+        },
+        {
+          path: '/addsms',
+          name: 'sms',
+          meta: {
+            title: '短信账号'
+          },
+          component: addsms
         },
         {
           path: '/template',

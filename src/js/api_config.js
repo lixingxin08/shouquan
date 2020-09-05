@@ -48,9 +48,15 @@ export default {
   departmenttree: `/customer/department/tree`,
 
 
-  WechatAccountpage: `/message/wechat/account/page`, //微信帐号基础信息分页查询接口
+  wechatAccountpage: `/message/wechat/account/page`, //微信帐号基础信息分页查询接口
+  wechatAccountform: `/message/wechat/account/form`, //微信帐号基础信息查询详情接口
+  wechatAccountdetail: `/message/wechat/account/detail`, //微信帐号基础信息表单接口
+  wechatAccountremove: `/message/wechat/account/deleteByWechatAccountId`, //微信帐号基础信息删除接口
+  messagewechattemplatelist :`/message/wechat/template/list`,//微信消息模板列表
 
 
+  messagesmstemplatelist :`/message/sms/template/list`,//微信消息模板列表
+  
   deleteByemailAccountId: `/message/email/account/deleteByWechatAccountId`, //邮箱帐号基础信息删除接口
   emailtAccountdetail: `/message/email/account/detail`, //邮箱帐号基础信息查询详情接口
   emailAccountform: `/message/email/account/form`, // 邮箱帐号基础信息表单接口
@@ -90,6 +96,12 @@ export default {
   parampage: `/config/parameter/page`, //运行参数列表接口
   paramremove: `/config/parameter/remove`, //运行参数删除接口
 
-  propertyvaluelist :`/propertyValue/page`,//属性值列表接口
-  propertyvalueform:`/propertyValue/form`,//属性值表单接口
+  propertyvaluelist: `/propertyValue/page`, //属性值列表接口
+  propertyvalueform: `/propertyValue/form`, //属性值表单接口
+  propertyvaluedetail: `/propertyValue/detail`, //属性值详情接口
+
+
+
+
+
 }

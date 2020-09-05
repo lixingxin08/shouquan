@@ -21,10 +21,6 @@
       <template slot="index" slot-scope="text, record,index">
         {{index+1}}
       </template>
-      <template slot="eventType" slot-scope="text, record,index">
-        <div v-if="text=='device_event_type_loop'">路灯类</div>
-        <div v-else>text</div>
-      </template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>

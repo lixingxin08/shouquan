@@ -28,16 +28,14 @@
         <a class="title_item" style="margin-left: 20px;width: 667px;">{{item.propertyName}}</a>
       </div>
 
-      <a-table v-if='item.childrenList&&item.childrenList.length>0' style='margin-top: 20px;margin-bottom: 20px;'
-        :columns="dictionaryColumns" :data-source="item.childrenList" :pagination='false' :bordered='true' size='small'>
+      <a-table style='margin-top: 20px;margin-bottom: 20px;' :columns="dictionaryColumns" :data-source="item.childrenList"
+        :pagination='false' :bordered='true' size='small'>
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
         </template>
-        <template v-for="col in ['propertyName', 'propertyCode', 'propertyDesc']" :slot="col" slot-scope="text, record, index2">
-          <div>{{text}}</div>
-        </template>
+
         <template slot="propertyValue" slot-scope="text, record, index2">
-          <a-input style="margin: -5px 0;border: 0px;"  v-model='text' @change="e => handleChange(e.target.value, index2,index)"></a-input>
+          <a-input style="margin: -5px 0;border: 0px;" v-model='text' @change="e => handleChange(e.target.value, index2,index)"></a-input>
         </template>
       </a-table>
     </div>
@@ -50,15 +48,62 @@
 </template>
 <script>
   import tableTitleData from "../table.json";
+
+
+
+  const attList = [{
+      title: "序号",
+      width: "3%",
+      align: "center",
+      scopedSlots: {
+        "customRender": "index"
+      },
+    },
+    {
+      title: "属性名称",
+      dataIndex: "propertyName",
+      align: "center",
+      width: "15%",
+    },
+    {
+      title: "属性代码",
+      dataIndex: "propertyCode",
+      align: "center",
+      width: "15%",
+
+      scopedSlots: {
+        "customRender": "propertyCode"
+      }
+    },
+
+    {
+      title: "属性描述",
+      dataIndex: "propertyDesc",
+      align: "center",
+      width: "40%",
+      scopedSlots: {
+        "customRender": "propertyDesc"
+      }
+    },
+
+    {
+      title: "属性值",
+      dataIndex: "propertyValue",
+      align: "center",
+      width: "25%",
+      scopedSlots: {
+        "customRender": "propertyValue"
+      }
+    }
+  ]
   export default {
 
     data() {
       return {
-        dictionaryColumns: tableTitleData.data.attList,
-        modelDetail: {},
+        dictionaryColumns: attList, //table title
+        modelDetail: {}, //型号详细信息
         groups: [], //参数列表
       }
-
     },
     created() {
       this.id = this.$route.query.id
@@ -67,19 +112,29 @@
     methods: {
       /* 提交属性*/
       async submit() {
+        let param = []
         for (let i = 0; i < this.groups.length; i++) {
           if (this.groups[i].childrenList) {
             for (let j = 0; j < this.groups[i].childrenList.length; j++) {
               let item = this.groups[i].childrenList[j]
-              let param = {
+              //if (item.edit) {
+              let param1 = {
                 propertyId: item.propertyId,
-                propertyValue: item.propertyValue, //父级属性id
+                modelId: this.id,
+                deviceTypeId: item.deviceTypeId,
+                propertyValue: item.propertyValue ? item.propertyValue : "",
                 operatorId: '5172dadd6d7c404e8ac657f32f81d969'
               }
-              console.log(param)
-              //let res = await this.$http.post(this.$api.propertyvalueform, param)
+              param.push(param1)
+              // }
             }
           }
+        }
+        let res = await this.$http.post(this.$api.propertyvalueform, param)
+        if (res.data.resultCode == 1000) {
+          this.$message.success(res.data.resultMsg)
+        } else {
+          this.$message.error(res.data.resultMsg)
         }
         this.reset()
       },
@@ -87,7 +142,8 @@
       reset() {
         this.getProperty(this.modelDetail.deviceTypeId)
       },
-      async getModelInfo() { //获取设备型号信息
+      /* 获取设备型号信息*/
+      async getModelInfo() {
         let param = {
           modelId: this.id
         }
@@ -102,7 +158,7 @@
         let param = {
           deviceTypeId: id
         }
-        let res = await this.$http.post(this.$api.propertylist, param)
+        let res = await this.$http.post(this.$api.propertyvaluedetail, param)
 
         if (res.data.resultCode == 10000) {
           let data = res.data.data
@@ -121,6 +177,7 @@
         const target = newData[groupIndex].childrenList[chilidIndex];
         if (target) {
           target['propertyValue'] = value;
+          ///target['edit'] = true;
           this.groups = newData;
         }
       },
@@ -128,6 +185,10 @@
   }
 </script>
 <style>
+  .red-style {
+    background: #000000;
+  }
+
   .title_tx {
     flex-shrink: 0;
     font-size: 12px;

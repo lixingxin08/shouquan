@@ -92,35 +92,35 @@
           "customRender": "index"
         },
         "width": "4%",
-          "ellipsis": true,
+        "ellipsis": true,
         "align": "center"
       },
       {
         "title": "参数名称",
         "dataIndex": "parameterName",
         "width": "12%",
-           "ellipsis": true,
+        "ellipsis": true,
         "align": "center"
       },
       {
         "title": "参数代码",
         "dataIndex": "parameterCode",
         "width": "12%",
-           "ellipsis": true,
+        "ellipsis": true,
         "align": "center"
       },
       {
         "title": "参数数值",
         "dataIndex": "parameterValue",
         "width": "12%",
-           "ellipsis": true,
+        "ellipsis": true,
         "align": "center"
       },
       {
         "title": "参数描述",
         "dataIndex": "description",
         "width": "35%",
-           "ellipsis": true,
+        "ellipsis": true,
         "align": "center"
       },
       {
@@ -131,53 +131,7 @@
           "customRender": "operation"
         }
       }
-    ],
-    "attList": [{
-        "title": "序号",
-        "width": "3%",
-        "align": "center",
-        "scopedSlots": {
-          "customRender": "index"
-        }
-      },
-      {
-        "title": "属性名称",
-        "dataIndex": "propertyName",
-        "align": "center",
-        "width": "15%",
-        "scopedSlots": {
-          "customRender": "propertyName"
-        }
-      },
-      {
-        "title": "属性代码",
-        "dataIndex": "propertyCode",
-        "align": "center",
-        "width": "15%",
-        "scopedSlots": {
-          "customRender": "propertyCode"
-        }
-      },
-
-      {
-        "title": "属性描述",
-        "dataIndex": "propertyDesc",
-        "align": "center",
-        "width": "40%",
-        "scopedSlots": {
-          "customRender": "propertyDesc"
-        }
-      },
-
-      {
-        "title": "属性值",
-        "dataIndex": "propertyValue",
-        "align": "center",
-        "width": "25%",
-        "scopedSlots": {
-          "customRender": "propertyValue"
-        }
-      }
     ]
+
   }
 }
