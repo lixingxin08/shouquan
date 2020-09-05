@@ -21,12 +21,6 @@
       <template slot="index" slot-scope="text, record,index">
         {{index+1}}
       </template>
-      <template slot="authFlag" slot-scope="text, record,index">
-        <div v-if="record.authFlag==0">默认拥有类</div>
-        <div v-if="record.authFlag==1">系统配置类</div>
-        <div v-if="record.authFlag==2">客户授权类</div>
-        <div v-if="record.authFlag==2">均可操作类</div>
-      </template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
@@ -81,7 +75,7 @@
       async getWariningData() {
         let param = {
           keyword: this.keyword,
-          eventType: this.warningSelect,
+          alarmType: this.warningSelect,
           pageIndex: this.pageIndex,
           pageSize: this.pageSize
         }
@@ -173,7 +167,7 @@
     height: 20px;
     width: 1px;
     background-color: #e5e5e5;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 </style>

@@ -112,7 +112,7 @@
           flowImage: this.warning.flowImage, //流程示意图
           operatorId: '5172dadd6d7c404e8ac657f32f81d969', //操作者id
           remark: this.warning.remark, //警报描述
-          eventList: this.getEventSelectList() //转警事件
+          eventIdList: this.getEventSelectList() //转警事件
         }
         let res = await this.$http.post(this.$api.alramform, param)
         if (res.data.resultCode == 10000) {
@@ -135,8 +135,8 @@
       /* 获取事件列表*/
       async getEventList() {
         let param = {
-          pageSize: 1,
-          pageIndex: 200,
+          pageSize: 200,
+          pageIndex:1 ,
           keyword: '',
           eventType: ''
         }
@@ -150,10 +150,11 @@
         let param = {
           alarmId: this.id
         }
-        let res = await this.$http.post(this.$api.menudetail, param);
+        let res = await this.$http.post(this.$api.alramdetail, param);
         if (res.data.resultCode == 10000) {
           this.warning = res.data.data
-          this.eventList = this.warning.list
+          this.eventList = this.warning.eventList
+          this.warningSelect=this.warning.alarmType
           if (this.eventList.length > 0) {
             this.selectedRowKeys = []
             let that = this

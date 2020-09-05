@@ -48,19 +48,20 @@
     data() {
 
       return {
-        visible: false,
-        dictionaryColumns: tableTitleData.data.attList,
-        groups: [],
-        id: '',
-        deleteItem: ""
+        visible: false,//是否显示删除确认框
+        dictionaryColumns: tableTitleData.data.attList,//table title
+        groups: [],//分组列表
+        id: '',//设备类型id
+        deleteItem: ""//删除的item 缓存记录
       }
     },
     created() {
-      this.id = this.$route.query.id
+      this.id = this.$route.query.id//获取传入的设备id
       this.getProperty()
     },
     methods: {
-      async save(item, groupItem) {//保存属性
+		/* 保存属性 */
+      async save(item, groupItem) {
         let param = {
           propertyDesc: item.propertyDesc, //属性描述
           propertyName: item.propertyName, //属性名称
@@ -79,7 +80,8 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-     async cancel(item) {//删除子属性
+	  /* 删除某个分组下的子属性*/
+     async cancel(item) {
         let param = {
           propertyId: item.propertyId
         }
@@ -91,10 +93,12 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-      add() { //添加分组
+	  /* 添加分组*/
+      add() {
         this.groups.push({})
       },
-      addGroupAtt(index) { //添加子属性
+	  /* 添加分组的子属性*/
+      addGroupAtt(index) {
         this.groups[index].childrenList.push({
           propertyCode: '',
           propertyId: '',
@@ -102,18 +106,18 @@
           propertyDesc: ''
         })
       },
-
-      deleteGroup(item) { //删除属性分组
+/* 删除属性分组 */
+      deleteGroup(item) {
         this.deleteItem = item
         this.visible = true
       },
-      async getProperty() { //获取分组信息
+      /* 获取分组信息*/
+      async getProperty() {
         let param = {
           deviceTypeId: this.id
         }
         let res = await this.$http.post(this.$api.propertylist, param)
-        console.log(param)
-        console.log(res)
+
         if (res.data.resultCode == 10000) {
           let data = res.data.data
           for (let i = 0; i < data.length; i++) {
@@ -124,11 +128,12 @@
           }
           this.groups = data
 
-        } else {
+        } else {//没有分组信息时本地添加一个空的
           this.groups.push({})
           this.$message.error(res.data.resultMsg);
         }
       },
+      /* 添加保存分组*/
       async saveGroup(item) {
         if (!item.propertyName) {
           this.$message.warning('属性分组名称不能为空')
@@ -136,9 +141,9 @@
         }
 
         let param = {
-          propertyName: item.propertyName,
-          deviceTypeId: this.id,
-          operatorId: '5172dadd6d7c404e8ac657f32f81d969'
+          propertyName: item.propertyName,//分组名称
+          deviceTypeId: this.id,//为空 新增 不能为空编辑
+          operatorId: '5172dadd6d7c404e8ac657f32f81d969'//操作者id
         }
         let res = await this.$http.post(this.$api.propertyform, param)
         if (res.data.resultCode == 10000) {
@@ -147,6 +152,7 @@
           this.$message.error(res.data.resultMsg);
         }
       },
+      /* 修改某个编辑框，实时更新list 数据*/
       handleChange(value, chilidIndex, column, groupIndex) { //修改数值
         const newData = [...this.groups];
         const target = newData[groupIndex].childrenList[chilidIndex];
@@ -155,10 +161,11 @@
           this.groups = newData;
         }
       },
+      /* 确认删除后请求*/
       async confirmDialog() {
         this.visible = false
         let param = {
-          propertyId: this.deleteItem.propertyId
+          propertyId: this.deleteItem.propertyId//分组的id
         }
         let res = await this.$http.post(this.$api.propertyremove, param)
 
@@ -169,6 +176,7 @@
           this.$message.error(res.data.resultMsg);
         }
       },
+      /* 取消*/
       cancleDialog() {
         this.visible = false
       }

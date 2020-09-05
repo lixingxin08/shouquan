@@ -81,9 +81,9 @@ export default {
   propertyremove: `/device/property/remove`, //设备属性删除接口
 
   alramlist: `/device/alarm/page`, //事件警报表分页查询接口
-  alramform: `/device/alram/form`, //事件警报表单接口
-  alramdetail: `/device/alram/detail`, //事件警报详情接口
-  alramremove: `/device/alram/remove`, //事件警报删除接口
+  alramform: `/device/alarm/form`, //事件警报表单接口
+  alramdetail: `/device/alarm/detail`, //事件警报详情接口
+  alramremove: `/device/alarm/remove`, //事件警报删除接口
 
   paramdetail: `/config/parameter/detail`, //运行参数详情接口
   paramform: `/config/parameter/form`, //运行参数表单接口

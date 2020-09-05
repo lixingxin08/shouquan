@@ -81,22 +81,23 @@
       }
     },
     methods: {
-
-      onChangeConfig(e) { //修改字典描述
+      /* 修改字典描述 */
+      onChangeConfig(e) {
         this.num = this.remark.length
       },
-      async getDeviceInfo() { //获取设备详细信息
+      /* 获取设备详细信息*/
+      async getDeviceInfo() {
         let param = {
           deviceTypeId: this.deviceId
         }
         let res = await this.$http.post(this.$api.devicetypedetail, param)
         if (res.data.resultCode == 10000) {
 
-          this.typeName = res.data.data.deviceTypeName
-          this.typeCode = res.data.data.deviceTypeCode
-          this.selectDefault = res.data.data.serviceTypeName
-          this.remark =res.data.data.remark
-          this.brandList = res.data.data.deviceBrandList
+          this.typeName = res.data.data.deviceTypeName //设备类型
+          this.typeCode = res.data.data.deviceTypeCode //设备代码
+          this.selectDefault = res.data.data.serviceTypeName //业务类型
+          this.remark = res.data.data.remark //描述
+          this.brandList = res.data.data.deviceBrandList //品牌列表
           if (this.brandList.length > 0) {
             this.selectedRowKeys = []
             let that = this
@@ -109,7 +110,8 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-      async getBrandData() { //获取品牌列表
+      /* 获取品牌列表*/
+      async getBrandData() {
         let param = {
           pageIndex: 1,
           pageSize: 200,
@@ -121,6 +123,7 @@
           this.brandList = res.data.data.list
         }
       },
+      /* 获取业务类型下拉列表*/
       async getCombobox() {
         let param = {
           classCode: 'device_service_type'
@@ -131,11 +134,11 @@
         }
         console.log(res)
       },
-
-      onSelectChange(selectedRowKeys) { //选择品牌
+      /* 选择品牌 */
+      onSelectChange(selectedRowKeys) {
         this.selectedRowKeys = selectedRowKeys;
       },
-
+      /* 提交 */
       async submit() {
         if (!this.typeName) {
           this.$message.warning('类型名称不能为空')
@@ -154,13 +157,13 @@
           return
         }
         let param = {
-          deviceTypeId: this.deviceId,
-          deviceTypeName: this.typeName,
-          deviceTypeCode: this.typeCode,
-          serviceType: this.getServiceType(),
+          deviceTypeId: this.deviceId, //设备id
+          deviceTypeName: this.typeName, //设备类型名称
+          deviceTypeCode: this.typeCode, //设备类型代码
+          serviceType: this.getServiceType(), //业务类型
           operatorId: '5172dadd6d7c404e8ac657f32f81d969',
-          remark: this.remark,
-          deviceBrandList: this.getdeviceBrand()
+          remark: this.remark, //描述
+          deviceBrandList: this.getdeviceBrand() //设备品牌列表
         }
         let res = await this.$http.post(this.$api.devicetypeform, param)
         if (res.data.resultCode == 10000) {
@@ -169,20 +172,22 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-      getdeviceBrand() { //获取关联品牌
+      /* 获取关联品牌*/
+      getdeviceBrand() {
         let brandlist1 = []
         for (let i = 0; i < this.selectedRowKeys.length; i++) {
-         brandlist1.push(this.brandList[this.selectedRowKeys[i]].brandId)
+          brandlist1.push(this.brandList[this.selectedRowKeys[i]].brandId)
         }
         return brandlist1
       },
-      handleSelectChange(e) { //授权类型下拉选择
+      /* 授权类型下拉选择*/
+      handleSelectChange(e) {
         console.log(e)
         this.serviceType = e
         this.selectDefault = e
       },
-
-      getServiceType() { //获取设备类型
+      /* 获取设备类型 */
+      getServiceType() {
         let type
         for (let i = 0; i < this.selectList.length; i++) {
           if (this.selectList[i].comboBoxName == this.selectDefault) {

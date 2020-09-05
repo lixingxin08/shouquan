@@ -11,32 +11,32 @@
       }, {
         "title": "警报名称",
         "align": "center",
-        "dataIndex": "alarmName",
-        "ellipsis": true
+        "ellipsis": true,
+        "dataIndex": "alarmName"
       },
       {
         "title": "警报代码",
         "align": "center",
-        "dataIndex": "alarmCode",
-        "ellipsis": true
+        "ellipsis": true,
+        "dataIndex": "alarmCode"
       },
       {
         "title": "警报类型",
         "align": "center",
-        "dataIndex": "alarmTypeName",
-        "ellipsis": true
+        "ellipsis": true,
+        "dataIndex": "alarmTypeName"
       },
       {
         "title": "转警事件数",
         "align": "center",
-        "dataIndex": "eventTotal",
-        "ellipsis": true
+        "ellipsis": true,
+        "dataIndex": "eventTotal"
       },
       {
         "title": "授权次数",
         "align": "center",
-        "dataIndex": "alarmTotal",
-        "ellipsis": true
+        "ellipsis": true,
+        "dataIndex": "alarmTotal"
       },
       {
         "title": "操作",
@@ -58,19 +58,20 @@
       {
         "title": "事件名称",
         "dataIndex": "eventName",
-        "align": "center"
-
+        "align": "center",
+           "width": "30%"
       },
       {
         "title": "事件代码",
         "dataIndex": "eventCode",
-        "align": "center"
-
+        "align": "center",
+   "width": "30%"
       },
       {
         "title": "事件类型",
-        "dataIndex": "remark",
-        "align": "eventTypeName"
+        "dataIndex": "eventTypeName",
+        "align": "center"
+
       }
     ]
   }

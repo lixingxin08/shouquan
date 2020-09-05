@@ -66,17 +66,17 @@
     },
     methods: {
       /* 切换页面 页码事件*/
-      handleTableChange(pagination) { 
+      handleTableChange(pagination) {
         this.pageSize = pagination.pageSize
         this.pageIndex = pagination.current
         this.getEvent()
       },
       /* 更换类型事件*/
-      eventSelectChange(e) { 
+      eventSelectChange(e) {
         this.eventSelect = e
       },
       /* 获取类型列表*/
-      async getEvent() { 
+      async getEvent() {
         let param = {
           pageSize: this.pageSize,
           pageIndex: this.pageIndex,
@@ -92,7 +92,7 @@
         }
       },
       /* 确定*/
-      async confirmDelete(item) { 
+      async confirmDelete(item) {
         let param = {
           eventId: item.eventId,
         }
