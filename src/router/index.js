@@ -31,15 +31,19 @@ const devicewarning = () => import('@/views/deviceconfig/devicewarning/devicewar
 const adddevicewarning = () => import('@/views/deviceconfig/devicewarning/add/add') //设备警报添加/编辑
 
 const customerprofile = () => import('@/views/customer/customerprofile/customerprofile') //客户档案
+const addcustomerprofile = () => import('@/views/customer/customerprofile/add/add') //客户档案
 const essentialinformation = () => import('@/views/customer/essentialinformation/essentialinformation') //基本信息
 const dpartmentManagement = () => import('@/views/customer/dpartmentManagement/dpartmentManagement') //部门管理
 const adddpartmentManagement = () => import('@/views/customer/dpartmentManagement/add/add') //部门管理
 const personnelManagement = () => import('@/views/customer/personnelManagement/personnelManagement') //人员管理
 const addpersonnelManagement = () => import('@/views/customer/personnelManagement/add/add') //人员管理
 const project = () => import('@/views/customer/project/project') //项目管理
+const addproject = () => import('@/views/customer/project/add/add') //项目管理
+const stageproject = () => import('@/views/customer/stageproject/stageproject') //项目管理
+const addstageproject = () => import('@/views/customer/stageproject/add/add') //项目管理
 
 const wechat = () => import('@/views/message/wechat/wechat') //微信账号
-const addwechat = () => import('@/views/message/wechat/add/add')
+const addwechat = () => import('@/views/message/wechat/add/add') //微信账号
 const email = () => import('@/views/message/email/email') //邮箱账号
 const addemail = () => import('@/views/message/email/add/add') //邮箱账号
 const sms = () => import('@/views/message/sms/sms') //微信账号
@@ -270,6 +274,14 @@ export default new Router({
           component: customerprofile
         },
         {
+          path: '/addcustomerprofile',
+          name: 'customerprofile',
+          meta: {
+            title: '客户档案'
+          },
+          component: addcustomerprofile
+        },
+        {
           path: '/essentialinformation',
           name: 'essentialinformation',
           meta: {
@@ -316,6 +328,30 @@ export default new Router({
             title: '项目管理'
           },
           component: project
+        },
+        {
+          path: '/addproject',
+          name: 'project',
+          meta: {
+            title: '项目管理'
+          },
+          component: addproject
+        },
+        {
+          path: '/stageproject',
+          name: 'project',
+          meta: {
+            title: '项目管理'
+          },
+          component: stageproject
+        },
+        {
+          path: '/addstageproject',
+          name: 'project',
+          meta: {
+            title: '项目管理'
+          },
+          component: addstageproject
         },
         {
           path: '/wechat',

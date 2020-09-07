@@ -197,12 +197,12 @@
           </router-link>
         </a-menu-item>
       </a-sub-menu>
-        <a-menu-item key="LogManagement">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to="/LogManagement">
-            <span  style="margin-right:20px">日志管理</span>
-          </router-link>
-        </a-menu-item>
+      <a-menu-item key="LogManagement">
+        <!-- <a-icon type="upload" /> -->
+        <router-link to="/LogManagement">
+          <span style="margin-right:20px">日志管理</span>
+        </router-link>
+      </a-menu-item>
     </a-menu>
   </a-layout-sider>
 </template>
@@ -230,6 +230,48 @@ export default {
         this.$route.name == "devicewarning"
       ) {
         return ["device"];
+      }
+      if (
+        this.$route.name == "customerprofile" ||
+        this.$route.name == "essentialinformation" ||
+        this.$route.name == "dpartmentManagement" ||
+        this.$route.name == "personnelManagement" ||
+        this.$route.name == "project"
+      ) {
+        return ["customerpro"];
+      }
+      if (
+        this.$route.name == "wechat" ||
+        this.$route.name == "email" ||
+        this.$route.name == "sms"
+      ) {
+        return ["message"];
+      }
+      if (
+        this.$route.name == "template" ||
+        this.$route.name == "menuauthorization" ||
+        this.$route.name == "zoningauthorization" ||
+        this.$route.name == "modelauthorization" ||
+        this.$route.name == "alertauthorization" ||
+        this.$route.name == "messageauthorization"
+      ) {
+        return ["business"];
+      }
+      if (
+        this.$route.name == "CustomerAuthorization" ||
+        this.$route.name == "Myclients"
+      ) {
+        return ["MaintenanceAuthorization"];
+      }
+      if (
+        this.$route.name == "SystemRole" ||
+        this.$route.name == "systemAccount" ||
+        this.$route.name == "CustomerRole" ||
+        this.$route.name == "CustomerUser" ||
+        this.$route.name == "MyAccount" ||
+        this.$route.name == "project"
+      ) {
+        return ["accountManagement"];
       }
     },
   },

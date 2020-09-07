@@ -13,6 +13,11 @@ Vue.prototype.$http = axios;
 Vue.prototype.$api = api;
 import 'ant-design-vue/dist/antd.css';
 
+import moment from 'moment';
+import locale from 'ant-design-vue/lib/locale-provider/zh_CN';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
+
 import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker ,Switch,Popconfirm,Modal,message ,Radio,Upload,Steps} from 'ant-design-vue';
 
 Vue.use(Dropdown);
@@ -80,6 +85,15 @@ instance.interceptors.response.use(
             }
           })
           case 504:
+          // 返回 401 (未授权) 清除 token 并跳转到登录页面
+
+          router.replace({
+            path: 'error500',
+            query: {
+              redirect: router.currentRoute.fullPath
+            }
+          })
+          case 500:
           // 返回 401 (未授权) 清除 token 并跳转到登录页面
 
           router.replace({

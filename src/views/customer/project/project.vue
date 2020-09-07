@@ -4,30 +4,11 @@
       <div>
         <div class="right">
           <div class="r_top flex_f">
-            <div class="r_t_text" @click="showdialog()">参数分组:</div>
-            <a-select
-              show-search
-              placeholder="全部"
-              option-filter-prop="children"
-              style="width: 200px;margin-right:20px"
-              :filter-option="filterOption"
-              v-model="runpageparam.typeCode"
-              @focus="handleFocus"
-              @blur="handleBlur"
-              @change="handleChange"
-            >
-              <a-select-option value>全部</a-select-option>
-              <a-select-option
-                v-for="(item,index) in sel_data"
-                :key="index"
-                :value="item.comboBoxId"
-              >{{item.comboBoxName}}</a-select-option>
-            </a-select>
-            <div class="r_t_text" @click="showdialog()">参数名称/代码:</div>
+            <div class="r_t_text">项目名称:</div>
             <a-input
-              placeholder="请输入名称/代码"
+              placeholder="请输入项目名称"
               class="r_t_inp"
-              v-model="inp_data"
+              v-model="pageparam.keyword"
               @keydown.enter="tosearch()"
             />
             <div class="btn_blue btn" @click="tosearch()">查询</div>
@@ -42,8 +23,18 @@
               :pagination="pagination"
               @change="handleTableChange"
             >
+             <div slot="statusCode" class="flex_a" slot-scope="statusCode">
+                <div v-if="statusCode==1">启用</div>
+                <div v-if="statusCode==2">备用</div>
+                <div v-if="statusCode==0">关闭</div>
+              </div>
+             <div slot="defaultChecked" class="flex_a" slot-scope="defaultChecked">
+                <div v-if="defaultChecked==1">已选中</div>
+                <div v-if="defaultChecked==0">未选中</div>
+              </div>
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
+                <div class="col_blue ispointer" @click="tostage(areaName)">阶段信息</div>
                 <div class="col_red ispointer" @click="showdialog(areaName)">
                   <span>删除</span>
                 </div>
@@ -66,70 +57,75 @@ export default {
     return {
       ModalText: "您确定要删除吗？",
       visible: false,
-      showtree: false,
       tabletype: false,
-      inp_data: "",
-      sel_data: "",
-      replaceFields: {
-        title: "name",
-        key: "id",
-      },
       tablecolumns: [
         {
-          width: 110,
+          width: 158,
           align: "center",
-          title: "序号",
-          dataIndex: "parameterId",
-          key: "parameterId",
+          title: "项目序号",
+          dataIndex: "projectId",
+          key: "projectId",
           ellipsis: true,
         },
         {
           width: 208,
           align: "center",
-          title: "参数名称",
-          dataIndex: "parameterName",
-          key: "parameterName",
+          title: "项目名称",
+          dataIndex: "projectName",
+          key: "projectName",
           ellipsis: true,
         },
         {
-          width: 208,
+          width: 108,
           align: "center",
-          title: "参数代码",
-          dataIndex: "parameterCode",
-          key: "parameterCode",
+          title: "合同编号",
+          dataIndex: "contractNo",
+          key: "contractNo",
           ellipsis: true,
         },
         {
-          width: 208,
+          width: 88,
           align: "center",
-          title: "参数数值",
-          key: "parameterValue",
-          dataIndex: "parameterValue",
+          title: "开始日期",
+          key: "startDate",
+          dataIndex: "startDate",
           ellipsis: true,
         },
         {
-          width: 208,
+          width: 88,
           align: "center",
-          title: "参数分组",
-          key: "typeName",
-          dataIndex: "typeName",
+          title: "结束日期",
+          key: "endDate",
+          dataIndex: "endDate",
           ellipsis: true,
         },
         {
-          width: 488,
+          width: 88,
           align: "center",
-          title: "参数描述",
-          key: "description",
-          dataIndex: "description",
+          title: "项目状态",
+          key: "statusCode",
+          dataIndex: "statusCode",
           ellipsis: true,
+          scopedSlots: {
+            customRender: "statusCode",
+          },
+        },
+        {
+          width: 88,
+          align: "center",
+          title: "默认标识",
+          key: "defaultChecked",
+          dataIndex: "defaultChecked",
+          ellipsis: true,
+          scopedSlots: {
+            customRender: "defaultChecked",
+          },
         },
         {
           width: 208,
           align: "center",
           title: "操作",
           ellipsis: true,
-          key: "2",
-          dataIndex: "childTotal",
           scopedSlots: {
             customRender: "edit",
           },
@@ -145,7 +141,6 @@ export default {
         pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
         showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
       },
-      issearchdata: "",
       removeparam: {
         areaName: "",
         areaId: "",
@@ -153,54 +148,26 @@ export default {
       istotal: {
         type: 1,
       },
-      runpageparam: {
-        description: "",
+      pageparam: {
         keyword: "",
-        operatorId: "",
+        operatorId: "1",
         pageIndex: 1,
         pageSize: 10,
-        parameterCode: "",
-        parameterId: "",
-        parameterName: "",
-        parameterValue: "",
-        typeCode: "",
       },
     };
   },
   created() {
-    this.getdictionarycombobox();
-    this.getrunpage();
+    this.getpage();
   },
   methods: {
-    //数据字典下拉列表框接口
-    async getdictionarycombobox() {
-      let pram = {
-        classCode: "runngin_parameter_type",
-      };
-      let res = await this.$http.post(this.$api.dictionarycombobox, pram);
-      console.log(res, 12221);
-      if (res.data.resultCode == "10000") {
-        this.sel_data = res.data.data;
-      } else {
-        this.$message.error(res.data.resultMsg);
-      }
-    },
-
     //运行参数列表接口
-    async getrunpage() {
+    async getpage() {
       this.tabletype = false;
-      this.runpageparam.pageIndex = this.pagination.current;
-      this.runpageparam.pageSize = this.pagination.pageSize;
-      if (this.vify_cn2(this.inp_data) == true) {
-        this.runpageparam.keyword = this.inp_data;
-      } else {
-        this.runpageparam.parameterCode = this.inp_data;
-      }
-      let res = await this.$http.post(this.$api.runpage, this.runpageparam);
+      this.pageparam.pageIndex = this.pagination.current;
+      this.pageparam.pageSize = this.pagination.pageSize;
+      let res = await this.$http.post(this.$api.projectpage, this.pageparam);
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data.list;
-        this.runpageparam.keyword = "";
-        this.runpageparam.parameterCode = "";
         if (this.istotal.type == 1) {
           this.pagination.total = res.data.data.length;
         }
@@ -221,41 +188,45 @@ export default {
         this.$message.error(res.data.resultMsg);
       }
     },
-    confirm() {
-      this.visible = false;
-    },
     toadd(val, id) {
-      localStorage.setItem("sel", JSON.stringify(this.sel_data));
       if (val == "add") {
         this.$router.push({
-          path: "/addRunParameters",
+          path: "/addproject",
           query: {
             type: val,
           },
         });
       } else {
-        console.log(id,9899);
         this.$router.push({
-          path: "/addRunParameters",
+          path: "/addproject",
           query: {
             type: val,
-            id: id.parameterId,
+            id: id.projectId,
           },
         });
       }
     },
+    tostage(val){
+      this.$router.push({
+          path: "/stageproject",
+          query: {
+            id: val.projectId,
+            name:val.projectName,
+            customerId:val.customerId
+          },
+        });
+    },
+    
     //查询
     tosearch() {
       this.pagination.current = 1;
       this.pagination.pageSize = 10;
       this.istotal.type = 1;
-      this.getrunpage();
+      this.getpage();
     },
     //清除
     clear() {
-      this.inp_data = "";
-      this.runpageparam.typeCode = "";
-      // this.getareapage();
+      this.pageparam.keyword = "";
     },
     //弹窗
     showdialog(val) {
@@ -268,6 +239,7 @@ export default {
       this.visible = false;
     },
     confirm() {
+      this.visible = false;
       this.getarearemove();
     },
     handleCancel(e) {
@@ -278,26 +250,7 @@ export default {
     handleTableChange(pagination) {
       this.pagination.current = pagination.current;
       this.pagination.pageSize = pagination.pageSize;
-      this.getrunpage();
-    },
-
-    handleChange(value) {
-      console.log(`selected ${value}`);
-      this.runpageparam.typeCode = value;
-      console.log(this.runpageparam);
-    },
-    handleBlur() {
-      console.log("blur");
-    },
-    handleFocus() {
-      console.log("focus");
-    },
-    filterOption(input, option) {
-      return (
-        option.componentOptions.children[0].text
-          .toLowerCase()
-          .indexOf(input.toLowerCase()) >= 0
-      );
+      this.getpage();
     },
   },
 };

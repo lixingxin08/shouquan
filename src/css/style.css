@@ -186,3 +186,8 @@ justify-content: flex-start;
   height: 36px!important;
   line-height: 36px!important;
 }
+.ant-upload img{
+  width: 128px!important;
+  height: 72px!important;
+
+}

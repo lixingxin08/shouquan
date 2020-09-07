@@ -3,37 +3,6 @@
     <div class="flex_fs">
       <div>
         <div class="right">
-          <div class="r_top flex_f">
-            <div class="r_t_text" @click="showdialog()">客户名称:</div>
-            <a-input
-              placeholder="请输入客户名称"
-              class="r_t_inp"
-              v-model="runpageparam.keyword"
-              @keydown.enter="tosearch()"
-            />
-
-            <div class="r_t_text" @click="showdialog()">客户状态:</div>
-            <a-select
-              show-search
-              placeholder="全部"
-              option-filter-prop="children"
-              style="width: 200px;margin-right:20px"
-              :filter-option="filterOption"
-              v-model="runpageparam.statusCode"
-              @focus="handleFocus"
-              @blur="handleBlur"
-              @change="handleChange"
-            >
-              <a-select-option value="">全部</a-select-option>
-              <a-select-option
-                v-for="(item,index) in sel_data"
-                :key="index"
-                :value="item.id"
-              >{{item.val}}</a-select-option>
-            </a-select>
-            <div class="btn_blue btn" @click="tosearch()">查询</div>
-            <div class="btn_gray" @click="clear()">清除</div>
-          </div>
           <div class="btn_blue btn2" @click="toadd('add')">新增</div>
           <div class="table" v-if="tabletype">
             <a-table
@@ -45,18 +14,13 @@
             >
               <div slot="statusCode" class="flex_a" slot-scope="statusCode">
                 <div v-if="statusCode==1">启用</div>
-                <div v-if="statusCode==0">备用</div>
-                <div v-if="statusCode==2">关闭</div>
+                <div v-if="statusCode==2">备用</div>
+                <div v-if="statusCode==0">关闭</div>
               </div>
-              <div slot="Integer" class="flex_a" slot-scope="Integer">
-                <div v-if="Integer==1">是</div>
-                <div v-if="Integer==0">否</div>
+              <div slot="defaultChecked" class="flex_a" slot-scope="defaultChecked">
+                <div v-if="defaultChecked==1">已选中</div>
+                <div v-if="defaultChecked==0">未选中</div>
               </div>
-              <div slot="existDepartment" class="flex_a" slot-scope="existDepartment">
-                <div v-if="existDepartment==1">是</div>
-                <div v-if="existDepartment==0">否</div>
-              </div>
-
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
                 <div class="col_red ispointer" @click="showdialog(areaName)">
@@ -82,52 +46,51 @@ export default {
       ModalText: "您确定要删除吗？",
       visible: false,
       tabletype: false,
-      sel_data: [{val:"启用",id:1},{val:"备用",id:2},{val:"关闭",id:0},],
       tablecolumns: [
+        {
+          width: 158,
+          align: "center",
+          title: "阶段序号",
+          dataIndex: "phaseId",
+          key: "phaseId",
+          ellipsis: true,
+        },
         {
           width: 208,
           align: "center",
-          title: "序号",
-          dataIndex: "customerId",
-          key: "customerId",
-          ellipsis: true,
-        },
-        {
-          width: 158,
-          align: "center",
-          title: "客户全称",
-          dataIndex: "customerName",
-          key: "customerName",
-          ellipsis: true,
-        },
-        {
-          width: 138,
-          align: "center",
-          title: "客户简称",
-          dataIndex: "shortName",
-          key: "shortName",
-          ellipsis: true,
-        },
-        {
-          width: 158,
-          align: "center",
-          title: "联系人姓名",
-          key: "linkman",
-          dataIndex: "linkman",
+          title: "阶段名称",
+          dataIndex: "phaseName",
+          key: "phaseName",
           ellipsis: true,
         },
         {
           width: 108,
           align: "center",
-          title: "联系人手机",
-          key: "linkphone",
-          dataIndex: "linkphone",
+          title: "合同编号",
+          dataIndex: "contractNo",
+          key: "contractNo",
           ellipsis: true,
         },
         {
-          width: 158,
+          width: 88,
           align: "center",
-          title: "客户状态",
+          title: "阶段期始",
+          key: "startDate",
+          dataIndex: "startDate",
+          ellipsis: true,
+        },
+        {
+          width: 88,
+          align: "center",
+          title: "阶段期止",
+          key: "endDate",
+          dataIndex: "endDate",
+          ellipsis: true,
+        },
+        {
+          width: 88,
+          align: "center",
+          title: "阶段状态",
           key: "statusCode",
           dataIndex: "statusCode",
           ellipsis: true,
@@ -136,25 +99,14 @@ export default {
           },
         },
         {
-          width: 108,
+          width: 88,
           align: "center",
-          title: "是否授权",
-          key: "Integer",
-          dataIndex: "Integer",
+          title: "默认选中",
+          key: "defaultChecked",
+          dataIndex: "defaultChecked",
           ellipsis: true,
           scopedSlots: {
-            customRender: "Integer",
-          },
-        },
-        {
-          width: 158,
-          align: "center",
-          title: "是否建立部门",
-          key: "existDepartment",
-          dataIndex: "existDepartment",
-          ellipsis: true,
-          scopedSlots: {
-            customRender: "existDepartment",
+            customRender: "defaultChecked",
           },
         },
         {
@@ -177,16 +129,15 @@ export default {
         pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
         showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
       },
-      issearchdata: "",
       removeparam: {
-        customerId: "",
+        areaName: "",
+        areaId: "",
       },
       istotal: {
         type: 1,
       },
-      runpageparam: {
-        statusCode: "",
-        keyword: "",
+      pageparam: {
+        projectId: "",
         operatorId: "1",
         pageIndex: 1,
         pageSize: 10,
@@ -197,19 +148,18 @@ export default {
     this.getpage();
   },
   methods: {
-    //列表接口
+    //运行参数列表接口
     async getpage() {
       this.tabletype = false;
-      this.runpageparam.pageIndex = this.pagination.current;
-      this.runpageparam.pageSize = this.pagination.pageSize;
+      this.pageparam.projectId = this.$route.query.id;
+      this.pageparam.pageIndex = this.pagination.current;
+      this.pageparam.pageSize = this.pagination.pageSize;
       let res = await this.$http.post(
-        this.$api.informationpage,
-        this.runpageparam
+        this.$api.projectPhaselist,
+        this.pageparam
       );
       if (res.data.resultCode == "10000") {
-        this.tabledata = res.data.data.list;
-        this.runpageparam.keyword = "";
-        this.runpageparam.parameterCode = "";
+        this.tabledata = res.data.data;
         if (this.istotal.type == 1) {
           this.pagination.total = res.data.data.length;
         }
@@ -219,61 +169,54 @@ export default {
         this.$message.error(res.data.resultMsg);
       }
     },
-    //删除接口
-    async getremove() {
-      let res = await this.$http.post(this.$api.deleteByInformationId, this.removeparam);
+    //行政区划删除接口
+    async getarearemove() {
+      let res = await this.$http.post(this.$api.arearemove, this.removeparam);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.getpage();
+        this.getareaform();
         this.visible = false;
       } else {
         this.$message.error(res.data.resultMsg);
       }
     },
     toadd(val, id) {
-
       if (val == "add") {
         this.$router.push({
-          path: "/addcustomerprofile",
+          path: "/addstageproject",
           query: {
             type: val,
+            projectid:this.$route.query.id,
+            name: this.$route.query.name,
+            customerId: this.$route.query.customerId,
           },
         });
       } else {
-        console.log(id, 9899);
         this.$router.push({
-          path: "/addcustomerprofile",
+          path: "/addstageproject",
           query: {
             type: val,
-            id: id.customerId,
+            id: id.phaseId,
+            projectid: id.projectId,
+            name: this.$route.query.name,
+            customerId: this.$route.query.customerId,
           },
         });
       }
     },
-    //查询
-    tosearch() {
-      this.pagination.current = 1;
-      this.pagination.pageSize = 10;
-      this.istotal.type = 1;
-      this.getpage();
-    },
-    //清除
-    clear() {
-      this.runpageparam.keyword = "";
-      this.runpageparam.statusCode = "";
-      // this.getareapage();
-    },
     //弹窗
     showdialog(val) {
       console.log(val, 221212);
-      this.removeparam.customerId = val.customerId;
+      this.removeparam.areaName = val.areaName;
+      this.removeparam.areaId = val.areaId;
       this.visible = true;
     },
     cancel() {
       this.visible = false;
     },
     confirm() {
-      this.getremove();
+      this.visible = false;
+      this.getarearemove();
     },
     handleCancel(e) {
       console.log("Clicked cancel button");
@@ -284,25 +227,6 @@ export default {
       this.pagination.current = pagination.current;
       this.pagination.pageSize = pagination.pageSize;
       this.getpage();
-    },
-
-    handleChange(value) {
-      console.log(`selected ${value}`);
-      this.runpageparam.typeCode = value;
-      console.log(this.runpageparam);
-    },
-    handleBlur() {
-      console.log("blur");
-    },
-    handleFocus() {
-      console.log("focus");
-    },
-    filterOption(input, option) {
-      return (
-        option.componentOptions.children[0].text
-          .toLowerCase()
-          .indexOf(input.toLowerCase()) >= 0
-      );
     },
   },
 };
@@ -341,7 +265,6 @@ export default {
   border: 1px solid #dcdcdc;
   border-radius: 8px;
   box-sizing: border-box;
-  margin-right: 20px;
 }
 
 .r_t_inp:focus {
