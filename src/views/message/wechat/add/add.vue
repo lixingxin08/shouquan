@@ -160,7 +160,15 @@
           this.eventSelect = this.wechat.typeCode
         }
       },
-      handleChange() {},
+      /* 修改数值*/
+      handleChange(value, index) {
+        const newData = [...this.groups];
+        const target = newData[index];
+        if (target) {
+          target['serviceId'] = value;
+          this.msgList = newData;
+        }
+      },
       /* 授权类型下拉选择 */
       handleSelectChange(e) {
         this.wechatSelect = e
@@ -178,14 +186,14 @@
       /* 重置*/
       reset() {
         if (this.id) {
-          this.getEventInfo()
+          this.getWeChatInfo()()
         } else {
-          this.event = {}
+          this.wechat = {}
         }
       },
       /* 描述字符长度*/
       onChangeConfig() {
-        this.num = this.event.remark.length
+        this.num = this.wechat.remark.length
       }
     },
   }
