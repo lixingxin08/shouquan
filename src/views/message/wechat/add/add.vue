@@ -1,4 +1,53 @@
 <template>
+
+  <div class="flexcolumn" style="background-color: #FFFFFF;">
+
+
+    <div style="margin: 0 auto;">
+      <a-steps :current="current" type="navigation" @change="onChange">
+        <a-step v-for="item in steps" :key="item.status" :title="item.title" />
+      </a-steps>
+      <div v-if="current==0">
+        <div class="flexrow flexac edit_item">
+          <div class="edit_item_title"><a style="color: #FF0000;">*</a>微信账号别名:</div>
+          <a-input class='edit_a_input' v-model='wechat.wechatConfigName' placeholder="50字以内，支持中英文" />
+          <!-- <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        </div>
+        <div class="flexrow flexac edit_item">
+          <div class="edit_item_title"><a style="color: #FF0000;">*</a>帐号应用标识:</div>
+          <a-input class='edit_a_input' v-model='wechat.wechatAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        </div>
+        <div class="flexrow flexac edit_item">
+          <div class="edit_item_title"><a style="color: #FF0000;">*</a>帐号应用密钥:</div>
+          <a-input class='edit_a_input' v-model='wechat.wechatKey' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        </div>
+        <div class="flexrow flexac edit_item" v-if="id==''">
+          <div class="edit_item_title"><a style="color: #FF0000;"></a>接口通行令牌:</div>
+          <a-input class='edit_a_input' v-model='wechat.tokenCode'  placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        </div>
+        <div class="flexrow flexac edit_item" v-if="id==''">
+          <div class="edit_item_title"><a style="color: #FF0000;"></a>令牌失效时间:</div>
+          <a-input class='edit_a_input' v-model='wechat.tokenCode'  placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        </div>
+        <div class="flexrow flexac edit_item">
+          <div class="edit_item_title"><a style="color: #FF0000;">*</a>微信账号类型:</div>
+          <a-select :value="wechatSelect?wechatSelect:'请选择微信账号类型'" style="width: 667px;" @change="handleSelectChange">
+            <a-select-option v-for='(item,index) in wechatList' :key='index' :value="item.comboBoxId">
+              {{item.comboBoxName}}
+            </a-select-option>
+          </a-select>
+          <!--  <div class="edit_item_toast">注：数字字典</div> -->
+        </div>
+        <div class="flexrow flexac edit_item">
+          <div class="edit_item_title">备注信息:</div>
+          <div style="position: relative;">
+            <a-textarea class='edit_a_input' :rows="5" :maxLength='500' v-model='wechat.remark' placeholder="请输入描述"
+              @change="onChangeConfig" />
+            <div class="edit_number">{{num}}/500</div>
   <div class="isedit">
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
@@ -62,6 +111,11 @@
       <div class="edit_item_title">
         <span class="col_red">*</span>客户状态:
       </div>
+      <a-table v-else style='margin-top: 20px;margin-bottom: 20px; ' :scroll="{ x: 820 }" :columns="addcolumns"
+        :data-source="msgList" :pagination='false' :bordered='true' size='small'>
+        <template slot="index" slot-scope="text, record, index">
+          <div>{{index+1}}</div>
+        </template>
       <a-select
         show-search
         placeholder="全部"
@@ -76,6 +130,14 @@
       </a-select>
     </div>
 
+        <template slot="propertyValue" slot-scope="text, record, index2">
+          <a-input style="margin: -5px 0;border: 0px;" v-model='text' @change="e => handleChange(e.target.value,index)"></a-input>
+        </template>
+      </a-table>
+      <div class="flexrow flexjc" style="margin-top: 60px;margin-bottom: 100px;">
+        <a-button type="primary" v-if='current==1' @click='submit'>保存</a-button>
+        <a-button type="primary" v-if='current==0' @click='onChange(1)'>下一步</a-button>
+        <a-button style="margin-left: 60px;" @click='reset'>重置</a-button>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">备注信息:</div>
       <div style="position: relative;">
@@ -87,6 +149,7 @@
         />
       </div>
     </div>
+
     <div class="flexrow" style="margin-top: 30px;justify-item: flex-start;margin-left: 325px;">
       <a-button @click="getform()">保存</a-button>
       <a-button type="primary" style="margin-left: 20px;" @click="reset()">重置</a-button>
@@ -95,6 +158,31 @@
 </template>
 
 <script>
+  import table from '../table.json'
+  export default {
+    data() {
+      return {
+        current: 0,
+        stepStyle: {
+          marginBottom: '60px',
+          boxShadow: '0px -1px 0 0 #e8e8e8 inset',
+        },
+        steps: [{
+            title: '微信账号',
+            status: '0'
+          },
+          {
+            title: '消息模板',
+            status: '1'
+          },
+        ],
+        addcolumns: table.data.adddColumns,
+        wechatSelect: '', //事件选择
+        wechatList: [], //事件类型
+        msgList: [],
+        wechat: {}, //事件详情
+        id: "",
+        num: 0 //描述长度
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -155,6 +243,10 @@ export default {
       }
       console.log(res, 8888);
     },
+    created() {
+      this.id = this.$route.query.id
+      if (this.id) { //编辑
+        this.getWeChatInfo();
     //运行参数表单接口
     async getform() {
       this.form.operatorId = 1;
@@ -165,7 +257,87 @@ export default {
       } else {
         this.$message.error(res.data.resultMsg);
       }
+      this.getCombobox()
     },
+    methods: {
+      onChange(current) {
+        if (current == 1) {
+          if (!this.wechat.wechatConfigName) {
+            this.$message.warning('请先填写微信账号别名')
+            return
+          }
+          if (!this.wechat.wechatAppId) {
+            this.$message.warning('请先填写微信应用标识')
+            return
+          }
+          if (!this.wechat.wechatKey) {
+            this.$message.warning('请先填写微信应用密钥')
+            return
+          }
+          if (!this.wechatSelect) {
+            this.$message.warning('请先选则微信账号类型')
+            return
+          }
+        }
+        this.current = current;
+      },
+      /* 提交事件*/
+      async submit() {
+
+        let param = {
+          wechatConfigId: this.id,
+          wechatConfigName: this.wechat.wechatConfigName,
+          wechatAppId: this.wechat.wechatAppId,
+          wechatKey: this.wechat.wechatKey,
+          expirationTime:this.wechat.expirationTime,
+          typeCode:this.wechatSelect,
+          operatorId: '5172dadd6d7c404e8ac657f32f81d969', //操作者id
+          remark: this.wechat.remark
+        }
+        let res = await this.$http.post(this.$api.wechatAccountform, param)
+        if (res.data.resultCode == 10000) {
+          this.$message.success(res.data.resultMsg);
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
+      },
+      /* 获取事件列表*/
+      async getWeChatInfo() {
+        let param = {
+          wechatConfigId: this.id
+        }
+        let res = await this.$http.post(this.$api.deviceeventdetail, param);
+        if (res.data.resultCode == 10000) {
+          this.wechat = res.data.data
+          this.eventSelect = this.wechat.typeCode
+        }
+      },
+      handleChange() {},
+      /* 授权类型下拉选择 */
+      handleSelectChange(e) {
+        this.wechatSelect = e
+      },
+      /* 获取业务类别*/
+      async getCombobox() {
+        let param = {
+          classCode: 'device_wechat_type'
+        }
+        let res = await this.$http.post(this.$api.dictionarycombobox, param)
+        if (res.data.resultCode == 10000) {
+          this.wechatList = res.data.data
+        }
+      },
+      /* 重置*/
+      reset() {
+        if (this.id) {
+          this.getEventInfo()
+        } else {
+          this.event = {}
+        }
+      },
+      /* 描述字符长度*/
+      onChangeConfig() {
+        this.num = this.event.remark.length
     reset() {
       this.form.departmentName = "";
       this.form.introduce = "";
@@ -174,6 +346,85 @@ export default {
       if (info.file.status === "uploading") {
         this.loading = true;
         return;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       }
       if (info.file.status === "done") {
         // Get this url from response in real world.
@@ -184,6 +435,7 @@ export default {
       }
       console.log(this.imageUrl,88999,info);
     },
+  }
     beforeUpload(file) {
       const isJpgOrPng =
         file.type === "image/jpeg" || file.type === "image/png";
@@ -210,7 +462,16 @@ export default {
   },
 };
 </script>
+
 <style>
+  .edit_item_title {
+    width: 120px;
+    font-size: 14px;
+    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+    margin-right: 10px;
+    text-align: right;
+    color: #000000;
+  }
 .edit_item_title {
   width: 315px;
   height: 100%;
@@ -224,10 +485,22 @@ export default {
   flex-shrink: 0;
 }
 
+  .edit_item {
+    margin: 0 auto;
+    margin-top: 24px;
+  }
 .edit_item {
   margin-top: 24px;
 }
 
+  .edit_item_toast {
+    font-size: 12px;
+    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #999999;
+    margin-left: 20px;
+  }
 .edit_item_toast {
   font-size: 12px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -237,6 +510,14 @@ export default {
   margin-left: 20px;
 }
 
+  .edit_a_input {
+    width: 667px;
+    height: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 10px;
+  }
 .edit_a_input {
   width: 667px;
   height: 32px;
@@ -258,6 +539,27 @@ export default {
   text-align: center;
 }
 
+  .edit_number {
+    position: absolute;
+    right: 10px;
+    bottom: 3px;
+    font-size: 14px;
+    color: #999999;
+  }
+
+  .upload-list-inline>>>.ant-upload-list-item {
+    float: left;
+    width: 200px;
+    margin-right: 8px;
+  }
+
+  .upload-list-inline>>>.ant-upload-animate-enter {
+    animation-name: uploadAnimateInlineIn;
+  }
+
+  .upload-list-inline>>>.ant-upload-animate-leave {
+    animation-name: uploadAnimateInlineOut;
+  }
 .dialog {
   width: 920px;
   height: 810px;
