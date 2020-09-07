@@ -12,14 +12,14 @@
               @keydown.enter="tosearch()"
             />
 
-            <div class="r_t_text" @click="showdialog()">网关类型:</div>
+            <div class="r_t_text" @click="showdialog()">短信类型:</div>
             <a-select
               show-search
               placeholder="全部"
               option-filter-prop="children"
               style="width: 200px;margin-right:20px"
               :filter-option="filterOption"
-              v-model="runpageparam.statusCode"
+              v-model="runpageparam.typeCode"
               @focus="handleFocus"
               @blur="handleBlur"
               @change="handleChange"
@@ -28,13 +28,13 @@
               <a-select-option
                 v-for="(item,index) in sel_data"
                 :key="index"
-                :value="item.id"
-              >{{item.val}}</a-select-option>
+                :value="item.comboBoxId"
+              >{{item.comboBoxName}}</a-select-option>
             </a-select>
             <div class="btn_blue btn" @click="tosearch()">查询</div>
             <div class="btn_gray" @click="clear()">清除</div>
           </div>
-          <div class="btn_blue btn2" @click="toadd('add')">新增</div>
+          <div class="btn_blue btn2" @click="toadd({})">新增</div>
           <div class="table" v-if="tabletype">
             <a-table
               :columns="tablecolumns"
@@ -44,7 +44,7 @@
               @change="handleTableChange"
             >
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
-                <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
+                <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
                 <div class="col_red ispointer" @click="showdialog(areaName)">
                   <span>删除</span>
                 </div>
@@ -204,7 +204,7 @@ export default {
     //删除接口
     async getremove() {
       let res = await this.$http.post(
-        this.$api.deleteByInformationId,
+        this.$api.smsremove,
         this.removeparam
       );
       if (res.data.resultCode == "10000") {
@@ -215,24 +215,16 @@ export default {
         this.$message.error(res.data.resultMsg);
       }
     },
-    toadd(val, id) {
-      if (val == "add") {
-        this.$router.push({
-          path: "/addsms",
-          query: {
-            type: val,
-          },
-        });
-      } else {
+    toadd(id) {
+
         console.log(id, 9899);
         this.$router.push({
           path: "/addsms",
           query: {
-            type: val,
             id: id.smsConfigId,
           },
         });
-      }
+
     },
     //查询
     tosearch() {
@@ -244,13 +236,13 @@ export default {
     //清除
     clear() {
       this.runpageparam.keyword = "";
-      this.runpageparam.statusCode = "";
+      this.runpageparam.typeCode = "";
       // this.getareapage();
     },
     //弹窗
     showdialog(val) {
       console.log(val, 221212);
-      this.removeparam.customerId = val.customerId;
+      this.removeparam.smsConfigId = val.smsConfigId;
       this.visible = true;
     },
     cancel() {

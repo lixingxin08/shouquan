@@ -1,303 +1,295 @@
 <template>
-  <div class="isedit">
-    <div class="toggle flex_f">
-      <div class="ok_btn">消息帐号</div>
-      <div class="ok_btn">消息模板</div>
-    </div>
-    <div v-if="toggletype">
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">
-          <span class="col_red">*</span>短信帐号别名:
-        </div>
-        <a-input
-          class="edit_a_input"
-          :maxlength="50"
-          v-model="form.smsConfigName"
-          placeholder="请输入短信帐号别名"
-        />
-      </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">
-          <span class="col_red">*</span>帐号应用标识:
-        </div>
-        <a-textarea
-          class="edit_a_input"
-          :rows="5"
-          placeholder="500字以内，格式不限制"
-          v-model="form.smsAppId"
-        />
-      </div>
 
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">
-          <span class="col_red">*</span>帐号应用密钥:
-        </div>
-        <a-textarea
-          class="edit_a_input"
-          :rows="5"
-          placeholder="500字以内，格式不限制"
-          v-model="form.smsKey"
-        />
-      </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">
-          <span class="col_red">*</span>短信签名:
-        </div>
-        <a-input class="edit_a_input" v-model="form.signName" placeholder="请输入短信签名" />
-      </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">
-          <span class="col_red">*</span>短信价格:
-        </div>
-        <a-input class="edit_a_input" v-model="form.price" placeholder="请输入短信价格" />
-      </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">
-          <span class="col_red">*</span>网关类型:
-        </div>
-        <a-select
-          show-search
-          placeholder="全部"
-          option-filter-prop="children"
-          style="width: 667px;margin-right:20px"
-          v-model="form.typeCode"
-          :filter-option="filterOption"
-          @change="handleChange2"
-        >
-          <a-select-option value>全部</a-select-option>
-          <a-select-option
-            v-for="(item,index) in sel_data"
-            :key="index"
-            :value="item.id"
-          >{{item.val}}</a-select-option>
-        </a-select>
-      </div>
+  <div class="flexcolumn" style="background-color: #FFFFFF;">
 
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">备注信息:</div>
-        <div style="position: relative;">
-          <a-textarea
-            class="edit_a_input"
-            :rows="5"
-            placeholder="500字以内，格式不限制"
-            v-model="form.remark"
-          />
+
+    <div style="margin: 0 auto;">
+      <a-steps :current="current" type="navigation" @change="onChange">
+        <a-step v-for="item in steps" :key="item.status" :title="item.title" />
+      </a-steps>
+      <div v-if="current==0">
+        <div class="flexrow flexac edit_item">
+          <div class="edit_item_title"><a style="color: #FF0000;">*</a>短信账号别名:</div>
+          <a-input class='edit_a_input' v-model='config.smsConfigName' placeholder="50字以内，支持中英文" />
+          <!-- <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
+        <div class="flexrow flexac edit_item">
+          <div class="edit_item_title"><a style="color: #FF0000;">*</a>帐号应用标识:</div>
+          <a-input class='edit_a_input' v-model='config.smsAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        </div>
+        <div class="flexrow flexac edit_item">
+          <div class="edit_item_title"><a style="color: #FF0000;">*</a>帐号应用密钥:</div>
+          <a-input class='edit_a_input' v-model='config.smsKey' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        </div>
+        <div class="flexrow flexac edit_item" >
+          <div class="edit_item_title"><a style="color: #FF0000;">*</a>短信签名:</div>
+          <a-input class='edit_a_input' v-model='config.signName' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        </div>
+        <div class="flexrow flexac edit_item" >
+          <div class="edit_item_title"><a style="color: #FF0000;">*</a>短信价格:</div>
+          <a-input class='edit_a_input' v-model='config.price' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <div class="edit_item_toast">分/条</div>
+        </div>
+        <div class="flexrow flexac edit_item">
+          <div class="edit_item_title"><a style="color: #FF0000;">*</a>网关类型:</div>
+          <a-select :value="config.typeCode?config.typeCode:'请选择短信账号类型'" style="width: 667px;" @change="handleSelectChange">
+            <a-select-option v-for='(item,index) in smsTypeList' :key='index' :value="item.comboBoxId">
+              {{item.comboBoxName}}
+            </a-select-option>
+          </a-select>
+          <!--  <div class="edit_item_toast">注：数字字典</div> -->
+        </div>
+        <div class="flexrow flexac edit_item">
+          <div class="edit_item_title">备注信息:</div>
+          <div style="position: relative;">
+            <a-textarea class='edit_a_input' :rows="5" :maxLength='500' v-model='config.remark' placeholder="请输入描述"
+              @change="onChangeConfig" />
+            <div class="edit_number">{{num}}/500</div>
+          </div>
+        </div>
+
       </div>
-      <div class="flexrow" style="margin-top: 30px;justify-item: flex-start;margin-left: 325px;">
-        <a-button @click="getform()">保存</a-button>
-        <a-button type="primary" style="margin-left: 20px;" @click="reset()">重置</a-button>
+      <a-table v-else style='margin-top: 20px;margin-bottom: 20px; ' :scroll="{ x: 820 }" :columns="addcolumns"
+        :data-source="msgList" :pagination='false' :bordered='true' size='small'>
+        <template slot="index" slot-scope="text, record, index">
+          <div>{{index+1}}</div>
+        </template>
+
+        <template slot="serviceId" slot-scope="text, record, index">
+          <a-input style="margin: -5px 0;border: 0px;" v-model='text' @change="e => handleChange(e.target.value,index)"></a-input>
+        </template>
+      </a-table>
+      <div class="flexrow flexjc" style="margin-top: 60px;margin-bottom: 100px;">
+        <a-button type="primary" v-if='current==1' @click='submit'>保存</a-button>
+        <a-button type="primary" v-if='current==0' @click='onChange(1)'>下一步</a-button>
+        <a-button style="margin-left: 60px;" @click='reset'>重置</a-button>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
-export default {
-  data() {
-    return {
-      loading: false,
-      toggletype: true,
-      imageUrl: "",
-      sel_data: [
-        { val: "启用", id: 1 },
-        { val: "备用", id: 2 },
-        { val: "关闭", id: 0 },
-      ],
-      form: {
-        smsConfigId: "",
-        smsConfigName: "",
-        smsAppId: "",
-        smsKey: "",
-        signName: "",
-        price: "",
-        typeCode: "",
-        remark: "",
-        operatorId: "1",
-      },
-      detailparam: {
-        customerId: "",
-      },
-    };
-  },
-  created() {
-    if (this.$route.query.type == "add") {
-      this.form.parentName = this.$route.query.name;
-      this.form.parentId = this.$route.query.id;
-      this.form.gradeno = this.$route.query.levelType;
-    }
-    if (this.$route.query.type == "edit") {
-      this.detailparam.customerId = this.$route.query.id;
-      this.getdetail();
-    }
-  },
-  methods: {
-    //详情接口
-    async getdetail() {
-      let res = await this.$http.post(
-        this.$api.informationdetail,
-        this.detailparam
-      );
-      if (res.data.resultCode == "10000") {
-        this.form = res.data.data;
-        this.imageUrl = this.form.customerLogo;
-      } else {
-        this.$message.error(res.data.resultMsg);
+  import table from '../table.json'
+  export default {
+    data() {
+      return {
+        current: 0,
+        stepStyle: {
+          marginBottom: '60px',
+          boxShadow: '0px -1px 0 0 #e8e8e8 inset',
+        },
+        steps: [{
+            title: '短信账号',
+            status: '0'
+          },
+          {
+            title: '消息模板',
+            status: '1'
+          },
+        ],
+        smsTypeList: [],
+        addcolumns: table.data.adddColumns,
+        msgList: [],
+        config:{},
+        id: null,
+        num: 0 //描述长度
       }
-      console.log(res, 8888);
     },
-    //运行参数表单接口
-    async getform() {
-      if (this.form.smsConfigName == "") {
-        return this.$message.error("请输入短信帐号别名");
+    created() {
+      this.id = this.$route.query.id
+      if (this.id) { //编辑
+        this.getSmsInfo();
+      } else {
+        this.getSmsMsgList()
       }
-      if (this.form.smsAppId == "") {
-        return this.$message.error("请输入帐号应用标识");
-      }
-      if (this.form.smsKey == "") {
-        return this.$message.error("请输入帐号应用密钥");
-      }
-      if (this.form.signName == "") {
-        return this.$message.error("请输入短信签名");
-      }
-      if (this.form.price == "") {
-        return this.$message.error("请输入短信价格");
-      }
-      if (this.form.typeCode == "") {
-        return this.$message.error("请选择网关类型");
-      }
-      this.form.operatorId = 1;
+      this.getCombobox()
 
-      let res = await this.$http.post(this.$api.informationform, this.form);
-      if (res.data.resultCode == "10000") {
-        this.$message.success(res.data.resultMsg);
-        this.$router.go(-1);
-      } else {
-        this.$message.error(res.data.resultMsg);
+    },
+    methods: {
+      onChange(current) {
+        if (current == 1) {
+          if (!this.config.smsConfigName) {
+            this.$message.warning('请先填写短信账号别名')
+            return
+          }
+          if (!this.config.smsAppId) {
+            this.$message.warning('请先填写短信应用标识')
+            return
+          }
+          if (!this.config.smsKey) {
+            this.$message.warning('请先填写短信应用密钥')
+            return
+          }
+          if (!this.config.signName) {
+            this.$message.warning('请先填写短信签名')
+            return
+          }
+          if (!this.config.price) {
+            this.$message.warning('请先填写短信价格')
+            return
+          }
+          if (!this.config.typeCode) {
+            this.$message.warning('请先选则短信账号类型')
+            return
+          }
+        }
+        this.current = current;
+      },
+      /* 提交事件*/
+      async submit() {
+        if(this.checkMsgList()){
+           this.$message.warning('消息服务序号不能有重复值')
+          return
+        }
+        this.config.operatorId='5172dadd6d7c404e8ac657f32f81d969'
+        this.config.smsModelList=this.msgList
+        let res = await this.$http.post(this.$api.smsform, this.config)
+        if (res.data.resultCode == 10000) {
+          this.$message.success(res.data.resultMsg);
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
+      },
+
+
+
+      /* 获取微信账号详情*/
+      async getSmsInfo() {
+        let param = {
+          smsConfigId: this.id,
+        }
+        let res = await this.$http.post(this.$api.smsdetail, param)
+        if(res.data.resultCode==10000){
+         this.config=res.data.data
+         this.msgList=res.data.data.smsModelList
+        }else{}
+      },
+      async getSmsMsgList() {
+        let param = {
+          classCode: 'sms_push_template',
+        }
+        let res = await this.$http.post(this.$api.dictionarycombobox, param)
+        if(res.data.resultCode==10000){
+          res.data.data.forEach((item)=>{
+              this.msgList.push({
+              serviceId:'',
+              modelCode:item.comboBoxId,
+              remark:item.comboBoxName
+            })
+          })
+        }
+      },
+
+      checkMsgList(){
+        let list=[]
+        let has=false
+        this.msgList.forEach((item)=>{
+          if(list.indexOf(item.serviceId)>=0){
+            has=true
+
+          }else{
+            list.push(item.serviceId)
+          }
+        })
+        return has
+      },
+      /* 修改数值*/
+      handleChange(value, index) {
+        const newData = [...this.msgList];
+        const target = newData[index];
+        if (target) {
+          target['serviceId'] = value;
+          this.msgList = newData;
+        }
+      },
+      /* 授权类型下拉选择 */
+      handleSelectChange(e) {
+        console.log(e)
+        this.config.typeCode = e
+      },
+      /* 获取业务类别*/
+      async getCombobox() {
+        let param = {
+          classCode: 'message_type_sms'
+        }
+        let res = await this.$http.post(this.$api.dictionarycombobox, param)
+        if (res.data.resultCode == 10000) {
+          this.smsTypeList = res.data.data
+        }
+      },
+      /* 重置*/
+      reset() {
+        this.current=0
+        if (this.id) {
+          this.getWeChatInfo()
+        } else {
+          this.config = {}
+        }
+      },
+      /* 描述字符长度*/
+      onChangeConfig() {
+        this.num = this.config.remark.length
       }
     },
-    reset() {
-      this.form.smsConfigName = "";
-      this.form.smsAppId = "";
-      this.form.smsKey = "";
-      this.form.signName = "";
-      this.form.price = "";
-      this.form.typeCode = "";
-      this.form.remark = "";
-    },
-    handleChange2(value) {
-      console.log(`selected ${value}`);
-      console.log(this.runpageparam);
-    },
-    filterOption(input, option) {
-      return (
-        option.componentOptions.children[0].text
-          .toLowerCase()
-          .indexOf(input.toLowerCase()) >= 0
-      );
-    },
-  },
-};
+  }
 </script>
+
 <style>
-.edit_item_title {
-  width: 315px;
-  height: 100%;
-  text-align: right;
-  font-size: 14px;
-  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-  font-weight: 400;
-  margin-right: 10px;
-  text-align: right;
-  color: #000000;
-  flex-shrink: 0;
-}
+  .edit_item_title {
+    width: 120px;
+    font-size: 14px;
+    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+    margin-right: 10px;
+    text-align: right;
+    color: #000000;
+  }
 
-.edit_item {
-  margin-top: 24px;
-}
+  .edit_item {
+    margin: 0 auto;
+    margin-top: 24px;
+  }
 
-.edit_item_toast {
-  font-size: 12px;
-  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-  font-weight: 400;
-  text-align: left;
-  color: #999999;
-  margin-left: 20px;
-}
+  .edit_item_toast {
+    font-size: 12px;
+    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #999999;
+    margin-left: 20px;
+  }
 
-.edit_a_input {
-  width: 667px;
-  height: 32px;
-}
-.isupload {
-  height: 72px;
-  margin-bottom: 50px;
-}
-.edit_number {
-  position: absolute;
-  right: 10px;
-  bottom: 3px;
-  font-size: 14px;
-  color: #999999;
-}
-.mapbtn {
-  width: 100px;
-  color: #fff;
-  text-align: center;
-}
+  .edit_a_input {
+    width: 667px;
+    height: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 10px;
+  }
 
-.dialog {
-  width: 920px;
-  height: 810px;
-  position: relative;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: #fff;
-  z-index: 2;
-}
-.dialog_t {
-  width: 920px;
-  height: 72px;
-  background-color: #1890ff;
-  color: #fff;
-  font-size: 24px;
-  padding: 0 40px;
-}
-.dialog_c {
-  width: 920px;
-  height: 554px;
-  font-size: 20px;
-  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-  font-weight: 400;
-  text-align: center;
-  color: #333333;
-  z-index: 3;
-  padding: 0 40px;
-}
-.dialog_c_t {
-  height: 32px;
-  margin-top: 30px;
-  margin-bottom: 20px;
-}
-.dialog_inp {
-  width: 744px;
-  height: 32px;
-  border: 1px solid #dcdcdc;
-  border-radius: 8px;
-}
-.map {
-  width: 840px;
-  height: 472px;
-}
-.dialog_f {
-  margin-top: 40px;
-}
+  .edit_number {
+    position: absolute;
+    right: 10px;
+    bottom: 3px;
+    font-size: 14px;
+    color: #999999;
+  }
+
+  .upload-list-inline>>>.ant-upload-list-item {
+    float: left;
+    width: 200px;
+    margin-right: 8px;
+  }
+
+  .upload-list-inline>>>.ant-upload-animate-enter {
+    animation-name: uploadAnimateInlineIn;
+  }
+
+  .upload-list-inline>>>.ant-upload-animate-leave {
+    animation-name: uploadAnimateInlineOut;
+  }
 </style>

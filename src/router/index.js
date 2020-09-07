@@ -60,6 +60,7 @@ const Myclients = () => import('@/views/MaintenanceAuthorization/Myclients/Mycli
 
 
 const SystemRole = () => import('@/views/accountManagement/SystemRole/SystemRole') //系统角色
+const addsystemRole = () => import('@/views/accountManagement/SystemRole/add/add') //系统角色
 const systemAccount = () => import('@/views/accountManagement/systemAccount/systemAccount') //系统帐号
 const CustomerRole = () => import('@/views/accountManagement/CustomerRole/CustomerRole') //客户角色
 const CustomerUser = () => import('@/views/accountManagement/CustomerUser/CustomerUser') //客户帐号
@@ -473,6 +474,15 @@ export default new Router({
           },
           component: SystemRole
         },
+        {
+          path: '/addsystemRole',
+          name: 'SystemRole',
+          meta: {
+            title: '系统角色'
+          },
+          component: addsystemRole
+        },
+        
         {
           path: '/systemAccount',
           name: 'systemAccount',

@@ -26,15 +26,15 @@
             >
               <a-select-option value>全部</a-select-option>
               <a-select-option
-                v-for="(item,index) in sel_data"
+                v-for="(item,index) in wetchatTypeList"
                 :key="index"
-                :value="item.id"
-              >{{item.val}}</a-select-option>
+                :value="item.comboBoxId"
+              >{{item.comboBoxName}}</a-select-option>
             </a-select>
             <div class="btn_blue btn" @click="tosearch()">查询</div>
             <div class="btn_gray" @click="clear()">清除</div>
           </div>
-          <div class="btn_blue btn2" @click="toadd('add')">新增</div>
+          <div class="btn_blue btn2" @click="toadd({})">新增</div>
           <div class="table" v-if="tabletype">
             <a-table
               :columns="tablecolumns"
@@ -44,7 +44,7 @@
               @change="handleTableChange"
             >
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
-                <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
+                <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
                 <div class="col_red ispointer" @click="showdialog(areaName)">
                   <span>删除</span>
                 </div>
@@ -68,11 +68,7 @@ export default {
       ModalText: "您确定要删除吗？",
       visible: false,
       tabletype: false,
-      sel_data: [
-        { val: "启用", id: 1 },
-        { val: "备用", id: 2 },
-        { val: "关闭", id: 0 },
-      ],
+
       tablecolumns: [
         {
           width: 208,
@@ -140,6 +136,13 @@ export default {
       istotal: {
         type: 1,
       },
+      wetchatTypeList: [{ //通信方式列表
+        comboBoxId: 'account_wechat_type',
+        comboBoxName: '公众号'
+      }, {
+        comboBoxId: 'wechat_account_small',
+        comboBoxName: '服务号'
+      }],
       runpageparam: {
         typeCode: "",
         keyword: "",
@@ -162,7 +165,7 @@ export default {
       let res = await this.$http.post(this.$api.dictionarycombobox, pram);
       console.log(res, 12221);
       if (res.data.resultCode == "10000") {
-        this.sel_data = res.data.data;
+        this.wetchatTypeList = res.data.data;
       } else {
         this.$message.error(res.data.resultMsg);
       }
@@ -190,7 +193,7 @@ export default {
     //删除接口
     async getremove() {
       let res = await this.$http.post(
-        this.$api.deleteByInformationId,
+        this.$api.deleteByWechatAccountId,
         this.removeparam
       );
       if (res.data.resultCode == "10000") {
@@ -201,24 +204,15 @@ export default {
         this.$message.error(res.data.resultMsg);
       }
     },
-    toadd(val, id) {
-      if (val == "add") {
-        this.$router.push({
-          path: "/addcustomerprofile",
-          query: {
-            type: val,
-          },
-        });
-      } else {
+    toadd(id) {
         console.log(id, 9899);
         this.$router.push({
-          path: "/addcustomerprofile",
+          path: "/addwechat",
           query: {
-            type: val,
-            id: id.customerId,
+            id: id.wechatConfigId,
           },
         });
-      }
+
     },
     //查询
     tosearch() {
@@ -236,7 +230,7 @@ export default {
     //弹窗
     showdialog(val) {
       console.log(val, 221212);
-      this.removeparam.customerId = val.customerId;
+      this.removeparam.wechatConfigId = val.wechatConfigId;
       this.visible = true;
     },
     cancel() {
