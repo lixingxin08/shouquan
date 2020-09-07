@@ -2,179 +2,203 @@
   <div class="isedit">
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
-        <span class="col_red">*</span>参数分组:
+        <span class="col_red">*</span>客户全称:
       </div>
-      <div v-if="this.$route.query.type=='add'">
-        <a-select
-          show-search
-          placeholder="全部"
-          option-filter-prop="children"
-          style=" width: 667px;height: 32px;"
-          :filter-option="filterOption"
-          v-model="form.parameterId"
-          @focus="handleFocus"
-          @blur="handleBlur"
+      <a-input class="edit_a_input" v-model="form.customerName" placeholder="请输入客户全称" />
+    </div>
+    <div class="flexrow flexac edit_item">
+      <div class="edit_item_title">
+        <span class="col_red">*</span>客户简称:
+      </div>
+      <a-input class="edit_a_input" v-model="form.shortName" placeholder="请输入客户简称" />
+    </div>
+    <div class="flexrow flexac edit_item">
+      <div class="edit_item_title">
+        <span class="col_red">*</span>客户logo:
+      </div>
+      <div class="isupload">
+        <a-upload
+          name="avatar"
+          list-type="picture-card"
+          class="avatar-uploader"
+          :show-upload-list="false"
+          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          :before-upload="beforeUpload"
           @change="handleChange"
         >
-          <a-select-option value>全部</a-select-option>
-          <a-select-option
-            v-for="(item,index) in sel_data"
-            :key="index"
-            :value="item.comboBoxId"
-          >{{item.comboBoxName}}</a-select-option>
-        </a-select>
+          <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+          <div v-else>
+            <a-icon :type="loading ? 'loading' : 'plus'" />
+            <div class="ant-upload-text">Upload</div>
+          </div>
+        </a-upload>
+        <div class="col_red">
+            支持PNG、JPEG、JPG格式，1KB至200KB
+        </div>
       </div>
-      <div v-if="this.$route.query.type!=='add'">
-        <a-input class="edit_a_input" disabled v-model="form.parameterId" />
-      </div>
+    </div>
+
+    <div class="flexrow flexac edit_item">
+      <div class="edit_item_title">公司地址:</div>
+      <a-input class="edit_a_input" v-model="form.address" placeholder="请输入公司地址" />
+    </div>
+    <div class="flexrow flexac edit_item">
+      <div class="edit_item_title">公司电话:</div>
+      <a-input class="edit_a_input" v-model="form.telephone" placeholder="请输入公司电话" />
+    </div>
+    <div class="flexrow flexac edit_item">
+      <div class="edit_item_title">联系人姓名:</div>
+      <a-input class="edit_a_input" v-model="form.linkman" placeholder="请输入联系人姓名" />
+    </div>
+    <div class="flexrow flexac edit_item">
+      <div class="edit_item_title">联系人手机:</div>
+      <a-input class="edit_a_input" v-model="form.linkphone" placeholder="请输入 联系人手机" />
+    </div>
+    <div class="flexrow flexac edit_item">
+      <div class="edit_item_title">联系人职务:</div>
+      <a-input class="edit_a_input" v-model="form.position" placeholder="请输入联系人职务" />
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
-        <span class="col_red">*</span>参数名称:
+        <span class="col_red">*</span>客户状态:
       </div>
-      <a-input class="edit_a_input" v-model="form.parameterName" placeholder="请输入参数名称" />
-      <div class="edit_item_toast">注:50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
+      <a-select
+        show-search
+        placeholder="全部"
+        option-filter-prop="children"
+        style="width: 667px;margin-right:20px"
+        v-model="form.statusCode"
+        :filter-option="filterOption"
+        @change="handleChange2"
+      >
+        <a-select-option value>全部</a-select-option>
+        <a-select-option v-for="(item,index) in sel_data" :key="index" :value="item.id">{{item.val}}</a-select-option>
+      </a-select>
     </div>
+
     <div class="flexrow flexac edit_item">
-      <div class="edit_item_title">
-        <span class="col_red">*</span>参数代码:
-      </div>
-      <a-input class="edit_a_input" placeholder="请输入参数代码" v-model="form.parameterCode" />
-      <div class="edit_item_toast">注:50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
-    </div>
-    <div class="flexrow flexac edit_item">
-      <div class="edit_item_title">
-        <span class="col_red">*</span>参数数值:
-      </div>
+      <div class="edit_item_title">备注信息:</div>
       <div style="position: relative;">
         <a-textarea
           class="edit_a_input"
           :rows="5"
-          placeholder="格式不限制，256个字符以内，包含标点符号"
-          v-model="form.parameterValue"
+          placeholder="500字以内，格式不限制"
+          v-model="form.remark"
         />
-        <div class="edit_number">0/256</div>
-      </div>
-    </div>
-    <div class="flexrow flexac edit_item">
-      <div class="edit_item_title">参数描述:</div>
-      <div style="position: relative;">
-        <a-textarea
-          class="edit_a_input"
-          :rows="5"
-          placeholder="格式不限制，256个字符以内，包含标点符号"
-          v-model="form.description"
-        />
-        <div class="edit_number">0/256</div>
       </div>
     </div>
     <div class="flexrow" style="margin-top: 30px;justify-item: flex-start;margin-left: 325px;">
-      <a-button @click="getrunform()">保存</a-button>
+      <a-button @click="getform()">保存</a-button>
       <a-button type="primary" style="margin-left: 20px;" @click="reset()">重置</a-button>
     </div>
   </div>
 </template>
 
 <script>
-import AMap from "AMap";
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
 export default {
   data() {
     return {
-      sel_data: "",
+      loading: false,
+      imageUrl: "",
+      sel_data: [
+        { val: "启用", id: 1 },
+        { val: "备用", id: 2 },
+        { val: "关闭", id: 0 },
+      ],
       form: {
-        parameterId: "",
-        typeCode: "",
-        parameterName: "",
-        parameterCode: "",
-        parameterValue: "",
+        customerId: "",
+        customerName: "",
+        shortName: "",
+        customerLogo: "111",
+        address: "",
+        telephone: "",
+        linkman: "",
+        linkphone: "",
+        position: "",
+        statusCode: "",
+        remark: "",
         operatorId: "1",
-        description: "",
       },
-      rundetailparam: {
-        parameterId: "",
+      detailparam: {
+        customerId: "",
       },
     };
   },
   created() {
-    if (this.$route.query.type == "add") {    
-      this.sel_data = JSON.parse(localStorage.getItem("sel"));
-        console.log(this.sel_data,88992);
+    if (this.$route.query.type == "add") {
+      this.form.parentName = this.$route.query.name;
+      this.form.parentId = this.$route.query.id;
+      this.form.gradeno = this.$route.query.levelType;
     }
     if (this.$route.query.type == "edit") {
-      this.rundetailparam.parameterId = this.$route.query.id;
-      console.log(this.rundetailparam, 8899);
-      this.getrundetail();
+      this.detailparam.customerId = this.$route.query.id;
+      this.getdetail();
     }
   },
   methods: {
-    //运行参数详情接口
-    async getrundetail() {
-      let res = await this.$http.post(this.$api.rundetail, this.rundetailparam);
+    //详情接口
+    async getdetail() {
+      let res = await this.$http.post(
+        this.$api.informationdetail,
+        this.detailparam
+      );
       if (res.data.resultCode == "10000") {
         this.form = res.data.data;
+        this.imageUrl = this.form.customerLogo;
       } else {
         this.$message.error(res.data.resultMsg);
       }
       console.log(res, 8888);
     },
-    //运行参数表单接
-    async getrunform() {
-      if (this.form.parameterId == "") {
-        return this.$message.error("请选择参数分组");
-      }
-      if (this.form.parameterName == "") {
-        return this.$message.error("请输入参数名称");
-      }
-      if (this.form.parameterValue == "") {
-        return this.$message.error("请输入参数数值");
-      }
-      if (this.form.parameterCode == "") {
-        return this.$message.error("请输入参数代码");
-      }
-      this.form.operatorId = "1";
-      let res = await this.$http.post(this.$api.runform, this.form);
+    //运行参数表单接口
+    async getform() {
+      this.form.operatorId = 1;
+      let res = await this.$http.post(this.$api.informationform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-           this.$router.go(-1)
+        this.$router.go(-1);
       } else {
         this.$message.error(res.data.resultMsg);
       }
     },
     reset() {
-      if (this.$route.query.type == "add") {
-        console.log(44422);
-        this.form = {
-          parameterId: "",
-          typeCode: "",
-          parameterName: "",
-          parameterCode: "",
-          parameterValue: "",
-          operatorId: "1",
-          description: "",
-        };
-      } else {
-        this.form.parameterName=""
-        this.form.parameterCode=""
-        this.form.parameterValue=""
-        this.form.description=""
+      this.form.departmentName = "";
+      this.form.introduce = "";
+    },
+    handleChange(info) {
+      if (info.file.status === "uploading") {
+        this.loading = true;
+        return;
       }
+      if (info.file.status === "done") {
+        // Get this url from response in real world.
+        getBase64(info.file.originFileObj, (imageUrl) => {
+          this.imageUrl = imageUrl;
+          this.loading = false;
+        });
+      }
+      console.log(this.imageUrl,88999,info);
     },
-
-    onComplete(e) {
-      console.log(e, "onComplete ");
+    beforeUpload(file) {
+      const isJpgOrPng =
+        file.type === "image/jpeg" || file.type === "image/png";
+      if (!isJpgOrPng) {
+        this.$message.error("You can only upload JPG file!");
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.$message.error("Image must smaller than 2MB!");
+      }
+      return isJpgOrPng && isLt2M;
     },
-    onError(e) {
-      console.log(e, "onError ");
-    },
-    handleChange(value,key) {
-      this.form.typeCode=this.sel_data[key.data.key].comboBoxId
-      console.log( this.form.typeCode,88);
-    },
-    handleBlur() {
-      console.log("blur");
-    },
-    handleFocus() {
-      console.log("focus");
+    handleChange2(value) {
+      console.log(`selected ${value}`);
+      console.log(this.runpageparam);
     },
     filterOption(input, option) {
       return (
@@ -217,7 +241,10 @@ export default {
   width: 667px;
   height: 32px;
 }
-
+.isupload {
+  height: 72px;
+  margin-bottom: 50px;
+}
 .edit_number {
   position: absolute;
   right: 10px;

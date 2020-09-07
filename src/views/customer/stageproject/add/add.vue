@@ -2,14 +2,29 @@
   <div class="isedit">
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
-        <span class="col_red">*</span>项目名称:
+        项目名称:
       </div>
       <div>
         <a-input
           class="edit_a_input"
           :maxLength="50"
-          v-model="form.projectName"
+          v-model="projectName"
           placeholder="请输入项目名称"
+          disabled
+        />
+      </div>
+      <div class="edit_item_toast">注:50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
+    </div>
+    <div class="flexrow flexac edit_item">
+      <div class="edit_item_title">
+        <span class="col_red">*</span>阶段名称:
+      </div>
+      <div>
+        <a-input
+          class="edit_a_input"
+          :maxLength="50"
+          v-model="form.phaseName"
+          placeholder="请输入阶段名称"
         />
       </div>
       <div class="edit_item_toast">注:50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
@@ -32,7 +47,7 @@
       </div>
     </div>
     <div class="flexrow flexac edit_item">
-      <div class="edit_item_title">合同期始:</div>
+      <div class="edit_item_title">阶段期始:</div>
       <a-date-picker
         @change="onChange"
         v-model="form.startDate "
@@ -42,7 +57,7 @@
       />
     </div>
     <div class="flexrow flexac edit_item">
-      <div class="edit_item_title">合同期止:</div>
+      <div class="edit_item_title">阶段期止:</div>
       <a-date-picker
         @change="onChange1"
         format="YYYY-MM-DD"
@@ -52,8 +67,28 @@
       />
     </div>
     <div class="flexrow flexac edit_item">
+      <div class="edit_item_title">上线日期:</div>
+      <a-date-picker
+        @change="onChange3"
+        v-model="form.onlineDate "
+        placeholder="请选择日期"
+        format="YYYY-MM-DD"
+        class="edit_a_input"
+      />
+    </div>
+    <div class="flexrow flexac edit_item">
+      <div class="edit_item_title">验收日期:</div>
+      <a-date-picker
+        @change="onChange4"
+        format="YYYY-MM-DD"
+        v-model="form.acceptanceDate "
+        placeholder="请选择日期"
+        class="edit_a_input"
+      />
+    </div>
+    <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
-        <span class="col_red">*</span>项目状态:
+        <span class="col_red">*</span>阶段状态:
       </div>
       <a-select
         show-search
@@ -127,8 +162,9 @@ export default {
         operatorId: "1",
       },
       detailparam: {
-        projectId: "",
+        phaseId: "",
       },
+      projectName:"",
       plainOptions: ["男", "女"],
       value1: "男",
       statusCode: [
@@ -147,8 +183,9 @@ export default {
     },
   },
   created() {
+         this.projectName = this.$route.query.name;
     if (this.$route.query.type == "edit") {
-      this.detailparam.projectId = this.$route.query.id;
+      this.detailparam.phaseId = this.$route.query.id;   
       this.getdetail();
     }
   },
@@ -156,7 +193,7 @@ export default {
     //详情接口
     async getdetail() {
       let res = await this.$http.post(
-        this.$api.projectdetail,
+        this.$api.projectPhasedetail,
         this.detailparam
       );
       if (res.data.resultCode == "10000") {
@@ -168,20 +205,15 @@ export default {
     },
     //运行参数表单接口
     async getform() {
-
-      if (this.form.projectName == "") {
-        return this.$message.error("请输入项目名称");
-      }
-      if (this.form.statusCode == "") {
-        return this.$message.error("请选择项目状态");
-      }
+     this.form.projectId=this.$route.query.projectid
+     this.form.customerId=this.$route.query.customerId
       this.form.operatorId = 1;
       if (new Date(this.form.startDate).getTime()>new Date(this.form.endDate).getTime()) {
         let a=this.form.startDate
         this.form.startDate=this.form.endDate
         this.form.endDate=a
       }
-      let res = await this.$http.post(this.$api.projectform, this.form);
+      let res = await this.$http.post(this.$api.projectPhaseform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
         this.$router.go(-1);
@@ -216,6 +248,12 @@ export default {
     onChange1(date, dateString) {
       this.form.endDate = dateString;
     },
+    onChange3(date, dateString) {
+      this.form.endDate = dateString;
+    },
+    onChange4(date, dateString) {
+      this.form.endDate = dateString;
+    },
     onChange2(checked) {
       console.log(`a-switch to ${checked}`);
       if (checked) {
@@ -242,7 +280,7 @@ export default {
 }
 
 .edit_item {
-  margin-top: 24px;
+  margin-top: 15px;
 }
 
 .edit_item_toast {
