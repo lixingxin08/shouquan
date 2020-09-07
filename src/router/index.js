@@ -50,6 +50,7 @@ const sms = () => import('@/views/message/sms/sms') //微信账号
 const addsms = () => import('@/views/message/sms/add/add') //微信账号
 
 const template = () => import('@/views/business/template/template') //菜单模板
+const addtemplate = () => import('@/views/business/template/add/add') //菜单模板
 const menuauthorization = () => import('@/views/business/menuauthorization/menuauthorization') //菜单授权
 const zoningauthorization = () => import('@/views/business/zoningauthorization/zoningauthorization') //区划授权
 const modelauthorization = () => import('@/views/business/modelauthorization/modelauthorization') //型号授权
@@ -408,6 +409,14 @@ export default new Router({
             title: '菜单模板'
           },
           component: template
+        },
+        {
+          path: '/addtemplate',
+          name: 'template',
+          meta: {
+            title: '菜单模板'
+          },
+          component: addtemplate
         },
         {
           path: '/menuauthorization',

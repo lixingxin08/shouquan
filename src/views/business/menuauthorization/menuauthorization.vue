@@ -5,21 +5,20 @@
       <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="false"></a-table>
     </div>
     <div class="isright">
-      <div class="r_t flex_f">
-        <div>区划名称:</div>
-        <div>
-          <a-input placeholder="请输入区划名称" class="r_t_inp" />
+      <div class="tree_box flex_f">
+        <div class="tree_box_i tree_box_i_l">
+          <div class="left_title">选择授权模板</div>
+          <a-table :columns="tablecolumns2" :data-source="tabledata2" bordered :pagination="false"></a-table>
         </div>
-        <div class="btn_blue btn">查询</div>
-      </div>
-      <div class="tree_box">
-        <is-left
-          :treedata="treedata"
-          :replaceFields="replaceFields"
-          :defaultExpandedKeys="defaultExpandedKeys"
-          @checkedKeys="getcheckedKeys"
-          v-if="showtree"
-        ></is-left>
+        <div class="tree_box_i">
+          <is-left
+            :treedata="treedata"
+            :replaceFields="replaceFields"
+            :defaultExpandedKeys="defaultExpandedKeys"
+            @checkedKeys="getcheckedKeys"
+            v-if="showtree"
+          ></is-left>
+        </div>
       </div>
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
@@ -92,11 +91,66 @@ export default {
         },
       ],
       treedata: "",
+
       replaceFields: {
         title: "name",
         key: "id",
       },
       defaultExpandedKeys: [],
+      tablecolumns2: [
+        {
+          width: 58,
+          align: "center",
+          title: "Name",
+          dataIndex: "name",
+          key: "name",
+        },
+        {
+          width: 141,
+          align: "center",
+          title: "Age",
+          dataIndex: "age",
+          key: "age",
+        },
+        {
+          width: 141,
+          align: "center",
+          title: "Address",
+          dataIndex: "address",
+          key: "address 1",
+          ellipsis: true,
+        },
+      ],
+      tabledata2: [
+        {
+          key: "1",
+          name: "John Brown",
+          age: 32,
+          address: "New York No. 1 Lake Park, New York No. 1 Lake Park",
+          tags: ["nice", "developer"],
+        },
+        {
+          key: "2",
+          name: "Jim Green",
+          age: 42,
+          address: "London No. 2 Lake Park, London No. 2 Lake Park",
+          tags: ["loser"],
+        },
+        {
+          key: "3",
+          name: "Joe Black",
+          age: 32,
+          address: "Sidney No. 1 Lake Park, Sidney No. 1 Lake Park",
+          tags: ["cool", "teacher"],
+        },
+      ],
+      treedata2: "",
+
+      replaceFields2: {
+        title: "name",
+        key: "id",
+      },
+      defaultExpandedKeys2: [],
       data: "",
       showtree: false,
       areatreeprame: {
@@ -112,10 +166,19 @@ export default {
         parentId: "",
         remark: "",
       },
+        runpageparam: {
+        statusCode: "",
+        keyword: "",
+        operatorId: "1",
+        pageIndex: 1,
+        pageSize: 10,
+      },
     };
   },
   created() {
+     this.getpage()
     this.getareatree();
+   
   },
   methods: {
     async getareatree() {
@@ -129,6 +192,27 @@ export default {
       }
       this.setdata();
       this.showtree = true;
+    },
+    async getpage() {
+      this.tabletype = false;
+      this.runpageparam.pageIndex = this.pagination.current;
+      this.runpageparam.pageSize = this.pagination.pageSize;
+      let res = await this.$http.post(
+        this.$api.customeraccountmylist,
+        this.runpageparam
+      );
+      if (res.data.resultCode == "10000") {
+        this.tabledata = res.data.data.list;
+        this.runpageparam.keyword = "";
+        this.runpageparam.parameterCode = "";
+        if (this.istotal.type == 1) {
+          this.pagination.total = res.data.data.length;
+        }
+        this.istotal.type++;
+        this.tabletype = true;
+      } else {
+        this.$message.error(res.data.resultMsg);
+      }
     },
 
     toTree(data) {
@@ -214,12 +298,12 @@ export default {
 .isright {
   width: 1272px;
   height: 100%;
-  padding: 20px;
+  padding-left: 20px;
   text-align: left;
   background: #ffffff;
 }
 .left_title {
-  width: 72px;
+  width: 120px;
   height: 24px;
   font-size: 18px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -238,10 +322,19 @@ export default {
 .tree_box {
   width: 1232px;
   height: 353px;
-  margin-top: 20px;
   margin-bottom: 170px;
   background: #ffffff;
-  border: 1px solid #dcdcdc;
+}
+.tree_box_i {
+  width: 600px;
+  height: 353px;
+  overflow: scroll;
+}
+.tree_box_i::-webkit-scrollbar {
+  display: none;
+}
+.tree_box_i_l{
+  padding-left: 20px;
 }
 .r_b_title {
   font-size: 18px;

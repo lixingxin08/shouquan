@@ -20,6 +20,7 @@ export default {
     menupage: `/config/menu/page`, //系统菜单列表接口
     menuremove: `/config/menu/remove`, //系统菜单删除接口
     menutree: `/config/menu/tree`, //系统菜单树
+    menucombobox: `/config/menu/combobox`, //子系统菜单下拉列表数据接口
 
 
 
@@ -65,7 +66,6 @@ export default {
     wechatdetail: `/message/wechat/account/detail`,
     wechatpage: `/message/wechat/account/page`,
   
-  
     //短信账号基本信息API
     deleteBySmsAccountId: `/message/sms/account/deleteBySmsAccountId`,//微信帐号基础信息分页查询接口
     smsform: `/message/sms/account/form`,
@@ -100,4 +100,31 @@ export default {
     propertylist: `/device/property/list`, //设备属性列表接口
     propertyform: `/device/property/form`, //设备属性表单接口
     propertyremove: `/device/property/remove`, //设备属性删除接口
+
+
+       //系统菜单模板API
+       deleteByTemplateId: `/auth/template/deleteByTemplateId`,
+       templatedetail: `/auth/template/detail`,
+       templateform: `/auth/template/form`,
+       templatepage: `/auth/template/page`,
+       templatelist: `/auth/template/list`,
+
+        //系统菜单权限API
+        customertemplatedetail :`/auth/customer-template/detail`,
+        customertemplateform :`/auth/customer-template/form`,
+
+        //区划授权API
+        customerareaform :`/auth/customer-area/form`,
+        customerareatree :`/auth/customer-area/tree`,
+
+        //型号授权API
+        customermodel :`/auth/customer-model/form`,
+        customermodel :`/auth/customer-model/list`,
+        
+
+        //客户账号授权API
+        customeraccountform:`/auth/customer-account/form`,
+        customeraccountlist:`/auth/customer-account/list`,
+        customeraccountmylist:`/auth/customer-account/my-list`,
+
 }
