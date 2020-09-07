@@ -13,7 +13,7 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div style="width: 100%;height: 1px;background: #cccccc;margin: 20px auto;"></div>
-    <div class="flexrow flexjc flexac addbtn" @click="add">
+    <div class="flexrow flexjc flexac addbtn" @click="editDevice({})">
       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
     </div>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
@@ -65,15 +65,18 @@
       this.getDeviceData()
     },
     methods: {
+      /* 切换分页，选页的回调*/
       handleTableChange(pagination) {
         this.pageSize = pagination.pageSize
         this.pageIndex = pagination.current
         this.getDeviceData()
       },
+      /* 下拉查询*/
       handleSelectChange(e) {
         this.serviceType = e
-        this.getDeviceData()
+        //this.getDeviceData()
       },
+      /* 获取设备类型list*/
       async getDeviceData() {
         let param = {
           keyword: this.keyword,
@@ -89,12 +92,12 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-      async confirm(item) { //确定
+      /* 确认删除某个item*/
+      async confirm(item) { 
         let param = {
           deviceTypeId: item.deviceTypeId
         }
         let res = await this.$http.post(this.$api.devicetyperemove, param);
-        console.log(res)
         if (res.data.resultCode == 10000) {
           this.getDeviceData();
           this.$message.success(res.data.resultMsg);
@@ -102,10 +105,13 @@
           this.$message.error(res.data.resultMsg);
         }
       },
+      /* 清除搜索条件*/
       cleanKeyWord() {
         this.keyword = ''
+        this.serviceType=''
         this.getDeviceData()
       },
+      /* 获取业务类型list*/
       async getCombobox() {
         let param = {
           classCode: 'device_service_type'
@@ -115,14 +121,7 @@
           this.selectList.push(res.data.data[i])
         }
       },
-      add() { //新增
-        this.$router.push({
-          path: '/adddevicetypes',
-          query: {
-            id: ""
-          }
-        });
-      },
+     /* 新增 、编辑*/
       editDevice(item) {
         this.$router.push({
           path: '/adddevicetypes',
@@ -131,6 +130,7 @@
           }
         });
       },
+      /* 属性值*/
       deviceAtt(item) {
         this.$router.push({
           path: '/devicetypesatt',

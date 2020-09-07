@@ -256,7 +256,7 @@ export default new Router({
           },
           component: devicewarning
         },
-        
+
         {
           path: '/adddevicewarning',
           name: 'devicewarning',

@@ -3,123 +3,128 @@
     <div class="flexrow flexac" style="margin-bottom: 20px;">
       <div class='title_tx'>业务类别:</div>
       <div class="flexrow flexac flexsb title_item">
-        类别1
-       <a-icon type="down" />
+        {{modelDetail.serviceTypeName}}
+        <a-icon type="down" />
       </div>
       <div class='title_tx'>设备类型:</div>
       <div class="flexrow flexac flexsb title_item">
-        类别1
-       <a-icon type="down" />
+        {{modelDetail.deviceTypeName}}
+        <a-icon type="down" />
       </div>
       <div class='title_tx'>设备品牌:</div>
       <div class="flexrow flexac flexsb title_item">
-        类别1
-       <a-icon type="down" />
+        {{modelDetail.brandName}}
+        <a-icon type="down" />
       </div>
       <div class='title_tx'>型号名称:</div>
       <div class="flexrow flexac flexsb title_item">
-        类别1
-       <a-icon type="down" />
+        {{modelDetail.modelName}}
+        <a-icon type="down" />
       </div>
     </div>
 
-    <div class="flexrow flexjc flexac addbtn" @click="add">
-      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增运行参数
-    </div>
-    <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
-      :pagination="pagination" @change="handleTableChange">
+    <a-button type="primary" class="flexrow flexjc flexac addbtn" @click="editParam({})">
+      <a-icon two-tone-color="#ffffff" type="plus" /> 新增运行参数
+    </a-button>
+    <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="paramList" bordered size="small"
+      :pagination="false">
       <template slot="index" slot-scope="text, record,index">
         {{index+1}}
       </template>
-      <template slot="authFlag" slot-scope="text, record,index">
-        <div v-if="record.authFlag==0">默认拥有类</div>
-        <div v-if="record.authFlag==1">系统配置类</div>
-        <div v-if="record.authFlag==2">客户授权类</div>
-        <div v-if="record.authFlag==2">均可操作类</div>
-      </template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
-          <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>
+          <a href="#" style='font-size: 12px;' @click="editParam(record)">编辑</a>
           <div class="item-line"></div>
-          <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm">
+          <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
         </div>
       </template>
     </a-table>
-    <div class="flexrow flexjc" style="margin-top: 40px;margin-bottom: 100px;">
-      <a-button>保存</a-button>
-      <a-button type="primary" style="margin-left: 20px;">重置</a-button>
-    </div>
+
+    <is-add v-if="isVis" :param="paramItem" @callback='addCallBack'></is-add>
   </div>
 </template>
 <script>
   import tableTitleData from "../table.json";
-  const plainOptions = ['页签', '按钮'];
+  import isAdd from './add/add.vue'
   export default {
+    components: {
+      isAdd
+    },
     data() {
       return {
-        keyword: '',
+        isVis: false,
+        paramItem: {},
         dictionaryColumns: tableTitleData.data.param,
-        deviceList: [{}], //字典数据
-        pagination: {
-          pageSize: 20, // 默认每页显示数量
-          showSizeChanger: true, // 显示可改变每页数量
-          pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
-          showQuickJumper: true,
-        },
-        pageSize: 20,
-        pageIndex: 1,
+        paramList: [], //参数列表
+        id: '',
+        modelDetail: {}
       }
+
+    },
+    created() {
+      this.id = this.$route.query.id
+      this.getModelInfo()
+      this.getParamData()
     },
     methods: {
-      handleTableChange(pagination) {
-        this.pageSize = pagination.pageSize
-        this.pageIndex = pagination.current
-        this.getDeviceData()
+      /* 获取设备型号信息*/
+      async getModelInfo() {
+        let param = {
+          modelId: this.id
+        }
+        let res = await this.$http.post(this.$api.devicemodeldetail, param);
+        if (res.data.resultCode == 10000) {
+          this.modelDetail = res.data.data
+        }
       },
-      handleSelectChange(e) {},
-      getDeviceData() {},
-      confirm() { //确定
-
+      /* 获取参数数据*/
+      async getParamData() { 
+        let param = {
+          pageIndex: 1,
+          pageSize: 200,
+          modelId: this.id
+        }
+        let res = await this.$http.post(this.$api.parampage, param);
+        if (res.data.resultCode == 10000) {
+          this.paramList = res.data.data.list
+        }
       },
-      cleanKeyWord() {
-
+      /* 删除确定*/
+      async confirmDelete(item) { 
+        let param = {
+          parameterId: item.parameterId
+        }
+        let res = await this.$http.post(this.$api.paramremove, param)
+        if (res.data.resultCode == 10000) {
+          this.getParamData()
+          this.$message.success(res.data.resultMsg)
+        } else {
+          this.$message.warning(res.data.resultMsg)
+        }
       },
-
-      add() { //新增
-        this.$router.push({
-          path: '/adddeviceModel',
-          query: {
-            add: true
+      /* 新增编辑弹框*/
+      editParam(item) { 
+        this.paramItem = item
+        this.isVis = true
+      },
+      /* 添加编辑回调*/
+      async addCallBack(param) { 
+        if (param) {
+          param.modelId = this.id
+          param.typeCode = 'sms_template_device_running'
+          param.operatorId = '5172dadd6d7c404e8ac657f32f81d969'
+          let res = await this.$http.post(this.$api.paramform, param)
+          if (res.data.resultCode == 10000) {
+            this.getParamData()
+            this.$message.success(res.data.resultMsg)
+          } else {
+            this.$message.warning(res.data.resultMsg)
           }
-        });
-      },
-      paramDevice() { //運行參數
-        this.$router.push({
-          path: '/deviceModelParam',
-          query: {
-            add: false
-          }
-        });
-      },
-      deviceInfo() { //屬性值
-        this.$router.push({
-          path: '/deviceModelAtt',
-          query: {
-            add: false
-          }
-        });
-      },
-      editDevice() { //編輯
-        this.$router.push({
-          path: '/adddeviceModel',
-          query: {
-            add: false
-          }
-        });
-      },
-
+        }
+        this.isVis = false
+      }
     }
   }
 </script>
@@ -148,7 +153,7 @@
     color: #ffffff;
     width: 120px;
     margin-bottom: 20px;
-    height: 36px;
+    height: 40px;
     background: #1890ff;
     border: 1px solid #1890ff;
     border-radius: 8px;
@@ -161,7 +166,8 @@
     margin-left: 10px;
     margin-right: 10px;
   }
-  .title_item{
+
+  .title_item {
     background: #f5f5f5;
     border: 1px solid #dcdcdc;
     border-radius: 8px;

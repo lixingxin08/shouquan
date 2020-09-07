@@ -9,34 +9,39 @@
           "customRender": "index"
         }
       }, {
-        "title": "事件名称",
+        "title": "警报名称",
         "align": "center",
-        "dataIndex": "menuName",
-        "ellipsis": true
+        "ellipsis": true,
+        "dataIndex": "alarmName"
       },
       {
-        "title": "事件代码",
+        "title": "警报代码",
         "align": "center",
-        "dataIndex": "menuTypeName",
-        "ellipsis": true
+        "ellipsis": true,
+        "dataIndex": "alarmCode"
       },
       {
-        "title": "事件类型",
+        "title": "警报类型",
         "align": "center",
-        "dataIndex": "parentName",
-        "ellipsis": true
+        "ellipsis": true,
+        "dataIndex": "alarmTypeName"
       },
       {
-        "title": "关联警报数",
+        "title": "转警事件数",
         "align": "center",
-        "dataIndex": "parentId",
-        "ellipsis": true
+        "ellipsis": true,
+        "dataIndex": "eventTotal"
       },
-
+      {
+        "title": "授权次数",
+        "align": "center",
+        "ellipsis": true,
+        "dataIndex": "authTotal"
+      },
       {
         "title": "操作",
         "align": "center",
-        "width": "160px",
+        "width": "320px",
         "scopedSlots": {
           "customRender": "operation"
         }
@@ -47,29 +52,26 @@
         "scopedSlots": {
           "customRender": "index"
         },
-          "width": "10%",
-            "align": "center"
+        "width": "7%",
+        "align": "center"
       },
       {
         "title": "事件名称",
-        "dataIndex": "name",
+        "dataIndex": "eventName",
         "align": "center",
-        "scopedSlots": {
-          "customRender": "name"
-        }
+        "width": "30%"
       },
       {
         "title": "事件代码",
-        "dataIndex": "code",
+        "dataIndex": "eventCode",
         "align": "center",
-        "scopedSlots": {
-          "customRender": "code"
-        }
+        "width": "30%"
       },
       {
         "title": "事件类型",
-        "dataIndex": "remark",
+        "dataIndex": "eventTypeName",
         "align": "center"
+
       }
     ]
   }
