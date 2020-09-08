@@ -13,39 +13,39 @@
         "title": "菜单序号",
         "align": "center",
            "ellipsis":true,
-         "dataIndex": "className"
+         "dataIndex": "menuId"
       },
       {
         "title": "接口名称",
         "align": "center",
            "ellipsis":true,
-         "dataIndex": "classCode"
+         "dataIndex": "actionName"
       },
       {
         "title": "结果代码",
         "align": "center",
            "ellipsis":true,
-         "dataIndex": "grade"
+         "dataIndex": "resultCode"
       },
       {
         "title": "接口耗时(毫秒)",
         "align": "center",
            "ellipsis":true,
-         "dataIndex": "parentName"
+         "dataIndex": "timeTotal"
       },
       {
         "title": "操作账号",
         "align": "center",
            "ellipsis":true,
-         "dataIndex": "parentCode"
+         "dataIndex": "entityId"
       },
       {
         "title": "请求时间",
         "align": "center",
            "ellipsis":true,
-         "dataIndex": "childTotal"
+         "dataIndex": "requestTime"
       },
-    
+
       {
         "title": "操作",
         "align": "center",

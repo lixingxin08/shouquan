@@ -99,7 +99,8 @@ export default {
   propertyremove: `/device/property/remove`, //设备属性删除接口
 
 
-
+//系统角色
+  rolesystempage: `/account/role/page`,
   rolesystemlist: `/account/role/page`, //系统角色列表接口
   rolesystemform: `/account/role/form`, //系统角色表单接口
   rolesystemremove: `/account/role/remove`, //系统角色删除接口
@@ -151,8 +152,8 @@ export default {
   accountinforemove: `/account/info/remove`,
   accountinforeset: `/account/info/reset`,
 
-  //系统角色
-  rolesystempage: `/account/role/page`,
-  rolesystemform: `/account/role/form`,
-  rolesystemremove:`/account/role/remove`
+  //日志
+   journalpage:`/page`,
+   journaldetail:`/detail`,
+   journaltree:`/tree`
 }
