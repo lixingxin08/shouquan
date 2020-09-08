@@ -118,4 +118,10 @@
     margin-left: 20px;
     margin-right: 20px;
   }
+
+  .ant-table-thead>tr>th {
+    background: #F6FBFF !important;
+  }
+
+
 </style>
