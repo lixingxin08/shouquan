@@ -7,10 +7,11 @@
       <a-tree
         :show-line="showLine"
         @select="onSelect"
-        checkable
+        :checkable="checkable"
         :tree-data="treedata"
         :replaceFields="replaceFields"
         :default-expanded-keys="defaultExpandedKeys"
+        :checkedKeys='ischeckedKeys'
         @check="onCheck"
       >
         <a-icon slot="icon" type="carry-out" />
@@ -30,8 +31,13 @@ export default {
   },
   props: {
     treedata: Array, //树数据
+    checkable:{
+      type:Boolean,
+      default:true
+    },
     replaceFields: Object, //替换属性
     defaultExpandedKeys: Array, //默认展开
+    ischeckedKeys:Array,//默认勾选
   },
   created() {
     console.log(this.treedata, 123221);
@@ -43,7 +49,6 @@ export default {
         return;
       }
       this.olddata = selectedNodes.selectedNodes[0].data.props;
-      this.$emit("selectdata", "");
       this.$emit("selectdata", selectedNodes.selectedNodes[0].data.props || "");
     },
     onSearch(value) {

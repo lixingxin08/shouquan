@@ -124,11 +124,11 @@ export default {
       console.log(res, 11);
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
+        this.setdata();
+        this.showtree = true;
       } else {
         this.$message.error(res.data.resultMsg);
       }
-      this.setdata();
-      this.showtree = true;
     },
 
     toTree(data) {

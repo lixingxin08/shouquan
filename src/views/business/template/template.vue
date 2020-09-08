@@ -4,9 +4,9 @@
       <div>
         <div class="right">
           <div class="r_top flex_f">
-            <div class="r_t_text">项目名称:</div>
+            <div class="r_t_text">模板名称:</div>
             <a-input
-              placeholder="请输入项目名称"
+              placeholder="请输入模板名称"
               class="r_t_inp"
               v-model="pageparam.keyword"
               @keydown.enter="tosearch()"
@@ -28,13 +28,8 @@
                 <div v-if="statusCode==2">备用</div>
                 <div v-if="statusCode==0">关闭</div>
               </div>
-             <div slot="defaultChecked" class="flex_a" slot-scope="defaultChecked">
-                <div v-if="defaultChecked==1">已选中</div>
-                <div v-if="defaultChecked==0">未选中</div>
-              </div>
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
-                <div class="col_blue ispointer" @click="tostage(areaName)">阶段信息</div>
                 <div class="col_red ispointer" @click="showdialog(areaName)">
                   <span>删除</span>
                 </div>
@@ -62,63 +57,28 @@ export default {
         {
           width: 158,
           align: "center",
-          title: "项目序号",
-          dataIndex: "projectId",
-          key: "projectId",
+          title: "序号",
+          dataIndex: "templateId",
+          key: "templateId",
           ellipsis: true,
         },
         {
           width: 208,
           align: "center",
-          title: "项目名称",
-          dataIndex: "projectName",
-          key: "projectName",
-          ellipsis: true,
-        },
-        {
-          width: 108,
-          align: "center",
-          title: "合同编号",
-          dataIndex: "contractNo",
-          key: "contractNo",
+          title: "模板名称",
+          dataIndex: "templateName",
+          key: "templateName",
           ellipsis: true,
         },
         {
           width: 88,
           align: "center",
-          title: "开始日期",
-          key: "startDate",
-          dataIndex: "startDate",
-          ellipsis: true,
-        },
-        {
-          width: 88,
-          align: "center",
-          title: "结束日期",
-          key: "endDate",
-          dataIndex: "endDate",
-          ellipsis: true,
-        },
-        {
-          width: 88,
-          align: "center",
-          title: "项目状态",
+          title: "模板状态",
           key: "statusCode",
           dataIndex: "statusCode",
           ellipsis: true,
           scopedSlots: {
             customRender: "statusCode",
-          },
-        },
-        {
-          width: 88,
-          align: "center",
-          title: "默认标识",
-          key: "defaultChecked",
-          dataIndex: "defaultChecked",
-          ellipsis: true,
-          scopedSlots: {
-            customRender: "defaultChecked",
           },
         },
         {
@@ -157,15 +117,17 @@ export default {
     };
   },
   created() {
+
     this.getpage();
   },
   methods: {
+    
     //运行参数列表接口
     async getpage() {
       this.tabletype = false;
       this.pageparam.pageIndex = this.pagination.current;
       this.pageparam.pageSize = this.pagination.pageSize;
-      let res = await this.$http.post(this.$api.projectpage, this.pageparam);
+      let res = await this.$http.post(this.$api.templatepage, this.pageparam);
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data.list;
         if (this.istotal.type == 1) {
@@ -191,30 +153,20 @@ export default {
     toadd(val, id) {
       if (val == "add") {
         this.$router.push({
-          path: "/addproject",
+          path: "/addtemplate",
           query: {
             type: val,
           },
         });
       } else {
         this.$router.push({
-          path: "/addproject",
+          path: "/addtemplate",
           query: {
             type: val,
-            id: id.projectId,
+            id: id.templateId,
           },
         });
       }
-    },
-    tostage(val){
-      this.$router.push({
-          path: "/stageproject",
-          query: {
-            id: val.projectId,
-            name:val.projectName,
-            customerId:val.customerId
-          },
-        });
     },
     
     //查询

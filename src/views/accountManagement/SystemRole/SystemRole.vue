@@ -67,7 +67,7 @@
           pageSize: this.pageSize,
           keyword: this.keyword //搜索条件
         }
-        let res = await this.$http.post(this.$api.rolesystemlist, param)
+        let res = await this.$http.post(this.$api.rolesystempage, param)
         if (res.data.resultCode == 10000) {
           this.tableList = res.data.data.list
         } else {

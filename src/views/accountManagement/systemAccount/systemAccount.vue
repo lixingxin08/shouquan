@@ -17,7 +17,7 @@
             <div class="btn_blue btn" @click="tosearch()">查询</div>
             <div class="btn_gray" @click="clear()">清除</div>
           </div>
-          <div class="btn_blue btn2" @click="toadd()">新增</div>
+          <div class="btn_blue btn2" @click="toadd({})">新增</div>
           <div class="table" v-if="tabletype">
             <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination" @change="handleTableChange">
 
@@ -28,11 +28,11 @@
 
               <div slot="edit" class="flex_a" slot-scope="val,departmentId">
                 <div class="col_blue ispointer" @click="toadd(departmentId)">编辑</div>
-                    <div class="col_blue ispointer" @click="toedit(departmentId)">修改密码</div>
-                <div class="col_red ispointer" v-if="val.existsFlag==0" @click="showdialog(val)">
+                <div class="col_blue ispointer" @click="toedit(departmentId)">修改密码</div>
+                <div class="col_red ispointer" @click="showdialog(val)">
                   <span>删除</span>
                 </div>
-                <div class="col_gray ispointer" v-if="val.existsFlag!==0">删除</div>
+
               </div>
             </a-table>
           </div>
@@ -41,7 +41,7 @@
       </div>
     </div>
     <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
-    <is-edit-pass-word v-if="visiblePass" @confirm="confirmPass" @cancle='cancelPass'></is-edit-pass-word>
+    <is-edit-pass-word v-if="visiblePass" @confirmPass="confirmPass" @cancle='cancelPass'></is-edit-pass-word>
   </div>
 </template>
 <script>
@@ -76,27 +76,26 @@
             width: 110,
             align: "center",
             title: "序号",
-            dataIndex: "departmentId",
-            key: "departmentId",
+            dataIndex: "accountId",
             ellipsis: true,
           },
           {
             width: 100,
             align: "center",
             title: "账号名称",
-            dataIndex: "realName",
-            key: "realName",
+            dataIndex: "userName",
+            key: "userName",
             ellipsis: true,
           },
           {
             width: 208,
             align: "center",
             title: "姓名",
-            dataIndex: "gender",
-            key: "gender",
+            dataIndex: "realName",
+            key: "realName",
             ellipsis: true,
             scopedSlots: {
-              customRender: "gender",
+              customRender: "realName",
             },
           },
           {
@@ -120,7 +119,7 @@
           },
 
           {
-            width: 108,
+            width: 180,
             align: "center",
             title: "操作",
             ellipsis: true,
@@ -166,6 +165,7 @@
         removeparam: {
           accountId: "",
           operatorId: "1",
+          cipher: ''
         },
         istotal: {
           type: 1,
@@ -180,7 +180,7 @@
       async getareatree() {
         this.showtree = false;
         let res = await this.$http.post(this.$api.departmenttree, this.treeprame);
-        console.log(res, 11);
+
         if (res.data.resultCode == "10000") {
           this.data = res.data.data;
         } else {
@@ -194,13 +194,13 @@
       async getpersonpage() {
         this.tabletype = false;
         let prame = {
-          departmentId: this.isselectdata.id,
+          customerId: this.isselectdata.id,
           keyword: this.pageparam.keyword,
           statusCode: this.pageparam.statusCode,
           pageIndex: this.pagination.page,
           pageSize: this.pagination.pageSize,
         };
-        let res = await this.$http.post(this.$api.personpage, prame);
+        let res = await this.$http.post(this.$api.accountinfopage, prame);
         if (res.data.resultCode == "10000") {
           this.tabledata = res.data.data.list;
           if (this.istotal.type == 1) {
@@ -216,7 +216,7 @@
       //删除接口
       async getremove() {
         let res = await this.$http.post(
-          this.$api.persondeleteByPersonId,
+          this.$api.accountinforemove,
           this.removeparam
         );
         if (res.data.resultCode == "10000") {
@@ -230,15 +230,24 @@
       confirm() {
         this.visible = false;
       },
-      confirmPass() {
-           this.visiblePass=false
+      async confirmPass(cipher) {
+        console.log(cipher)
+        this.removeparam.cipher = cipher
+        let res = await this.$http.post(this.$api.accountinforeset, this.removeparam)
+        if (res.data.resultCode == 10000) {
+          this.$message.success(res.data.resultMsg)
+        } else {
+          this.$message.error(res.data.resultMsg)
+        }
+        this.visiblePass = false
+
       },
       cancelPass() {
-        this.visiblePass=false
+        this.visiblePass = false
       },
-      toedit(id){
-        this.removeparam=id.accountId
-         this.visiblePass=true
+      toedit(id) {
+        this.removeparam.accountId = id.accountId
+        this.visiblePass = true
       },
       toadd(id) {
         if (this.isselectdata.id == "") {
@@ -246,7 +255,7 @@
           this.isselectdata.name = this.treedata[0].name;
         }
         this.$router.push({
-          path: "/addpersonnelManagement",
+          path: "/addaccount",
           query: {
             id: this.isselectdata.id,
             accountid: id.accountId,
@@ -333,7 +342,7 @@
       //弹窗
       showdialog(val) {
         console.log(val, 221212);
-        this.removeparam.personId = val.personId;
+        this.removeparam.accountId = val.accountId;
         this.visible = true;
       },
       cancel() {

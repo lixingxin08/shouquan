@@ -1,0 +1,113 @@
+{
+  "data": {
+    "tableTitle": [{
+        "title": "序号",
+        "width": "80px",
+        "align": "center",
+        "ellipsis": true,
+        "scopedSlots": {
+          "customRender": "index"
+        }
+      }, {
+        "title": "角色名称",
+        "align": "center",
+        "dataIndex": "roleName",
+        "ellipsis": true
+      },
+      {
+        "title": "角色描述",
+        "align": "center",
+        "dataIndex": "remark",
+        "ellipsis": true
+      },
+      {
+        "title": "分配次数",
+        "align": "center",
+        "dataIndex": "totalno",
+        "ellipsis": true
+      },
+
+      {
+        "title": "操作",
+        "align": "center",
+        "width": "320px",
+        "scopedSlots": {
+          "customRender": "operation"
+        }
+      }
+    ],
+
+    "add": [{
+        "title": "序号",
+        "scopedSlots": {
+          "customRender": "index"
+        },
+        "align": "center"
+      },
+      {
+        "title": "警报名称",
+        "dataIndex": "alarmName",
+        "align": "center",
+        "width": "30%"
+      },
+      {
+        "title": "警报代码",
+        "dataIndex": "alarmCode",
+        "align": "center"
+
+      },
+      {
+        "title": "警报类型",
+        "dataIndex": "alarmType",
+        "align": "center"
+      }
+    ],
+    "param": [{
+        "title": "序号",
+        "scopedSlots": {
+          "customRender": "index"
+        },
+        "width": "4%",
+        "ellipsis": true,
+        "align": "center"
+      },
+      {
+        "title": "参数名称",
+        "dataIndex": "parameterName",
+        "width": "12%",
+        "ellipsis": true,
+        "align": "center"
+      },
+      {
+        "title": "参数代码",
+        "dataIndex": "parameterCode",
+        "width": "12%",
+        "ellipsis": true,
+        "align": "center"
+      },
+      {
+        "title": "参数数值",
+        "dataIndex": "parameterValue",
+        "width": "12%",
+        "ellipsis": true,
+        "align": "center"
+      },
+      {
+        "title": "参数描述",
+        "dataIndex": "description",
+        "width": "35%",
+        "ellipsis": true,
+        "align": "center"
+      },
+      {
+        "title": "操作",
+        "align": "center",
+        "width": "320px",
+        "scopedSlots": {
+          "customRender": "operation"
+        }
+      }
+    ]
+
+  }
+}

@@ -4,12 +4,12 @@
       <div class="dialog-title flexrow flexac flexsb">新增数值
         <a-icon type="close" @click='closedialog' />
       </div>
-
       <div class="flexrow flexac item" style="margin-top: 20px;">
-
-
+        <div class="item-title"> <a style="color: #FF0033;">*</a>当前密码：</div>
+        <a-input v-model='toalword'></a-input>
+      </div>
+      <div class="flexrow flexac item" style="margin-top: 20px;">
         <div class="item-title"> <a style="color: #FF0033;">*</a>密码：</div>
-
         <a-input v-model='password'></a-input>
       </div>
       <div class="flexrow flexac item">
@@ -28,10 +28,15 @@
       return {
         password: "", //名称
         password2: '', //代码
+        toalword: ''
       }
     },
     methods: {
       submit() {
+        if (!this.toalword) {
+          this.$message.warning('当前密码不能为空');
+          return
+        }
         if (!this.password && this.password2) {
           this.$message.warning('请输入修改的密码');
           return
@@ -40,8 +45,10 @@
           this.$message.warning('两次输入的密码不一致');
           return
         }
-
-        this.$emit('confirmPass', this.password)
+        let param = {
+          cipher: this.password
+        }
+        this.$emit('confirmPass', param)
       },
       closedialog() {
         this.$emit('cancle')
@@ -73,7 +80,7 @@
   }
 
   .item-title {
-    width: 80px;
+    width: 90px;
     font-size: 16px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
