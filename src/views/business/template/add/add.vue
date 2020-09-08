@@ -20,14 +20,12 @@
         <span class="col_red">*</span>模板状态:
       </div>
       <a-select
-        show-search
-        placeholder="全部"
+        placeholder="请选择"
         option-filter-prop="children"
         style="width: 667px;margin-right:20px;height:36px;border-radius: 8px;"
         v-model="form.statusCode"
         @change="handleChange"
       >
-        <a-select-option value>全部</a-select-option>
         <a-select-option
           v-for="(item,index) in statusCode"
           :key="index"
@@ -78,7 +76,6 @@
             :replaceFields="replaceFields"
             :defaultExpandedKeys="defaultExpandedKeys"
             :ischeckedKeys="ischeckedKeys"
-
             @checkedKeys="getcheckedKeys"
             @selectdata="getselectdata"
             v-if="showtree"
@@ -126,7 +123,7 @@ export default {
       showtree: false,
       statusCode: [
         { id: 1, val: "启用" },
-        { id: 0, val: "关闭" },
+        { id: "0", val: "关闭" },
       ],
       islist: [],
       treeprame: {
@@ -148,12 +145,12 @@ export default {
       this.detailparam.templateId = this.$route.query.id;
       this.getdetail();
     } else {
-      this.getdictionarytree();
+      this.gettree();
     }
   },
   methods: {
     //数据字典树接口
-    async getdictionarytree() {
+    async gettree() {
       this.showtree = false;
       let res = await this.$http.post(this.$api.menutree, this.treeprame);
       if (res.data.resultCode == "10000") {

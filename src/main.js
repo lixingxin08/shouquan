@@ -18,7 +18,7 @@ import locale from 'ant-design-vue/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
-import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker ,Switch,Popconfirm,Modal,message ,Radio,Upload,Steps} from 'ant-design-vue';
+import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker ,Switch,Popconfirm,Modal,message ,Radio,Upload,Steps,Tabs} from 'ant-design-vue';
 
 Vue.use(Dropdown);
 Vue.use(Layout);
@@ -39,6 +39,7 @@ Vue.prototype.$message = message
 Vue.use(Radio);
 Vue.use(Upload);
 Vue.use(Steps);
+Vue.use(Tabs);
 
 import md5 from 'js-md5';
 Vue.prototype.$md5 = md5

@@ -49,22 +49,9 @@ export default {
 };
 </script>
 <style scoped>
-.search {
-  width: 280px;
-  height: 100%;
-  min-height: 909px;
-  padding: 20px;
-  background-color: #fff;
-  overflow: scroll;
-  box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.16);
-}
-.search::-webkit-scrollbar {
-  display: none;
-}
-.search {
-  width: 240px;
-}
+
 .istree {
+  width: 100%;
   text-align: left;
   height: 100%;
   overflow-x: hidden;

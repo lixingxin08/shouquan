@@ -2,16 +2,16 @@
   <div class="flex_f father">
     <div class="isleft">
       <div class="left_title">客户列表</div>
-      <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="false"></a-table>
+      <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="false">
+                     <div slot="statusCode" class="flex_a" slot-scope="statusCode">
+                <div v-if="statusCode==1">启用</div>
+                <div v-if="statusCode==2">备用</div>
+                <div v-if="statusCode==0">关闭</div>
+              </div>
+      </a-table>
     </div>
     <div class="isright">
-      <div class="r_t flex_f">
-        <div>区划名称:</div>
-        <div>
-          <a-input placeholder="请输入区划名称" class="r_t_inp" />
-        </div>
-        <div class="btn_blue btn">查询</div>
-      </div>
+          <div class="left_title">警报列表</div>
       <div class="tree_box">
         <is-left
           :treedata="treedata"
@@ -44,53 +44,36 @@ export default {
   },
   data() {
     return {
-      tablecolumns: [
+       tablecolumns: [
         {
           width: 58,
           align: "center",
-          title: "Name",
-          dataIndex: "name",
-          key: "name",
-        },
-        {
-          width: 141,
-          align: "center",
-          title: "Age",
-          dataIndex: "age",
-          key: "age",
-        },
-        {
-          width: 141,
-          align: "center",
-          title: "Address",
-          dataIndex: "address",
-          key: "address 1",
+          title: "序号",
+          dataIndex: "customerId",
+          key: "customerId",
           ellipsis: true,
         },
-      ],
-      tabledata: [
         {
-          key: "1",
-          name: "John Brown",
-          age: 32,
-          address: "New York No. 1 Lake Park, New York No. 1 Lake Park",
-          tags: ["nice", "developer"],
+          width: 141,
+          align: "center",
+          title: "客户简称",
+          dataIndex: "shortName",
+          key: "shortName",
+          ellipsis: true,
         },
         {
-          key: "2",
-          name: "Jim Green",
-          age: 42,
-          address: "London No. 2 Lake Park, London No. 2 Lake Park",
-          tags: ["loser"],
-        },
-        {
-          key: "3",
-          name: "Joe Black",
-          age: 32,
-          address: "Sidney No. 1 Lake Park, Sidney No. 1 Lake Park",
-          tags: ["cool", "teacher"],
+          width: 141,
+          align: "center",
+          title: "客户状态",
+          dataIndex: "statusCode",
+          key: "statusCode 1",
+          ellipsis: true,
+            scopedSlots: {
+            customRender: "statusCode",
+          },
         },
       ],
+      tabledata: [],
       treedata: "",
       replaceFields: {
         title: "name",
@@ -99,28 +82,40 @@ export default {
       defaultExpandedKeys: [],
       data: "",
       showtree: false,
-      areatreeprame: {
-        //行政区划树接口参数
-        areaId: "",
-        keyword: "",
-        keyword: "",
-        latitude: 0,
-        longitude: 0,
-        operatorId: "",
-        pageIndex: 0,
-        pageSize: 10,
-        parentId: "",
-        remark: "",
+      treeprame: {
+        customerId: "",
+      },
+            listparam: {
+        operatorId: "1",
+        customerId: "",
       },
     };
   },
   created() {
+     this.getlist()
     this.getareatree();
   },
   methods: {
+            async getlist() {
+      this.tabletype = false;
+      let res = await this.$http.post(
+        this.$api.customeraccountmylist,
+        this.listparam
+      );
+      if (res.data.resultCode == "10000") {
+         for (let i = 0; i <  res.data.data.length; i++) {
+            if ( res.data.data[i].statusCode==1) {
+               this.tabledata.push( res.data.data[i])
+            }
+        }
+        this.tabletype = true;
+      } else {
+        this.$message.error(res.data.resultMsg);
+      }
+    },
     async getareatree() {
       this.showtree = false;
-      let res = await this.$http.post(this.$api.areatree, this.areatreeprame);
+      let res = await this.$http.post(this.$api.customeralarmlist, this.treeprame);
       console.log(res, 11);
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
@@ -214,12 +209,12 @@ export default {
 .isright {
   width: 1272px;
   height: 100%;
-  padding: 20px;
+  padding-left: 20px;
   text-align: left;
   background: #ffffff;
 }
 .left_title {
-  width: 72px;
+ width: 120px;
   height: 24px;
   font-size: 18px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;

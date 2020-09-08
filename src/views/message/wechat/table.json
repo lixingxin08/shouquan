@@ -1,0 +1,83 @@
+{
+  "data": {
+    "dictionaryColumns": [{
+        "title": "序号",
+        "width": "80px",
+        "align": "center",
+        "ellipsis": true,
+        "scopedSlots": {
+          "customRender": "index"
+        }
+      }, {
+        "title": "微信账号别名",
+        "align": "center",
+        "dataIndex": "wechatConfigName",
+        "ellipsis": true
+      },
+      {
+        "title": "账号应用标识",
+        "align": "center",
+        "dataIndex": "wechatAppId",
+        "ellipsis": true
+      },
+      {
+        "title": "令牌过期时间",
+        "align": "center",
+        "dataIndex": "expirationTime",
+        "ellipsis": true
+      },
+      {
+        "title": "微信账号类型",
+        "align": "center",
+        "dataIndex": "typeCode",
+        "ellipsis": true
+      },
+
+      {
+        "title": "操作",
+        "align": "center",
+        "width": "320px",
+        "scopedSlots": {
+          "customRender": "operation"
+        }
+      }
+    ],
+    "adddColumns": [{
+        "title": "序号",
+        "scopedSlots": {
+          "customRender": "index"
+        },
+        "width": "5%",
+        "align": "center"
+      },
+      {
+        "title": "消息模板代码",
+        "dataIndex": "modelCode",
+        "width": "20%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "modelCode"
+        }
+      },
+      {
+        "title": "消息模板内容",
+        "dataIndex": "remark",
+        "width": "20%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "remark"
+        }
+      },
+      {
+        "title": "消息服务序号",
+        "dataIndex": "serviceId",
+        "width": "20%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "serviceId"
+        }
+      }
+
+    ]
+  }
+}

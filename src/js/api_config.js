@@ -108,18 +108,30 @@ export default {
        templateform: `/auth/template/form`,
        templatepage: `/auth/template/page`,
        templatelist: `/auth/template/list`,
+       templatetree: `/auth/template/tree`,
 
         //系统菜单权限API
-        customertemplatedetail :`/auth/customer-template/detail`,
-        customertemplateform :`/auth/customer-template/form`,
+        customertemplateform :`/auth/customer-menu/form`,      
+        customertemplatetree :`/auth/customer-menu/tree`,
 
         //区划授权API
         customerareaform :`/auth/customer-area/form`,
         customerareatree :`/auth/customer-area/tree`,
 
         //型号授权API
-        customermodel :`/auth/customer-model/form`,
-        customermodel :`/auth/customer-model/list`,
+        customermodelform :`/auth/customer-model/form`,
+        customermodellist :`/auth/customer-model/list`,
+
+        //警报授权树接口
+        customeralarmform :`/auth/customer-alarm/form`,
+        customeralarmlist :`/auth/customer-alarm/tree`,
+
+        //i邮箱消息授权API
+        customeremaildetail:  `/auth/customer-email/detail`,
+        //短信消息授权列表接口
+        customeresmsdetail:  `/auth/customer-sms/detail`,
+        //i邮箱消息授权API
+        customerwechatdetail:  `/auth/customer-wechat/detail`,
         
 
         //客户账号授权API

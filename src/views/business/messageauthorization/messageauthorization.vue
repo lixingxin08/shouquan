@@ -2,24 +2,34 @@
   <div class="flex_f father">
     <div class="isleft">
       <div class="left_title">客户列表</div>
-      <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="false"></a-table>
+      <a-table
+        :columns="tablecolumns"
+        :data-source="tabledata"
+        bordered
+        :pagination="false"
+        :customRow="rowClick"
+      >
+        <div slot="statusCode" class="flex_a" slot-scope="statusCode">
+          <div v-if="statusCode==1">启用</div>
+          <div v-if="statusCode==2">备用</div>
+          <div v-if="statusCode==0">关闭</div>
+        </div>
+      </a-table>
     </div>
     <div class="isright">
-      <div class="r_t flex_f">
-        <div>区划名称:</div>
-        <div>
-          <a-input placeholder="请输入区划名称" class="r_t_inp" />
-        </div>
-        <div class="btn_blue btn">查询</div>
+      <div class="flex_f isright_t">
+        <div :class="listtype=='wechat'?'tab_blue':'tab_gray'" @click="changetab('wechat')">微信帐号</div>
+        <div :class="listtype=='sms'?'tab_blue':'tab_gray'" @click="changetab('sms')">短信帐号</div>
+        <div :class="listtype=='email'?'tab_blue':'tab_gray'" @click="changetab('email')">邮箱帐号</div>
       </div>
       <div class="tree_box">
-        <is-left
-          :treedata="treedata"
-          :replaceFields="replaceFields"
-          :defaultExpandedKeys="defaultExpandedKeys"
-          @checkedKeys="getcheckedKeys"
-          v-if="showtree"
-        ></is-left>
+        <a-table
+          :columns="tablecolumns"
+          :data-source="tabledata"
+          :rowSelection="{ onChange: onSelectChange, type: 'radio' }"
+          bordered
+          :pagination="false"
+        ></a-table>
       </div>
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
@@ -44,157 +54,177 @@ export default {
   },
   data() {
     return {
+      rowClick: (record) => ({
+        // 事件
+        on: {
+          click: () => {
+            // 点击改行时要做的事情
+            // ......
+            console.log(record, "record");
+            this.treeprame.templateId = record.templateId;
+            this.gettree();
+          },
+        },
+      }),
+      form: {
+        customerId: "",
+        wechatConfigIdList: [],
+        smsConfigIdList: [],
+        emailConfigId: [],
+        menuIdList: "",
+        remark: "",
+      },
       tablecolumns: [
         {
           width: 58,
           align: "center",
-          title: "Name",
-          dataIndex: "name",
-          key: "name",
+          title: "序号",
+          dataIndex: "customerId",
+          key: "customerId",
+          ellipsis: true,
         },
         {
           width: 141,
           align: "center",
-          title: "Age",
-          dataIndex: "age",
-          key: "age",
+          title: "客户简称",
+          dataIndex: "shortName",
+          key: "shortName",
+          ellipsis: true,
         },
         {
           width: 141,
           align: "center",
-          title: "Address",
-          dataIndex: "address",
-          key: "address 1",
+          title: "客户状态",
+          dataIndex: "statusCode",
+          key: "statusCode",
+          ellipsis: true,
+          scopedSlots: {
+            customRender: "statusCode",
+          },
+        },
+      ],
+      tabledata: [],
+      tablecolumns2: [
+        {
+          width: 58,
+          align: "center",
+          title: "序号",
+          dataIndex: "wechatConfigId",
+          key: "wechatConfigId",
+          ellipsis: true,
+        },
+        {
+          width: 141,
+          align: "center",
+          title: "微信帐号别名",
+          dataIndex: "wechatConfigName",
+          key: "wechatConfigName",
           ellipsis: true,
         },
       ],
-      tabledata: [
-        {
-          key: "1",
-          name: "John Brown",
-          age: 32,
-          address: "New York No. 1 Lake Park, New York No. 1 Lake Park",
-          tags: ["nice", "developer"],
-        },
-        {
-          key: "2",
-          name: "Jim Green",
-          age: 42,
-          address: "London No. 2 Lake Park, London No. 2 Lake Park",
-          tags: ["loser"],
-        },
-        {
-          key: "3",
-          name: "Joe Black",
-          age: 32,
-          address: "Sidney No. 1 Lake Park, Sidney No. 1 Lake Park",
-          tags: ["cool", "teacher"],
-        },
-      ],
-      treedata: "",
-      replaceFields: {
-        title: "name",
-        key: "id",
+      tabledata2: [],
+      listparam: {
+        operatorId: "1",
+        customerId: "",
       },
-      defaultExpandedKeys: [],
-      data: "",
-      showtree: false,
-      areatreeprame: {
-        //行政区划树接口参数
-        areaId: "",
-        keyword: "",
-        keyword: "",
-        latitude: 0,
-        longitude: 0,
-        operatorId: "",
-        pageIndex: 0,
-        pageSize: 10,
-        parentId: "",
-        remark: "",
-      },
+      listtype: "wechat",
     };
   },
   created() {
-    this.getareatree();
+    this.getlist();
+    this.getwechatlist();
   },
   methods: {
-    async getareatree() {
-      this.showtree = false;
-      let res = await this.$http.post(this.$api.areatree, this.areatreeprame);
-      console.log(res, 11);
+    async getlist() {
+      this.tabletype = false;
+      let res = await this.$http.post(
+        this.$api.customeraccountmylist,
+        this.listparam
+      );
       if (res.data.resultCode == "10000") {
-        this.data = res.data.data;
-        this.setdata();
-        this.showtree = true;
+        for (let i = 0; i < res.data.data.length; i++) {
+          if (res.data.data[i].statusCode == 1) {
+            this.tabledata.push(res.data.data[i]);
+          }
+        }
+        this.listparam.customerId = this.tabledata[0].customerId;
+        this.tabletype = true;
       } else {
         this.$message.error(res.data.resultMsg);
       }
     },
-
-    toTree(data) {
-      let result = [];
-      if (!Array.isArray(data)) {
-        return result;
+    async getemaillist(val) {
+      this.tabletype = false;
+      let res = await this.$http.post(
+        this.$api.customeremaildetail,
+        this.listparam
+      );
+      if (res.data.resultCode == "10000") {
+        this.tabledata2 = res.data.data;
+        this.tabletype = true;
+      } else {
+        this.$message.error(res.data.resultMsg);
       }
-      data.forEach((item) => {
-        delete item.children;
-      });
-      let map = {};
-      data.forEach((item) => {
-        map[item.id] = item;
-      });
-      data.forEach((item) => {
-        let parent = map[item.pid];
-        if (parent) {
-          (parent.children || (parent.children = [])).push(item);
-        } else {
-          result.push(item);
-        }
-      });
-      return result;
     },
-    setdata() {
-      for (let i = 0; i < this.data.length; i++) {
-        if (this.data[i].open == true) {
-          this.defaultExpandedKeys.push(this.data[i].id);
-        }
+    async getsmslist(val) {
+      this.tabletype = false;
+      let res = await this.$http.post(
+        this.$api.customeresmsdetail,
+        this.listparam
+      );
+      if (res.data.resultCode == "10000") {
+        this.tabledata2 = res.data.data;
+        this.tabletype = true;
+      } else {
+        this.$message.error(res.data.resultMsg);
       }
-      this.treedata = this.toTree(this.data);
     },
-    //获取树搜索数据
-    getsearchdata(val) {
-      this.issearchdata = val;
-      this.getareatree();
-      if (val == "") {
-        return;
+    async getwechatlist(val) {
+      this.tabletype = false;
+      let res = await this.$http.post(
+        this.$api.customerwechatdetail,
+        this.listparam
+      );
+      if (res.data.resultCode == "10000") {
+        this.tabledata2 = res.data.data;
+        this.tabletype = true;
+      } else {
+        this.$message.error(res.data.resultMsg);
       }
-
-      this.filterdata = [];
-      this.setfilltertree(this.treedata, this.issearchdata);
     },
-    //过滤树搜索数据
-    setfilltertree(datas, filtersdata) {
-      let _that = this;
-      for (var i in datas) {
-        let name = datas[i].name + "";
-        if (name.search(_that.issearchdata) != -1) {
-          _that.filterdata.push(datas[i]);
-        }
-        if (datas[i].children) {
-          _that.setfilltertree(datas[i].children);
-        }
+    changetab(val) {
+      this.listtype = val;
+      if (val == "wechat") {
+        this.tablecolumns2[1].title = "微信帐号别名";
+        this.tablecolumns2[0].dataIndex = "wechatConfigId";
+        this.tablecolumns2[0].key = "wechatConfigId";
+        this.tablecolumns2[1].dataIndex = "wechatConfigName";
+        this.tablecolumns2[1].key = "wechatConfigName";
+        this.getwechatlist();
       }
-      _that.treedata = _that.toTree(this.filterdata);
+      if (val == "sms") {
+        this.tablecolumns2[1].title = "短信帐号别名";
+        this.tablecolumns2[0].dataIndex = "smsConfigId";
+        this.tablecolumns2[0].key = "smsConfigId";
+        this.tablecolumns2[1].dataIndex = "wechatConfigName";
+        this.tablecolumns2[1].key = "smsConfigName";
+        this.getsmslist();
+      }
+      if (val == "email") {
+        this.tablecolumns2[1].title = "邮箱帐号别名";
+        this.tablecolumns2[0].dataIndex = "emailConfigId";
+        this.tablecolumns2[0].key = "emailConfigId";
+        this.tablecolumns2[1].dataIndex = "emailConfigName";
+        this.tablecolumns2[1].key = "emailConfigName";
+        this.getemaillist();
+      }
     },
-    getselectdata(val) {
-      this.isselectdata = val;
-      this.isselectdata.id = val.id;
-      this.isselectdata.name = val.name;
-      this.isselectdata.pid = val.pid;
-      this.istotal.type = 1;
-    },
-    getcheckedKeys(val) {
-      console.log(val, 44444);
+    onSelectChange(selectedRowKeys, selectedRows) {
+      console.log(
+        selectedRowKeys,
+        selectedRows,
+        "selectedRowKeys, selectedRows"
+      );
     },
   },
 };
@@ -214,12 +244,12 @@ export default {
 .isright {
   width: 1272px;
   height: 100%;
-  padding: 20px;
+  padding-left: 20px;
   text-align: left;
   background: #ffffff;
 }
 .left_title {
-  width: 72px;
+  width: 120px;
   height: 24px;
   font-size: 18px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -259,5 +289,9 @@ export default {
 }
 .rb_b_btn {
   margin-right: 8px;
+}
+.isright_t {
+  width: 300px;
+  padding-top: 20px;
 }
 </style>

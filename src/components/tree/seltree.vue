@@ -10,8 +10,8 @@
         checkable
         :tree-data="treedata"
         :replaceFields="replaceFields"
-        :default-expanded-keys="defaultExpandedKeys"
-        :checkedKeys='ischeckedKeys'
+         :selected-keys="ischeckedKeys"
+        :default-expanded-keys="defaultExpandedKeys"     
         @check="onCheck"
       >
         <a-icon slot="icon" type="carry-out" />
@@ -33,7 +33,7 @@ export default {
     treedata: Array, //树数据
     replaceFields: Object, //替换属性
     defaultExpandedKeys: Array, //默认展开
-    ischeckedKeys:Array,//默认勾选
+    ischeckedKeys:Array
   },
   created() {
     console.log(this.treedata, 123221);

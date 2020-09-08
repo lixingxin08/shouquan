@@ -1,35 +1,35 @@
 <template>
   <div class="flex_f father">
     <div class="isleft">
-      <div class="left_title">客户列表</div>
-      <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="false"></a-table>
+      <div class="left_title">系统帐号</div>
+      <is-left
+        :treedata="treedata"
+        :replaceFields="replaceFields"
+        :defaultExpandedKeys="defaultExpandedKeys"
+        @checkedKeys="getcheckedKeys"
+        v-if="showtree"
+      ></is-left>
     </div>
     <div class="isright">
-      <div class="r_t flex_f">
-        <div>区划名称:</div>
-        <div>
-          <a-input placeholder="请输入区划名称" class="r_t_inp" />
-        </div>
-        <div class="btn_blue btn">查询</div>
-      </div>
+      <div class="left_title">客户列表</div>
       <div class="tree_box">
-        <is-left
-          :treedata="treedata"
-          :replaceFields="replaceFields"
-          :defaultExpandedKeys="defaultExpandedKeys"
-          @checkedKeys="getcheckedKeys"
-          v-if="showtree"
-        ></is-left>
+        <a-table
+          :columns="tablecolumns"
+          :data-source="tabledata"
+          bordered
+          :row-selection="rowSelection"
+          :pagination="false"
+        ></a-table>
       </div>
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
-          <a-textarea placeholder="Basic usage" :rows="5" />
+          <a-textarea placeholder="Basic usage" v-model="form.remark" :rows="5" />
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
             <div class="cancel_btn rb_b_btn">取消</div>
-            <div class="ok_btn">授权</div>
+            <div class="ok_btn" @click="getform()">授权</div>
           </div>
         </div>
       </div>
@@ -37,65 +37,84 @@
   </div>
 </template>
 <script>
-import isLeft from "../../../components/tree/seltree.vue";
+import isLeft from "../../../components/tree/tree.vue";
 export default {
   components: {
     isLeft,
   },
   data() {
     return {
+      rowSelection: {
+        onChange: (selectedRowKeys, selectedRows) => {
+          console.log(
+            `selectedRowKeys: ${selectedRowKeys}`,
+            "selectedRows: ",
+            selectedRows
+          );
+        },
+        onSelect: (record, selected, selectedRows) => {
+          console.log(record, selected, selectedRows,2222);
+            this.form.customerIdList=[]
+                if (selectedRows.length>0) {
+            selectedRows.forEach(item=>{
+              this.form.customerIdList.push(item.customerId)
+            })
+            console.log(this.form,1235455);
+          }
+          
+        },  
+        onSelectAll: (selected, selectedRows, changeRows) => {
+          console.log(selected, selectedRows, changeRows,1111);
+             this.form.customerIdList=[]
+          if (selected==true) {
+            selectedRows.forEach(item=>{
+              this.form.customerIdList.push(item.customerId)
+            })
+            console.log(this.form,1235455);
+          }
+        },
+      },
       tablecolumns: [
         {
           width: 58,
           align: "center",
-          title: "Name",
-          dataIndex: "name",
-          key: "name",
+          title: "序号",
+          dataIndex: "customerId",
+          key: "customerId",
+          ellipsis: true,
+        },
+          {
+          width: 141,
+          align: "center",
+          title: "客户全称",
+          dataIndex: "customerName",
+          key: "customerName",
+          ellipsis: true,
         },
         {
           width: 141,
           align: "center",
-          title: "Age",
-          dataIndex: "age",
-          key: "age",
+          title: "客户简称",
+          dataIndex: "shortName",
+          key: "shortName",
+          ellipsis: true,
         },
         {
           width: 141,
           align: "center",
-          title: "Address",
-          dataIndex: "address",
-          key: "address 1",
+          title: "客户状态",
+          dataIndex: "statusCode",
+          key: "statusCode 1",
           ellipsis: true,
         },
       ],
-      tabledata: [
-        {
-          key: "1",
-          name: "John Brown",
-          age: 32,
-          address: "New York No. 1 Lake Park, New York No. 1 Lake Park",
-          tags: ["nice", "developer"],
-        },
-        {
-          key: "2",
-          name: "Jim Green",
-          age: 42,
-          address: "London No. 2 Lake Park, London No. 2 Lake Park",
-          tags: ["loser"],
-        },
-        {
-          key: "3",
-          name: "Joe Black",
-          age: 32,
-          address: "Sidney No. 1 Lake Park, Sidney No. 1 Lake Park",
-          tags: ["cool", "teacher"],
-        },
-      ],
+      tabledata: [],
       treedata: "",
       replaceFields: {
         title: "name",
         key: "id",
       },
+      tabletype: false,
       defaultExpandedKeys: [],
       data: "",
       showtree: false,
@@ -112,12 +131,40 @@ export default {
         parentId: "",
         remark: "",
       },
+      listparam: {
+        operatorId: "1",
+        customerId: "",
+      },
+      istotal: {
+        type: 1,
+      },
+      form:{
+        customerIdList:[],
+        accountId:"",
+        remark:"",
+      }
     };
   },
   created() {
     this.getareatree();
+    this.getlist()
   },
   methods: {
+    async getlist() {
+      this.tabletype = false;
+      let res = await this.$http.post(
+        this.$api.customeraccountmylist,
+        this.listparam
+      );
+      if (res.data.resultCode == "10000") {
+        this.tabledata = res.data.data;
+        this.istotal.type++;
+        this.tabletype = true;
+      } else {
+        this.$message.error(res.data.resultMsg);
+      }
+    },
+
     async getareatree() {
       this.showtree = false;
       let res = await this.$http.post(this.$api.areatree, this.areatreeprame);
@@ -130,7 +177,17 @@ export default {
       this.setdata();
       this.showtree = true;
     },
+    async getform() {
 
+      let res = await this.$http.post(this.$api.customeraccountform, this.form);
+      if (res.data.resultCode == "10000") {
+         this.$message.success(res.data.resultMsg);
+      } else {
+        this.$message.error(res.data.resultMsg);
+      }
+      this.setdata();
+      this.showtree = true;
+    },
     toTree(data) {
       let result = [];
       if (!Array.isArray(data)) {
@@ -214,7 +271,7 @@ export default {
 .isright {
   width: 1272px;
   height: 100%;
-  padding: 20px;
+  padding-left: 20px;
   text-align: left;
   background: #ffffff;
 }

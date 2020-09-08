@@ -1,6 +1,7 @@
 <template>
   <div class="administrativedivision">
     <div class="flex_fs">
+      <div class="isleft">
       <is-left
         :treedata="treedata"
         :replaceFields="replaceFields"
@@ -9,6 +10,7 @@
         @searchdata="getsearchdata"
         v-if="showtree"
       ></is-left>
+      </div>
       <div>
         <div class="right">
           <div class="r_top flex_f">
