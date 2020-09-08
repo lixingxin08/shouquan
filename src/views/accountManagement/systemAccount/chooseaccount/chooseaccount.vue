@@ -24,7 +24,7 @@
             <div v-else>女</div>
           </div>
           <div slot="realName" class="flex_a" slot-scope="text, record" @click="chooseItem(record)">
-            <a >{{record.realName}}</a>
+            <a>{{record.realName}}</a>
           </div>
           <div slot="statusCode" class="flex_a" slot-scope="statusCode">
             <div v-if="statusCode==1">正常</div>
@@ -61,7 +61,7 @@
         ],
         pagination: {
           total: 50,
-          pageSize: 10, //每页中显示10条数据
+          pageSize: 100, //每页中显示10条数据
           showSizeChanger: true,
           current: 1,
           page: 1,
@@ -71,14 +71,14 @@
         tablecolumns: [{
             align: "center",
             title: "序号",
-            width:10,
+            width: 10,
             dataIndex: "departmentId",
             ellipsis: true,
           },
           {
             align: "center",
             title: "账号名称",
-             width:10,
+            width: 10,
             dataIndex: "realName",
             ellipsis: true,
             scopedSlots: {
@@ -88,7 +88,7 @@
           {
             align: "center",
             title: "姓名",
-             width:10,
+            width: 10,
             dataIndex: "gender",
             ellipsis: true,
             scopedSlots: {
@@ -98,7 +98,7 @@
           {
             align: "center",
             title: "手机号码",
-             width:10,
+            width: 10,
             dataIndex: "mobilePhone",
             ellipsis: true,
           },
@@ -118,7 +118,7 @@
           keyword: "",
           statusCode: "",
         },
-        selectId:"",
+        selectId: "",
         istotal: {
           type: 1,
         },
@@ -126,8 +126,8 @@
     },
 
     methods: {
-      setSelectId(id){
-        this.selectId=id
+      setSelectId(id) {
+        this.selectId = id
       },
       async getpersonpage() {
         this.tabletype = false;
@@ -136,12 +136,15 @@
           keyword: this.pageparam.keyword,
           statusCode: this.pageparam.statusCode,
           pageIndex: this.pagination.page,
-          existsFlag:0,
           pageSize: this.pagination.pageSize,
         };
         let res = await this.$http.post(this.$api.personpage, prame);
         if (res.data.resultCode == "10000") {
-          this.tabledata = res.data.data.list;
+          this.tabledata = []
+          res.data.data.list.forEach((item) => {
+            if (item.existsFlag == 0)
+              this.tabledata.push(item)
+          })
           if (this.istotal.type == 1) {
             this.pagination.total = res.data.data.length;
           }
@@ -178,8 +181,8 @@
         console.log(val, 5555);
         this.pageparam.statusCode = val;
       },
-      chooseItem(item){
-        this.$emit('confirm',item)
+      chooseItem(item) {
+        this.$emit('confirm', item)
       }
     }
   }

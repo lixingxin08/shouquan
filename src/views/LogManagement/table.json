@@ -1,0 +1,97 @@
+{
+  "data": {
+    "tableTitle": [{
+        "title": "序号",
+        "width": "80px",
+         "dataIndex": "index",
+        "align": "center",
+        "ellipsis":true,
+        "scopedSlots": {
+          "customRender": "index"
+        }
+      }, {
+        "title": "菜单序号",
+        "align": "center",
+           "ellipsis":true,
+         "dataIndex": "className"
+      },
+      {
+        "title": "接口名称",
+        "align": "center",
+           "ellipsis":true,
+         "dataIndex": "classCode"
+      },
+      {
+        "title": "结果代码",
+        "align": "center",
+           "ellipsis":true,
+         "dataIndex": "grade"
+      },
+      {
+        "title": "接口耗时(毫秒)",
+        "align": "center",
+           "ellipsis":true,
+         "dataIndex": "parentName"
+      },
+      {
+        "title": "操作账号",
+        "align": "center",
+           "ellipsis":true,
+         "dataIndex": "parentCode"
+      },
+      {
+        "title": "请求时间",
+        "align": "center",
+           "ellipsis":true,
+         "dataIndex": "childTotal"
+      },
+    
+      {
+        "title": "操作",
+        "align": "center",
+        "width": "160px",
+           "ellipsis":true,
+        "scopedSlots": {
+          "customRender": "operation"
+        }
+      }
+    ],
+    "adddictionaryColumns": [{
+        "title": "数值名称",
+        "dataIndex": "className",
+        "width": "25%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "className"
+        }
+      },
+      {
+        "title": "数值代码",
+        "dataIndex": "classCode",
+        "width": "25%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "classCode"
+        }
+      },
+      {
+        "title": "数值描述",
+        "dataIndex": "remark",
+        "width": "25%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "remark"
+        }
+      },
+      {
+        "title": "操作",
+        "dataIndex": "operation",
+        "width": "25%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "operation"
+        }
+      }
+    ]
+  }
+}

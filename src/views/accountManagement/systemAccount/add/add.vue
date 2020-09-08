@@ -13,7 +13,8 @@
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">人员性别:</div>
-        <a-input :disabled='true' class='edit_a_input' v-model="config.gender==1?'男':'女'" placeholder="请选择人员" />
+        <a-input v-if='!config.realName' :disabled='true' class='edit_a_input' placeholder="请选择人员" />
+        <a-input v-else :disabled='true' class='edit_a_input' v-model="config.gender==1?'男':'女'" placeholder="请选择人员" />
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">手机号码:</div>
@@ -246,10 +247,13 @@
       },
 
       async getRoles() {
-        let param = {}
+        let param = {
+          pageIndex:1,
+          pageSize:100
+        }
         let res = await this.$http.post(this.$api.rolesystemlist, param)
         if (res.data.resultCode == 10000) {
-          this.tableList = res.data.data
+          this.tableList = res.data.data.list
         }
       }
     }
