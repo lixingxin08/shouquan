@@ -73,9 +73,9 @@
         }
         let res = await this.$http.post(this.$api.propertyform, param)
         if (res.data.resultCode == 10000) {
-          this.getProperty()
-          this.$message.success(res.data.resultMsg);
           //this.getProperty()
+          this.$message.success(res.data.resultMsg);
+          this.getProperty()
         } else {
           this.$message.error(res.data.resultMsg);
         }
@@ -121,7 +121,6 @@
         if (res.data.resultCode == 10000) {
           let data = res.data.data
           for (let i = 0; i < data.length; i++) {
-
             if (!data[i].childrenList) {
               data[i].childrenList = []
             }
@@ -148,6 +147,7 @@
         let res = await this.$http.post(this.$api.propertyform, param)
         if (res.data.resultCode == 10000) {
           this.getProperty()
+           this.$message.success(res.data.resultMsg);
         } else {
           this.$message.error(res.data.resultMsg);
         }

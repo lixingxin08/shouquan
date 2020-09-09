@@ -13,7 +13,7 @@
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>设备类型:</div>
-        <a-select :value="typeSelect?typeSelect:'请选择设备类型'" class='select_item' @change="handleTypeChange">
+        <a-select :value="typeSelect?typeSelect:'请选择设备类型'" :disabled='!severSelect' class='select_item' @change="handleTypeChange">
           <a-select-option v-for='(item,index) in typeList' :key='index' :value="item.deviceTypeId">
             {{item.deviceTypeName}}
           </a-select-option>
@@ -22,7 +22,7 @@
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>设备品牌:</div>
-        <a-select :value="brandSelect?brandSelect:'请选择设备品牌'" class='select_item' @change="handleBrandChange">
+        <a-select :value="brandSelect?brandSelect:'请选择设备品牌'"  :disabled='!typeSelect'class='select_item' @change="handleBrandChange">
           <a-select-option v-for='(item,index) in brandList' :key='index' :value="item.brandId">
             {{item.brandName}}
           </a-select-option>
@@ -123,13 +123,15 @@
       }
     },
     created() {
-      this.getBrandList()
+
       this.getCombobox('device_service_type')
       this.getCombobox('device_communication_mode')
-      this.getTypeList()
+
       this.Id = this.$route.query.id
       if (this.Id) { //编辑
         this.getModelInfo();
+        this.getTypeList()
+        this.getBrandList()
       } else {
         this.getWarninngData()
       }
@@ -260,13 +262,13 @@
       async getTypeList() {
         let param = {
           keyword: '',
-          serviceType: '',
+          serviceType: this.severSelect,
           pageIndex: 1,
           pageSize: 200
         }
         let res = await this.$http.post(this.$api.devicetypepage, param)
         if (res.data.resultCode == 10000) {
-          this.typeList = this.typeList.concat(res.data.data.list)
+          this.typeList = res.data.data.list
         }
       },
       /* 获取业务类别*/
@@ -279,7 +281,7 @@
           if (type == 'device_communication_mode')
             this.msgList = this.msgList.concat(res.data.data)
           else
-            this.severList = this.severList.concat(res.data.data)
+            this.severList = res.data.data
         }
       },
 
@@ -302,6 +304,8 @@
       /* 授权类型下拉选择 */
       handleServerChange(e) {
         this.severSelect = e
+        this.getTypeList()
+        this.typeSelect=''
       },
       /* 设备类型下拉选择*/
       handleTypeChange(e) {
@@ -331,7 +335,7 @@
         }
       },
       /* 修改字典描述*/
-      onChangeConfig(e) { 
+      onChangeConfig(e) {
         this.num = this.remark.length
       },
     },

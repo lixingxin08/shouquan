@@ -29,7 +29,7 @@
       </div>
 
       <a-table style='margin-top: 20px;margin-bottom: 20px;' :columns="dictionaryColumns" :data-source="item.childrenList"
-        :pagination='false' :bordered='true' size='small'>
+        :pagination='false' :bordered='true' size='small' :rowClassName="this.setRowClassName">
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
         </template>
@@ -171,6 +171,11 @@
 
         }
       },
+      setRowClassName(record) {
+        if (record.orderCode == null || record.warehouseCode == null || record.operateTime == null) {
+          return 'clickRowStyle'
+        }
+      },
       /* 修改数值*/
       handleChange(value, chilidIndex, groupIndex) {
         const newData = [...this.groups];
@@ -204,7 +209,9 @@
     margin-left: 20px;
     margin-right: 20px;
   }
-
+ .clickRowStyle {
+    background-color: #F5F5F5;
+  }
   .addbtn {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;

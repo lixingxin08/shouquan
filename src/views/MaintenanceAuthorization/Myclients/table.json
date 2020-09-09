@@ -1,0 +1,67 @@
+{
+  "data": {
+    "tableTitle": [{
+        "title": "序号",
+        "width": "80px",
+        "dataIndex": "index",
+        "align": "center",
+        "ellipsis": true,
+        "scopedSlots": {
+          "customRender": "index"
+        }
+      }, {
+        "title": "客户全称",
+        "align": "center",
+        "ellipsis": true,
+        "dataIndex": "customerName"
+      },
+      {
+        "title": "客户简称",
+        "align": "center",
+        "ellipsis": true,
+        "dataIndex": "shortName"
+      },
+      {
+        "title": "客户logo",
+        "align": "center",
+        "ellipsis": true,
+        "scopedSlots": {
+          "customRender": "customerLogo"
+        },
+        "dataIndex": "customerLogo"
+      },
+      {
+        "title": "联系人姓名",
+        "align": "center",
+        "ellipsis": true,
+        "dataIndex": "linkman"
+      },
+      {
+        "title": "联系人手机",
+        "align": "center",
+        "ellipsis": true,
+
+        "dataIndex": "linkphone"
+      },
+      {
+        "title": "客户状态",
+        "align": "center",
+        "ellipsis": true,
+        "dataIndex": "statusCode",
+        "scopedSlots": {
+          "customRender": "statusCode"
+        }
+      },
+      {
+        "title": "操作",
+        "align": "center",
+        "width": "160px",
+        "ellipsis": true,
+        "scopedSlots": {
+          "customRender": "operation"
+        }
+      }
+    ]
+
+  }
+}

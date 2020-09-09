@@ -10,8 +10,8 @@
         :checkable="checkable"
         :tree-data="treedata"
         :replaceFields="replaceFields"
-         :default-checked-keys="checkedKeys"
-        :default-expanded-keys="defaultExpandedKeys"     
+        :checked-keys="checkedKeys"
+        :expanded-keys="defaultExpandedKeys"
         @check="onCheck"
       >
         <a-icon slot="icon" type="carry-out" />
@@ -59,6 +59,9 @@ export default {
       console.log("onCheck", checkedKeys, info);
         this.$emit("checkedKeys", checkedKeys);
     },
+    setSelectKey(checkedKeys){
+      this.checkedKeys=checkedKeys
+    }
   },
 };
 </script>
