@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+   <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
   </div>
 </template>
 <script>
@@ -102,8 +102,7 @@ export default {
         showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
       },
       removeparam: {
-        areaName: "",
-        areaId: "",
+        templateId: "",
       },
       istotal: {
         type: 1,
@@ -136,18 +135,18 @@ export default {
         this.istotal.type++;
         this.tabletype = true;
       } else {
-        this.$message.error(res.data.resultMsg);
+      return  this.$message.error(res.data.resultMsg);
       }
     },
     //行政区划删除接口
     async getarearemove() {
-      let res = await this.$http.post(this.$api.arearemove, this.removeparam);
+      let res = await this.$http.post(this.$api.deleteByTemplateId, this.removeparam);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.getareaform();
+        this.getpage();
         this.visible = false;
       } else {
-        this.$message.error(res.data.resultMsg);
+     return   this.$message.error(res.data.resultMsg);
       }
     },
     toadd(val, id) {
@@ -183,8 +182,7 @@ export default {
     //弹窗
     showdialog(val) {
       console.log(val, 221212);
-      this.removeparam.areaName = val.areaName;
-      this.removeparam.areaId = val.areaId;
+      this.removeparam.templateId = val.templateId;
       this.visible = true;
     },
     cancel() {
@@ -264,9 +262,9 @@ export default {
 .dialog {
   width: 920px;
   height: 492px;
-  position: relative;
+  position: absolute;
   left: 50%;
-  top: -870px;
+  top: 0;
   transform: translate(-50%, -50%);
   border: 1px solid #000;
   margin-top: 330px;
@@ -292,5 +290,8 @@ export default {
   font-weight: 400;
   text-align: center;
   color: #333333;
+}
+.isdialog{
+  margin-top: 300px;
 }
 </style>

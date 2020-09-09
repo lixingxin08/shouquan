@@ -124,6 +124,32 @@
   cursor: pointer;
 }
 
+.tab_blue {
+  width: 88px;
+  height: 36px;
+  background: #1890ff;
+  border: 1px solid #1890ff;
+  font-size: 12px;
+  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+  font-weight: 400;
+  text-align: center;
+  line-height: 36px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.tab_gray {
+  width: 88px;
+  height: 36px;
+  border: 1px solid #dcdcdc;
+  font-size: 12px;
+  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+  font-weight: 400;
+  text-align: center;
+  color: #333333;
+  line-height: 36px;
+  cursor: pointer;
+}
 .col_blue {
   color: #1890FF;
 }
@@ -214,6 +240,19 @@ justify-content: flex-start;
   border-bottom: 1px solid #d9d9d9;
 }
 
-  .ant-table-thead>tr>th {
-    background: #F6FBFF !important;
-  }
+
+.isleft {
+  width: 240px;
+   height: 100%;
+   min-height: 909px;
+   padding: 20px;
+   background-color: #fff;
+   overflow: scroll;
+   box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.16);
+ }
+ .isleft::-webkit-scrollbar {
+   display: none;
+ }
+ .ant-table-thead>tr>th {
+  background-color: #F6FBFF!important;
+}

@@ -20,14 +20,12 @@
         <span class="col_red">*</span>模板状态:
       </div>
       <a-select
-        show-search
-        placeholder="全部"
+        placeholder="请选择"
         option-filter-prop="children"
         style="width: 667px;margin-right:20px;height:36px;border-radius: 8px;"
         v-model="form.statusCode"
         @change="handleChange"
       >
-        <a-select-option value>全部</a-select-option>
         <a-select-option
           v-for="(item,index) in statusCode"
           :key="index"
@@ -59,7 +57,7 @@
                 placeholder="全部"
                 option-filter-prop="children"
                 style="width:200px;margin-right:20px;height:36px;border-radius: 8px;"
-                v-model="treeprame.dictionaryId"
+                v-model="treeprame.templateId"
                 @change="handleChange2"
                 v-if="showtree"
               >
@@ -77,8 +75,7 @@
             :treedata="treedata"
             :replaceFields="replaceFields"
             :defaultExpandedKeys="defaultExpandedKeys"
-            :ischeckedKeys="ischeckedKeys"
-
+            :checkedKeys="checkedKeys"
             @checkedKeys="getcheckedKeys"
             @selectdata="getselectdata"
             v-if="showtree"
@@ -116,7 +113,7 @@ export default {
         key: "id",
       },
       defaultExpandedKeys: [],
-      ischeckedKeys:[],
+      checkedKeys:[],
       treedata: "",
       oldtreedata: "",
       detailparam: {
@@ -126,11 +123,11 @@ export default {
       showtree: false,
       statusCode: [
         { id: 1, val: "启用" },
-        { id: 0, val: "关闭" },
+        { id: "0", val: "关闭" },
       ],
       islist: [],
       treeprame: {
-        dictionaryId: "",
+        templateId: "",
       },
     };
   },
@@ -148,14 +145,14 @@ export default {
       this.detailparam.templateId = this.$route.query.id;
       this.getdetail();
     } else {
-      this.getdictionarytree();
+      this.gettree();
     }
   },
   methods: {
     //数据字典树接口
-    async getdictionarytree() {
+    async gettree() {
       this.showtree = false;
-      let res = await this.$http.post(this.$api.menutree, this.treeprame);
+      let res = await this.$http.post(this.$api.templatetree, this.treeprame);
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
       }
@@ -178,7 +175,7 @@ export default {
         this.setdata();
         this.showtree = true;
       } else {
-        this.$message.error(res.data.resultMsg);
+       return this.$message.error(res.data.resultMsg);
       }
       console.log(res, 8888);
     },
@@ -199,7 +196,7 @@ export default {
         this.$message.success(res.data.resultMsg);
         this.$router.go(-1);
       } else {
-        this.$message.error(res.data.resultMsg);
+     return   this.$message.error(res.data.resultMsg);
       }
     },
     reset() {
@@ -210,15 +207,15 @@ export default {
       console.log(this.form.typeCode, 88);
     },
     handleChange2(value, key) {
-      console.log(this.treeprame.dictionaryId, 88);
+      console.log(this.treeprame.templateId, 88);
       this.showtree = false;
         this.treedata = this.oldtreedata;
-      if (this.treeprame.dictionaryId == "all") {
+      if (this.treeprame.templateId == "all") {
         this.treedata = this.oldtreedata;
       } else {
         let filterTreeNode = "";
         for (let i = 0; i < this.treedata.length; i++) {
-          if (this.treedata[i].id == this.treeprame.dictionaryId) {
+          if (this.treedata[i].id == this.treeprame.templateId) {
             filterTreeNode = this.treedata[i];
           }
         }
@@ -256,7 +253,7 @@ export default {
           this.defaultExpandedKeys.push(this.data[i].id);
         }
          if (this.data[i].checked == true) {
-          this.ischeckedKeys.push(this.data[i].id);
+          this.checkedKeys.push(this.data[i].id);
         }
       }
       this.treedata = this.toTree(this.data);

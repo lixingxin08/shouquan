@@ -1,6 +1,7 @@
 <template>
   <div class="administrativedivision">
     <div class="flex_fs">
+      <div class="isleft">
       <is-left
         :treedata="treedata"
         :replaceFields="replaceFields"
@@ -9,6 +10,7 @@
         @searchdata="getsearchdata"
         v-if="showtree"
       ></is-left>
+      </div>
       <div>
         <div class="right">
           <div class="r_top flex_f">
@@ -52,10 +54,12 @@ import isDeleteDialog from "../../../components/delete_confir/delete.vue";
 window.addEventListener(
   "message",
   function (e) {
-    console.log(e.data, 5552222);
-    if (e.data.type !== "webpackOk" || e.data.data !== undefined) {
-      console.log(4442322);
-      localStorage.setItem("user", JSON.stringify(e.data));
+
+    if (e.data.type !== "webpackOk") {
+    if (e.data.accountId==''||e.data.accountId==undefined) {
+    }else{
+        localStorage.setItem("usermsg", JSON.stringify(e.data),10000000000000);
+    }
     }
   },
   false

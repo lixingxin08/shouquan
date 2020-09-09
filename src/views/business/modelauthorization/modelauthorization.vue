@@ -2,24 +2,46 @@
   <div class="flex_f father">
     <div class="isleft">
       <div class="left_title">客户列表</div>
-      <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="false"></a-table>
+      <a-table
+        :columns="tablecolumns"
+        :data-source="tabledata"
+        bordered
+        :pagination="false"
+        :customRow="rowClick"
+      >
+        <div slot="statusCode" class="flex_a" slot-scope="statusCode">
+          <div v-if="statusCode==1">启用</div>
+          <div v-if="statusCode==2">备用</div>
+          <div v-if="statusCode==0">关闭</div>
+        </div>
+      </a-table>
     </div>
     <div class="isright">
-      <div class="r_t flex_f">
-        <div>区划名称:</div>
-        <div>
-          <a-input placeholder="请输入区划名称" class="r_t_inp" />
+      <div class="flex_f">
+        <div class="isright_l">
+          <div class="left_title">设备类型</div>
+          <div class="tree_box">
+            <is-left
+              :treedata="treedata"
+              :replaceFields="replaceFields"
+              :defaultExpandedKeys="defaultExpandedKeys"
+              @checkedKeys="getcheckedKeys"
+              v-if="showtree"
+            ></is-left>
+          </div>
         </div>
-        <div class="btn_blue btn">查询</div>
-      </div>
-      <div class="tree_box">
-        <is-left
-          :treedata="treedata"
-          :replaceFields="replaceFields"
-          :defaultExpandedKeys="defaultExpandedKeys"
-          @checkedKeys="getcheckedKeys"
-          v-if="showtree"
-        ></is-left>
+        <div class="isright_r">
+          <div class="left_title">型号列表</div>
+          <div class="tree_box">
+            <a-table
+              :columns="tablecolumns2"
+              :data-source="tabledata2"
+              :row-selection="rowSelection"
+              bordered
+              :pagination="false"
+            ></a-table>
+          </div>
+        </div>
       </div>
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
@@ -44,53 +66,102 @@ export default {
   },
   data() {
     return {
+      rowSelection: {
+        onChange: (selectedRowKeys, selectedRows) => {
+          console.log(
+            `selectedRowKeys: ${selectedRowKeys}`,
+            "selectedRows: ",
+            selectedRows
+          );
+        },
+        onSelect: (record, selected, selectedRows) => {
+          console.log(record, selected, selectedRows, 2222);
+          this.form.customerIdList = [];
+          if (selectedRows.length > 0) {
+            selectedRows.forEach((item) => {
+              this.form.customerIdList.push(item.customerId);
+            });
+            console.log(this.form, 1235455);
+          }
+        },
+        onSelectAll: (selected, selectedRows, changeRows) => {
+          console.log(selected, selectedRows, changeRows, 1111);
+          this.form.customerIdList = [];
+          if (selected == true) {
+            selectedRows.forEach((item) => {
+              this.form.customerIdList.push(item.customerId);
+            });
+            console.log(this.form, 1235455);
+          }
+        },
+      },
       tablecolumns: [
         {
           width: 58,
           align: "center",
-          title: "Name",
-          dataIndex: "name",
-          key: "name",
+          title: "序号",
+          dataIndex: "customerId",
+          key: "customerId",
+          ellipsis: true,
         },
         {
           width: 141,
           align: "center",
-          title: "Age",
-          dataIndex: "age",
-          key: "age",
+          title: "客户简称",
+          dataIndex: "shortName",
+          key: "shortName",
+          ellipsis: true,
         },
         {
           width: 141,
           align: "center",
-          title: "Address",
-          dataIndex: "address",
-          key: "address 1",
+          title: "客户状态",
+          dataIndex: "statusCode",
+          key: "statusCode 1",
+          ellipsis: true,
+          scopedSlots: {
+            customRender: "statusCode",
+          },
+        },
+      ],
+      tabledata: [],
+      tabletype: false,
+      tabletype2: false,
+      tablecolumns2: [
+        {
+          width: 58,
+          align: "center",
+          title: "型号序号",
+          dataIndex: "modelId",
+          key: "modelId",
+          ellipsis: true,
+        },
+        {
+          width: 141,
+          align: "center",
+          title: "型号名称",
+          dataIndex: "modelName",
+          key: "modelName",
+          ellipsis: true,
+        },
+        {
+          width: 141,
+          align: "center",
+          title: "型号品牌",
+          dataIndex: "brandName",
+          key: "brandName 1",
+          ellipsis: true,
+        },
+        {
+          width: 141,
+          align: "center",
+          title: "设备类型",
+          dataIndex: "deviceTypeName",
+          key: "deviceTypeName",
           ellipsis: true,
         },
       ],
-      tabledata: [
-        {
-          key: "1",
-          name: "John Brown",
-          age: 32,
-          address: "New York No. 1 Lake Park, New York No. 1 Lake Park",
-          tags: ["nice", "developer"],
-        },
-        {
-          key: "2",
-          name: "Jim Green",
-          age: 42,
-          address: "London No. 2 Lake Park, London No. 2 Lake Park",
-          tags: ["loser"],
-        },
-        {
-          key: "3",
-          name: "Joe Black",
-          age: 32,
-          address: "Sidney No. 1 Lake Park, Sidney No. 1 Lake Park",
-          tags: ["cool", "teacher"],
-        },
-      ],
+      tabledata2: [],
       treedata: "",
       replaceFields: {
         title: "name",
@@ -112,12 +183,76 @@ export default {
         parentId: "",
         remark: "",
       },
+      listparam: {
+        operatorId: "1",
+        customerId: "",
+      },
+      modellistparam: {
+        operatorId: "1",
+        customerId: "",
+      },
+      customerId: "",
+      form: {
+        customerIdList: [],
+        accountId: "",
+        remark: "",
+      },
+      rowClick: (record) => ({
+        // 事件
+        on: {
+          click: () => {
+            // 点击改行时要做的事情
+            // ......
+
+            this.customerId = record.customerId;
+            console.log(record, "record", this.customerId);
+          },
+        },
+      }),
     };
   },
   created() {
+    this.getlist();
     this.getareatree();
   },
   methods: {
+    async getlist() {
+      this.tabletype = false;
+      let res = await this.$http.post(
+        this.$api.customeraccountmylist,
+        this.listparam
+      );
+      if (res.data.resultCode == "10000") {
+        for (let i = 0; i < res.data.data.length; i++) {
+          if (res.data.data[i].statusCode == 1) {
+            this.tabledata.push(res.data.data[i]);
+          }
+        }
+        this.getmodellist();
+        this.tabletype = true;
+      } else {
+     return   this.$message.error(res.data.resultMsg);
+      }
+    },
+    async getmodellist() {
+      this.tabletype2 = false;
+      console.log(this.tabledata[0].customerId, 11122222);
+      if (this.modellistparam.customerId == "") {
+        this.modellistparam.customerId = this.tabledata[0].customerId;
+      }
+      let res = await this.$http.post(
+        this.$api.customermodellist,
+        this.modellistparam
+      );
+      if (res.data.resultCode == "10000") {
+        for (let i = 0; i < res.data.data.length; i++) {
+          this.tabledata2 = res.data.data;
+        }
+        this.tabletype2 = true;
+      } else {
+      return  this.$message.error(res.data.resultMsg);
+      }
+    },
     async getareatree() {
       this.showtree = false;
       let res = await this.$http.post(this.$api.areatree, this.areatreeprame);
@@ -125,7 +260,7 @@ export default {
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
       } else {
-        this.$message.error(res.data.resultMsg);
+     return   this.$message.error(res.data.resultMsg);
       }
       this.setdata();
       this.showtree = true;
@@ -214,12 +349,23 @@ export default {
 .isright {
   width: 1272px;
   height: 100%;
-  padding: 20px;
+  padding-left: 20px;
   text-align: left;
   background: #ffffff;
 }
+.isright_l {
+  width: 300px;
+  margin-right: 20px;
+  overflow: scroll;
+}
+.isright_l::-webkit-scrollbar {
+  display: none;
+}
+.isright_r {
+  width: 100%;
+}
 .left_title {
-  width: 72px;
+  width: 120px;
   height: 24px;
   font-size: 18px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -236,7 +382,7 @@ export default {
   margin-left: 20px;
 }
 .tree_box {
-  width: 1232px;
+  width: 100%;
   height: 353px;
   margin-top: 20px;
   margin-bottom: 170px;

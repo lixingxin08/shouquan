@@ -130,6 +130,17 @@ export default {
   customermodel: `/auth/customer-model/form`,
   customermodel: `/auth/customer-model/list`,
 
+       //系统菜单模板API
+       deleteByTemplateId: `/auth/template/deleteByTemplateId`,
+       templatedetail: `/auth/template/detail`,
+       templateform: `/auth/template/form`,
+       templatepage: `/auth/template/page`,
+       templatelist: `/auth/template/list`,
+       templatetree: `/auth/template/tree`,
+
+        //系统菜单权限API
+        customertemplateform :`/auth/customer-menu/form`,      
+        customertemplatetree :`/auth/customer-menu/tree`,
 
   //客户账号授权API
   customeraccountform: `/auth/customer-account/form`,
