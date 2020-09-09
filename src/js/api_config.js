@@ -181,6 +181,8 @@ export default {
   alramremove: `/device/alarm/remove`,
   alramdetail: `/device/alarm/detail`,
   alramform: `/device/alarm/form`,
-
+  //属性值
+  propertyvaluedetail:'/propertyValue/detail',
+  propertyvaluedetail:'/propertyValue/form',
 
 }
