@@ -74,14 +74,16 @@
         this.getTableData()
       },
       async getTableData() {
-
+//menuId: this.parentItem.id,
         let param = {
-          keyword: this.dicName,
-          parentId: this.parentItem.id,
+          actionName: this.keyword,
+          
           pageSize: this.pageSize,
+          startTime:this.timeValue[0],
+          endTime:this.timeValue[1],
           pageIndex: this.pageIndex
         };
-        let res = await this.$http.post(this.$api.dictionarypage, param);
+        let res = await this.$http.post(this.$api.journalpage, param);
         if (res.data.resultCode == "10000") {
           this.tableList = res.data.data.list;
           this.$forceUpdate();
@@ -118,4 +120,10 @@
     margin-left: 20px;
     margin-right: 20px;
   }
+
+  .ant-table-thead>tr>th {
+    background: #F6FBFF !important;
+  }
+
+
 </style>

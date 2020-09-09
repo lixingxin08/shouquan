@@ -255,7 +255,7 @@
           this.isselectdata.name = this.treedata[0].name;
         }
         this.$router.push({
-          path: "/addaccount",
+          path: "/addCustomerUser",
           query: {
             id: this.isselectdata.id,
             accountid: id.accountId,

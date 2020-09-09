@@ -5,18 +5,18 @@
         <a-icon type="close" @click='sure' />
       </div>
       <div class="flexcolumn" style="align-items: flex-start;padding-left: 50px;margin-top: 30px;">
-      <div class="item-title">菜单序号:sdsdsafd</div>
-      <div class="item-title">接口地址:</div>
-      <div class="item-title">结果代码:</div>
-      <div class="item-title">结果消息:</div>
-      <div class="item-title">业务序号:</div>
-      <div class="item-title">参数集合:</div>
-      <div class="item-title">接口耗时:</div>
-      <div class="item-title">来源地址:</div>
-      <div class="item-title">服务地址:</div>
-      <div class="item-title">操作帐号:</div>
-      <div class="item-title">请求时间:</div>
-      <div class="item-title">入库时间:</div>
+        <div class="item-title">菜单序号:{{item.menuId}}</div>
+        <div class="item-title">接口地址:{{item.actionURI}}</div>
+        <div class="item-title">结果代码:{{item.resultCode}}</div>
+        <div class="item-title">结果消息:{{item.resultMsg}}</div>
+        <div class="item-title">业务序号:{{item.customerId}}</div>
+        <div class="item-title">参数集合:{{item.dataJson}}</div>
+        <div class="item-title">接口耗时:{{item.timeTotal}}</div>
+        <div class="item-title">来源地址:{{item.remoteIP}}</div>
+        <div class="item-title">服务地址:{{item.menuId}}</div>
+        <div class="item-title">操作帐号:{{item.accountId}}</div>
+        <div class="item-title">请求时间:{{item.requestTime}}</div>
+        <div class="item-title">入库时间:{{item.insertTime}}</div>
       </div>
       <a-button type='primary' style='margin-top: 30px;margin-bottom: 30px;' @click='sure'>确定</a-button>
     </div>
@@ -31,8 +31,14 @@
       }
     },
     methods: {
-      setItem(item) {
-        this.item = item
+      async setItem(item) {
+        let param = {
+          logId: item.logId
+        }
+        let res = await this.$http.post(this.$api.journaldetail, param)
+        if (res.data.resultCode == 10000) {
+          this.item = res.data.data
+        }
       },
       sure() {
         this.$emit('confirm')
@@ -65,11 +71,11 @@
   }
 
   .item-title {
+
     font-size: 14px;
+    width: 100%;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-    font-weight: 400;
+    text-align: left;
     margin: 10px;
-    line-height: 14px;
-    flex-shrink: 0;
   }
 </style>

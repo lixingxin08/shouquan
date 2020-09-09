@@ -20,7 +20,7 @@ export default {
   menupage: `/config/menu/page`, //系统菜单列表接口
   menuremove: `/config/menu/remove`, //系统菜单删除接口
   menutree: `/config/menu/tree`, //系统菜单树
-    menucombobox: `/config/menu/combobox`, //子系统菜单下拉列表数据接口
+  menucombobox: `/config/menu/combobox`, //子系统菜单下拉列表数据接口
 
 
 
@@ -60,14 +60,14 @@ export default {
   projectPhaselist: `/customer/projectPhase/list `,
   projectPhaseform: `/customer/projectPhase/form `,
 
-    smspage: `/message/sms/account/page`,
+  smspage: `/message/sms/account/page`,
 
   //短信账号基本信息API
   deleteBySmsAccountId: `/message/sms/account/deleteBySmsAccountId`, //微信帐号基础信息分页查询接口
   smsform: `/message/sms/account/form`,
   smsdetail: `/message/sms/account/detail`,
   smspage: `/message/sms/account/page`,
-  smsremove:`/message/sms/account/deleteBySmsAccountId`,
+  smsremove: `/message/sms/account/deleteBySmsAccountId`,
 
   deleteByemailAccountId: `/message/email/account/deleteByEmailAccountId`, //邮箱帐号基础信息删除接口
   emailtAccountdetail: `/message/email/account/detail`, //邮箱帐号基础信息查询详情接口
@@ -99,20 +99,36 @@ export default {
   propertyremove: `/device/property/remove`, //设备属性删除接口
 
 
+//系统角色
+  rolesystempage: `/account/role/page`,
+  rolesystemlist: `/account/role/page`, //系统角色列表接口
+  rolesystemform: `/account/role/form`, //系统角色表单接口
+  rolesystemremove: `/account/role/remove`, //系统角色删除接口
+  rolesystemdetail: `/account/role/detail`, //系统角色详情接口
+  rolesystemrolelist: `/account/role/roleSystemList`, //系统角色查询列表接口
+  rolesystemroletreelist: `/account/role/tree`, //系统treeList接口
 
-  rolesystemlist:`/account/role/page`,//系统角色列表接口
-  rolesystemform:`/account/role/form`,//系统角色表单接口
-  rolesystemremove:`/account/role/remove`,//系统角色删除接口
-  rolesystemdetail:`/account/role/detail`,//系统角色详情接口
-  rolesystemrolelist:`/account/role/roleSystemList`,//系统角色查询列表接口
-  rolesystemroletreelist:`/account/role/tree`,//系统treeList接口
-  
-  accountinfodetail:``,
-  accountinfoform:``,
-  accountinfolist:``,
-  accountinforemove:``,
-  
 
+
+
+  //系统菜单模板API
+  deleteByTemplateId: `/auth/template/deleteByTemplateId`,
+  templatedetail: `/auth/template/detail`,
+  templateform: `/auth/template/form`,
+  templatepage: `/auth/template/page`,
+  templatelist: `/auth/template/list`,
+
+  //系统菜单权限API
+  customertemplatedetail: `/auth/customer-template/detail`,
+  customertemplateform: `/auth/customer-template/form`,
+
+  //区划授权API
+  customerareaform: `/auth/customer-area/form`,
+  customerareatree: `/auth/customer-area/tree`,
+
+  //型号授权API
+  customermodel: `/auth/customer-model/form`,
+  customermodel: `/auth/customer-model/list`,
 
        //系统菜单模板API
        deleteByTemplateId: `/auth/template/deleteByTemplateId`,
@@ -126,32 +142,29 @@ export default {
         customertemplateform :`/auth/customer-menu/form`,      
         customertemplatetree :`/auth/customer-menu/tree`,
 
-        //区划授权API
-        customerareaform :`/auth/customer-area/form`,
-        customerareatree :`/auth/customer-area/tree`,
+  //客户账号授权API
+  customeraccountform: `/auth/customer-account/form`,
+  customeraccountlist: `/auth/customer-account/list`,
+  customeraccountmylist: `/auth/customer-account/my-list`,
 
-        //型号授权API
-        customermodelform :`/auth/customer-model/form`,
-        customermodellist :`/auth/customer-model/list`,
 
-        //警报授权树接口
-        customeralarmform :`/auth/customer-alarm/form`,
-        customeralarmlist :`/auth/customer-alarm/tree`,
+  //微信帐号基础信息API
+  deleteByWechatAccountId: `/message/wechat/account/deleteByWechatAccountId`, //微信帐号基础信息分页查询接口
+  wechtTemplateList: `/message/wechat/template/list`,
+  wechatform: `/message/wechat/account/form`,
+  wechatdetail: `/message/wechat/account/detail`,
+  wechatpage: `/message/wechat/account/page`,
 
-        //i邮箱消息授权API
-        customeremaildetail:  `/auth/customer-email/detail`,
-        customeremailform:  `/auth/customer-email/form`,
-        //短信消息授权列表接口
-        customeresmsdetail:  `/auth/customer-sms/detail`,
-        customeresmsform:  `/auth/customer-sms/form`,
-        //i邮箱消息授权API
-        customerwechatdetail:  `/auth/customer-wechat/detail`,
-        customerwechatform:  `/auth/customer-wechat/form`,
-        
+  //系统账号
+  accountinfodetail: `/account/info/detail`,
+  accountinfoform: `/account/info/form`,
+  accountinfolist: `/account/info/list`,
+  accountinfopage: `/account/info/page`,
+  accountinforemove: `/account/info/remove`,
+  accountinforeset: `/account/info/reset`,
 
-        //客户账号授权API
-        customeraccountform:`/auth/customer-account/form`,
-        customeraccountlist:`/auth/customer-account/list`,
-        customeraccountmylist:`/auth/customer-account/my-list`,
-
+  //日志
+   journalpage:`/page`,
+   journaldetail:`/detail`,
+   journaltree:`/tree`
 }
