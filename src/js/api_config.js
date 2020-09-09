@@ -153,7 +153,7 @@ export default {
   accountinforeset: `/account/info/reset`,
 
   //日志
-   journalpage:`/page`,
-   journaldetail:`/detail`,
+   journalpage:`/logger/platform/page`,
+   journaldetail:`/logger/detail`,
    journaltree:`/tree`
 }

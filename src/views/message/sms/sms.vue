@@ -40,6 +40,7 @@
               :columns="tablecolumns"
               :data-source="tabledata"
               bordered
+                 size='small'
               :pagination="pagination"
               @change="handleTableChange"
             >

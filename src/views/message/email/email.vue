@@ -40,6 +40,7 @@
               :columns="tablecolumns"
               :data-source="tabledata"
               bordered
+              size='small'
               :pagination="pagination"
               @change="handleTableChange"
             >
@@ -71,7 +72,7 @@ export default {
 
       tablecolumns: [
         {
-          width: 208,
+          width: 60,
           align: "center",
           title: "序号",
           dataIndex: "emailConfigId",
@@ -133,7 +134,7 @@ export default {
           dataIndex: "debugType",
         },
         {
-          width: 208,
+          width: 120,
           align: "center",
           title: "操作",
           ellipsis: true,

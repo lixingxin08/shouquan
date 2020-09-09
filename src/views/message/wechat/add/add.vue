@@ -95,7 +95,9 @@
         addcolumns: table.data.adddColumns,
         wechatSelect: '', //事件选择
         msgList: [],
-        wechat: {}, //事件详情
+        wechat: {
+          typeCode:''
+        }, //事件详情
         id: null,
         num: 0 //描述长度
       }

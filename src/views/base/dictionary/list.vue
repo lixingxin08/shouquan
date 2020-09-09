@@ -18,7 +18,7 @@
           <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
-          <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 10px;margin-right: 10px;"></div>
+          <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 20px;margin-right: 20px;"></div>
           <a href="#" style='font-size: 12px;' @click="editDictionary(record)">编辑</a>
         </div>
       </template>
