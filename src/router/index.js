@@ -61,9 +61,13 @@ const Myclients = () => import('@/views/MaintenanceAuthorization/Myclients/Mycli
 
 
 const SystemRole = () => import('@/views/accountManagement/SystemRole/SystemRole') //系统角色
+const addsystemRole = () => import('@/views/accountManagement/SystemRole/add/add') //系统角色
 const systemAccount = () => import('@/views/accountManagement/systemAccount/systemAccount') //系统帐号
+const addsystemAccount = () => import('@/views/accountManagement/systemAccount/add/add') //系统帐号
 const CustomerRole = () => import('@/views/accountManagement/CustomerRole/CustomerRole') //客户角色
+const addCustomerRole = () => import('@/views/accountManagement/CustomerRole/add/add') //客户角色
 const CustomerUser = () => import('@/views/accountManagement/CustomerUser/CustomerUser') //客户帐号
+const addCustomerUser = () => import('@/views/accountManagement/CustomerUser/add/add') //客户帐号
 const MyAccount = () => import('@/views/accountManagement/MyAccount/MyAccount') //我的帐号
 
 const LogManagement = () => import('@/views/LogManagement/LogManagement') //日志管理
@@ -483,12 +487,29 @@ export default new Router({
           component: SystemRole
         },
         {
+          path: '/addsystemRole',
+          name: 'SystemRole',
+          meta: {
+            title: '系统角色'
+          },
+          component: addsystemRole
+        },
+
+        {
           path: '/systemAccount',
           name: 'systemAccount',
           meta: {
             title: '系统帐号'
           },
           component: systemAccount
+        },
+        {
+          path: '/addaccount',
+          name: 'systemAccount',
+          meta: {
+            title: '系统帐号'
+          },
+          component: addsystemAccount
         },
         {
           path: '/CustomerRole',
@@ -498,6 +519,14 @@ export default new Router({
           },
           component: CustomerRole
         },
+		{
+		  path: '/addCustomerRole',
+		  name: 'CustomerRole',
+		  meta: {
+		    title: '客户角色'
+		  },
+		  component: addCustomerRole
+		},
         {
           path: '/CustomerUser',
           name: 'CustomerUser',
@@ -506,6 +535,14 @@ export default new Router({
           },
           component: CustomerUser
         },
+		{
+		  path: '/addCustomerUser',
+		  name: 'CustomerUser',
+		  meta: {
+		    title: '客户帐号'
+		  },
+		  component: addCustomerUser
+		},
         {
           path: '/MyAccount',
           name: 'MyAccount',

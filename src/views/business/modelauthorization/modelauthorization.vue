@@ -231,7 +231,7 @@ export default {
         this.getmodellist();
         this.tabletype = true;
       } else {
-        this.$message.error(res.data.resultMsg);
+     return   this.$message.error(res.data.resultMsg);
       }
     },
     async getmodellist() {
@@ -250,7 +250,7 @@ export default {
         }
         this.tabletype2 = true;
       } else {
-        this.$message.error(res.data.resultMsg);
+      return  this.$message.error(res.data.resultMsg);
       }
     },
     async getareatree() {
@@ -260,7 +260,7 @@ export default {
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
       } else {
-        this.$message.error(res.data.resultMsg);
+     return   this.$message.error(res.data.resultMsg);
       }
       this.setdata();
       this.showtree = true;

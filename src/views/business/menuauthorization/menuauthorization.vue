@@ -2,26 +2,59 @@
   <div class="flex_f father">
     <div class="isleft">
       <div class="left_title">客户列表</div>
-      <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="false" :customRow="rowClick2" >
-                     <div slot="statusCode" class="flex_a" slot-scope="statusCode">
-                <div v-if="statusCode==1">启用</div>
-                <div v-if="statusCode==2">备用</div>
-                <div v-if="statusCode==0">关闭</div>
-              </div>
+      <a-table
+        :columns="tablecolumns"
+        :data-source="tabledata"
+        bordered
+        :pagination="false"
+        :customRow="rowClick2"
+      >
+        <div slot="statusCode" class="flex_a" slot-scope="statusCode">
+          <div v-if="statusCode==1">启用</div>
+          <div v-if="statusCode==2">备用</div>
+          <div v-if="statusCode==0">关闭</div>
+        </div>
       </a-table>
     </div>
     <div class="isright">
       <div class="tree_box flex_f">
         <div class="tree_box_i tree_box_i_l">
           <div class="left_title">选择授权模板</div>
-          <a-table :columns="tablecolumns2" :data-source="tabledata2" bordered   :customRow="rowClick"></a-table>
+          <a-table
+            :columns="tablecolumns2"
+            :data-source="tabledata2"
+            bordered
+            :customRow="rowClick"
+          ></a-table>
         </div>
+
         <div class="tree_box_i">
+          <div class="flex_f templatetree_sel">
+            <span>服务子系统：</span>
+            <div>
+              <a-select
+                show-search
+                placeholder="全部"
+                option-filter-prop="children"
+                style="width:200px;margin-right:20px;height:36px;border-radius: 8px;"
+                @change="handleChange2"
+                v-if="showtree"
+              >
+                <a-select-option value="all">全部</a-select-option>
+                <a-select-option
+                  v-for="(item,index) in oldtreedata"
+                  :key="index"
+                  :value="item.id"
+                >{{item.name}}</a-select-option>
+              </a-select>
+            </div>
+          </div>
           <is-left
             :treedata="treedata"
             :replaceFields="replaceFields"
             :defaultExpandedKeys="defaultExpandedKeys"
             @checkedKeys="getcheckedKeys"
+            :checkedKeys="checkedKeys"
             v-if="showtree"
           ></is-left>
         </div>
@@ -71,12 +104,11 @@ export default {
           align: "center",
           title: "客户状态",
           dataIndex: "statusCode",
-          key: "statusCode 1",
+          key: "statusCode",
           ellipsis: true,
-            scopedSlots: {
+          scopedSlots: {
             customRender: "statusCode",
           },
-          
         },
       ],
       tabledata: [],
@@ -88,6 +120,7 @@ export default {
         key: "id",
       },
       defaultExpandedKeys: [],
+      checkedKeys: [],
       tablecolumns2: [
         {
           width: 58,
@@ -126,22 +159,8 @@ export default {
         title: "name",
         key: "id",
       },
-      defaultExpandedKeys2: [],
       data: "",
       showtree: false,
-      areatreeprame: {
-        //行政区划树接口参数
-        areaId: "",
-        keyword: "",
-        keyword: "",
-        latitude: 0,
-        longitude: 0,
-        operatorId: "",
-        pageIndex: 0,
-        pageSize: 10,
-        parentId: "",
-        remark: "",
-      },
       listparam: {
         operatorId: "1",
         customerId: "",
@@ -163,7 +182,7 @@ export default {
       },
       detailparame: {
         pageIndex: "",
-        pageSize:""
+        pageSize: "",
       },
       form: {
         customerId: "",
@@ -171,52 +190,47 @@ export default {
         menuIdList: "",
         remark: "",
       },
-      rowClick:record => ({
+      rowClick: (record) => ({
         // 事件
         on: {
           click: () => {
             // 点击改行时要做的事情
             // ......
-            console.log(record, 'record')
-              this.treeprame.templateId=record.templateId
-            this.gettree()
-          }
-        }
+            console.log(record, "record");
+            this.treeprame.templateId = record.templateId;
+            this.gettree();
+          },
+        },
       }),
-       rowClick2:record => ({
+      rowClick2: (record) => ({
         // 事件
         on: {
           click: () => {
             // 点击改行时要做的事情
             // ......
-          
-              this.form.customerId=record.customerId
-                console.log(this.form.customerId, 'record')
-          }
-        }
+
+            this.form.customerId = record.customerId;
+            console.log(this.form.customerId, "record");
+          },
+        },
       }),
     };
   },
   created() {
     this.getlist();
-    this.gettree();
-    this.getdetail()
+    this.getdetail();
     console.log(localStorage.getItem("user"), 111);
   },
   methods: {
     async gettree() {
       this.showtree = false;
-      let res = await this.$http.post(
-        this.$api.templatetree,
-        this.treeprame
-      );
+      let res = await this.$http.post(this.$api.templatetree, this.treeprame);
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
       }
       this.setdata();
       this.showtree = true;
       this.oldtreedata = this.treedata;
-      console.log(this.treedata, 6555555);
     },
     async getlist() {
       this.tabletype = false;
@@ -225,24 +239,26 @@ export default {
         this.listparam
       );
       if (res.data.resultCode == "10000") {
-        for (let i = 0; i <  res.data.data.length; i++) {
-            if ( res.data.data[i].statusCode==1) {
-               this.tabledata.push( res.data.data[i])
-            }
+        for (let i = 0; i < res.data.data.length; i++) {
+          if (res.data.data[i].statusCode == 1) {
+            this.tabledata.push(res.data.data[i]);
+          }
         }
+        this.form.customerId = this.tabledata[0].customerId;
+        this.gettree();
         if (this.istotal.type == 1) {
           this.pagination.total = res.data.data.length;
         }
         this.istotal.type++;
         this.tabletype = true;
       } else {
-        this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
     async getdetail() {
       this.tabletype2 = false;
-      this.detailparame.pageIndex=this.pagination.page
-      this.detailparame.pageSize=this.pagination.pageSize
+      this.detailparame.pageIndex = this.pagination.page;
+      this.detailparame.pageSize = this.pagination.pageSize;
       let res = await this.$http.post(
         this.$api.templatelist,
         this.detailparame
@@ -250,11 +266,14 @@ export default {
       if (res.data.resultCode == "10000") {
         this.tabledata2 = res.data.data;
       } else {
-        this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
     async getform() {
       this.form.operatorId = 1;
+      if (this.form.menuIdList == "") {
+        return this.$message.error("请选择授权系统");
+      }
       let res = await this.$http.post(
         this.$api.customertemplateform,
         this.form
@@ -263,7 +282,7 @@ export default {
         this.$message.success(res.data.resultMsg);
         this.$router.go(-1);
       } else {
-        this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
     toTree(data) {
@@ -292,6 +311,9 @@ export default {
       for (let i = 0; i < this.data.length; i++) {
         if (this.data[i].open == true) {
           this.defaultExpandedKeys.push(this.data[i].id);
+        }
+        if (this.data[i].checked == true) {
+          this.checkedKeys.push(this.data[i].id);
         }
       }
       this.treedata = this.toTree(this.data);
@@ -331,6 +353,25 @@ export default {
     getcheckedKeys(val) {
       console.log(val, 44444);
       this.form.menuIdList = val;
+    },
+    handleChange2(value, key) {
+      console.log(value,key);
+      this.showtree = false;
+      this.treedata = this.oldtreedata;
+      if (value == "all") {
+        this.treedata = this.oldtreedata;
+        this.checkedKeys=this.checkedKeys
+      } else {
+        let filterTreeNode = "";
+        for (let i = 0; i < this.treedata.length; i++) {
+          if (this.treedata[i].id == value) {
+            filterTreeNode = this.treedata[i];
+          }
+        }
+        this.treedata = Array(filterTreeNode);
+      }
+      this.showtree = true;
+      console.log(this.checkedKeys,5544444);
     },
   },
 };

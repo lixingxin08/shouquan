@@ -7,10 +7,10 @@
       <a-tree
         :show-line="showLine"
         @select="onSelect"
-        checkable
+        :checkable="checkable"
         :tree-data="treedata"
         :replaceFields="replaceFields"
-         :selected-keys="ischeckedKeys"
+         :default-checked-keys="checkedKeys"
         :default-expanded-keys="defaultExpandedKeys"     
         @check="onCheck"
       >
@@ -31,12 +31,16 @@ export default {
   },
   props: {
     treedata: Array, //树数据
+    checkable:{
+      type:Boolean,
+      default:true
+    },
     replaceFields: Object, //替换属性
     defaultExpandedKeys: Array, //默认展开
-    ischeckedKeys:Array
+    checkedKeys:Array
   },
   created() {
-    console.log(this.treedata, 123221);
+    console.log(this.checkedKeys, 123221);
   },
   methods: {
     onSelect(selectedKeys, selectedNodes) {

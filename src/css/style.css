@@ -253,3 +253,6 @@ justify-content: flex-start;
  .isleft::-webkit-scrollbar {
    display: none;
  }
+ .ant-table-thead>tr>th {
+  background-color: #F6FBFF!important;
+}

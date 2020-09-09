@@ -24,8 +24,8 @@
       </div>
       <div class="tree_box">
         <a-table
-          :columns="tablecolumns"
-          :data-source="tabledata"
+          :columns="tablecolumns2"
+          :data-source="tabledata2"
           :rowSelection="{ onChange: onSelectChange, type: 'radio' }"
           bordered
           :pagination="false"
@@ -61,7 +61,7 @@ export default {
             // 点击改行时要做的事情
             // ......
             console.log(record, "record");
-            this.treeprame.templateId = record.templateId;
+            this.treeprame.customerId = record.customerId;
             this.gettree();
           },
         },
@@ -128,6 +128,14 @@ export default {
         customerId: "",
       },
       listtype: "wechat",
+      form: {
+        customerId:"",
+        wechatConfigIdList:[],
+        smsConfigIdList:[],
+        emailConfigId:[],
+        remark:""
+
+      },
     };
   },
   created() {
@@ -150,9 +158,23 @@ export default {
         this.listparam.customerId = this.tabledata[0].customerId;
         this.tabletype = true;
       } else {
-        this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
+    async getemailform(val) {
+      this.tabletype = false;
+      let res = await this.$http.post(
+        this.$api.customeremailform,
+        this.form
+      );
+      if (res.data.resultCode == "10000") {
+        this.tabledata2 = res.data.data;
+        this.tabletype = true;
+      } else {
+        return this.$message.error(res.data.resultMsg);
+      }
+    },
+
     async getemaillist(val) {
       this.tabletype = false;
       let res = await this.$http.post(
@@ -163,7 +185,7 @@ export default {
         this.tabledata2 = res.data.data;
         this.tabletype = true;
       } else {
-        this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
     async getsmslist(val) {
@@ -176,7 +198,7 @@ export default {
         this.tabledata2 = res.data.data;
         this.tabletype = true;
       } else {
-        this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
     async getwechatlist(val) {
@@ -189,7 +211,7 @@ export default {
         this.tabledata2 = res.data.data;
         this.tabletype = true;
       } else {
-        this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
     changetab(val) {
@@ -206,7 +228,7 @@ export default {
         this.tablecolumns2[1].title = "短信帐号别名";
         this.tablecolumns2[0].dataIndex = "smsConfigId";
         this.tablecolumns2[0].key = "smsConfigId";
-        this.tablecolumns2[1].dataIndex = "wechatConfigName";
+        this.tablecolumns2[1].dataIndex = "smsConfigName";
         this.tablecolumns2[1].key = "smsConfigName";
         this.getsmslist();
       }

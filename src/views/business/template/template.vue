@@ -135,7 +135,7 @@ export default {
         this.istotal.type++;
         this.tabletype = true;
       } else {
-        this.$message.error(res.data.resultMsg);
+      return  this.$message.error(res.data.resultMsg);
       }
     },
     //行政区划删除接口
@@ -146,7 +146,7 @@ export default {
         this.getpage();
         this.visible = false;
       } else {
-        this.$message.error(res.data.resultMsg);
+     return   this.$message.error(res.data.resultMsg);
       }
     },
     toadd(val, id) {

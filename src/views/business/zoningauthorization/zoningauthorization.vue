@@ -153,15 +153,17 @@ export default {
             this.tabledata.push(res.data.data[i]);
           }
         }
+        this.customerId=this.tabledata[0].customerId
+        this.form.customerId=this.tabledata[0].customerId
         this.istotal.type++;
         this.tabletype = true;
       } else {
-        this.$message.error(res.data.resultMsg);
+      return  this.$message.error(res.data.resultMsg);
       }
     },
     async getform() {
       console.log(this.data);
-      
+
       let aa = {
         customerId: "",
         areaId: "",
@@ -194,7 +196,7 @@ export default {
       if (res.data.resultCode == "10000") {
         this.$message.error("授权成功");
       } else {
-        this.$message.error(res.data.resultMsg);
+      return  this.$message.error(res.data.resultMsg);
       }
     },
 
@@ -207,7 +209,7 @@ export default {
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
       } else {
-        this.$message.error(res.data.resultMsg);
+      return  this.$message.error(res.data.resultMsg);
       }
       this.setdata();
       this.showtree = true;

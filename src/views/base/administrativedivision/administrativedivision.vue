@@ -54,14 +54,11 @@ import isDeleteDialog from "../../../components/delete_confir/delete.vue";
 window.addEventListener(
   "message",
   function (e) {
-    console.log(e, 5552222);
-    console.log(e.data.type, 4444444444);
+
     if (e.data.type !== "webpackOk") {
     if (e.data.accountId==''||e.data.accountId==undefined) {
-      console.log(77777777);
     }else{
-          console.log(4442322);
-        localStorage.setItem("usermsg", JSON.stringify(e.data),10000000000);
+        localStorage.setItem("usermsg", JSON.stringify(e.data),10000000000000);
     }
     }
   },

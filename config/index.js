@@ -13,8 +13,8 @@ module.exports = {
     proxyTable: {
       '/api': {//代理api
 
-        target: "http://192.168.3.38:8091/authorization",// 代理接口
-        //target:"http://heantest.qicp.vip/authorization",
+        target: "http://192.168.3.83:8091/authorization",// 代理接口
+        // target:"http://hean.fast2.svipss.top//authorization",
         changeOrigin: true,//是否跨域
         pathRewrite: {//重写路径
           "^/api": ''//代理路径
