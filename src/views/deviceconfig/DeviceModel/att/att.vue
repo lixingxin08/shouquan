@@ -22,13 +22,13 @@
         <a-icon type="down" />
       </div>
     </div>
-    <div class="flexcolumn" v-for="(item ,index) in groups" :key='index' style="padding: 10px;">
+    <div class="flexcolumn"  v-for="(item ,index) in groups" :key='index' style="padding: 10px;border: 1px solid #E5E5E5;">
       <div class="flexrow flexac">
         属性分组:
         <a class="title_item" style="margin-left: 20px;width: 667px;">{{item.propertyName}}</a>
       </div>
 
-      <a-table style='margin-top: 20px;margin-bottom: 20px;' :rowClassName="this.setRowClassName" :columns="dictionaryColumns" :data-source="item.childrenList"
+      <a-table style='margin-top: 20px;' :columns="dictionaryColumns" :data-source="item.childrenList"
         :pagination='false' :bordered='true' size='small' >
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
@@ -53,6 +53,7 @@
       title: "序号",
       width: "3%",
       align: "center",
+        className: 'topic-info',
       scopedSlots: {
         "customRender": "index"
       },
@@ -62,13 +63,14 @@
       dataIndex: "propertyName",
       align: "center",
       width: "15%",
+      className: 'topic-info',
     },
     {
       title: "属性代码",
       dataIndex: "propertyCode",
       align: "center",
       width: "15%",
-
+  className: 'topic-info',
       scopedSlots: {
         "customRender": "propertyCode"
       }
@@ -79,6 +81,7 @@
       dataIndex: "propertyDesc",
       align: "center",
       width: "40%",
+        className: 'topic-info',
       scopedSlots: {
         "customRender": "propertyDesc"
       }
@@ -136,11 +139,7 @@
         }
         this.reset()
       },
-      setRowClassName(record) {
-        if (record.orderCode == null || record.warehouseCode == null || record.operateTime == null) {
-          return 'clickRowStyle'
-        }
-      },
+
       /* 重置*/
       reset() {
         this.getProperty(this.modelDetail.deviceTypeId)
@@ -159,19 +158,24 @@
       /* 获取分组信息*/
       async getProperty(id) {
         let param = {
-           modelId: this.id
+          modelId: this.id
         }
         let res = await this.$http.post(this.$api.propertyvaluedetail, param)
 
         if (res.data.resultCode == 10000) {
-          let data = res.data.data
-          for (let i = 0; i < data.length; i++) {
-            if (!data[i].childrenList) {
-              data[i].childrenList = []
+          let data = []
+          res.data.data.forEach((item) => {
+            if (item.parentId == '100000000000000000000000000000000000000000000000000000000000') {
+              item.childrenList = []
+              res.data.data.forEach((childItem) => {
+                if (childItem.parentId == item.propertyId) {
+                  item.childrenList.push(childItem)
+                }
+              })
+              data.push(item)
             }
-          }
+          })
           this.groups = data
-
         }
       },
 
@@ -185,6 +189,7 @@
           this.groups = newData;
         }
       },
+
     }
   }
 </script>
@@ -208,9 +213,11 @@
     margin-left: 20px;
     margin-right: 20px;
   }
- .clickRowStyle {
+
+  .topic-info {
     background-color: #F5F5F5;
   }
+
   .addbtn {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;

@@ -126,12 +126,11 @@
 
       this.getCombobox('device_service_type')
       this.getCombobox('device_communication_mode')
-
+      this.getBrandList()
       this.Id = this.$route.query.id
       if (this.Id) { //编辑
         this.getModelInfo();
         this.getTypeList()
-        this.getBrandList()
       } else {
         this.getWarninngData()
       }
