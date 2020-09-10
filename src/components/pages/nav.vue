@@ -1,6 +1,8 @@
 <template>
   <a-layout-sider v-model="iscollapsed" :trigger="null" collapsible collapsedWidth="0">
-    <div class="logo" />
+    <div class="logo_box flex_a" >
+       <img class="logo_img" src="../../assets/nav_img/logo@2x.png" alt />
+    </div>
     <a-menu
       theme="dark"
       mode="inline"
@@ -8,9 +10,12 @@
       :defaultSelectedKeys="[$route.name]"
       :selectedKeys="[$route.name]"
     >
-      <a-sub-menu key="base" title="基础配置">
+      <a-sub-menu key="base">
+        <div slot="title" class="flex_F">
+          <img class="nav_icon" src="../../assets/nav_img/icon_z_jichu@2x.png" alt />
+          <span class="nav_title">基础配置</span>
+        </div>
         <a-menu-item key="administrativedivision">
-          <!-- <a-icon type="upload" /> -->
           <router-link to="/administrativedivision">
             <span>行政区划</span>
           </router-link>
@@ -34,7 +39,11 @@
           </router-link>
         </a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="device" title="设备配置">
+      <a-sub-menu key="device">
+            <div slot="title" class="flex_F">
+          <img class="nav_icon" src="../../assets/nav_img/icon_z_shebei@2x.png" alt />
+          <span class="nav_title">设备配置</span>
+        </div>
         <a-menu-item key="devicetypes">
           <!-- <a-icon type="upload" /> -->
           <router-link to="/devicetypes">
@@ -66,7 +75,11 @@
           </router-link>
         </a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="customerpro" title="客户管理">
+      <a-sub-menu key="customerpro">
+           <div slot="title" class="flex_F">
+          <img class="nav_icon" src="../../assets/nav_img/icon_z_kehu@2x.png" alt />
+          <span class="nav_title">客户管理</span>
+        </div>
         <a-menu-item key="customerprofile">
           <!-- <a-icon type="upload" /> -->
           <router-link to="/customerprofile">
@@ -98,7 +111,11 @@
           </router-link>
         </a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="message" title="消息账号">
+      <a-sub-menu key="message" >
+           <div slot="title" class="flex_F">
+          <img class="nav_icon" src="../../assets/nav_img/icon_z_xiaoxi@2x.png" alt />
+          <span class="nav_title">消息账号</span>
+        </div>
         <a-menu-item key="wechat">
           <!-- <a-icon type="upload" /> -->
           <router-link to="/wechat">
@@ -118,7 +135,11 @@
           </router-link>
         </a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="business" title="业务授权">
+      <a-sub-menu key="business" >
+           <div slot="title" class="flex_F">
+          <img class="nav_icon" src="../../assets/nav_img/icon_z_yewu@2x.png" alt />
+          <span class="nav_title">业务授权</span>
+        </div>
         <a-menu-item key="template">
           <!-- <a-icon type="upload" /> -->
           <router-link to="/template">
@@ -156,7 +177,11 @@
           </router-link>
         </a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="MaintenanceAuthorization" title="维管授权">
+      <a-sub-menu key="MaintenanceAuthorization">
+           <div slot="title" class="flex_F">
+          <img class="nav_icon" src="../../assets/nav_img/icon_z_weiguan@2x.png" alt />
+          <span class="nav_title">维管授权</span>
+        </div>
         <a-menu-item key="CustomerAuthorization">
           <!-- <a-icon type="upload" /> -->
           <router-link to="/CustomerAuthorization">
@@ -170,7 +195,11 @@
           </router-link>
         </a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="accountManagement" title="账号管理">
+      <a-sub-menu key="accountManagement" >
+           <div slot="title" class="flex_F">
+          <img class="nav_icon" src="../../assets/nav_img/icon_z_zhanghao@2x.png" alt />
+          <span class="nav_title">账号管理</span>
+        </div>
         <a-menu-item key="SystemRole">
           <router-link to="/SystemRole">
             <span>系统角色</span>
@@ -200,7 +229,9 @@
       <a-menu-item key="LogManagement">
         <!-- <a-icon type="upload" /> -->
         <router-link to="/LogManagement">
-          <span style="margin-right:20px">日志管理</span>
+        <div class="flex_f rizhi">
+           <img class="nav_icon" src="../../assets/nav_img/icon_z_rizhi@2x.png" alt /><span class="nav_title">日志管理</span>
+        </div>
         </router-link>
       </a-menu-item>
     </a-menu>
@@ -281,4 +312,26 @@ export default {
 };
 </script>
 <style  scoped>
+.nav_icon {
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+}
+.nav_title{
+  margin-left: 10px;
+}
+.rizhi{
+  margin-left: 30px;
+}
+.logo_img{
+  width: 120px;
+  height: 42px;
+}
+.logo_box{
+   width: 100%;
+  height: 42px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+
+}
 </style>

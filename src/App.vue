@@ -28,7 +28,7 @@ export default {
     }
   },
   mounted() {
-    let sessionid=  JSON.parse(localStorage.getItem('usermsg')).iscookie
+    let sessionid=  JSON.parse(localStorage.getItem('usermsg')).iscookie||"asdkasgdkjakkj"
       this.setCookie('session',sessionid,10000)
   },
   methods:{
