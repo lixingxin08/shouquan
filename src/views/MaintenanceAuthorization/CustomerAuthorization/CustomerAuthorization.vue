@@ -54,24 +54,19 @@ export default {
           );
         },
         onSelect: (record, selected, selectedRows) => {
-          console.log(record, selected, selectedRows, 2222);
-          this.form.customerIdList = [];
-          if (selectedRows.length > 0) {
-            selectedRows.forEach((item) => {
-              this.form.customerIdList.push(item.customerId);
-            });
-            console.log(this.form, 1235455);
+          console.log(record, selected, selectedRows,88888);
+           this.form.customerIdList=[]
+         for (let i = 0; i < selectedRows.length; i++) {
+            this.form.customerIdList.push(selectedRows[i].customerId)
           }
+          console.log(this.form.customerIdList,66666666666);
         },
         onSelectAll: (selected, selectedRows, changeRows) => {
-          console.log(selected, selectedRows, changeRows, 1111);
-          this.form.customerIdList = [];
-          if (selected == true) {
-            selectedRows.forEach((item) => {
-              this.form.customerIdList.push(item.customerId);
-            });
-            console.log(this.form, 1235455);
+          this.form.customerIdList=[]
+          for (let i = 0; i < selectedRows.length; i++) {
+            this.form.customerIdList.push(selectedRows[i].customerId)
           }
+            console.log(this.form.customerIdList,77777777777);
         },
       },
       tablecolumns: [
@@ -124,7 +119,7 @@ export default {
       },
       listparam: {
         operatorId: "1",
-        customerId: "",
+        accountId: "",
       },
       istotal: {
         type: 1,
@@ -133,6 +128,7 @@ export default {
         customerIdList: [],
         accountId: "",
         remark: "",
+          operatorId: "1",
       },
     };
   },
@@ -159,20 +155,23 @@ export default {
     async gettree() {
       this.showtree = false;
       let res = await this.$http.post(
-        this.$api.customeraccountlist,
+        this.$api.persontree,
         this.treeprame
       );
-      console.log(res, 11);
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
       } else {
         this.$message.error(res.data.resultMsg);
       }
+    
       this.setdata();
       this.showtree = true;
-      console.log(this.tabledata, 111111111111111);
+       this.form.accountId=this.treedata[0].id
     },
     async getform() {
+      if (this.form.customerIdList.length==0) {
+        return  this.$message.error('请选择授权客户')
+      }
       let res = await this.$http.post(this.$api.customeraccountform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
@@ -180,7 +179,7 @@ export default {
         this.$message.error(res.data.resultMsg);
       }
     },
-    toTree(data) {
+ toTree(data) {
       let result = [];
       if (!Array.isArray(data)) {
         return result;
@@ -208,6 +207,7 @@ export default {
           this.defaultExpandedKeys.push(this.data[i].id);
         }
       }
+  
       this.treedata = this.toTree(this.data);
     },
     //获取树搜索数据
@@ -236,7 +236,7 @@ export default {
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
-      console.log(val, 22222222222222);
+     this.form.accountId=val.id
     },
   },
 };

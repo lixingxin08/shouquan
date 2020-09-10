@@ -34,6 +34,7 @@ export default {
   persondetail: `/customer/person/detail`,
   personform: `/customer/person/form`,
   personpage: `/customer/person/page`,
+  persontree: `/customer/person/tree`,
 
   //客户档案基础信息表API
   deleteByInformationId: `/customer/information/deleteByInformationId`,

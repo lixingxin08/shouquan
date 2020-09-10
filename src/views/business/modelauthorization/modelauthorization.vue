@@ -20,7 +20,7 @@
       <div class="flex_f">
         <div class="isright_l">
           <div class="left_title">设备类型</div>
-          <div class="tree_box">
+          <div class="tree_box tree_box1">
             <is-left
               :treedata="treedata"
               :replaceFields="replaceFields"
@@ -37,6 +37,7 @@
               :columns="tablecolumns2"
               :data-source="tabledata2"
               :row-selection="rowSelection"
+              
               bordered
               :pagination="false"
             ></a-table>
@@ -50,7 +51,7 @@
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
-            <div class="cancel_btn rb_b_btn">取消</div>
+            <div class="cancel_btn rb_b_btn" @click="cancel()">取消</div>
             <div class="ok_btn" @click="getform()">授权</div>
           </div>
         </div>
@@ -59,8 +60,9 @@
   </div>
 </template>
 <script>
-import isLeft from "../../../components/tree/seltree.vue";
+import isLeft from "../../../components/tree/tree.vue";
 export default {
+  inject:['reload'],
   components: {
     isLeft,
   },
@@ -81,7 +83,6 @@ export default {
             selectedRows.forEach((item) => {
               this.form.modelIdList.push(item.modelId);
             });
-            console.log(this.form, 1235455);
           }
         },
         onSelectAll: (selected, selectedRows, changeRows) => {
@@ -91,9 +92,9 @@ export default {
             selectedRows.forEach((item) => {
               this.form.modelIdList.push(item.modelId);
             });
-            console.log(this.form, 1235455);
+          
           }
-        },
+        }, 
       },
       tablecolumns: [
         {
@@ -117,7 +118,7 @@ export default {
           align: "center",
           title: "客户状态",
           dataIndex: "statusCode",
-          key: "statusCode 1",
+          key: "statusCode",
           ellipsis: true,
           scopedSlots: {
             customRender: "statusCode",
@@ -196,7 +197,8 @@ export default {
             // 点击改行时要做的事情
             // ......
 
-            this.customerId = record.customerId;
+           this.modellistparam.customerId= record.customerId;
+            this.getmodellist();
             console.log(record, "record", this.customerId);
           },
         },
@@ -235,12 +237,11 @@ export default {
         this.modellistparam
       );
       if (res.data.resultCode == "10000") {
-        for (let i = 0; i < res.data.data.length; i++) {
           this.tabledata2 = res.data.data;
-        }
 
         this.tabletype2 = true;
       } else {
+         this.tabledata2 =''
         return this.$message.error(res.data.resultMsg);
       }
     },
@@ -250,7 +251,7 @@ export default {
        this.form.customerId=this.modellistparam.customerId
       let res = await this.$http.post(this.$api.customermodelform, this.form);
       if (res.data.resultCode == "10000") {
-        this.tabletype2 = true;
+        return this.$message.success(res.data.resultMsg);
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -324,15 +325,13 @@ export default {
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
-      this.isselectdata = val;
-      this.isselectdata.id = val.id;
-      this.isselectdata.name = val.name;
-      this.isselectdata.pid = val.pid;
-      this.istotal.type = 1;
     },
     getcheckedKeys(val) {
       console.log(val, 44444);
     },
+    cancel(){
+      this.reload()
+    }
   },
 };
 </script>
@@ -390,6 +389,9 @@ export default {
   margin-bottom: 170px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
+}
+.tree_box1{
+  padding: 20px;
 }
 .r_b_title {
   font-size: 18px;

@@ -36,7 +36,7 @@
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
-            <div class="cancel_btn rb_b_btn">取消</div>
+            <div class="cancel_btn rb_b_btn" @click="cancel()">取消</div>
             <div class="ok_btn" @click="getform()">授权</div>
           </div>
         </div>
@@ -45,8 +45,9 @@
   </div>
 </template>
 <script>
-import isLeft from "../../../components/tree/seltree.vue";
+import isLeft from "../../../components/tree/check_seltree.vue";
 export default {
+  inject:['reload'],
   components: {
     isLeft,
   },
@@ -245,6 +246,9 @@ export default {
       console.log(val, 44444);
       this.form.alarmIdList = val;
     },
+    cancel(){
+      this.reload()
+    }
   },
 };
 </script>

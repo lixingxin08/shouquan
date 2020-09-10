@@ -175,6 +175,22 @@ export default {
       if (this.form.statusCode == "") {
         return this.$message.error("请选择项目状态");
       }
+       if (!this.vify_cn16(this.form.leader)) {
+       this.form.leader=""
+     return  this.$message.error('项目经理格式不正确')
+     }
+      if (!this.vify_cn3(this.form.projectName)) {
+       this.form.projectName=""
+     return  this.$message.error('项目名称格式不正确')
+     }
+      if (!this.vify_cn3(this.form.contractNo)) {
+       this.form.contractNo=""
+     return  this.$message.error('合同编号格式不正确')
+     }
+      if (!this.verPhone(this.form.linkphone)) {
+       this.form.linkphone=""
+     return  this.$message.error('联系手机格式不正确')
+     }
       this.form.operatorId = 1;
       if (new Date(this.form.startDate).getTime()>new Date(this.form.endDate).getTime()) {
         let a=this.form.startDate

@@ -67,7 +67,7 @@
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
-            <div class="cancel_btn rb_b_btn">取消</div>
+            <div class="cancel_btn rb_b_btn" @click="cancel()">取消</div>
             <div class="ok_btn" @click="getform()">授权</div>
           </div>
         </div>
@@ -78,6 +78,7 @@
 <script>
 import isLeft from "../../../components/tree/check_seltree.vue";
 export default {
+   inject: ['reload'],
   components: {
     isLeft,
   },
@@ -273,7 +274,7 @@ export default {
     async getform() {
       this.form.operatorId = 1;
      this.form.menuIdList = this.checkedKeys
-      if (this.form.menuIdList == "") {
+      if (this.form.menuIdList == ""||this.form.menuIdList==[]) {
         return this.$message.error("请选择授权系统");
       }
       let res = await this.$http.post(
@@ -374,6 +375,9 @@ export default {
       this.showtree = true;
       console.log(this.checkedKeys,5544444);
     },
+    cancel(){
+     this.reload()
+    }
   },
 };
 </script>

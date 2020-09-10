@@ -57,7 +57,7 @@
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
-            <div class="cancel_btn rb_b_btn">取消</div>
+            <div class="cancel_btn rb_b_btn"  @click="cancel()">取消</div>
             <div class="ok_btn" @click="setform()">授权</div>
           </div>
         </div>
@@ -68,6 +68,7 @@
 <script>
 import isLeft from "../../../components/tree/seltree.vue";
 export default {
+   inject:['reload'],
   components: {
     isLeft,
   },
@@ -328,6 +329,9 @@ export default {
       console.log("selectedRowKeys changed: ", selectedRowKeys4);
       this.selectedRowKeys4 = selectedRowKeys4;
     },
+    cancel(){
+      this.reload()
+    }
   },
 };
 </script>

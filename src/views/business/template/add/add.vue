@@ -7,7 +7,7 @@
       <div>
         <a-input
           class="edit_a_input"
-          :maxLength="50"
+          :maxLength="30"
           v-model="form.templateName"
           placeholder="请输入模板名称"
         />
@@ -78,6 +78,7 @@
             :checkedKeys="checkedKeys"
             @checkedKeys="getcheckedKeys"
             @selectdata="getselectdata"
+            :selectable='true'
             v-if="showtree"
           ></is-left>
           </div>
@@ -179,8 +180,12 @@ export default {
       }
       console.log(res, 8888);
     },
-    //运行参数表单接口
+    //表单接口
     async getform() {
+       if (!this.vify_cn(this.form.templateName)) {
+       this.form.templateName=""
+     return  this.$message.error('模板名称格式不正确')
+     }
       if (this.form.templateName == "") {
         return this.$message.error("请输入模板名称");
       }

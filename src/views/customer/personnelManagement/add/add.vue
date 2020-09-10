@@ -136,10 +136,16 @@ export default {
     //运行参数表单接口
     async getform() {
       if (!this.verEmail(this.form.email)) {
-        return this.$message.error("请输入正确的邮箱地址");
+          this.form.email=""
+        return this.$message.error("邮箱地址格式不正确");
       }
       if (!this.verPhone(this.form.mobilePhone)) {
-        return this.$message.error("请输入11位的手机号码");
+          this.form.mobilePhone=""
+        return this.$message.error("手机号码格式不正确");
+      }
+         if (!this.vify_cn16(this.form.realName)) {
+           this.form.realName=""
+        return this.$message.error("人员姓名格式不正确");
       }
       if (this.form.realName == "") {
         return this.$message.error("请输入人员姓名");
