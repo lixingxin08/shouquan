@@ -41,6 +41,7 @@
               :data-source="tabledata"
               bordered
               :pagination="pagination"
+			  size='small'
               @change="handleTableChange"
             >
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">

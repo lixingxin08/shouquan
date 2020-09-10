@@ -50,6 +50,7 @@
             </div>
           </div>
           <is-left
+          ref='select'
             :treedata="treedata"
             :replaceFields="replaceFields"
             :defaultExpandedKeys="defaultExpandedKeys"
@@ -360,7 +361,6 @@ export default {
       this.showtree = false;
       this.treedata = this.oldtreedata;
       if (value == "all") {
-        this.treedata = this.oldtreedata;
         // this.checkedKeys
       } else {
         let filterTreeNode = "";

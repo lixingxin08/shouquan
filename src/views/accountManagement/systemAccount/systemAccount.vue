@@ -19,7 +19,7 @@
           </div>
           <div class="btn_blue btn2" @click="toadd({})">新增</div>
           <div class="table" v-if="tabletype">
-            <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination" @change="handleTableChange">
+            <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination" @change="handleTableChange" size='small'>
 
               <div slot="statusCode" class="flex_a" slot-scope="statusCode">
                 <div v-if="statusCode==1">启用</div>

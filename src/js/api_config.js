@@ -100,7 +100,7 @@ export default {
   propertyremove: `/device/property/remove`, //设备属性删除接口
 
 
-//系统角色
+  //系统角色
   rolesystempage: `/account/role/page`,
   rolesystemlist: `/account/role/page`, //系统角色列表接口
   rolesystemform: `/account/role/form`, //系统角色表单接口
@@ -138,6 +138,7 @@ export default {
      customeralarmtree:`/auth/customer-alarm/tree`,
       
 
+
   //客户账号授权API
   customeraccountform: `/auth/customer-account/form`,
   customeraccountlist: `/auth/customer-account/list`,
@@ -170,7 +171,25 @@ export default {
   accountinforeset: `/account/info/reset`,
 
   //日志
-   journalpage:`/page`,
-   journaldetail:`/detail`,
-   journaltree:`/tree`
+  journalpage: `/logger/platform/page`,
+  journaldetail: `/logger/detail`,
+  journaltree: `/tree`,
+
+  //我的客户
+  mycustomerlist: `/auth/customer-account/my-list`,
+
+  //设备型号运行参数
+  parampage: `/config/parameter/page`,
+  paramremove: `/config/parameter/remove`,
+  paramform: `/config/parameter/form`,
+
+  //警报事件
+  alramlist: `/device/alarm/page`,
+  alramremove: `/device/alarm/remove`,
+  alramdetail: `/device/alarm/detail`,
+  alramform: `/device/alarm/form`,
+  //属性值
+  propertyvaluedetail:'/propertyValue/detail',
+  propertyvaluedetail:'/propertyValue/form',
+
 }

@@ -38,7 +38,7 @@
         tableTitle: tableTitleData.data.tableTitle, //数值标头
         tableList: [], //日志数据
         keyword: '', //搜索
-        dateFormat: 'YYYY/MM/DD',
+        dateFormat: 'YYYY-MM-DD',
         monthFormat: 'YYYY/MM',
         pagination: {
           pageSize: 20, // 默认每页显示数量
@@ -77,7 +77,6 @@
 //menuId: this.parentItem.id,
         let param = {
           actionName: this.keyword,
-          
           pageSize: this.pageSize,
           startTime:this.timeValue[0],
           endTime:this.timeValue[1],
@@ -121,9 +120,6 @@
     margin-right: 20px;
   }
 
-  .ant-table-thead>tr>th {
-    background: #F6FBFF !important;
-  }
 
 
 </style>

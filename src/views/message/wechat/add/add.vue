@@ -53,14 +53,14 @@
 
       </div>
       <a-table v-else style='margin-top: 20px;margin-bottom: 20px; ' :scroll="{ x: 820 }" :columns="addcolumns"
-        :data-source="msgList" :pagination='false' :bordered='true' size='small'>
+        :data-source="msgList" :pagination='false' :bordered='true' size='small' :rowClassName="this.setRowClassName">
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
         </template>
 
-        <template slot="serviceId" slot-scope="text, record, index">
-          <a-input style="margin: -5px 0;border: 0px;" v-model='text' @change="e => handleChange(e.target.value,index)"></a-input>
-        </template>
+
+          <a-input slot="serviceId"  slot-scope="text, record, index" style="margin: -5px 0;border: 0px;" v-model='text' @change="e => handleChange(e.target.value,index)"></a-input>
+
       </a-table>
       <div class="flexrow flexjc" style="margin-top: 60px;margin-bottom: 100px;">
         <a-button type="primary" v-if='current==1' @click='submit'>保存</a-button>
@@ -95,7 +95,9 @@
         addcolumns: table.data.adddColumns,
         wechatSelect: '', //事件选择
         msgList: [],
-        wechat: {}, //事件详情
+        wechat: {
+          typeCode: ''
+        }, //事件详情
         id: null,
         num: 0 //描述长度
       }
@@ -134,8 +136,8 @@
       },
       /* 提交事件*/
       async submit() {
-        if(this.checkMsgList()){
-           this.$message.warning('消息服务序号不能有重复值')
+        if (this.checkMsgList()) {
+          this.$message.warning('消息服务序号不能有重复值')
           return
         }
         let param = {
@@ -143,12 +145,12 @@
           wechatConfigName: this.wechat.wechatConfigName,
           wechatAppId: this.wechat.wechatAppId,
           wechatKey: this.wechat.wechatKey,
-          tokenCode:this.wechat.tokenCode,
+          tokenCode: this.wechat.tokenCode,
           expirationTime: this.wechat.expirationTime,
           typeCode: this.wechat.typeCode,
           operatorId: '5172dadd6d7c404e8ac657f32f81d969', //操作者id
           remark: this.wechat.remark,
-          modelList:this.msgList
+          modelList: this.msgList
         }
         let res = await this.$http.post(this.$api.wechatform, param)
         if (res.data.resultCode == 10000) {
@@ -166,34 +168,34 @@
           wechatConfigId: this.id,
         }
         let res = await this.$http.post(this.$api.wechatdetail, param)
-        if(res.data.resultCode==10000){
-         this.wechat=res.data.data
-         this.msgList=res.data.data.modelList
-        }else{}
+        if (res.data.resultCode == 10000) {
+          this.wechat = res.data.data
+          this.msgList = res.data.data.modelList
+        } else {}
       },
       async getWeChatMsgList() {
         let param = {
           classCode: 'wechat_push_template',
         }
         let res = await this.$http.post(this.$api.dictionarycombobox, param)
-        if(res.data.resultCode==10000){
-          res.data.data.forEach((item)=>{
-              this.msgList.push({
-              serviceId:'',
-              modelCode:item.comboBoxId,
-              remark:item.comboBoxName
+        if (res.data.resultCode == 10000) {
+          res.data.data.forEach((item) => {
+            this.msgList.push({
+              serviceId: '',
+              modelCode: item.comboBoxId,
+              remark: item.comboBoxName
             })
           })
         }
       },
 
-      checkMsgList(){
-        let list=[]
-        let has=false
-        this.msgList.forEach((item)=>{
-          if(list.indexOf(item.serviceId)>=0){
-            has=true
-          }else{
+      checkMsgList() {
+        let list = []
+        let has = false
+        this.msgList.forEach((item) => {
+          if (list.indexOf(item.serviceId) >= 0) {
+            has = true
+          } else {
             list.push(item.serviceId)
           }
         })
@@ -225,7 +227,7 @@
       },
       /* 重置*/
       reset() {
-        this.current=0
+        this.current = 0
         if (this.id) {
           this.getWeChatInfo()
         } else {
@@ -235,6 +237,11 @@
       /* 描述字符长度*/
       onChangeConfig() {
         this.num = this.wechat.remark.length
+      },
+      setRowClassName(record) {
+        if (record.orderCode == null || record.warehouseCode == null || record.operateTime == null) {
+          return 'clickRowStyle'
+        }
       }
     },
   }
@@ -271,6 +278,10 @@
     flex-direction: row;
     align-items: center;
     padding-left: 10px;
+  }
+
+  .clickRowStyle {
+    background-color: #F5F5F5;
   }
 
   .edit_number {

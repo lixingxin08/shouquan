@@ -9,7 +9,7 @@
         <div class="item-title">接口地址:{{item.actionURI}}</div>
         <div class="item-title">结果代码:{{item.resultCode}}</div>
         <div class="item-title">结果消息:{{item.resultMsg}}</div>
-        <div class="item-title">业务序号:{{item.customerId}}</div>
+        <div class="item-title">客户序号:{{item.customerId}}</div>
         <div class="item-title">参数集合:{{item.dataJson}}</div>
         <div class="item-title">接口耗时:{{item.timeTotal}}</div>
         <div class="item-title">来源地址:{{item.remoteIP}}</div>

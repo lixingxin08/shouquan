@@ -43,7 +43,6 @@
         let prame = {
         };
         let res = await this.$http.post(this.$api.dictionarytree, prame);
-        console.log("-----------",res);
         if (res.data.resultCode == "10000") {
           this.data = res.data.data;
         }
@@ -87,6 +86,7 @@
       getselectdata(val) {
         this.isselectdata = val;
         if(val)
+        console.log(val)
         this.$refs.dictionarylist.getDictionnaryInfo(val)
       },
     },

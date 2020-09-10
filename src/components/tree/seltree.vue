@@ -72,6 +72,9 @@ export default {
       this.checkedKeys=checkedKeys
         this.$emit("checkedKeys", checkedKeys);
     },
+    setSelectKey(checkedKeys){
+      this.checkedKeys=checkedKeys
+    }
   },
 };
 </script>
