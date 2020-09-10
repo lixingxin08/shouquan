@@ -54,6 +54,7 @@
           showSizeChanger: true,
           current: 1, //当前页
           page: 1, //几页
+		   size:"default",
           pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
           showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
@@ -68,6 +69,9 @@
       handleTableChange(pagination) { //切换页数
         this.pageSize = pagination.pageSize
         this.pageIndex = pagination.current
+        this.pagination.page = pagination.current;
+        this.pagination.current = pagination.current;
+        this.pagination.pageSize = pagination.pageSize;
         this.getMenuData()
       },
       setMenuItem(val) { //设置当前的菜单

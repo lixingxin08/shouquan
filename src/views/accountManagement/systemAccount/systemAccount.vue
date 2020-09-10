@@ -14,13 +14,17 @@
               <a-select-option value>全部</a-select-option>
               <a-select-option v-for="(item,index) in statusCode" :key="index" :value="item.id">{{item.val}}</a-select-option>
             </a-select>
-            <div class="btn_blue btn" @click="tosearch()">查询</div>
-            <div class="btn_gray" @click="clear()">清除</div>
+            <a-button type='primary' class="btn_blue btn" @click="tosearch()">查询</a-button>
+            <a-button class="btn_gray" @click="clear()">清除</a-button>
           </div>
-          <div class="btn_blue btn2" @click="toadd({})">新增</div>
+          <a-button type='primary' class="btn_blue btn2" @click="toadd({})">新增</a-button>
           <div class="table" v-if="tabletype">
-            <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination" @change="handleTableChange" size='small'>
+            <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination" @change="handleTableChange"
+              size='small'>
 
+              <div slot="accountId" slot-scope="text, record,index">
+                {{index+1}}
+              </div>
               <div slot="statusCode" class="flex_a" slot-scope="statusCode">
                 <div v-if="statusCode==1">启用</div>
                 <div v-if="statusCode==0">锁定</div>
@@ -73,11 +77,14 @@
           key: "id",
         },
         tablecolumns: [{
-            width: 110,
+            width: 60,
             align: "center",
             title: "序号",
             dataIndex: "accountId",
             ellipsis: true,
+            scopedSlots: {
+              customRender: "accountId",
+            },
           },
           {
             width: 100,
@@ -149,6 +156,7 @@
           pageSize: 10, //每页中显示10条数据
           showSizeChanger: true,
           current: 1,
+           size:"default",
           page: 1,
           pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
           showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
@@ -231,7 +239,6 @@
         this.visible = false;
       },
       async confirmPass(cipher) {
-        console.log(cipher)
         this.removeparam.cipher = cipher
         let res = await this.$http.post(this.$api.accountinforeset, this.removeparam)
         if (res.data.resultCode == 10000) {
@@ -255,7 +262,7 @@
           this.isselectdata.name = this.treedata[0].name;
         }
         this.$router.push({
-          path: "/addCustomerUser",
+          path: "/addaccount",
           query: {
             id: this.isselectdata.id,
             accountid: id.accountId,
@@ -417,6 +424,10 @@
   }
 
   .btn2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     margin-top: 20px;
     margin-bottom: 20px;
   }

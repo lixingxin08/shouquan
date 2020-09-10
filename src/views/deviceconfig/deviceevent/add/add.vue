@@ -26,7 +26,8 @@
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">事件描述:</div>
         <div style="position: relative;">
-          <a-textarea class='edit_a_input' :rows="5" v-model='remark' :maxLength='500' placeholder="请输入描述" @change="onChangeConfig" />
+          <a-textarea class='edit_a_input' :rows="5" v-model='event.remark' :maxLength='500' placeholder="请输入描述"
+            @change="onChangeConfig" />
           <div class="edit_number">{{num}}/500</div>
         </div>
       </div>
@@ -83,7 +84,10 @@
         }
         let res = await this.$http.post(this.$api.deviceeventform, param)
         if (res.data.resultCode == 10000) {
+
           this.$message.success(res.data.resultMsg);
+          if (!this.id)
+            this.$router.go(-1)
         } else {
           this.$message.error(res.data.resultMsg);
         }

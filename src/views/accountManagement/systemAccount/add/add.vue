@@ -9,21 +9,21 @@
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">所属部门:</div>
-        <a-input :disabled='true' class='edit_a_input' v-model='config.departmentName' placeholder="请选择人员" />
+        <a-input :disabled='true' class='edit_a_input' v-model="config.departmentName" :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">人员性别:</div>
         <a-input v-if='!config.realName' :disabled='true' class='edit_a_input' placeholder="请选择人员" />
-        <a-input v-else :disabled='true' class='edit_a_input' v-model="config.gender==1?'男':'女'" placeholder="请选择人员" />
+        <a-input v-else :disabled='true' class='edit_a_input' v-model="config.gender==1?'男':'女'" :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">手机号码:</div>
 
-        <a-input :disabled='true' class='edit_a_input' v-model='config.mobilePhone' placeholder="请选择人员" />
+        <a-input :disabled='true' class='edit_a_input' v-model='config.mobilePhone' :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">电子邮箱:</div>
-        <a-input :disabled='true' class='edit_a_input' v-model='config.email' placeholder="请选择人员" />
+        <a-input :disabled='true' class='edit_a_input' v-model='config.email' :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">人员状态:</div>
@@ -34,21 +34,23 @@
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">岗位职务:</div>
-        <a-input v-if='!config.realName' :disabled='true' class='edit_a_input' v-model='config.position' placeholder="请选择人员" />
-        <a-input v-if='config.realName' :disabled='true' class='edit_a_input' v-model='config.position' placeholder="无岗位职务" />
+        <a-input :disabled='true' class='edit_a_input' v-model='config.position' :placeholder="!config.realName?'请选择人员':'无岗位职务'" />
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>账号名称:</div>
-        <a-input class='edit_a_input' v-model='config.userName' placeholder="5-11位，支持英文和数字，字母区分大小写" />
+        <a-input class='edit_a_input' :maxLength='11' v-model='config.userName' placeholder="5-11位，支持英文和数字，字母区分大小写" />
       </div>
       <div class="flexrow flexac edit_item" v-if="!accountid">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>账号密码:</div>
-        <a-input class='edit_a_input' v-model='config.cipher' placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
+        <a-input-password :maxLength='16' class='edit_a_input' style='margin-left: -7px;width: 455px;' v-model='config.cipher'
+          placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
       </div>
       <div class="flexrow flexac edit_item" v-if="!accountid">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>确认密码:</div>
-        <a-input class='edit_a_input' v-model='config.cipher2' placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
+        <a-input-password :maxLength='16' class='edit_a_input' style='margin-left: -7px;width: 455px;' v-model='config.cipher2'
+          placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
       </div>
+
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>账号状态:</div>
         <a-radio-group v-model='config.statusCode' @change="onChange">
@@ -67,7 +69,7 @@
       </div>
 
 
-      <div class="flexrow edit_item_title" style="width: 100%;margin-left: 50px; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
+      <div class="flexrow edit_item_title" style="width: 100%;margin-left: 60px; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 14px;"><a
           style="color: #FF0000;">*</a>分配角色</div>
 
       <a-table style='width: 447px;margin-left: 130px;' :columns="tableTitle" :data-source="tableList" :pagination='false'
@@ -164,10 +166,17 @@
           this.$message.error('请输入账号名称')
           return
         }
-
+        if (this.config.userName.length < 5) {
+          this.$message.error('账号长度要求5-11位')
+          return
+        }
         if (!this.accountid) {
           if (!this.config.cipher || !this.config.cipher2) {
             this.$message.error('请输入密码')
+            return
+          }
+          if (this.config.cipher.length < 5 || this.config.cipher2.length < 5) {
+            this.$message.error('密码格式不对')
             return
           }
           if (this.config.cipher != this.config.cipher2) {
@@ -223,8 +232,8 @@
         }
         let res = await this.$http.post(this.$api.accountinfodetail, param)
         if (res.data.resultCode == 10000) {
-          let config={}
-           config= res.data.data
+          let config = {}
+          config = res.data.data
           this.tableList = res.data.data.roleList
           let param2 = {
             personId: config.personId
@@ -248,8 +257,8 @@
 
       async getRoles() {
         let param = {
-          pageIndex:1,
-          pageSize:100
+          pageIndex: 1,
+          pageSize: 100
         }
         let res = await this.$http.post(this.$api.rolesystemlist, param)
         if (res.data.resultCode == 10000) {

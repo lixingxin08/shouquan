@@ -8,9 +8,9 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div style="width: 100%;height: 1px;background: #FFFFFF;margin: 10px auto;"></div>
-    <div class="flexrow flexjc flexac addbtn" @click="add">
+    <a-button class='addbtn' type="primary" @click="add">
       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
-    </div>
+    </a-button>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="brandList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
@@ -37,54 +37,57 @@
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         brandList: [], //字典数据
         pagination: {
+          total: 0,
+          size: "default",
+          current: 1,
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
         },
-        pageSize: 20,
-        pageIndex: 1,
       }
     },
     created() {
       this.getBrandData()
     },
     methods: {
-       /* 切换分页 */
+      /* 切换分页 */
       handleTableChange(pagination) {
-        this.pageSize = pagination.pageSize
-        this.pageIndex = pagination.current
+        this.pagination.page = pagination.current;
+        this.pagination.current = pagination.current;
+        this.pagination.pageSize = pagination.pageSize;
         this.getBrandData()
       },
       /* 获取品牌列表数据*/
       async getBrandData() {
         let param = {
           keyword: this.keyword,
-          pageIndex: this.pageIndex,
-          pageSize: this.pageSize
+          pageIndex: this.pagination.current,
+          pageSize: this.pagination.pageSize
         }
         let res = await this.$http.post(this.$api.devicebrandspage, param)
         if (res.data.resultCode == 10000) {
           this.brandList = res.data.data.list
+          this.pagination.total = res.data.data.length
         } else {
           this.brandList = []
           this.$message.error(res.data.resultMsg);
         }
       },
       /* 删除品牌确定*/
-      async confirm(item) { 
+      async confirm(item) {
         let param = {
           brandId: item.brandId
         }
-        let res =await this.$http.post(this.$api.devicebrandsremove,param)
+        let res = await this.$http.post(this.$api.devicebrandsremove, param)
         if (res.data.resultCode == 10000) {
           this.getBrandData()
-         this.$message.success(res.data.resultMsg);
+          this.$message.success(res.data.resultMsg);
         } else {
           this.$message.error(res.data.resultMsg);
         }
       },
-     /* 清除搜索条件*/
+      /* 清除搜索条件*/
       cleanKeyWord() {
         this.keyword = ''
         this.getBrandData()

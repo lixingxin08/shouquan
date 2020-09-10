@@ -41,10 +41,13 @@
         dateFormat: 'YYYY-MM-DD',
         monthFormat: 'YYYY/MM',
         pagination: {
+          total: 0,
+          size: "default",
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
+          showTotal: (total) => `共有 ${total} 条数据`
         },
         timeValue: ['', ''],
         parentItem: null, //父级信息
@@ -60,6 +63,7 @@
       },
       handleTableChange(pagination) {
         this.pageSize = pagination.pageSize
+        this.pagination.pageSize=pagination.pageSize
         this.pageIndex = pagination.current
         this.getTableData()
       },
@@ -74,17 +78,18 @@
         this.getTableData()
       },
       async getTableData() {
-//menuId: this.parentItem.id,
+        //menuId: this.parentItem.id,
         let param = {
           actionName: this.keyword,
           pageSize: this.pageSize,
-          startTime:this.timeValue[0],
-          endTime:this.timeValue[1],
+          startTime: this.timeValue[0],
+          endTime: this.timeValue[1],
           pageIndex: this.pageIndex
         };
         let res = await this.$http.post(this.$api.journalpage, param);
         if (res.data.resultCode == "10000") {
           this.tableList = res.data.data.list;
+          this.pagination.total = res.data.data.length;
           this.$forceUpdate();
         } else {
           this.tableList = []
@@ -119,7 +124,4 @@
     margin-left: 20px;
     margin-right: 20px;
   }
-
-
-
 </style>

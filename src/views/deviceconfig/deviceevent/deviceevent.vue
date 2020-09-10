@@ -13,15 +13,15 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div style="width: 100%;height: 1px;margin: 10px auto;"></div>
-    <div class="flexrow flexjc flexac addbtn" @click="editDevice({})">
+    <a-button class='addbtn' type="primary" @click="editDevice({})">
       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
-    </div>
+    </a-button>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
         {{index+1}}
       </template>
-	
+
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>
@@ -39,7 +39,7 @@
   export default {
     data() {
       return {
-        keyword: '',//搜索条件
+        keyword: '', //搜索条件
         eventSelect: '', //事件选择
         eventList: [{ //事件类型
           comboBoxId: '',
@@ -48,13 +48,14 @@
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         deviceList: [], //字典数据
         pagination: {
+          total: 0,
+          current:1,
+          size: "default",
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
         },
-        pageSize: 20,
-        pageIndex: 1,
       }
     },
     created() {
@@ -64,8 +65,8 @@
     methods: {
       /* 切换页面 页码事件*/
       handleTableChange(pagination) {
-        this.pageSize = pagination.pageSize
-        this.pageIndex = pagination.current
+        this.pagination.current = pagination.current;
+        this.pagination.pageSize = pagination.pageSize;
         this.getEvent()
       },
       /* 更换类型事件*/
@@ -75,14 +76,15 @@
       /* 获取类型列表*/
       async getEvent() {
         let param = {
-          pageSize: this.pageSize,
-          pageIndex: this.pageIndex,
+          pageSize: this.pagination.pageSize,
+          pageIndex: this.pagination.current,
           keyword: this.keyword,
           eventType: this.eventSelect
         }
         let res = await this.$http.post(this.$api.deviceeventpage, param)
         if (res.data.resultCode == 10000) {
           this.deviceList = res.data.data.list
+          this.pagination.total = res.data.data.length;
         } else {
           this.deviceList = []
           this.$message.error(res.data.resultMsg);
@@ -108,7 +110,7 @@
         this.eventSelect = ''
         this.getEvent()
       },
-/* 获取业务类别 */
+      /* 获取业务类别 */
       async getCombobox() {
         let param = {
           classCode: 'device_event_type'

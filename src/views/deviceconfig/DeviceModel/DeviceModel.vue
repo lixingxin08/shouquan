@@ -25,15 +25,15 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div style="width: 100%;height: 1px;background: #cccccc;margin: 20px auto;"></div>
-    <div class="flexrow flexjc flexac addbtn" @click="add">
+    <a-button class='addbtn' type="primary" @click="add">
       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
-    </div>
+    </a-button>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
         {{index+1}}
       </template>
-  
+
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>
@@ -74,6 +74,8 @@
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         deviceList: [], //设备型号数据
         pagination: {
+          total:0,
+           size:"default",
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
@@ -94,6 +96,9 @@
       handleTableChange(pagination) {
         this.pageSize = pagination.pageSize
         this.pageIndex = pagination.current
+        this.pagination.page = pagination.current;
+        this.pagination.current = pagination.current;
+        this.pagination.pageSize = pagination.pageSize;
         this.getDeviceData()
       },
 /* 获取设备类型 */
@@ -109,13 +114,14 @@
         let res = await this.$http.post(this.$api.devicemodelpage, param)
         if (res.data.resultCode == 10000) {
           this.deviceList = res.data.data.list
+        this.pagination.total = res.data.data.length;
         } else {
           this.deviceList = []
           this.$message.error(res.data.resultMsg);
         }
       },
       /* 确定删除*/
-      async confirmDelete(item) { 
+      async confirmDelete(item) {
         let param = {
           modelId: item.modelId
         }
@@ -136,7 +142,7 @@
         this.getDeviceData()
       },
       /* 获取品牌列表*/
-      async getBrandList() { 
+      async getBrandList() {
         let param = {
           pageIndex: 1,
           pageSize: 200,
@@ -148,7 +154,7 @@
         }
       },
       /* 获取设备类型列表*/
-      async getTypeList() { 
+      async getTypeList() {
         let param = {
           keyword: '',
           serviceType: '',
@@ -161,7 +167,7 @@
         }
       },
       /* 获取业务类别*/
-      async getCombobox() { 
+      async getCombobox() {
         let param = {
           classCode: 'device_service_type'
         }
@@ -172,7 +178,7 @@
         }
       },
       /* 新增*/
-      add() { 
+      add() {
         this.$router.push({
           path: '/adddeviceModel',
           query: {
@@ -181,8 +187,8 @@
         });
       },
      /* 運行參數*/
-      paramDevice(item) { 
-      
+      paramDevice(item) {
+
         this.$router.push({
           path: '/deviceModelParam',
           query: {
@@ -191,7 +197,7 @@
         });
       },
       /* 屬性值*/
-      deviceInfo(item) { 
+      deviceInfo(item) {
         this.$router.push({
           path: '/deviceModelAtt',
           query: {
@@ -200,7 +206,7 @@
         });
       },
       /* 編輯*/
-      editDevice(item) { 
+      editDevice(item) {
         this.$router.push({
           path: '/adddeviceModel',
           query: {
@@ -209,7 +215,7 @@
         });
       },
       /* 业务类别*/
-      serviceSelectChange(e) { 
+      serviceSelectChange(e) {
         this.severSelect = e
       },
       /* 设备类型*/
@@ -217,7 +223,7 @@
         this.typeSelect = e
       },
       /* 品牌类别*/
-      brandSelectChange(e) { 
+      brandSelectChange(e) {
         this.brandSelect = e
       },
     }

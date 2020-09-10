@@ -9,9 +9,9 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
 
-    <div class="flexrow flexjc flexac addbtn" style="margin-top: 30px;" @click="edit({})">
-      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
-    </div>
+      <a-button type="primary" class="flexrow flexjc flexac addbtn" style="margin-top: 30px;" @click="edit({})">
+      <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
+    </a-button>
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
@@ -41,6 +41,8 @@
         tableTitle: tableTitleData.data.tableTitle,
         tableList: [], //设备型号数据
         pagination: {
+          total:0,
+           size:"default",
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
@@ -58,6 +60,9 @@
       handleTableChange(pagination) {
         this.pageSize = pagination.pageSize
         this.pageIndex = pagination.current
+        this.pagination.page = pagination.current;
+        this.pagination.current = pagination.current;
+        this.pagination.pageSize = pagination.pageSize;
         this.getTableData()
       },
 /* 获取设备类型 */
@@ -70,6 +75,7 @@
         let res = await this.$http.post(this.$api.rolesystempage, param)
         if (res.data.resultCode == 10000) {
           this.tableList = res.data.data.list
+  this.pagination.total=res.data.data.length
         } else {
           this.tableList = []
           this.$message.error(res.data.resultMsg);

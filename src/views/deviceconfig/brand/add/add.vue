@@ -103,7 +103,10 @@
         }
         let res = await this.$http.post(this.$api.devicebrandsform, param)
         if (res.data.resultCode == 10000) {
-          this.getBrandInfo()
+			if(!this.id){
+				this.$router.go(-1)
+			}
+         
           this.$message.success(res.data.resultMsg);
         } else {
           this.$message.error(res.data.resultMsg);
@@ -127,7 +130,6 @@
           brandId: this.id
         }
         let res = await this.$http.post(this.$api.devicebrandsdetail, param);
-        console.log(res)
         if (res.data.resultCode == 10000) {
 
           this.typeName = res.data.data.brandName
