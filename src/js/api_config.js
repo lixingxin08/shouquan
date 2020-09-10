@@ -78,6 +78,7 @@ export default {
   devicetypeform: `/device/type/form`, //设备类型表单接口)
   devicetypepage: `/device/type/page`, //设备类型分页查询接口
   devicetyperemove: `/device/type/remove`, //设备类型删除接口
+  devicetypetree: `/device/type/tree`, //设备类型删除接口
 
   devicebrandsdetail: `/device/brands/detail`, //设备品牌查询详情接口
   devicebrandsform: `/device/brands/form`, //设备品牌表单接口
@@ -117,36 +118,41 @@ export default {
   templateform: `/auth/template/form`,
   templatepage: `/auth/template/page`,
   templatelist: `/auth/template/list`,
+  templatetree: `/auth/template/tree`,
 
   //系统菜单权限API
   customertemplatedetail: `/auth/customer-template/detail`,
-  customertemplateform: `/auth/customer-template/form`,
+  customertemplateform: `/auth/customer-menu/form`,
+  customertemplatetree :`/auth/customer-menu/tree`,
 
   //区划授权API
   customerareaform: `/auth/customer-area/form`,
   customerareatree: `/auth/customer-area/tree`,
 
   //型号授权API
-  customermodel: `/auth/customer-model/form`,
-  customermodel: `/auth/customer-model/list`,
+  customermodelform: `/auth/customer-model/form`,
+  customermodellist: `/auth/customer-model/list`,
 
-       //系统菜单模板API
-       deleteByTemplateId: `/auth/template/deleteByTemplateId`,
-       templatedetail: `/auth/template/detail`,
-       templateform: `/auth/template/form`,
-       templatepage: `/auth/template/page`,
-       templatelist: `/auth/template/list`,
-       templatetree: `/auth/template/tree`,
-
-        //系统菜单权限API
-        customertemplateform :`/auth/customer-menu/form`,      
-        customertemplatetree :`/auth/customer-menu/tree`,
+     //警报授权API
+     customeralarmform:`/auth/customer-alarm/form`,
+     customeralarmtree:`/auth/customer-alarm/tree`,
+      
 
   //客户账号授权API
   customeraccountform: `/auth/customer-account/form`,
   customeraccountlist: `/auth/customer-account/list`,
   customeraccountmylist: `/auth/customer-account/my-list`,
 
+
+  //微信消息授权API
+  customerwechatdetail:`/auth/customer-wechat/detail`,
+  customerwechatform:`/auth/customer-wechat/form`,
+  //邮箱消息授权AP
+  customeremaildetail:`/auth/customer-email/detail`,
+  customeremailform:`/auth/customer-email/form`,
+  //短信消息授权API
+  customersmsdetail:`/auth/customer-sms/detail`,
+  customersmsform:`/auth/customer-sms/form`,
 
   //微信帐号基础信息API
   deleteByWechatAccountId: `/message/wechat/account/deleteByWechatAccountId`, //微信帐号基础信息分页查询接口

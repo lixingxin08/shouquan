@@ -20,10 +20,12 @@
       <div class="left_title">警报列表</div>
       <div class="tree_box">
         <is-left
-          :treedata="treedata"
-          :replaceFields="replaceFields"
-          :defaultExpandedKeys="defaultExpandedKeys"
-          @checkedKeys="getcheckedKeys"
+
+                :treedata="treedata"
+            :replaceFields="replaceFields"
+            :defaultExpandedKeys="defaultExpandedKeys"
+            @checkedKeys="getcheckedKeys"
+            :checkedKeys="checkedKeys"
           v-if="showtree"
         ></is-left>
       </div>
@@ -93,6 +95,7 @@ export default {
       ],
       tabledata: [],
       treedata: "",
+          checkedKeys: [],
       replaceFields: {
         title: "name",
         key: "id",
@@ -139,8 +142,9 @@ export default {
       }
     },
     async getform() {
-      console.log(this.data);
+      console.log(this.checkedKeys,55555555);
       this.form.customerId = this.treeprame.customerId;
+       this.form.alarmIdList=this.checkedKeys
       if (this.form.alarmIdList.length == 0) {
         return this.$message.error("请选择授权区域");
       }
@@ -158,7 +162,7 @@ export default {
     async gettree() {
       this.showtree = false;
       let res = await this.$http.post(
-        this.$api.customeralarmlist,
+        this.$api.customeralarmtree,
         this.treeprame
       );
       console.log(res, 11);
@@ -198,6 +202,9 @@ export default {
       for (let i = 0; i < this.data.length; i++) {
         if (this.data[i].open == true) {
           this.defaultExpandedKeys.push(this.data[i].id);
+        }
+             if (this.data[i].checked == true) {
+          this.checkedKeys.push(this.data[i].id);
         }
       }
       this.treedata = this.toTree(this.data);

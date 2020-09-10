@@ -22,11 +22,30 @@
         <div :class="listtype=='sms'?'tab_blue':'tab_gray'" @click="changetab('sms')">短信帐号</div>
         <div :class="listtype=='email'?'tab_blue':'tab_gray'" @click="changetab('email')">邮箱帐号</div>
       </div>
-      <div class="tree_box">
+      <div class="tree_box" v-show="listtype=='wechat'">
         <a-table
           :columns="tablecolumns2"
           :data-source="tabledata2"
-          :rowSelection="{ onChange: onSelectChange, type: 'radio' }"
+          :row-selection="{ selectedRowKeys: selectedRowKeys2, onChange: onSelectChange,type:'radio' }"
+          bordered
+          :pagination="false"
+          v-if="tabletype"
+        ></a-table>
+      </div>
+      <div class="tree_box" v-show="listtype=='sms'">
+        <a-table
+          :columns="tablecolumns3"
+          :data-source="tabledata3"
+          :row-selection="{ selectedRowKeys: selectedRowKeys3, onChange: onSelectChange1,type:'radio'}"
+          bordered
+          :pagination="false"
+        ></a-table>
+      </div>
+      <div class="tree_box" v-show="listtype=='email'">
+        <a-table
+          :columns="tablecolumns4"
+          :data-source="tabledata4"
+          :row-selection="{ selectedRowKeys: selectedRowKeys4, onChange: onSelectChange2,type:'radio' }"
           bordered
           :pagination="false"
         ></a-table>
@@ -39,7 +58,7 @@
         <div class="flex_a rb_b">
           <div class="flex_f">
             <div class="cancel_btn rb_b_btn">取消</div>
-            <div class="ok_btn">授权</div>
+            <div class="ok_btn" @click="setform()">授权</div>
           </div>
         </div>
       </div>
@@ -61,19 +80,19 @@ export default {
             // 点击改行时要做的事情
             // ......
             console.log(record, "record");
-            this.treeprame.customerId = record.customerId;
-            this.gettree();
+            this.listparam.customerId = record.customerId;
+            if (this.listtype == "wechat") {
+              this.getwechatlist();
+            }
+            if (this.listtype == "sms") {
+              this.getsmslist();
+            }
+            if (this.listtype == "email") {
+              this.getemaillist();
+            }
           },
         },
       }),
-      form: {
-        customerId: "",
-        wechatConfigIdList: [],
-        smsConfigIdList: [],
-        emailConfigId: [],
-        menuIdList: "",
-        remark: "",
-      },
       tablecolumns: [
         {
           width: 58,
@@ -123,18 +142,62 @@ export default {
         },
       ],
       tabledata2: [],
+      tablecolumns3: [
+        {
+          width: 58,
+          align: "center",
+          title: "序号",
+          dataIndex: "smsConfigId",
+          key: "smsConfigId",
+          ellipsis: true,
+        },
+        {
+          width: 141,
+          align: "center",
+          title: "短信帐号别名",
+          dataIndex: "smsConfigName",
+          key: "smsConfigName",
+          ellipsis: true,
+        },
+      ],
+      tabledata3: [],
+      tablecolumns4: [
+        {
+          width: 58,
+          align: "center",
+          title: "序号",
+          dataIndex: "emailConfigId",
+          key: "emailConfigId",
+          ellipsis: true,
+        },
+        {
+          width: 141,
+          align: "center",
+          title: "邮箱帐号别名",
+          dataIndex: "emailConfigName",
+          key: "emailConfigName",
+          ellipsis: true,
+        },
+      ],
+      tabledata4: [],
       listparam: {
         operatorId: "1",
         customerId: "",
       },
-      listtype: "wechat",
-      form: {
-        customerId:"",
-        wechatConfigIdList:[],
-        smsConfigIdList:[],
-        emailConfigId:[],
-        remark:""
+      selectedRowKeys: [],
+      selectedRowKeys2: [],
+      selectedRowKeys3: [],
+      selectedRowKeys4: [],
 
+      listtype: "wechat",
+      tabletype: false,
+      form: {
+        customerId: "",
+        wechatConfigId: [],
+        smsConfigId: [],
+        emailConfigId: [],
+        remark: "",
+         operatorId: "1",
       },
     };
   },
@@ -142,9 +205,13 @@ export default {
     this.getlist();
     this.getwechatlist();
   },
+  computed: {
+    hasSelected() {
+      return this.selectedRowKeys.length > 0;
+    },
+  },
   methods: {
     async getlist() {
-      this.tabletype = false;
       let res = await this.$http.post(
         this.$api.customeraccountmylist,
         this.listparam
@@ -156,47 +223,68 @@ export default {
           }
         }
         this.listparam.customerId = this.tabledata[0].customerId;
-        this.tabletype = true;
       } else {
         return this.$message.error(res.data.resultMsg);
       }
     },
-    async getemailform(val) {
-      this.tabletype = false;
-      let res = await this.$http.post(
-        this.$api.customeremailform,
-        this.form
-      );
+    async getemailform() {
+       this.form.emailConfigId= this.tabledata4[this.selectedRowKeys4[0]].emailConfigId
+      let res = await this.$http.post(this.$api.customeremailform, this.form);
       if (res.data.resultCode == "10000") {
-        this.tabledata2 = res.data.data;
-        this.tabletype = true;
+        this.$message.success(res.data.resultMsg);
       } else {
         return this.$message.error(res.data.resultMsg);
       }
     },
+    async getwechatlform() {
 
-    async getemaillist(val) {
-      this.tabletype = false;
+      this.form.wechatConfigId= this.tabledata2[this.selectedRowKeys2[0]].wechatConfigId
+      let res = await this.$http.post(this.$api.customerwechatform, this.form);
+      if (res.data.resultCode == "10000") {
+        this.$message.success(res.data.resultMsg);
+      } else {
+        return this.$message.error(res.data.resultMsg);
+      }
+    },
+    async getsmsform() {
+       this.form.smsConfigId= this.tabledata3[this.selectedRowKeys3[0]].smsConfigId
+      let res = await this.$http.post(this.$api.customersmsform, this.form);
+      if (res.data.resultCode == "10000") {
+        this.$message.success(res.data.resultMsg);
+      } else {
+        return this.$message.error(res.data.resultMsg);
+      }
+    },
+    setform() {
+      this.form.customerId =this.listparam.customerId 
+      if (this.listtype == "wechat") {
+        this.getwechatlform();
+      }
+      if (this.listtype == "email") {
+        this.getemailform();
+      }
+      if (this.listtype == "sms") {
+        this.getsmsform();
+      }
+    },
+    async getemaillist() {
       let res = await this.$http.post(
         this.$api.customeremaildetail,
         this.listparam
       );
       if (res.data.resultCode == "10000") {
-        this.tabledata2 = res.data.data;
-        this.tabletype = true;
+        this.tabledata4 = res.data.data;
       } else {
         return this.$message.error(res.data.resultMsg);
       }
     },
-    async getsmslist(val) {
-      this.tabletype = false;
+    async getsmslist() {
       let res = await this.$http.post(
-        this.$api.customeresmsdetail,
+        this.$api.customersmsdetail,
         this.listparam
       );
       if (res.data.resultCode == "10000") {
-        this.tabledata2 = res.data.data;
-        this.tabletype = true;
+        this.tabledata3 = res.data.data;
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -217,36 +305,28 @@ export default {
     changetab(val) {
       this.listtype = val;
       if (val == "wechat") {
-        this.tablecolumns2[1].title = "微信帐号别名";
-        this.tablecolumns2[0].dataIndex = "wechatConfigId";
-        this.tablecolumns2[0].key = "wechatConfigId";
-        this.tablecolumns2[1].dataIndex = "wechatConfigName";
-        this.tablecolumns2[1].key = "wechatConfigName";
         this.getwechatlist();
       }
       if (val == "sms") {
-        this.tablecolumns2[1].title = "短信帐号别名";
-        this.tablecolumns2[0].dataIndex = "smsConfigId";
-        this.tablecolumns2[0].key = "smsConfigId";
-        this.tablecolumns2[1].dataIndex = "smsConfigName";
-        this.tablecolumns2[1].key = "smsConfigName";
         this.getsmslist();
       }
       if (val == "email") {
-        this.tablecolumns2[1].title = "邮箱帐号别名";
-        this.tablecolumns2[0].dataIndex = "emailConfigId";
-        this.tablecolumns2[0].key = "emailConfigId";
-        this.tablecolumns2[1].dataIndex = "emailConfigName";
-        this.tablecolumns2[1].key = "emailConfigName";
         this.getemaillist();
       }
     },
-    onSelectChange(selectedRowKeys, selectedRows) {
-      console.log(
-        selectedRowKeys,
-        selectedRows,
-        "selectedRowKeys, selectedRows"
-      );
+    onSelectChange(selectedRowKeys2) {
+      console.log("selectedRowKeys changed: ", selectedRowKeys2);
+      this.selectedRowKeys2 = selectedRowKeys2;
+    },
+    //sms
+    onSelectChange1(selectedRowKeys3) {
+      console.log("selectedRowKeys changed: ", selectedRowKeys3);
+      this.selectedRowKeys3 = selectedRowKeys3;
+    },
+    //email
+    onSelectChange2(selectedRowKeys4) {
+      console.log("selectedRowKeys changed: ", selectedRowKeys4);
+      this.selectedRowKeys4 = selectedRowKeys4;
     },
   },
 };
