@@ -40,33 +40,33 @@
 </template>
 
 <script>
-  import isLeft from "../../../../components/tree/seltree.vue";
+  import isLeft from "../../../../components/tree/seltree.vue"; //左边树结构
   export default {
     components: {
       isLeft,
     },
     data() {
       return {
-        selectValue: '', //事件选择
-        selectList: [{
+        selectValue: '', //业务类别选择
+        selectList: [{ //业务类别下拉选择
           menuId: '',
           menuName: '全部'
-        }], //事件类型
+        }],
         config: {}, //事件详情
         id: "",
-        treedata: "",
-        replaceFields: {
+        treedata: "", //权限配置树结构数据
+        replaceFields: { //菜单选择数据
           title: "name",
           key: "id",
         },
-        defaultExpandedKeys: [],
-        data: "",
+        defaultExpandedKeys: [], //权限选择的数据
+        data: "", //权限原始数据
         showtree: false,
         num: 0 //描述长度
       }
     },
     created() {
-      this.id = this.$route.query.id
+      this.id = this.$route.query.id //角色id
       if (this.id) { //编辑
         this.getDetail();
       }
@@ -85,8 +85,8 @@
           this.$message.warning('请配置角色权限')
           return
         }
-        this.config.menuIdList = this.defaultExpandedKeys
-        this.config.operatorId='5172dadd6d7c404e8ac657f32f81d969'
+        this.config.menuIdList = this.defaultExpandedKeys //菜单ud
+        this.config.operatorId = '5172dadd6d7c404e8ac657f32f81d969' //操作者id
         let res = await this.$http.post(this.$api.rolesystemform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
@@ -94,7 +94,7 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-      /* 获取事件列表*/
+      /* 获取角色详情*/
       async getDetail() {
         let param = {
           roleId: this.id
@@ -109,7 +109,7 @@
         this.selectValue = e
         this.gettree()
       },
-      /* 获取业务类别*/
+      /* 获取角色系统下拉*/
       async getCombobox() {
         let param = {
 
@@ -125,7 +125,7 @@
           this.getDetail()
           this.gettree()
         } else {
-          this.defaultExpandedKeys=[]
+          this.defaultExpandedKeys = []
           this.config = {}
         }
       },
@@ -133,6 +133,7 @@
       onChangeConfig() {
         this.num = this.config.remark.length
       },
+      /* 获取权限配置列表*/
       async gettree() {
         this.showtree = false;
         let param = {
@@ -149,7 +150,7 @@
         this.setdata();
         this.showtree = true;
       },
-
+      /* 权限角色列表结构转换成树结构数据 */
       toTree(data) {
         let result = [];
         if (!Array.isArray(data)) {
@@ -172,6 +173,7 @@
         });
         return result;
       },
+      /* 设置默认选择的权限item*/
       setdata() {
         for (let i = 0; i < this.data.length; i++) {
           if (this.data[i].checked) {
@@ -179,7 +181,6 @@
           }
         }
         this.treedata = this.toTree(this.data);
-        console.log(this.defaultExpandedKeys)
       },
       //获取树搜索数据
       getsearchdata(val) {
@@ -213,8 +214,8 @@
         this.isselectdata.pid = val.pid;
         this.istotal.type = 1;
       },
+      /*点击选择权限callback数据 */
       getcheckedKeys(val) {
-        console.log(val, 44444);
         this.defaultExpandedKeys = val
       },
     },

@@ -24,7 +24,7 @@
             <div v-else>女</div>
           </div>
           <div slot="realName" class="flex_a" slot-scope="text, record" @click="chooseItem(record)">
-            <a >{{record.realName}}</a>
+            <a>{{record.realName}}</a>
           </div>
           <div slot="statusCode" class="flex_a" slot-scope="statusCode">
             <div v-if="statusCode==1">正常</div>
@@ -60,7 +60,7 @@
           },
         ],
         pagination: {
-          total: 50,
+          total: 50, //总条数
           pageSize: 10, //每页中显示10条数据
           showSizeChanger: true,
           current: 1,
@@ -68,17 +68,17 @@
           pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
           showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
-        tablecolumns: [{
+        tablecolumns: [{ //table title
             align: "center",
             title: "序号",
-            width:10,
+            width: 10,
             dataIndex: "departmentId",
             ellipsis: true,
           },
           {
             align: "center",
             title: "账号名称",
-             width:10,
+            width: 10,
             dataIndex: "realName",
             ellipsis: true,
             scopedSlots: {
@@ -88,7 +88,7 @@
           {
             align: "center",
             title: "姓名",
-             width:10,
+            width: 10,
             dataIndex: "gender",
             ellipsis: true,
             scopedSlots: {
@@ -98,7 +98,7 @@
           {
             align: "center",
             title: "手机号码",
-             width:10,
+            width: 10,
             dataIndex: "mobilePhone",
             ellipsis: true,
           },
@@ -113,12 +113,12 @@
             },
           },
         ],
-        tabledata: "",
+        tabledata: "", //列表数据
         pageparam: {
           keyword: "",
           statusCode: "",
         },
-        selectId:"",
+        selectId: "", //选择菜单id
         istotal: {
           type: 1,
         },
@@ -126,17 +126,18 @@
     },
 
     methods: {
-      setSelectId(id){
-        this.selectId=id
+      /* 设置菜单id*/
+      setSelectId(id) {
+        this.selectId = id
       },
+      /* 获取人员*/
       async getpersonpage() {
         this.tabletype = false;
         let prame = {
-          departmentId: this.selectId,
-          keyword: this.pageparam.keyword,
-          statusCode: this.pageparam.statusCode,
+          departmentId: this.selectId, //菜单id
+          keyword: this.pageparam.keyword,//搜索条件
+          statusCode: this.pageparam.statusCode,//人员状态
           pageIndex: this.pagination.page,
-          existsFlag:0,
           pageSize: this.pagination.pageSize,
         };
         let res = await this.$http.post(this.$api.personpage, prame);
@@ -152,9 +153,11 @@
           this.$message.success(res.data.resultMsg);
         }
       },
+      /* 取消选择人员*/
       closedialog() {
         this.$emit('cancleDialog')
       },
+      /* 分页切换*/
       handleTableChange(pagination) {
         this.pagination.page = pagination.current;
         this.pagination.current = pagination.current;
@@ -174,12 +177,13 @@
         this.pageparam.keyword = "";
         this.pageparam.statusCode = "";
       },
+      /* 切换人员状态选择*/
       handleChange(val) {
-        console.log(val, 5555);
         this.pageparam.statusCode = val;
       },
-      chooseItem(item){
-        this.$emit('confirm',item)
+      /* 选到了某个人员*/
+      chooseItem(item) {
+        this.$emit('confirm', item)
       }
     }
   }

@@ -47,15 +47,14 @@
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         warningList: [], //字典数据
         pagination: {
-          total:0,
-		   size:"default",
+          total: 0,
+          size: "default",
+          current: 1,
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
         },
-        pageSize: 20,
-        pageIndex: 1,
       }
     },
     created() {
@@ -65,11 +64,9 @@
     methods: {
       /* 页面 页码 切换事件*/
       handleTableChange(pagination) {
-        this.pageSize = pagination.pageSize
-        this.pageIndex = pagination.current
-		this.pagination.page = pagination.current;
-		this.pagination.current = pagination.current;
-		this.pagination.pageSize = pagination.pageSize;
+        this.pagination.page = pagination.current;
+        this.pagination.current = pagination.current;
+        this.pagination.pageSize = pagination.pageSize;
         this.getWariningData()
       },
       /* 警报类型更改*/
@@ -81,13 +78,13 @@
         let param = {
           keyword: this.keyword,
           alarmType: this.warningSelect,
-          pageIndex: this.pageIndex,
-          pageSize: this.pageSize
+          pageIndex: this.pagination.current,
+          pageSize: this.pagination.pageSize
         }
         let res = await this.$http.post(this.$api.alramlist, param)
 
         if (res.data.resultCode == 10000) {
-           this.pagination.total = res.data.data.length;
+          this.pagination.total = res.data.data.length;
           this.warningList = res.data.data.list
         } else {
           this.warningList = []
@@ -124,9 +121,9 @@
           this.warningTypeList = this.warningTypeList.concat(res.data.data)
         }
       },
-       /*
-       编辑/增加警报事件
-       */
+      /*
+      编辑/增加警报事件
+      */
       edit(item) {
         this.$router.push({
           path: '/adddevicewarning',

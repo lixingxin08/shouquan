@@ -43,6 +43,7 @@
         pagination: {
           total: 0,
           size: "default",
+          current:1,
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
@@ -62,9 +63,8 @@
         this.timeValue = dateStrings
       },
       handleTableChange(pagination) {
-        this.pageSize = pagination.pageSize
         this.pagination.pageSize=pagination.pageSize
-        this.pageIndex = pagination.current
+        this.pagination.current = pagination.current
         this.getTableData()
       },
 
@@ -81,10 +81,10 @@
         //menuId: this.parentItem.id,
         let param = {
           actionName: this.keyword,
-          pageSize: this.pageSize,
+          pageSize: this.pagination.pageSize,
           startTime: this.timeValue[0],
           endTime: this.timeValue[1],
-          pageIndex: this.pageIndex
+          pageIndex: this.pagination.current
         };
         let res = await this.$http.post(this.$api.journalpage, param);
         if (res.data.resultCode == "10000") {

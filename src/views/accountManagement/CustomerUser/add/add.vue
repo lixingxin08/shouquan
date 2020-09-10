@@ -89,7 +89,7 @@
 
 <script>
   import isChooseAccount from '../chooseaccount/chooseaccount.vue'
-  const plainOptions = [{
+  const plainOptions = [{ //账号状态
     name: '正常',
     key: 1
   }, {
@@ -98,21 +98,21 @@
   }];
   export default {
     components: {
-      isChooseAccount
+      isChooseAccount //选择人员
     },
     data() {
       return {
-        plainOptions,
-        selectId: '',
-        accountid: '',
-        selectName: '',
-        config: {
+        plainOptions, //账号状态
+        selectId: '', //选择的菜单id
+        accountid: '', //账号id
+        selectName: '', //选择名称
+        config: { //页面数据
           statusCode: 1,
         },
-        num: 0,
-        isShow: false,
-        tableList: [],
-        tableTitle: [{
+        num: 0, //描述长度
+        isShow: false, //是否展示选择人员列表
+        tableList: [], //角色列表数据
+        tableTitle: [{ //角色列表标题
             "title": "序号",
             "width": "80px",
             "align": "center",
@@ -134,26 +134,27 @@
             "ellipsis": true
           }
         ],
-        selectedRowKeys: [],
+        selectedRowKeys: [], //选择角色可以
       }
     },
     created() {
       this.selectId = this.$route.query.id //菜单id
-      this.accountid = this.$route.query.accountid //是否新增
+      this.accountid = this.$route.query.accountid //账号id 为空新增
       this.selectName = this.$route.query.name //父级菜单名称
       if (this.accountid) {
-        this.getAccountDetail()
+        this.getAccountDetail() //获取账号详情
       } else {
-        this.getRoles()
+        this.getRoles() //获取角色列表
       }
     },
     methods: {
+      /* 选择人员后callback 数据*/
       confirm(config) {
         this.config = config
-        this.config.personStatus = config.statusCode
+        this.config.personStatus = config.statusCode //因为人员状态的key 和账号状态的key 一样 从新赋值
         this.isShow = false
-        console.log(config)
       },
+      /* 保存*/
       async submit() {
         if (!this.config.realName) {
           this.$message.error('请关联人员')
@@ -163,7 +164,7 @@
           this.$message.error('请输入账号名称')
           return
         }
-  if (this.config.userName.length < 5) {
+        if (this.config.userName.length < 5) {
           this.$message.error('账号长度要求5-11位')
           return
         }
@@ -185,8 +186,8 @@
           this.$message.error('请关联角色')
           return
         }
-        this.config.operatorId = '5172dadd6d7c404e8ac657f32f81d969'
-        this.config.roleList = this.getRolesId()
+        this.config.operatorId = '5172dadd6d7c404e8ac657f32f81d969' //操作者id
+        this.config.roleList = this.getRolesId() //获取分配的角色id
         let res = await this.$http.post(this.$api.accountinfoform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
@@ -195,8 +196,16 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-      reset() {},
-
+      /* 重置*/
+      reset() {
+        if (this.accountid) {
+          this.getAccountDetail()
+        } else {
+          this.config = {}
+          this.selectedRowKeys = {}
+        }
+      },
+      /* 获取角色id */
       getRolesId() {
         let list = []
         this.selectedRowKeys.forEach((item) => {
@@ -204,9 +213,11 @@
         })
         return list
       },
+      /* 取消选择人员*/
       cancle() {
         this.isShow = false
       },
+      /* 点击选择人员*/
       chooseAccount() {
         this.isShow = true
         this.$refs.ca.setSelectId(this.selectId)
@@ -216,13 +227,15 @@
       onChangeConfig(e) {
         this.num = this.config.remark.length
       },
-      /* 选择人员*/
+      /* 选择角色*/
       onSelectChange(selectedRowKeys) {
         this.selectedRowKeys = selectedRowKeys;
       },
+      /* 账号状态选择*/
       onChange(e) {
         this.config.statusCode = e.target.value
       },
+      /* 获取账号详情*/
       async getAccountDetail() {
         let param = {
           accountId: this.accountid
@@ -233,17 +246,16 @@
           config = res.data.data
           this.tableList = res.data.data.roleList
           let param2 = {
-            personId: config.personId
+            personId: config.personId //人员id
           }
           let res2 = await this.$http.post(this.$api.persondetail, param2)
-          if (res2.data.resultCode == 10000) {
+          if (res2.data.resultCode == 10000) { //获取人员详情
             config.personStatus = res2.data.data.statusCode //人员状态
             config.email = res2.data.data.email //邮箱
             config.gender = res2.data.data.gender //性别
             config.position = res2.data.data.position //职务
           }
           this.config = config
-          console.log(this.config)
           this.tableList.forEach((item, index) => {
             if (item.select) {
               this.selectedRowKeys.push(index)
@@ -251,7 +263,7 @@
           })
         }
       },
-
+      /* 获取角色列表 */
       async getRoles() {
         let param = {
           pageIndex: 1,

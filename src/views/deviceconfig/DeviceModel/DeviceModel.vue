@@ -75,6 +75,7 @@
         deviceList: [], //设备型号数据
         pagination: {
           total:0,
+          current:1,
            size:"default",
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
@@ -94,8 +95,6 @@
     methods: {
       /* table 页面 页码更改*/
       handleTableChange(pagination) {
-        this.pageSize = pagination.pageSize
-        this.pageIndex = pagination.current
         this.pagination.page = pagination.current;
         this.pagination.current = pagination.current;
         this.pagination.pageSize = pagination.pageSize;
@@ -104,8 +103,8 @@
 /* 获取设备类型 */
       async getDeviceData() {
         let param = {
-          pageIndex: this.pageIndex,
-          pageSize: this.pageSize,
+          pageIndex: this.pagination.current,
+          pageSize: this.pagination.pageSize,
           serviceType: this.severSelect, //业务类别
           deviceTypeId: this.typeSelect, //设备类型
           brandId: this.brandSelect, //设备品牌

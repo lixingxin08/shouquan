@@ -105,17 +105,17 @@
     },
     data() {
       return {
-        plainOptions,
-        selectId: '',
-        accountid: '',
-        selectName: '',
-        config: {
+        plainOptions, //人员状态选择列表
+        selectId: '', //菜单id
+        accountid: '', //账号id
+        selectName: '', //菜单名称
+        config: { //页面详情数据
           statusCode: 1,
         },
-        num: 0,
-        isShow: false,
-        tableList: [],
-        tableTitle: [{
+        num: 0, //描述字符长度
+        isShow: false, //是否展示选择人员
+        tableList: [], //分配角色列表数据
+        tableTitle: [{ //分配角色table title
             "title": "序号",
             "width": "80px",
             "align": "center",
@@ -137,26 +137,27 @@
             "ellipsis": true
           }
         ],
-        selectedRowKeys: [],
+        selectedRowKeys: [], //选择角色的key
       }
     },
     created() {
       this.selectId = this.$route.query.id //菜单id
       this.accountid = this.$route.query.accountid //是否新增
       this.selectName = this.$route.query.name //父级菜单名称
-      if (this.accountid) {
+      if (this.accountid) { //获取账号详情
         this.getAccountDetail()
       } else {
-        this.getRoles()
+        this.getRoles() //获取角色列表
       }
     },
     methods: {
+      /* 选择人员的回调人员详情*/
       confirm(config) {
         this.config = config
-        this.config.personStatus = config.statusCode
+        this.config.personStatus = config.statusCode //因为人员状态的key 和账号状态的key 一样 从新赋值
         this.isShow = false
-        console.log(config)
       },
+      /* 保存，确认*/
       async submit() {
         if (!this.config.realName) {
           this.$message.error('请关联人员')
@@ -189,17 +190,26 @@
           return
         }
         this.config.operatorId = '5172dadd6d7c404e8ac657f32f81d969'
-        this.config.roleList = this.getRolesId()
+        this.config.roleList = this.getRolesId() //获取分配的角色列表
         let res = await this.$http.post(this.$api.accountinfoform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
-          this.$router.go(-1)
+          if (!this.accountid)
+            this.$router.go(-1)
         } else {
           this.$message.error(res.data.resultMsg);
         }
       },
-      reset() {},
-
+      /* 重置*/
+      reset() {
+        if (this.accountid) {
+          this.getAccountDetail()
+        } else {
+          this.config = {}
+          this.selectedRowKeys = {}
+        }
+      },
+      /* 获取分配的角色id */
       getRolesId() {
         let list = []
         this.selectedRowKeys.forEach((item) => {
@@ -207,9 +217,11 @@
         })
         return list
       },
+      /* 取消选中的人员*/
       cancle() {
         this.isShow = false
       },
+      /* 选中人员后的回调*/
       chooseAccount() {
         this.isShow = true
         this.$refs.ca.setSelectId(this.selectId)
@@ -219,13 +231,15 @@
       onChangeConfig(e) {
         this.num = this.config.remark.length
       },
-      /* 选择人员*/
+      /* 选择角色*/
       onSelectChange(selectedRowKeys) {
         this.selectedRowKeys = selectedRowKeys;
       },
+      /* 切换人员状态*/
       onChange(e) {
         this.config.statusCode = e.target.value
       },
+      /* 获取账号详情*/
       async getAccountDetail() {
         let param = {
           accountId: this.accountid
@@ -238,7 +252,7 @@
           let param2 = {
             personId: config.personId
           }
-          let res2 = await this.$http.post(this.$api.persondetail, param2)
+          let res2 = await this.$http.post(this.$api.persondetail, param2) //获取人员详情
           if (res2.data.resultCode == 10000) {
             config.personStatus = res2.data.data.statusCode //人员状态
             config.email = res2.data.data.email //邮箱
@@ -246,15 +260,14 @@
             config.position = res2.data.data.position //职务
           }
           this.config = config
-          console.log(this.config)
-          this.tableList.forEach((item, index) => {
+          this.tableList.forEach((item, index) => { //获取分配的角色id
             if (item.select) {
               this.selectedRowKeys.push(index)
             }
           })
         }
       },
-
+      /* 获取角色列表 */
       async getRoles() {
         let param = {
           pageIndex: 1,

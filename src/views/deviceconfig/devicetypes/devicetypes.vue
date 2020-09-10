@@ -52,13 +52,12 @@
         pagination: {
           total: 0,
           size:"default",
+          current:1,
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
         },
-        pageSize: 20,
-        pageIndex: 1,
       }
     },
     created() {
@@ -68,8 +67,6 @@
     methods: {
       /* 切换分页，选页的回调*/
       handleTableChange(pagination) {
-        this.pageSize = pagination.pageSize
-        this.pageIndex = pagination.current
         this.pagination.page = pagination.current;
         this.pagination.current = pagination.current;
         this.pagination.pageSize = pagination.pageSize;
@@ -85,8 +82,8 @@
         let param = {
           keyword: this.keyword,
           serviceType: this.serviceType,
-          pageIndex: this.pageIndex,
-          pageSize: this.pageSize
+          pageIndex: this.pagination.current,
+          pageSize: this.pagination.pageSize
         }
         let res = await this.$http.post(this.$api.devicetypepage, param)
         if (res.data.resultCode == 10000) {
