@@ -6,16 +6,16 @@
       </div>
       <div class="flexrow flexac item" style="margin-top: 20px;">
         <div class="item-title"> <a style="color: #FF0033;">*</a>当前密码：</div>
-        <a-input v-model='toalword'></a-input>
+        <a-input-password v-model='toalword'></a-input-password>
       </div>
       <div class="flexrow flexac item" style="margin-top: 20px;">
         <div class="item-title"> <a style="color: #FF0033;">*</a>密码：</div>
-        <a-input v-model='password'></a-input>
+        <a-input-password v-model='password'></a-input-password>
       </div>
       <div class="flexrow flexac item">
         <a style="color: #FF0033;">*</a>
         <div class="item-title">确认密码：</div>
-        <a-input v-model='password2'></a-input>
+        <a-input-password v-model='password2'></a-input-password>
       </div>
       <a-button type='primary' style='margin-top: 30px;margin-bottom: 30px;' @click='submit'>确定</a-button>
     </div>

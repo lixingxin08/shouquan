@@ -13,9 +13,9 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div style="width: 100%;height: 1px;background: #cccccc;margin: 20px auto;"></div>
-    <div class="flexrow flexjc flexac addbtn" @click="editDevice({})">
+    <a-button class='addbtn' type="primary" @click="editDevice({})">
       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
-    </div>
+    </a-button>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
@@ -50,14 +50,14 @@
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         deviceList: [], //设备类型数据
         pagination: {
-
+          total: 0,
+          size:"default",
+          current:1,
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
         },
-        pageSize: 20,
-        pageIndex: 1,
       }
     },
     created() {
@@ -67,8 +67,9 @@
     methods: {
       /* 切换分页，选页的回调*/
       handleTableChange(pagination) {
-        this.pageSize = pagination.pageSize
-        this.pageIndex = pagination.current
+        this.pagination.page = pagination.current;
+        this.pagination.current = pagination.current;
+        this.pagination.pageSize = pagination.pageSize;
         this.getDeviceData()
       },
       /* 下拉查询*/
@@ -81,19 +82,20 @@
         let param = {
           keyword: this.keyword,
           serviceType: this.serviceType,
-          pageIndex: this.pageIndex,
-          pageSize: this.pageSize
+          pageIndex: this.pagination.current,
+          pageSize: this.pagination.pageSize
         }
         let res = await this.$http.post(this.$api.devicetypepage, param)
         if (res.data.resultCode == 10000) {
           this.deviceList = res.data.data.list
+          this.pagination.total = res.data.data.length;
         } else {
           this.deviceList = []
           this.$message.error(res.data.resultMsg);
         }
       },
       /* 确认删除某个item*/
-      async confirm(item) { 
+      async confirm(item) {
         let param = {
           deviceTypeId: item.deviceTypeId
         }
@@ -108,7 +110,7 @@
       /* 清除搜索条件*/
       cleanKeyWord() {
         this.keyword = ''
-        this.serviceType=''
+        this.serviceType = ''
         this.getDeviceData()
       },
       /* 获取业务类型list*/
@@ -121,7 +123,7 @@
           this.selectList.push(res.data.data[i])
         }
       },
-     /* 新增 、编辑*/
+      /* 新增 、编辑*/
       editDevice(item) {
         this.$router.push({
           path: '/adddevicetypes',

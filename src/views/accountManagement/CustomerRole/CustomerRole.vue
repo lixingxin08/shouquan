@@ -9,11 +9,11 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
 
-    <div class="flexrow flexjc flexac addbtn" style="margin-top: 30px;" @click="edit({})">
-      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
-    </div>
-    <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableList" bordered size="small"
-      :pagination="pagination" @change="handleTableChange">
+    <a-button type="primary" class="flexrow flexjc flexac addbtn" style="margin-top: 30px;" @click="edit({})">
+      <a-icon two-tone-color="#ffffff" type="plus" /> 新增
+    </a-button>
+    <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableList" bordered size="small" :pagination="pagination"
+      @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
         {{index+1}}
       </template>
@@ -22,10 +22,10 @@
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
           <div class="item-line"></div>
-          <a-popconfirm v-if='record.totalno<=0'  title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
+          <a-popconfirm v-if='record.totalno<=0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
-            <a v-else style="color: #DCDCDC;">删除</a>
+          <a v-else style="color: #DCDCDC;">删除</a>
         </div>
       </template>
     </a-table>
@@ -37,39 +37,41 @@
     data() {
       return {
         keyword: '', //搜索条件
-
-        tableTitle: tableTitleData.data.tableTitle,
-        tableList: [], //设备型号数据
-        pagination: {
+        tableTitle: tableTitleData.data.tableTitle,//角色table标题
+        tableList: [], //角色列表
+        pagination: {//分页设置
+          total: 0,//分页的条数
+          size: "default",//分页显示的大小
+          current: 1,//选择页
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
         },
-        pageSize: 20,
-        pageIndex: 1,
       }
     },
-    created() {
+    created() {//获取角色数据
       this.getTableData()
     },
     methods: {
       /* table 页面 页码更改*/
       handleTableChange(pagination) {
-        this.pageSize = pagination.pageSize
-        this.pageIndex = pagination.current
+        this.pagination.page = pagination.current;
+        this.pagination.current = pagination.current;
+        this.pagination.pageSize = pagination.pageSize;
         this.getTableData()
       },
-/* 获取设备类型 */
+      /* 获取角色 */
       async getTableData() {
         let param = {
-          pageIndex: this.pageIndex,
-          pageSize: this.pageSize,
+          pageIndex: this.pagination.current,//选择页
+          pageSize: this.pagination.pageSize,//当前页
           keyword: this.keyword //搜索条件
         }
         let res = await this.$http.post(this.$api.rolesystempage, param)
         if (res.data.resultCode == 10000) {
           this.tableList = res.data.data.list
+          this.pagination.total = res.data.data.length
         } else {
           this.tableList = []
           this.$message.error(res.data.resultMsg);
@@ -78,7 +80,7 @@
       /* 确定删除*/
       async confirmDelete(item) {
         let param = {
-          roleId : item.roleId
+          roleId: item.roleId
         }
         let res = await this.$http.post(this.$api.rolesystemremove, param);
         if (res.data.resultCode == 10000) {

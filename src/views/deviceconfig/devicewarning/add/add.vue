@@ -28,7 +28,8 @@
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">警报描述:</div>
         <div style="position: relative;">
-          <a-textarea class='edit_a_input' :rows="5" v-model='warning.remark' :maxLength='500' placeholder="请输入描述" @change="onChangeConfig" />
+          <a-textarea class='edit_a_input' :rows="5" v-model='warning.remark' :maxLength='500' placeholder="请输入描述"
+            @change="onChangeConfig" />
           <div class="edit_number">{{num}}/500</div>
         </div>
       </div>
@@ -116,6 +117,8 @@
         }
         let res = await this.$http.post(this.$api.alramform, param)
         if (res.data.resultCode == 10000) {
+          if (!this.id)
+            this.$router.go(-1)
           this.$message.success(res.data.resultMsg);
         } else {
           this.$message.error(res.data.resultMsg);
@@ -136,7 +139,7 @@
       async getEventList() {
         let param = {
           pageSize: 200,
-          pageIndex:1 ,
+          pageIndex: 1,
           keyword: '',
           eventType: ''
         }
@@ -154,7 +157,7 @@
         if (res.data.resultCode == 10000) {
           this.warning = res.data.data
           this.eventList = this.warning.eventList
-          this.warningSelect=this.warning.alarmType
+          this.warningSelect = this.warning.alarmType
           if (this.eventList.length > 0) {
             this.selectedRowKeys = []
             let that = this

@@ -26,7 +26,7 @@
             </a-select>
           </div>
           <div class="tree_box">
-            <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys"
+            <is-left :treedata="treedata" :replaceFields="replaceFields" :checkedKeys="defaultExpandedKeys"
               @checkedKeys="getcheckedKeys" v-if="showtree"></is-left>
           </div>
         </div>
@@ -133,6 +133,7 @@
       onChangeConfig() {
         this.num = this.config.remark.length
       },
+	  /* 获取角色roles List*/
       async gettree() {
         this.showtree = false;
         let param = {
@@ -140,7 +141,6 @@
           roleId: this.id
         }
         let res = await this.$http.post(this.$api.rolesystemroletreelist, param);
-        console.log(res, 11);
         if (res.data.resultCode == "10000") {
           this.data = res.data.data;
         } else {
@@ -214,7 +214,7 @@
         this.istotal.type = 1;
       },
       getcheckedKeys(val) {
-        console.log(val, 44444);
+        console.log('----------',val);
         this.defaultExpandedKeys = val
       },
     },

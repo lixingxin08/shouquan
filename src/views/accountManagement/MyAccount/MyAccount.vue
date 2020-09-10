@@ -59,19 +59,19 @@
     },
     data() {
       return {
-        isShow: false,
-        accountid: '',
-        config: {},
-        personConfig: {},
-        data: [],
-        treedata: [],
-        replaceFields: {
+        isShow: false, //是否展示修改密码
+        accountid: '', //账号id
+        config: {}, //账号详情数据
+        personConfig: {}, //人员详情数据
+        data: [], //授权菜单原始数据
+        treedata: [], //授权菜单转成后的数据
+        replaceFields: { //授权列表数据参数
           title: "name",
           key: "id",
         },
       }
     },
-    created() {
+    created() { //获取账号详情数据
       this.accountid = this.$route.query.accountid //是否新增
       this.accountid = 'e75379b1d41a4356b998bd2f31719f71'
       if (this.accountid) {
@@ -79,12 +79,9 @@
       }
     },
     methods: {
-
+      /* 确认提交 */
       async submit() {
-
-
         this.personConfig.operatorId = '5172dadd6d7c404e8ac657f32f81d969'
-
         let res = await this.$http.post(this.$api.personform, this.personConfig)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
@@ -92,9 +89,11 @@
           this.$message.error(res.data.resultMsg)
         }
       },
+      /* 展示修改密码*/
       editPass() {
         this.isShow = true
       },
+      /* 确定修改密码*/
       async confirmPass(param) {
         param.accountId = this.accountid
         let res = await this.$http.post(this.$api.accountinforeset, param)
@@ -106,33 +105,33 @@
         }
 
       },
+      /* 取消修改密码*/
       cancelPass() {
         this.isShow = false
       },
+      /* 获取账号详情*/
       async getAccountDetail() {
-        this.data=[]
+        this.data = []
         let param = {
-          accountId: this.accountid
+          accountId: this.accountid //账号id
         }
         let res = await this.$http.post(this.$api.accountinfodetail, param)
         if (res.data.resultCode == 10000) {
-
           this.config = res.data.data
-          let roleList = res.data.data.roleList
+          let roleList = res.data.data.roleList //账号授权的角色列表
           let param2 = {
             personId: this.config.personId
           }
-          let res2 = await this.$http.post(this.$api.persondetail, param2)
+          let res2 = await this.$http.post(this.$api.persondetail, param2) //获取人员详情
           if (res2.data.resultCode == 10000) {
             this.personConfig = res2.data.data
           }
-          console.log(this.personConfig)
-          roleList.forEach((item, index) => {
+          roleList.forEach((item, index) => { //根据角色列表获取授权的菜单
             this.getRolesTree(item.roleId)
           })
         }
       },
-
+      /* 获取授权的列表 */
       async getRolesTree(id) {
         let param = {
           roleId: id

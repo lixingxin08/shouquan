@@ -167,6 +167,8 @@
         }
         let res = await this.$http.post(this.$api.devicetypeform, param)
         if (res.data.resultCode == 10000) {
+          if (!this.deviceId)
+            this.$router.go(-1)
           this.$message.success(res.data.resultMsg);
         } else {
           this.$message.error(res.data.resultMsg);

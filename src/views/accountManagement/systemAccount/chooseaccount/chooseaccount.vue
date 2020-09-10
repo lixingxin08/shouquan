@@ -46,7 +46,7 @@
 
     data() {
       return {
-        statusCode: [{
+        statusCode: [{//人员状态
             id: 1,
             val: "正常"
           },
@@ -59,7 +59,7 @@
             val: "离岗"
           },
         ],
-        pagination: {
+        pagination: {//分页数据
           total: 50,
           pageSize: 100, //每页中显示10条数据
           showSizeChanger: true,
@@ -68,7 +68,7 @@
           pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
           showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
-        tablecolumns: [{
+        tablecolumns: [{//表格table title
             align: "center",
             title: "序号",
             width: 10,
@@ -113,12 +113,12 @@
             },
           },
         ],
-        tabledata: "",
-        pageparam: {
+        tabledata: "",//表格数据
+        pageparam: {//分页请求数据
           keyword: "",
           statusCode: "",
         },
-        selectId: "",
+        selectId: "",//菜单id
         istotal: {
           type: 1,
         },
@@ -126,9 +126,11 @@
     },
 
     methods: {
+      /* 设置选中的菜单id*/
       setSelectId(id) {
         this.selectId = id
       },
+      /* 获取人员数据列表*/
       async getpersonpage() {
         this.tabletype = false;
         let prame = {
@@ -155,9 +157,11 @@
           this.$message.success(res.data.resultMsg);
         }
       },
+      /* 关闭选人员*/
       closedialog() {
         this.$emit('cancleDialog')
       },
+      /* 分页切换数据*/
       handleTableChange(pagination) {
         this.pagination.page = pagination.current;
         this.pagination.current = pagination.current;
@@ -177,10 +181,11 @@
         this.pageparam.keyword = "";
         this.pageparam.statusCode = "";
       },
+      /* 切换人员状态查询*/
       handleChange(val) {
-        console.log(val, 5555);
         this.pageparam.statusCode = val;
       },
+      /* 选中某一个人员*/
       chooseItem(item) {
         this.$emit('confirm', item)
       }

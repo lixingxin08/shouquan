@@ -19,7 +19,8 @@
           </div>
           <div class="btn_blue btn2" @click="toadd({})">新增</div>
           <div class="table" v-if="tabletype">
-            <a-table :columns="tablecolumns" :data-source="tabledata" size='small' bordered :pagination="pagination" @change="handleTableChange">
+            <a-table :columns="tablecolumns" :data-source="tabledata" size='small' bordered :pagination="pagination"
+              @change="handleTableChange">
 
               <div slot="statusCode" class="flex_a" slot-scope="statusCode">
                 <div v-if="statusCode==1">启用</div>
@@ -50,29 +51,27 @@
   import isEditPassWord from './editp/editp.vue'
   export default {
     components: {
-      isLeft,
-      isDeleteDialog,
-      isEditPassWord
+      isLeft, //左边菜单
+      isDeleteDialog, //删除确认框
+      isEditPassWord //修改密码
     },
     data() {
       return {
         ModalText: "您确定要删除吗？",
-        visible: false,
-        visiblePass: false,
-        showtree: false,
-        treedata: null,
-        tabletype: false,
-        inp_data: "",
-        inp_data2: "",
-        isselectdata: {
+        visible: false, //展示删除确认框
+        visiblePass: false, //展示修改密码框
+        showtree: false, //展示左边菜单
+        treedata: null, //菜单数据
+        tabletype: false, //展示表数据
+        isselectdata: { //选中的菜单
           id: "",
           name: "",
         },
-        replaceFields: {
+        replaceFields: { //菜单数据结构
           title: "name",
           key: "id",
         },
-        tablecolumns: [{
+        tablecolumns: [{ //表title
             width: 110,
             align: "center",
             title: "序号",
@@ -128,13 +127,13 @@
             },
           },
         ],
-        tabledata: "",
-        defaultExpandedKeys: [],
-        pageparam: {
+        tabledata: "", //表数控
+        defaultExpandedKeys: [], //菜单选中key
+        pageparam: { //table 查询数据
           keyword: "",
           statusCode: "",
         },
-        statusCode: [{
+        statusCode: [{ //下拉框数据
             id: 1,
             val: "正常"
           },
@@ -143,17 +142,18 @@
             val: "冻结"
           },
         ],
-        data: "",
+        data: "", //左边菜单原始数据
         pagination: {
           total: 50,
           pageSize: 10, //每页中显示10条数据
           showSizeChanger: true,
           current: 1,
           page: 1,
+          size: "default",
           pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
           showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
-        issearchdata: "",
+        issearchdata: "", //是否展示搜索
         filterdata: [],
 
         treeprame: {
@@ -162,7 +162,7 @@
           operatorId: "1",
           customerId: "",
         },
-        removeparam: {
+        removeparam: { //删除参数
           accountId: "",
           operatorId: "1",
           cipher: ''
@@ -176,7 +176,7 @@
       this.getareatree();
     },
     methods: {
-      //树
+      /* 获取菜单数据 */
       async getareatree() {
         this.showtree = false;
         let res = await this.$http.post(this.$api.departmenttree, this.treeprame);
@@ -190,15 +190,15 @@
         this.showtree = true;
         this.getpersonpage();
       },
-      //分页列表接口
+      /* 获取人员 分页接口 */
       async getpersonpage() {
         this.tabletype = false;
         let prame = {
-          customerId: this.isselectdata.id,
-          keyword: this.pageparam.keyword,
-          statusCode: this.pageparam.statusCode,
-          pageIndex: this.pagination.page,
-          pageSize: this.pagination.pageSize,
+          customerId: this.isselectdata.id, //菜单id
+          keyword: this.pageparam.keyword, //搜索条件
+          statusCode: this.pageparam.statusCode, //人员状态
+          pageIndex: this.pagination.page, //页数
+          pageSize: this.pagination.pageSize, //页数大小
         };
         let res = await this.$http.post(this.$api.accountinfopage, prame);
         if (res.data.resultCode == "10000") {
@@ -213,7 +213,7 @@
           this.$message.success(res.data.resultMsg);
         }
       },
-      //删除接口
+      /* 删除人员 */
       async getremove() {
         let res = await this.$http.post(
           this.$api.accountinforemove,
@@ -227,9 +227,8 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-      confirm() {
-        this.visible = false;
-      },
+
+      /* 确认修改密码*/
       async confirmPass(cipher) {
         console.log(cipher)
         this.removeparam.cipher = cipher
@@ -242,13 +241,16 @@
         this.visiblePass = false
 
       },
+      /* 取消修改密码*/
       cancelPass() {
         this.visiblePass = false
       },
+      /* 展示修改密码*/
       toedit(id) {
         this.removeparam.accountId = id.accountId
         this.visiblePass = true
       },
+      /* 添加编辑人员*/
       toadd(id) {
         if (this.isselectdata.id == "") {
           this.isselectdata.id = this.treedata[0].id;
@@ -263,7 +265,7 @@
           },
         });
       },
-
+      /* 原始数据转换成树结构数据 */
       toTree(data) {
         let result = [];
         if (!Array.isArray(data)) {
@@ -345,16 +347,16 @@
         this.removeparam.accountId = val.accountId;
         this.visible = true;
       },
+      /* 取消删除*/
       cancel() {
         this.visible = false;
       },
+      /* 确认删除*/
       confirm() {
+        this.visible = false;
         this.getremove();
       },
-      handleCancel(e) {
-        console.log("Clicked cancel button");
-        this.visible = false;
-      },
+
       //分页
       handleTableChange(pagination) {
         this.pagination.page = pagination.current;
@@ -362,6 +364,7 @@
         this.pagination.pageSize = pagination.pageSize;
         this.getpersonpage();
       },
+      /* 下拉选中列表点击事件*/
       handleChange(val) {
         console.log(val, 5555);
         this.pageparam.statusCode = val;

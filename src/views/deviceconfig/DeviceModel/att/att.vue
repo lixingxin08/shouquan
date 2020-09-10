@@ -22,7 +22,7 @@
         <a-icon type="down" />
       </div>
     </div>
-    <div class="flexcolumn"  v-for="(item ,index) in groups" :key='index' style="padding: 10px;border: 1px solid #E5E5E5;">
+    <div class="flexcolumn"  v-for="(item ,index) in groups" :key='index' style="padding: 10px;border: 1px solid #E5E5E5;margin-top: 20px;">
       <div class="flexrow flexac">
         属性分组:
         <a class="title_item" style="margin-left: 20px;width: 667px;">{{item.propertyName}}</a>
