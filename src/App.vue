@@ -5,6 +5,19 @@
 </template>
 
 <script>
+window.addEventListener(
+  "message",
+  function (e) {
+
+    if (e.data.type !== "webpackOk") {
+    if (e.data.accountId==''||e.data.accountId==undefined) {
+    }else{
+        localStorage.setItem("usermsg", JSON.stringify(e.data),10000000000000);
+    }
+    }
+  },
+  false
+);
 
 export default {
   
@@ -15,8 +28,19 @@ export default {
     }
   },
   mounted() {
-    localStorage.setItem("istoken", "istoken");
+    let sessionid=  JSON.parse(localStorage.getItem('usermsg')).iscookie
+      this.setCookie('session',sessionid,10000)
   },
+  methods:{
+      setCookie: function (cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        console.info(cname + "=" + cvalue + "; " + expires);
+        document.cookie = cname + "=" + cvalue + "; " + expires;
+        console.info(document.cookie);
+      },
+  }
 
 };
 </script>

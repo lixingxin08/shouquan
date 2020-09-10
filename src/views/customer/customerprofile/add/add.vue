@@ -4,13 +4,15 @@
       <div class="edit_item_title">
         <span class="col_red">*</span>客户全称:
       </div>
-      <a-input class="edit_a_input" v-model="form.customerName" placeholder="请输入客户全称" />
+      <a-input class="edit_a_input" v-model="form.customerName" :maxLength='50' placeholder="请输入客户全称" />
+        <div class="edit_item_toast">注:50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
         <span class="col_red">*</span>客户简称:
       </div>
-      <a-input class="edit_a_input" v-model="form.shortName" placeholder="请输入客户简称" />
+      <a-input class="edit_a_input" v-model="form.shortName"  placeholder="请输入客户简称" />
+           <div class="edit_item_toast">注:10字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
@@ -40,15 +42,18 @@
 
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">公司地址:</div>
-      <a-input class="edit_a_input" v-model="form.address" placeholder="请输入公司地址" />
+      <a-input class="edit_a_input" v-model="form.address" :maxLength='100' placeholder="请输入公司地址" />
+         <div class="edit_item_toast">注:100字以内，格式不限制</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">公司电话:</div>
       <a-input class="edit_a_input" v-model="form.telephone" placeholder="请输入公司电话" />
+      <div class="edit_item_toast">注:请输入公司座机号，20字以内</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">联系人姓名:</div>
-      <a-input class="edit_a_input" v-model="form.linkman" placeholder="请输入联系人姓名" />
+      <a-input class="edit_a_input" v-model="form.linkman" :maxLength='50' placeholder="请输入联系人姓名" />
+        <div class="edit_item_toast">注:50字以内，支持中英文</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">联系人手机:</div>
@@ -56,7 +61,8 @@
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">联系人职务:</div>
-      <a-input class="edit_a_input" v-model="form.position" placeholder="请输入联系人职务" />
+      <a-input class="edit_a_input" v-model="form.position"  placeholder="请输入联系人职务" />
+        <div class="edit_item_toast">注:10字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
@@ -179,6 +185,7 @@ export default {
         // Get this url from response in real world.
         getBase64(info.file.originFileObj, (imageUrl) => {
           this.imageUrl = imageUrl;
+           this.form.customerLogo=imageUrl
           this.loading = false;
         });
       }
@@ -186,13 +193,13 @@ export default {
     },
     beforeUpload(file) {
       const isJpgOrPng =
-        file.type === "image/jpeg" || file.type === "image/png";
+        file.type === "image/jpeg" || file.type === "image/png"|| file.type === "image/jpg";
       if (!isJpgOrPng) {
-        this.$message.error("You can only upload JPG file!");
+        this.$message.error("只能上传jpeg,jpg,png格式的图片");
       }
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
-        this.$message.error("Image must smaller than 2MB!");
+        this.$message.error("图片大小不能超过2MB!");
       }
       return isJpgOrPng && isLt2M;
     },

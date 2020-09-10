@@ -51,20 +51,6 @@
 <script>
 import isLeft from "../../../components/tree/tree.vue";
 import isDeleteDialog from "../../../components/delete_confir/delete.vue";
-window.addEventListener(
-  "message",
-  function (e) {
-
-    if (e.data.type !== "webpackOk") {
-    if (e.data.accountId==''||e.data.accountId==undefined) {
-    }else{
-        localStorage.setItem("usermsg", JSON.stringify(e.data),10000000000000);
-    }
-    }
-  },
-  false
-);
-
 export default {
   components: {
     isLeft,
@@ -147,7 +133,7 @@ export default {
           align: "center",
           title: "操作",
           ellipsis: true,
-          key: "2",
+           key: "1",
           dataIndex: "childTotal",
           scopedSlots: {
             customRender: "edit",
@@ -210,23 +196,7 @@ export default {
       console.log(1111111);
       this.getareapage();
     },
-    //行政区划表单接口
-    async getareaform() {
-      let prame = {
-        areaId: "string",
-        keyword: "string",
-        latitude: 0,
-        list: [{}],
-        longitude: 0,
-        pageIndex: 0,
-        pageSize: 0,
-        parentId: "string",
-        remark: "string",
-        searchIndex: 0,
-      };
-      let res = await this.$http.post(this.$api.areaform, prame);
-      console.log(res);
-    },
+
     //行政区划分页列表接口
     async getareapage() {
       this.tabletype = false;
@@ -250,6 +220,8 @@ export default {
         }
         this.istotal.type++;
         this.tabletype = true;
+      }else{
+        return this.$message.error(res.data.resultMsg);
       }
     },
     //行政区划删除接口
@@ -257,10 +229,10 @@ export default {
       let res = await this.$http.post(this.$api.arearemove, this.removeparam);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.getareaform();
+        this.getareapage()
         this.visible = false;
       } else {
-        this.$message.error(res.data.resultMsg);
+    return    this.$message.error(res.data.resultMsg);
       }
     },
     confirm() {
@@ -356,6 +328,8 @@ export default {
     //查询
     tosearch() {
       this.isselectdata.name = this.inp_data;
+      this.isselectdata.id = "";
+      this.isselectdata.pid = "";
       this.istotal.type = 1;
       this.pagination.page = 1;
       this.pagination.pageSize = 10;

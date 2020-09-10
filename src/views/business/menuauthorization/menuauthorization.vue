@@ -63,7 +63,7 @@
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
-          <a-textarea placeholder="Basic usage" :rows="5" />
+          <a-textarea placeholder="Basic usage" v-model="form.remark" :rows="5" />
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">

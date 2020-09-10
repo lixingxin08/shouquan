@@ -6,7 +6,8 @@
         :treedata="treedata"
         :replaceFields="replaceFields"
         :defaultExpandedKeys="defaultExpandedKeys"
-        @checkedKeys="getcheckedKeys"
+        @selectdata="getselectdata"
+        @searchdata="getsearchdata"
         v-if="showtree"
       ></is-left>
     </div>
@@ -53,24 +54,23 @@ export default {
           );
         },
         onSelect: (record, selected, selectedRows) => {
-          console.log(record, selected, selectedRows,2222);
-            this.form.customerIdList=[]
-                if (selectedRows.length>0) {
-            selectedRows.forEach(item=>{
-              this.form.customerIdList.push(item.customerId)
-            })
-            console.log(this.form,1235455);
+          console.log(record, selected, selectedRows, 2222);
+          this.form.customerIdList = [];
+          if (selectedRows.length > 0) {
+            selectedRows.forEach((item) => {
+              this.form.customerIdList.push(item.customerId);
+            });
+            console.log(this.form, 1235455);
           }
-          
-        },  
+        },
         onSelectAll: (selected, selectedRows, changeRows) => {
-          console.log(selected, selectedRows, changeRows,1111);
-             this.form.customerIdList=[]
-          if (selected==true) {
-            selectedRows.forEach(item=>{
-              this.form.customerIdList.push(item.customerId)
-            })
-            console.log(this.form,1235455);
+          console.log(selected, selectedRows, changeRows, 1111);
+          this.form.customerIdList = [];
+          if (selected == true) {
+            selectedRows.forEach((item) => {
+              this.form.customerIdList.push(item.customerId);
+            });
+            console.log(this.form, 1235455);
           }
         },
       },
@@ -83,7 +83,7 @@ export default {
           key: "customerId",
           ellipsis: true,
         },
-          {
+        {
           width: 141,
           align: "center",
           title: "客户全称",
@@ -104,7 +104,7 @@ export default {
           align: "center",
           title: "客户状态",
           dataIndex: "statusCode",
-          key: "statusCode 1",
+          key: "statusCode",
           ellipsis: true,
         },
       ],
@@ -118,18 +118,9 @@ export default {
       defaultExpandedKeys: [],
       data: "",
       showtree: false,
-      areatreeprame: {
-        //行政区划树接口参数
-        areaId: "",
-        keyword: "",
-        keyword: "",
-        latitude: 0,
-        longitude: 0,
-        operatorId: "",
-        pageIndex: 0,
-        pageSize: 10,
-        parentId: "",
-        remark: "",
+      treeprame: {
+        accountId: "",
+        operatorId: "1",
       },
       listparam: {
         operatorId: "1",
@@ -138,16 +129,16 @@ export default {
       istotal: {
         type: 1,
       },
-      form:{
-        customerIdList:[],
-        accountId:"",
-        remark:"",
-      }
+      form: {
+        customerIdList: [],
+        accountId: "",
+        remark: "",
+      },
     };
   },
   created() {
-    this.getareatree();
-    this.getlist()
+    this.gettree();
+    this.getlist();
   },
   methods: {
     async getlist() {
@@ -165,9 +156,12 @@ export default {
       }
     },
 
-    async getareatree() {
+    async gettree() {
       this.showtree = false;
-      let res = await this.$http.post(this.$api.areatree, this.areatreeprame);
+      let res = await this.$http.post(
+        this.$api.customeraccountlist,
+        this.treeprame
+      );
       console.log(res, 11);
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
@@ -176,17 +170,15 @@ export default {
       }
       this.setdata();
       this.showtree = true;
+      console.log(this.tabledata, 111111111111111);
     },
     async getform() {
-
       let res = await this.$http.post(this.$api.customeraccountform, this.form);
       if (res.data.resultCode == "10000") {
-         this.$message.success(res.data.resultMsg);
+        this.$message.success(res.data.resultMsg);
       } else {
         this.$message.error(res.data.resultMsg);
       }
-      this.setdata();
-      this.showtree = true;
     },
     toTree(data) {
       let result = [];
@@ -244,14 +236,7 @@ export default {
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
-      this.isselectdata = val;
-      this.isselectdata.id = val.id;
-      this.isselectdata.name = val.name;
-      this.isselectdata.pid = val.pid;
-      this.istotal.type = 1;
-    },
-    getcheckedKeys(val) {
-      console.log(val, 44444);
+      console.log(val, 22222222222222);
     },
   },
 };

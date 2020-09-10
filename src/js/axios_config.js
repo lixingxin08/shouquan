@@ -5,6 +5,7 @@ import axios from 'axios'
 axios.defaults.baseURL = process.env.NODE_ENV === 'production' ?'/zuul/authorization':'/api';
 // axios.defaults.baseURL = '8088/haiot-auth';
 axios.defaults.withCredentials = true;
+axios.defaults.allowCredentials=true
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8';
 try {
