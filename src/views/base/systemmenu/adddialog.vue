@@ -8,17 +8,17 @@
       <div class="flexrow flexac item" style="margin-top: 20px;">
         <a style="color: #FF0033;">*</a>
         <div class="item-title">接口名称：</div>
-        <a-input v-model='autoName'></a-input>
+        <a-input v-model='item.actionName'></a-input>
       </div>
       <div class="flexrow flexac item">
         <a style="color: #FF0033;">*</a>
         <div class="item-title">URL地址：</div>
-        <a-input v-model='autoCode'></a-input>
+        <a-input v-model='item.linkURL'></a-input>
       </div>
       <div class="flexrow flexac item">
         <a style="color: #FFFFFF;">*</a>
         <div class="item-title">是否默认：</div>
-        <a-switch :default-checked='defaultFlag' @change="onChange"></a-switch>
+        <a-switch :value='item.defaultFlag==1' @change="onChangeSwitch"></a-switch>
       </div>
       <a-button type='primary' style='margin-top: 120px;margin-bottom: 30px;' @click='submit'>确定</a-button>
     </div>
@@ -29,32 +29,31 @@
   export default {
     data() {
       return {
-        autoName: "", //名称
-        autoCode: '', //代码
-        defaultFlag: false //描述
+        item: {},
+        index: -1
       }
     },
     methods: {
-       onChange(checked) {
-         
-          this.defaultFlag=checked
-          },
+
+      setItem(item, index) {
+        this.item = item
+        this.index = index
+      },
+      onChangeSwitch(checked) {
+        console.log(this.item.defaultFlag)
+      },
       submit() {
-        if (!this.autoName) {
+        if (!this.item.actionName) {
           this.$message.warning('接口名称不能为空');
           return
         }
-        if (!this.autoCode) {
+        if (!this.item.linkURL) {
           this.$message.warning('URL地址不能为空');
           return
         }
 
-        let param = {
-          actionName: this.autoName,
-          linkURL: this.autoCode,
-          defaultFlag: this.defaultFlag
-        }
-        this.$emit('callback', param)
+
+        this.$emit('callback', this.item, this.index)
       },
       closedialog() {
         this.$emit('close')

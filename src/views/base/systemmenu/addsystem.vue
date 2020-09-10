@@ -44,27 +44,37 @@
         </div>
       </div>
 
-      <div class="flexrow edit_item_title" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a style="color: #FF0000;">*</a>鉴权接口</div>
+      <div class="flexrow edit_item_title" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
+          style="color: #FF0000;">*</a>鉴权接口</div>
 
       <a-table :columns="dictionaryColumns" :data-source="authList" :pagination='false' :bordered='true' size='small'>
-        <template v-for="col in ['actionName', 'linkURL', 'defaultFlag']" :slot="col" slot-scope="text, record, index">
+        <!-- <template v-for="col in ['actionName', 'linkURL', 'defaultFlag']" :slot="col" slot-scope="text, record, index">
           <div :key="col">
             <a-input style="margin: -5px 0;border: 0px;" :value="text" @change="e => handleChange(e.target.value, index, col)" />
           </div>
-        </template>
+        </template> -->
         <template slot="defaultFlag" slot-scope="text, record, index">
           <a-switch :checked='record.defaultFlag==1' @change="onChangeSwitch(index)"></a-switch>
         </template>
+        <template slot="operation" slot-scope="text, record,index">
+          <div class="flexrow flexac flexjc">
+            <a href="#" style='font-size: 12px;' @click="editAction(record,index)">编辑</a>
+            <div class="item-line"></div>
+            <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(index)">
+              <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
+            </a-popconfirm>
+          </div>
+        </template>
       </a-table>
       <div class="flexrow edit_item_title" style="margin-top: 10px;justify-item: flex-start;margin-bottom: 50px;font-size: 16px;">
-        <a-button type='primary' @click='addLine'>新增行</a-button>
+        <a-button type='primary' @click='editAction({},-1)'>新增行</a-button>
       </div>
       <div class="flexrow flexjc " style="margin-top: 30px;margin-bottom: 80px;">
         <a-button type="primary" @click='submit'>保存</a-button>
         <a-button style="margin-left: 50px;" @click='getMenuInfo'>重置</a-button>
       </div>
     </div>
-    <is-add v-if='showAddDialog' @close='closeDialog' @callback='addCallback'></is-add>
+    <is-add ref='add' v-show='showAddDialog' @close='closeDialog' @callback='addCallback'></is-add>
   </div>
 </template>
 
@@ -133,11 +143,14 @@
       closeDialog() { //关闭添加接口
         this.showAddDialog = false
       },
-      addCallback(item) { //添加鉴权回调
-
-        this.authList.push(item)
-        if(item.defaultFlag||this.authList.length==1){
-          this.changeAutoListState(this.authList.length-1)
+      addCallback(item, index) { //添加鉴权回调
+        if (index == -1) {
+          this.authList.push(item)
+        } else {
+          this.authList.concat(item, index)
+        }
+        if (item.defaultFlag || this.authList.length == 1) {
+          this.changeAutoListState(this.authList.length - 1)
         }
         this.closeDialog()
       },
@@ -174,6 +187,9 @@
           });
         }
       },
+      confirmDelete(index) {
+        this.authList.splice(index, 1)
+      },
       beforeUpload(file) { //图片上传
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isJpgOrPng) {
@@ -186,7 +202,8 @@
         return isJpgOrPng && isLt2M;
       },
 
-      addLine() { //添加鉴权接口
+      editAction(item, index) { //添加鉴权接口
+        this.$refs.add.setItem(item, index)
         this.showAddDialog = true
       },
       onChange1(e) { //菜单类型选择
@@ -239,29 +256,24 @@
           menuType: this.menuType,
           authFlag: this.authFlag,
           menuIcon: '未填',
-          grade:this.grade,
+          grade: this.grade,
           operatorId: '5172dadd6d7c404e8ac657f32f81d969',
           authList: this.authList,
           remark: this.remark
         }
 
         let res = await this.$http.post(this.$api.menuform, param);
-        console.log(param)
-        console.log(res)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
+          this.$router.go(-1)
         } else {
           this.$message.error(res.data.resultMsg);
         }
-        if (this.isAdd == 'false') { //编辑
-          this.getMenuInfo();
-        }
-
       },
       changeAutoListState(index) {
         for (let i = 0; i < this.authList.length; i++) {
           let item = this.authList[i]
-          item.defaultFlag = (index == i?1:0)
+          item.defaultFlag = (index == i ? 1 : 0)
           this.$set(this.authList, this.authList[i], item)
         }
         console.log(this.authList)
@@ -296,6 +308,13 @@
     margin-left: 20px;
   }
 
+  .item-line {
+    height: 20px;
+    width: 1px;
+    background-color: #e5e5e5;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
   .edit_a_input {
     width: 667px;
     height: 32px;

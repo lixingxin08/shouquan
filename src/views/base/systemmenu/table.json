@@ -84,7 +84,17 @@
         "scopedSlots": {
           "customRender": "defaultFlag"
         }
-      }
+      },
+
+	  {
+	    "title": "编辑",
+	    "dataIndex": "operation",
+	    "width": "25%",
+	    "align": "center",
+	    "scopedSlots": {
+	      "customRender": "operation"
+	    }
+	  }
     ]
   }
 }

@@ -183,6 +183,6 @@ export default {
   alramform: `/device/alarm/form`,
   //属性值
   propertyvaluedetail:'/propertyValue/detail',
-  propertyvaluedetail:'/propertyValue/form',
+  propertyvalueform:'/propertyValue/form',
 
 }

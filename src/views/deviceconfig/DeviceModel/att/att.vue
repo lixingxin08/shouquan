@@ -28,8 +28,8 @@
         <a class="title_item" style="margin-left: 20px;width: 667px;">{{item.propertyName}}</a>
       </div>
 
-      <a-table style='margin-top: 20px;margin-bottom: 20px;' :columns="dictionaryColumns" :data-source="item.childrenList"
-        :pagination='false' :bordered='true' size='small' :rowClassName="this.setRowClassName">
+      <a-table style='margin-top: 20px;margin-bottom: 20px;' :rowClassName="this.setRowClassName" :columns="dictionaryColumns" :data-source="item.childrenList"
+        :pagination='false' :bordered='true' size='small' >
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
         </template>
@@ -48,8 +48,6 @@
 </template>
 <script>
   import tableTitleData from "../table.json";
-
-
 
   const attList = [{
       title: "序号",
@@ -138,6 +136,11 @@
         }
         this.reset()
       },
+      setRowClassName(record) {
+        if (record.orderCode == null || record.warehouseCode == null || record.operateTime == null) {
+          return 'clickRowStyle'
+        }
+      },
       /* 重置*/
       reset() {
         this.getProperty(this.modelDetail.deviceTypeId)
@@ -156,7 +159,7 @@
       /* 获取分组信息*/
       async getProperty(id) {
         let param = {
-          deviceTypeId: id
+           modelId: this.id
         }
         let res = await this.$http.post(this.$api.propertyvaluedetail, param)
 
@@ -171,11 +174,7 @@
 
         }
       },
-      setRowClassName(record) {
-        if (record.orderCode == null || record.warehouseCode == null || record.operateTime == null) {
-          return 'clickRowStyle'
-        }
-      },
+
       /* 修改数值*/
       handleChange(value, chilidIndex, groupIndex) {
         const newData = [...this.groups];
