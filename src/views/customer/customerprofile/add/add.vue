@@ -4,15 +4,20 @@
       <div class="edit_item_title">
         <span class="col_red">*</span>客户全称:
       </div>
-      <a-input class="edit_a_input" v-model="form.customerName" :maxLength='50' placeholder="请输入客户全称" />
-        <div class="edit_item_toast">注:50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
+      <a-input
+        class="edit_a_input"
+        v-model="form.customerName"
+        :maxLength="50"
+        placeholder="请输入客户全称"
+      />
+      <div class="edit_item_toast">注:50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
         <span class="col_red">*</span>客户简称:
       </div>
-      <a-input class="edit_a_input" v-model="form.shortName"  placeholder="请输入客户简称" />
-           <div class="edit_item_toast">注:10字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
+      <a-input class="edit_a_input" v-model="form.shortName"  :maxLength="10" placeholder="请输入客户简称" />
+      <div class="edit_item_toast">注:10字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
@@ -34,16 +39,14 @@
             <div class="ant-upload-text">Upload</div>
           </div>
         </a-upload>
-        <div class="col_red">
-            支持PNG、JPEG、JPG格式，1KB至200KB
-        </div>
+        <div class="col_red">支持PNG、JPEG、JPG格式，1KB至200KB</div>
       </div>
     </div>
 
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">公司地址:</div>
-      <a-input class="edit_a_input" v-model="form.address" :maxLength='100' placeholder="请输入公司地址" />
-         <div class="edit_item_toast">注:100字以内，格式不限制</div>
+      <a-input class="edit_a_input" v-model="form.address" :maxLength="100" placeholder="请输入公司地址" />
+      <div class="edit_item_toast">注:100字以内，格式不限制</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">公司电话:</div>
@@ -52,8 +55,8 @@
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">联系人姓名:</div>
-      <a-input class="edit_a_input" v-model="form.linkman" :maxLength='50' placeholder="请输入联系人姓名" />
-        <div class="edit_item_toast">注:50字以内，支持中英文</div>
+      <a-input class="edit_a_input" v-model="form.linkman" :maxLength="50" placeholder="请输入联系人姓名" />
+      <div class="edit_item_toast">注:50字以内，支持中英文</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">联系人手机:</div>
@@ -61,8 +64,8 @@
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">联系人职务:</div>
-      <a-input class="edit_a_input" v-model="form.position"  placeholder="请输入联系人职务" />
-        <div class="edit_item_toast">注:10字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
+      <a-input class="edit_a_input" v-model="form.position" :maxLength="10" placeholder="请输入联系人职务" />
+      <div class="edit_item_toast">注:10字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
@@ -161,9 +164,42 @@ export default {
       }
       console.log(res, 8888);
     },
-    //运行参数表单接口
+    //表单接口
     async getform() {
       this.form.operatorId = 1;
+     if (!this.vify_cn3(this.form.customerName)) {
+       this.form.customerName=""
+     return  this.$message.error('客户全称格式不正确')
+     }
+     if (this.form.customerName=="") {
+     return  this.$message.error('请输入客户全称')
+     }
+     if (!this.vify_cn3(this.form.shortName)) {
+       this.form.shortName=""
+     return  this.$message.error('客户简称格式不正确')
+     }
+      if (this.form.shortName=="") {
+     return  this.$message.error('请输入客户简称')
+     }
+       if (this.form.customerLogo=="") {
+     return  this.$message.error('请选择客户logo')
+     }
+       if (this.form.statusCode=="") {
+     return  this.$message.error('请选择客户状态')
+     }
+      if (!this.vify_cn(this.form.linkman)) {
+       this.form.linkman=""
+     return  this.$message.error('联系人姓名格式不正确')
+     }
+      if (!this.verPhone(this.form.linkphone)) {
+       this.form.linkphone=""
+     return  this.$message.error('联系人手机号码格式不正确')
+     }
+      if (!this.vify_cn(this.form.position)) {
+       this.form.position=""
+     return  this.$message.error('联系人职务格式不正确')
+     }
+
       let res = await this.$http.post(this.$api.informationform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
@@ -185,15 +221,17 @@ export default {
         // Get this url from response in real world.
         getBase64(info.file.originFileObj, (imageUrl) => {
           this.imageUrl = imageUrl;
-           this.form.customerLogo=imageUrl
+          this.form.customerLogo = imageUrl;
           this.loading = false;
         });
       }
-      console.log(this.imageUrl,88999,info);
+      console.log(this.imageUrl, 88999, info);
     },
     beforeUpload(file) {
       const isJpgOrPng =
-        file.type === "image/jpeg" || file.type === "image/png"|| file.type === "image/jpg";
+        file.type === "image/jpeg" ||
+        file.type === "image/png" ||
+        file.type === "image/jpg";
       if (!isJpgOrPng) {
         this.$message.error("只能上传jpeg,jpg,png格式的图片");
       }

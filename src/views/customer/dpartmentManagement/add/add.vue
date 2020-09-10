@@ -6,12 +6,14 @@
         <span class="col_red">*</span>部门名称:
       </div>
       <a-input class="edit_a_input" v-model="form.departmentName" placeholder="请输入部门名称" />
+         <div class="edit_item_toast">注:2-16个字，支持中英文</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
         上级部门:
       </div>
       <a-input class="edit_a_input" v-model="form.parentName" disabled />
+     
     </div>
 
 
@@ -77,9 +79,16 @@ export default {
       }
       console.log(res, 8888);
     },
-    //运行参数表单接口
+    //表单接口
     async getform() {
       this.form.operatorId = 1;
+         if (this.form.departmentName=="") {
+     return  this.$message.error('请输入部门名称')
+     }
+      if (!this.vify_cn16(this.form.departmentName)) {
+       this.form.departmentName=""
+     return  this.$message.error('部门名称格式不正确')
+     }
       let res = await this.$http.post(this.$api.departmentform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
