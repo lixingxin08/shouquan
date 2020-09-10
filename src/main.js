@@ -51,12 +51,10 @@ Vue.prototype.$md5 = md5
 
 
 // 拦截器
-let instance = axios.create({ timeout: 10000 });
+let instance = axios.create();
 // instance.defaults.headers.common['Authorization'] = "Bearer " + getCookie("userToken");//携带cookie
 //instance.defaults.withCredentials = true;//让ajax携带cookie
-instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-let token="1"
-instance.defaults.headers.common["operatorId"] = token;
+instance.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 instance.interceptors.request.use(
   config => {
     // if (sessionStorage.getItem('token')) { // 若存在token，则每个Http Header都加上token
@@ -71,10 +69,12 @@ instance.interceptors.request.use(
 // http response 拦截器
 instance.interceptors.response.use(
   response => {
+    console.log(response,222222222222);
     return response;
   },
   error => {
     if (error.response) {
+      console.log(error,66666666666);
       switch (error.response.status) {
         case 404:
           // 返回 401 (未授权) 清除 token 并跳转到登录页面

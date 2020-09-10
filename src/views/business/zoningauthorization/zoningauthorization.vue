@@ -162,8 +162,6 @@ export default {
       }
     },
     async getform() {
-      console.log(this.data);
-
       let aa = {
         customerId: "",
         areaId: "",

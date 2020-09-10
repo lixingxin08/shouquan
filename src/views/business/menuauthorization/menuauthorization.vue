@@ -76,7 +76,7 @@
   </div>
 </template>
 <script>
-import isLeft from "../../../components/tree/seltree.vue";
+import isLeft from "../../../components/tree/check_seltree.vue";
 export default {
   components: {
     isLeft,
@@ -272,6 +272,7 @@ export default {
     },
     async getform() {
       this.form.operatorId = 1;
+     this.form.menuIdList = this.checkedKeys
       if (this.form.menuIdList == "") {
         return this.$message.error("请选择授权系统");
       }
@@ -360,9 +361,7 @@ export default {
       this.showtree = false;
       this.treedata = this.oldtreedata;
       if (value == "all") {
-        this.treedata = this.oldtreedata;
-        this.checkedKeys=this.checkedKeys
-        this.$refs.select.setSelectKey(this.checkedKeys)
+        // this.checkedKeys
       } else {
         let filterTreeNode = "";
         for (let i = 0; i < this.treedata.length; i++) {

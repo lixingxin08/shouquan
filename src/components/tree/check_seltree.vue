@@ -6,12 +6,12 @@
     <div class="istree">
       <a-tree
         :show-line="showLine"
-        @select="onSelect"
         :checkable="checkable"
         :tree-data="treedata"
         :replaceFields="replaceFields"
-         :checked-keys="checkedKeys"
-        :default-expanded-keys="defaultExpandedKeys"     
+        :checked-keys="checkedKeys"
+        :selectable='false'
+        :default-expanded-keys="defaultExpandedKeys"
         @check="onCheck"
       >
         <a-icon slot="icon" type="carry-out" />
@@ -27,36 +27,38 @@ export default {
       showLine: true,
       showIcon: true,
       olddata: "",
+      oldcheck: "",
     };
   },
   props: {
     treedata: Array, //树数据
-    checkable:{
-      type:Boolean,
-      default:true
+    checkable: {
+      type: Boolean,
+      default: true,
     },
     replaceFields: Object, //替换属性
     defaultExpandedKeys: Array, //默认展开
-    checkedKeys:Array
+    checkedKeys: Array,
   },
-  created() {
-    
-  },
+  created() {},
   methods: {
     onSelect(selectedKeys, selectedNodes) {
-      console.log(selectedKeys, selectedNodes, 8889999,this.checkedKeys);
+    
+      if (this.checkedKeys.includes(selectedKeys[0])) {
+        for (let i = 0; i < this.checkedKeys.length; i++) {
+          if (this.checkedKeys[i] == selectedKeys[0]) {
+            console.log(i, 1111111111111111);
+            this.checkedKeys.splice(i, 1);
+            this.oldcheck = selectedKeys[0];
+          }
+        }
+      } else {
+        this.checkedKeys.push(selectedKeys[0]);
+      }
+      if (selectedKeys.length == 0) {
+        this.checkedKeys.push(this.oldcheck);
+      }
 
-      // if (this.checkedKeys.includes(selectedKeys[0])) {
-      //     for (let i = 0; i < this.checkedKeys.length; i++) {
-      //       if (this.checkedKeys[i]==selectedKeys[0]) {
-      //         console.log(i,1111111111111111);
-      //         this.checkedKeys.splice(i,1)
-      //       }
-      //     }
-      // }else{
-      //     this.checkedKeys.push(selectedKeys[0])
-      // }
-      console.log(this.checkedKeys,55555555555555555);
       if (selectedNodes.selected == false) {
         return;
       }
@@ -70,11 +72,8 @@ export default {
     onCheck(checkedKeys, info) {
       console.log("onCheck", checkedKeys, info);
       this.checkedKeys=checkedKeys
-        this.$emit("checkedKeys", checkedKeys);
+    //   this.$emit("checkedKeys", this.checkedKeys);
     },
-    setSelectKey(checkedKeys){
-      this.checkedKeys=checkedKeys
-    }
   },
 };
 </script>

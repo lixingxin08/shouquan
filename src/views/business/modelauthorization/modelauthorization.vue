@@ -51,7 +51,7 @@
         <div class="flex_a rb_b">
           <div class="flex_f">
             <div class="cancel_btn rb_b_btn">取消</div>
-            <div class="ok_btn">授权</div>
+            <div class="ok_btn" @click="getform()">授权</div>
           </div>
         </div>
       </div>
@@ -76,20 +76,20 @@ export default {
         },
         onSelect: (record, selected, selectedRows) => {
           console.log(record, selected, selectedRows, 2222);
-          this.form.customerIdList = [];
+          this.form.modelIdList = [];
           if (selectedRows.length > 0) {
             selectedRows.forEach((item) => {
-              this.form.customerIdList.push(item.customerId);
+              this.form.modelIdList.push(item.modelId);
             });
             console.log(this.form, 1235455);
           }
         },
         onSelectAll: (selected, selectedRows, changeRows) => {
           console.log(selected, selectedRows, changeRows, 1111);
-          this.form.customerIdList = [];
+          this.form.modelIdList = [];
           if (selected == true) {
             selectedRows.forEach((item) => {
-              this.form.customerIdList.push(item.customerId);
+              this.form.modelIdList.push(item.modelId);
             });
             console.log(this.form, 1235455);
           }
@@ -170,18 +170,9 @@ export default {
       defaultExpandedKeys: [],
       data: "",
       showtree: false,
-      areatreeprame: {
-        //行政区划树接口参数
-        areaId: "",
-        keyword: "",
-        keyword: "",
-        latitude: 0,
-        longitude: 0,
-        operatorId: "",
-        pageIndex: 0,
-        pageSize: 10,
-        parentId: "",
-        remark: "",
+      treeprame: {
+        customerId: "",
+        operatorId: "1",
       },
       listparam: {
         operatorId: "1",
@@ -193,9 +184,10 @@ export default {
       },
       customerId: "",
       form: {
-        customerIdList: [],
+        modelIdList: [],
         accountId: "",
         remark: "",
+         operatorId: "1",
       },
       rowClick: (record) => ({
         // 事件
@@ -228,18 +220,16 @@ export default {
             this.tabledata.push(res.data.data[i]);
           }
         }
+        this.modellistparam.customerId = this.tabledata[0].customerId;
+        this.form.customerId = this.tabledata[0].customerId; 
         this.getmodellist();
         this.tabletype = true;
       } else {
-     return   this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
     async getmodellist() {
       this.tabletype2 = false;
-      console.log(this.tabledata[0].customerId, 11122222);
-      if (this.modellistparam.customerId == "") {
-        this.modellistparam.customerId = this.tabledata[0].customerId;
-      }
       let res = await this.$http.post(
         this.$api.customermodellist,
         this.modellistparam
@@ -248,19 +238,31 @@ export default {
         for (let i = 0; i < res.data.data.length; i++) {
           this.tabledata2 = res.data.data;
         }
+
         this.tabletype2 = true;
       } else {
-      return  this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
+      }
+    },
+    async getform() {
+      this.tabletype2 = false;
+      console.log(this.form,111111111111);
+       this.form.customerId=this.modellistparam.customerId
+      let res = await this.$http.post(this.$api.customermodelform, this.form);
+      if (res.data.resultCode == "10000") {
+        this.tabletype2 = true;
+      } else {
+        return this.$message.error(res.data.resultMsg);
       }
     },
     async getareatree() {
       this.showtree = false;
-      let res = await this.$http.post(this.$api.areatree, this.areatreeprame);
+      let res = await this.$http.post(this.$api.devicetypetree, this.treeprame);
       console.log(res, 11);
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
       } else {
-     return   this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
       this.setdata();
       this.showtree = true;
