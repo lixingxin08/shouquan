@@ -18,7 +18,7 @@
       <div class="flexrow flexac item">
         <a style="color: #FFFFFF;">*</a>
         <div class="item-title">是否默认：</div>
-        <a-switch :value='item.defaultFlag==1' @change="onChangeSwitch"></a-switch>
+        <a-switch v-model='item.defaultFlag==1' @change="onChangeSwitch"></a-switch>
       </div>
       <a-button type='primary' style='margin-top: 120px;margin-bottom: 30px;' @click='submit'>确定</a-button>
     </div>
@@ -29,18 +29,22 @@
   export default {
     data() {
       return {
-        item: {},
+        item: {
+          defaultFlag:0
+        },
         index: -1
       }
     },
     methods: {
 
       setItem(item, index) {
+
         this.item = item
         this.index = index
+        console.log(item)
       },
       onChangeSwitch(checked) {
-        console.log(this.item.defaultFlag)
+      this.item.defaultFlag=checked?1:0
       },
       submit() {
         if (!this.item.actionName) {

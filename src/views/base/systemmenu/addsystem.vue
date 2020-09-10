@@ -54,7 +54,7 @@
           </div>
         </template> -->
         <template slot="defaultFlag" slot-scope="text, record, index">
-          <a-switch :checked='record.defaultFlag==1' @change="onChangeSwitch(index)"></a-switch>
+          <a-switch v-model='record.defaultFlag==1' @change="onChangeSwitch(index)"></a-switch>
         </template>
         <template slot="operation" slot-scope="text, record,index">
           <div class="flexrow flexac flexjc">
@@ -273,10 +273,11 @@
       changeAutoListState(index) {
         for (let i = 0; i < this.authList.length; i++) {
           let item = this.authList[i]
-          item.defaultFlag = (index == i ? 1 : 0)
-          this.$set(this.authList, this.authList[i], item)
+
+         item.defaultFlag =(index == i) ? 1 : 0
+          this.$set(this.authList, i, item)
         }
-        console.log(this.authList)
+      //  console.log(this.authList)
       }
     },
   }
@@ -315,6 +316,7 @@
     margin-left: 20px;
     margin-right: 20px;
   }
+
   .edit_a_input {
     width: 667px;
     height: 32px;

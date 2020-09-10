@@ -185,13 +185,13 @@
         let res = await this.$http.post(this.$api.dictionaryform, param);
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
-          this.$router.go(-1)
+          //this.$router.go(-1)
+           this.getDictionaryInfo(this.dictid);
         } else {
           this.$message.error(res.data.resultMsg);
         }
         this.showAddDialog = false
-       // this.getDictionaryInfo(this.dictid);
-
+       
       },
 
       async cancel(item) { //删除数值行

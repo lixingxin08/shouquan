@@ -11,11 +11,12 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': {//代理api
-
-        target:"http://hean.fast2.svipss.top//authorization",        changeOrigin: true,//是否跨域
-        pathRewrite: {//重写路径
-          "^/api": ''//代理路径
+      '/api': { //代理api
+         target:"http://192.168.3.83:8091/authorization",
+        //target: "http://hean.fast2.svipss.top/authorization",
+        changeOrigin: true, //是否跨域
+        pathRewrite: { //重写路径
+          "^/api": '' //代理路径
         }
       }
     },

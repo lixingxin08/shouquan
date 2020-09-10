@@ -118,14 +118,21 @@
         }
         let res = await this.$http.post(this.$api.propertylist, param)
 
-        if (res.data.resultCode == 10000) {
-          let data = res.data.data
-          for (let i = 0; i < data.length; i++) {
-            if (!data[i].childrenList) {
-              data[i].childrenList = []
-            }
+      if (res.data.resultCode == 10000) {
+        let data = []
+        res.data.data.result.forEach((item) => {
+          if (item.parentId == '100000000000000000000000000000000000000000000000000000000000') {
+            item.childrenList = []
+            res.data.data.result.forEach((childItem) => {
+              if (childItem.parentId == item.propertyId) {
+                item.childrenList.push(childItem)
+              }
+            })
+            data.push(item)
           }
-          this.groups = data
+        })
+        this.groups = data
+
 
         } else {//没有分组信息时本地添加一个空的
           this.groups.push({})
@@ -179,7 +186,8 @@
       /* 取消*/
       cancleDialog() {
         this.visible = false
-      }
+      },
+     
     }
   }
 </script>

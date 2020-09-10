@@ -53,7 +53,7 @@
 
       </div>
       <a-table v-else style='margin-top: 20px;margin-bottom: 20px; ' :scroll="{ x: 820 }" :columns="addcolumns"
-        :data-source="msgList" :pagination='false' :bordered='true' size='small' :rowClassName="this.setRowClassName">
+        :data-source="msgList" :pagination='false' :bordered='true' size='small' >
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
         </template>
@@ -238,11 +238,7 @@
       onChangeConfig() {
         this.num = this.wechat.remark.length
       },
-      setRowClassName(record) {
-        if (record.orderCode == null || record.warehouseCode == null || record.operateTime == null) {
-          return 'clickRowStyle'
-        }
-      }
+
     },
   }
 </script>
@@ -280,9 +276,7 @@
     padding-left: 10px;
   }
 
-  .clickRowStyle {
-    background-color: #F5F5F5;
-  }
+.topic-info{  background-color: #F5F5F5;}
 
   .edit_number {
     position: absolute;
