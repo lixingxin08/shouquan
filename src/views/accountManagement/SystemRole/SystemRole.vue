@@ -12,20 +12,20 @@
     <a-button type="primary" class="flexrow flexjc flexac addbtn" style="margin-top: 30px;" @click="edit({})">
       <a-icon two-tone-color="#ffffff" type="plus" /> 新增
     </a-button>
-    <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableList" bordered size="small"
-      :pagination="pagination" @change="handleTableChange">
+    <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableList" bordered size="small" :pagination="pagination"
+      @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
-   {{(index+1)+((pagination.current-1)*10)}}
+        {{(index+1)+((pagination.current-1)*10)}}
       </template>
 
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
           <div class="item-line"></div>
-          <a-popconfirm v-if='record.totalno<=0'  title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
+          <a-popconfirm v-if='record.totalno<=0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
-            <a v-else style="color: #DCDCDC;">删除</a>
+          <a v-else style="color: #DCDCDC;">删除</a>
         </div>
       </template>
     </a-table>
@@ -41,8 +41,9 @@
         tableTitle: tableTitleData.data.tableTitle,
         tableList: [], //设备型号数据
         pagination: {
-           size:"default",
-           total:0,
+          size: "default",
+          total: 0,
+          current:1,
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
@@ -62,7 +63,7 @@
         this.pageIndex = pagination.current
         this.getTableData()
       },
-/* 获取设备类型 */
+      /* 获取设备类型 */
       async getTableData() {
         let param = {
           pageIndex: this.pageIndex,
@@ -72,8 +73,8 @@
         let res = await this.$http.post(this.$api.rolesystempage, param)
         if (res.data.resultCode == 10000) {
           this.tableList = res.data.data.list
-           if(this.pagination.current==1)
-          this.pagination.total=res.data.data.length
+          if (this.pagination.current == 1)
+            this.pagination.total = res.data.data.length
         } else {
           this.tableList = []
           this.$message.error(res.data.resultMsg);
@@ -82,7 +83,7 @@
       /* 确定删除*/
       async confirmDelete(item) {
         let param = {
-          roleId : item.roleId
+          roleId: item.roleId
         }
         let res = await this.$http.post(this.$api.rolesystemremove, param);
         if (res.data.resultCode == 10000) {

@@ -53,19 +53,21 @@
 
       </div>
       <a-table v-else style='margin-top: 20px;margin-bottom: 20px; ' :scroll="{ x: 820 }" :columns="addcolumns"
-        :data-source="msgList" :pagination='false' :bordered='true' size='small' >
+        :data-source="msgList" :pagination='false' :bordered='true' size='small'>
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
         </template>
 
 
-          <a-input slot="serviceId"  slot-scope="text, record, index" style="margin: -5px 0;border: 0px;" v-model='text' @change="e => handleChange(e.target.value,index)"></a-input>
+        <a-input slot="serviceId" slot-scope="text, record, index" style="margin: -5px 0;border: 0px;" v-model='text'
+          @change="e => handleChange(e.target.value,index)"></a-input>
 
       </a-table>
       <div class="flexrow flexjc" style="margin-top: 60px;margin-bottom: 100px;">
         <a-button type="primary" v-if='current==1' @click='submit'>保存</a-button>
         <a-button type="primary" v-if='current==0' @click='onChange(1)'>下一步</a-button>
         <a-button style="margin-left: 60px;" @click='reset'>重置</a-button>
+        <a-alert message="Warning" type="warning" show-icon />
       </div>
     </div>
 
@@ -116,7 +118,7 @@
       onChange(current) {
         if (current == 1) {
           if (!this.wechat.wechatConfigName) {
-            this.$message.warning('请先填写微信账号别名')
+            this.$message.success('请先填写微信账号别名')
             return
           }
           if (!this.wechat.wechatAppId) {
@@ -276,7 +278,9 @@
     padding-left: 10px;
   }
 
-.topic-info{  background-color: #F5F5F5;}
+  .topic-info {
+    background-color: #F5F5F5;
+  }
 
   .edit_number {
     position: absolute;

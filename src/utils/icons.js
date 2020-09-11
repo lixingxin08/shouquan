@@ -86,3 +86,23 @@ export {
   default as EyeOutline
 }
 from '@ant-design/icons/lib/outline/EyeOutline'
+export {
+  default as InfoCircleOutline
+}
+from '@ant-design/icons/lib/outline/InfoCircleOutline'
+export {
+  default as InfoOutline
+}
+from '@ant-design/icons/lib/outline/InfoOutline'
+export {
+  default as CheckCircleOutline
+}
+from '@ant-design/icons/lib/outline/CheckCircleOutline'
+export {
+  default as ExclamationCircleOutline
+}
+from '@ant-design/icons/lib/outline/ExclamationCircleOutline'
+export {
+  default as ExclamationOutline
+}
+from '@ant-design/icons/lib/outline/ExclamationOutline'

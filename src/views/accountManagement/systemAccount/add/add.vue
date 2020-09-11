@@ -160,33 +160,33 @@
       /* 保存，确认*/
       async submit() {
         if (!this.config.realName) {
-          this.$message.error('请关联人员')
+          this.$message.warning('请关联人员')
           return
         }
         if (!this.config.userName) {
-          this.$message.error('请输入账号名称')
+          this.$message.warning('请输入账号名称')
           return
         }
         if (this.config.userName.length < 5) {
-          this.$message.error('账号长度要求5-11位')
+          this.$message.warning('账号长度要求5-11位')
           return
         }
         if (!this.accountid) {
           if (!this.config.cipher || !this.config.cipher2) {
-            this.$message.error('请输入密码')
+            this.$message.warning('请输入密码')
             return
           }
           if (this.config.cipher.length < 5 || this.config.cipher2.length < 5) {
-            this.$message.error('密码格式不对')
+            this.$message.warning('密码格式不对')
             return
           }
           if (this.config.cipher != this.config.cipher2) {
-            this.$message.error('两次密码不一致')
+            this.$message.warning('两次密码不一致')
             return
           }
         }
         if (this.selectedRowKeys.length <= 0) {
-          this.$message.error('请关联角色')
+          this.$message.warning('请关联角色')
           return
         }
         this.config.operatorId = '5172dadd6d7c404e8ac657f32f81d969'
