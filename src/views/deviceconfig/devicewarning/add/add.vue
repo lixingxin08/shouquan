@@ -7,12 +7,12 @@
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>警报名称:</div>
 
-        <a-input class='edit_a_input' v-model='warning.alarmName' placeholder="请输入您选择的型号名称" />
+        <a-input class='edit_a_input' :maxLength='50' v-model='warning.alarmName' placeholder="请输入您选择的型号名称" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>警报代码:</div>
-        <a-input class='edit_a_input' v-model='warning.alarmCode' placeholder="请输入您选择的型号代码" />
+        <a-input class='edit_a_input' :maxLength='50' v-model='warning.alarmCode' placeholder="请输入您选择的型号代码" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item">
@@ -22,15 +22,23 @@
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
-        <div class="edit_item_toast">注：可直接选择设备品牌</div>
+        <div class="edit_item_toast">注：可直接选择警报类型</div>
       </div>
-
+      <div class="flexrow flexac edit_item">
+        <div class="edit_item_title"><a style="color: #FF0000;">*</a>警报等级:</div>
+        <a-select :value="warning.gradeno?warning.gradeno:'请选择警报类型'" class='select_item' @change="handleGradeSelectChange">
+          <a-select-option v-for='(item,index) in gradeList' :key='index' :value="item.comboBoxId">
+            {{item.comboBoxName}}
+          </a-select-option>
+        </a-select>
+        <div class="edit_item_toast">注：可直接选择警报等级</div>
+      </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">警报描述:</div>
         <div style="position: relative;">
-          <a-textarea class='edit_a_input' :rows="5" v-model='warning.remark' :maxLength='500' placeholder="请输入描述"
+          <a-textarea class='edit_a_input' :rows="5" v-model='warning.remark' :maxLength='250' placeholder="请输入描述"
             @change="onChangeConfig" />
-          <div class="edit_number">{{num}}/500</div>
+          <div class="edit_number">{{num}}/250</div>
         </div>
       </div>
 
@@ -68,10 +76,25 @@
 
       return {
         selectedRowKeys: [], //选择转警事件
+        gradeList: [{ //警报等级
+            comboBoxId: 1,
+            comboBoxName: '高危'
+          },
+          {
+            comboBoxId: 2,
+            comboBoxName: '普通'
+          },
+          {
+            comboBoxId: 3,
+            comboBoxName: '忽略'
+          }
+        ],
         eventList: [], //转警事件
         warningTypeList: [], //转警事件列表
         warningSelect: '', //转警选择
-        warning: {}, //警告信息
+        warning: {
+          gradeno: 0
+        }, //警告信息
         dictionaryColumns: tableTitleData.data.add,
         num: 0, //描述长度
         id: '' //修改的id
@@ -101,6 +124,10 @@
           this.$message.warning('请选择警报类型')
           return
         }
+        if (this.warning.gradeno <= 0) {
+          this.$message.warning('请选择警报等级')
+          return
+        }
         if (!this.selectedRowKeys) {
           this.$message.warning('请至少勾选一个转警事件')
           return
@@ -111,6 +138,7 @@
           alarmCode: this.warning.alarmCode, //警报代码
           alarmType: this.warningSelect, //警报类型
           flowImage: this.warning.flowImage, //流程示意图
+          gradeno: this.warning.gradeno,
           operatorId: '5172dadd6d7c404e8ac657f32f81d969', //操作者id
           remark: this.warning.remark, //警报描述
           eventIdList: this.getEventSelectList() //转警事件
@@ -134,6 +162,9 @@
         if (res.data.resultCode == 10000) {
           this.warningTypeList = res.data.data
         }
+      },
+      handleGradeSelectChange(value) {
+        this.warning.gradeno = value
       },
       /* 获取事件列表*/
       async getEventList() {

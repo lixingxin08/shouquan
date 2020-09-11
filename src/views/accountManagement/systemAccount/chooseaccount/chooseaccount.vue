@@ -60,7 +60,7 @@
           },
         ],
         pagination: {//分页数据
-          total: 50,
+          total: 0,
           pageSize: 100, //每页中显示10条数据
           showSizeChanger: true,
           current: 1,
@@ -147,9 +147,9 @@
             if (item.existsFlag == 0)
               this.tabledata.push(item)
           })
-          if (this.istotal.type == 1) {
+          if(this.pagination.current==1)
             this.pagination.total = res.data.data.length;
-          }
+          
           this.istotal.type++;
           this.tabletype = true;
         } else {

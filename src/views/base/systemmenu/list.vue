@@ -13,7 +13,7 @@
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="menuList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
-        {{index+1}}
+       {{(index+1)+((pagination.current-1)*10)}}
       </template>
       <template slot="authFlag" slot-scope="text, record,index">
         <div v-if="record.authFlag==0">默认拥有类</div>
@@ -49,7 +49,7 @@
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         menuList: [], //字典数据
         pagination: {
-          total: 50, //总页数
+          total: 0, //总页数
           pageSize: 10, //每页中显示10条数据
           showSizeChanger: true,
           current: 1, //当前页
@@ -93,7 +93,9 @@
         let res = await this.$http.post(this.$api.menupage, param);
         console.log(res)
         if (res.data.resultCode == "10000") {
+          
           this.menuList = res.data.data.list;
+           if(this.pagination.current==1)
             this.pagination.total = res.data.data.length;
         } else {
           this.menuList = []

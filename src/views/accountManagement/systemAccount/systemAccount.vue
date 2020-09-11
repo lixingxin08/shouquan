@@ -23,7 +23,7 @@
               size='small'>
 
               <div slot="accountId" slot-scope="text, record,index">
-                {{index+1}}
+            {{(index+1)+((pagination.current-1)*10)}}
               </div>
               <div slot="statusCode" class="flex_a" slot-scope="statusCode">
                 <div v-if="statusCode==1">启用</div>
@@ -150,7 +150,7 @@
         ],
         data: "", //菜单原始数据
         pagination: { //分页数据
-          total: 50,
+          total: 0,
           pageSize: 10, //每页中显示10条数据
           showSizeChanger: true,
           current: 1,
@@ -209,9 +209,9 @@
         let res = await this.$http.post(this.$api.accountinfopage, prame);
         if (res.data.resultCode == "10000") {
           this.tabledata = res.data.data.list;
-          if (this.istotal.type == 1) {
+         if(this.pagination.current==1)
             this.pagination.total = res.data.data.length;
-          }
+          
           this.istotal.type++;
           this.tabletype = true;
         } else {

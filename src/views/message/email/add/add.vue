@@ -60,7 +60,7 @@
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">备注信息:</div>
       <div style="position: relative;">
-        <a-textarea class="edit_a_input" :rows="5" :maxLength='500' placeholder="500字以内，格式不限制" v-model="form.remark" />
+        <a-textarea class="edit_a_input" :rows="5" :maxLength='250' placeholder="500字以内，格式不限制" v-model="form.remark" />
       </div>
     </div>
     <div class="flexrow" style="margin-top: 30px;justify-item: flex-start;margin-left: 325px;">

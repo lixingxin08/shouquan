@@ -19,7 +19,7 @@
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
-        {{index+1}}
+       {{(index+1)+((pagination.current-1)*10)}}
       </template>
 
       <template slot="operation" slot-scope="text, record">
@@ -88,6 +88,7 @@
         let res = await this.$http.post(this.$api.devicetypepage, param)
         if (res.data.resultCode == 10000) {
           this.deviceList = res.data.data.list
+           if(this.pagination.current==1)
           this.pagination.total = res.data.data.length;
         } else {
           this.deviceList = []
