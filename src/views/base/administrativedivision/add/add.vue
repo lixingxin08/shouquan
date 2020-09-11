@@ -75,6 +75,7 @@
 <script>
 import AMap from "AMap";
 export default {
+  inject:['reload'],
   data() {
     return {
       visible: false,
@@ -257,16 +258,7 @@ export default {
       });
     },
     reset(){
-      this.form={
-         areaId: "",
-        areaName: "",
-        levelType: "",
-        position: "",
-        remark: "",
-        parentId: "",
-        parentName: "",
-        operatorId:1
-      }
+      this.reload()
     },
 
     onComplete(e) {

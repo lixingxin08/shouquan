@@ -90,6 +90,7 @@ export default {
   devicemodelform: `/device/model/form`, //设备型号表单接口
   devicemodelpage: `/device/model/page`, //设备型号分页查询接口
   devicemodelremove: `/device/model/remove`, //设备型号删除接口
+  devicemodelrelist: `/device/model/list`, //设备型号型号列表
 
   deviceeventdetail: `/device/event/detail`, //设备型号查询详情接口
   deviceeventform: `/device/event/form`, //设备型号表单接口

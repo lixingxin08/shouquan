@@ -283,7 +283,6 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.$router.go(-1);
       } else {
         return this.$message.error(res.data.resultMsg);
       }
