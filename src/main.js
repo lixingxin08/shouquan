@@ -75,6 +75,7 @@ instance.interceptors.response.use(
     return response;
   },
   error => {
+    console.log(error,66666666666);
     if (error.response) {
       console.log(error,66666666666);
       switch (error.response.status) {

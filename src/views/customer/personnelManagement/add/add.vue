@@ -84,6 +84,7 @@
 <script>
 import AMap from "AMap";
 export default {
+   inject:['reload'],
   data() {
     return {
       sel_data: "",
@@ -167,11 +168,7 @@ export default {
       }
     },
     reset() {
-       this.form.realName=""
-       this.form.mobilePhone=""
-       this.form.email=""
-       this.form.position=""
-       this.form.remark=""
+       this.reload()
     },
 
     onComplete(e) {

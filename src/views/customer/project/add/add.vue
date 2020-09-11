@@ -109,6 +109,7 @@
 
 <script>
 export default {
+   inject:['reload'],
   data() {
     return {
       sel_data: "",
@@ -206,20 +207,8 @@ export default {
       }
     },
     reset() {
-      this.form = {
-        projectId: "",
-        projectName: "",
-        contractNo: "",
-        description: "",
-        startDate: "",
-        endDate: "",
-        statusCode: "",
-        defaultChecked: 0,
-        leader: "",
-        linkphone: "",
-        remark: "",
-        operatorId: "1",
-      }
+      this.reload()
+  
     },
 
     handleChange(value, key) {

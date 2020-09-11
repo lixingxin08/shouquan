@@ -110,6 +110,7 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 }
 export default {
+   inject:['reload'],
   data() {
     return {
       loading: false,
@@ -209,8 +210,7 @@ export default {
       }
     },
     reset() {
-      this.form.departmentName = "";
-      this.form.introduce = "";
+     this.reload()
     },
     handleChange(info) {
       if (info.file.status === "uploading") {

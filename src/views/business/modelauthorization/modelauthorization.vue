@@ -25,6 +25,7 @@
               :treedata="treedata"
               :replaceFields="replaceFields"
               :defaultExpandedKeys="defaultExpandedKeys"
+                @selectdata="getselectdata"
               @checkedKeys="getcheckedKeys"
               v-if="showtree"
             ></is-left>
@@ -36,8 +37,7 @@
             <a-table
               :columns="tablecolumns2"
               :data-source="tabledata2"
-              :row-selection="rowSelection"
-              
+              :row-selection="rowSelection"    
               bordered
               :pagination="false"
             ></a-table>
@@ -68,7 +68,14 @@ export default {
   },
   data() {
     return {
+     isdefaultChecked :'路灯控制器NB版',
       rowSelection: {
+         getCheckboxProps: record => ({
+          props: {
+            defaultChecked: record.modelName === this.isdefaultChecked, // Column configuration not to be checked
+            name: record.modelName,
+          },
+        }),
         onChange: (selectedRowKeys, selectedRows) => {
           console.log(
             `selectedRowKeys: ${selectedRowKeys}`,
@@ -150,7 +157,7 @@ export default {
           align: "center",
           title: "型号品牌",
           dataIndex: "brandName",
-          key: "brandName 1",
+          key: "brandName",
           ellipsis: true,
         },
         {
@@ -183,6 +190,11 @@ export default {
         operatorId: "1",
         customerId: "",
       },
+      treemodelparam:{
+        id:"",
+        levelType:""
+      },
+      treemodeldata:"",
       customerId: "",
       form: {
         modelIdList: [],
@@ -242,6 +254,20 @@ export default {
         this.tabletype2 = true;
       } else {
          this.tabledata2 =''
+        return this.$message.error(res.data.resultMsg);
+      }
+    },
+        async gettreemodellist() {
+      this.tabletype2 = false;
+      let res = await this.$http.post(
+        this.$api.devicemodelrelist,
+        this.treemodelparam
+      );
+      if (res.data.resultCode == "10000") {
+         console.log(res.data.data,7778888);
+         this.treemodeldata=res.data.data
+        this.tabletype2 = true;
+      } else {
         return this.$message.error(res.data.resultMsg);
       }
     },
@@ -325,9 +351,14 @@ export default {
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
+      console.log(val,544444);
+           this.treemodelparam.id=val.id
+      this.treemodelparam.levelType=val.levelType
+      this.gettreemodellist()
     },
     getcheckedKeys(val) {
       console.log(val, 44444);
+ 
     },
     cancel(){
       this.reload()
