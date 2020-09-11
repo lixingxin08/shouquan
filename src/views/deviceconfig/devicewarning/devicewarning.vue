@@ -19,7 +19,7 @@
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="warningList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
-        {{index+1}}
+      {{(index+1)+((pagination.current-1)*10)}}
       </template>
       <div slot="gradeno" slot-scope="text, record">
         <div v-if="record.gradeno==0||record.gradeno==3">忽略</div>

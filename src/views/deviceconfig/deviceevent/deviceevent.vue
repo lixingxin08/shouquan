@@ -19,16 +19,19 @@
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
-        {{index+1}}
+        {{(index+1)+((pagination.current-1)*10)}}
       </template>
 
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>
           <div class="item-line"></div>
-          <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
+          <a-popconfirm v-if='record.alarmTotal>0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
+          <div v-else style="color: #999999;">
+            删除
+          </div>
         </div>
       </template>
     </a-table>
@@ -84,6 +87,7 @@
         let res = await this.$http.post(this.$api.deviceeventpage, param)
         if (res.data.resultCode == 10000) {
           this.deviceList = res.data.data.list
+           if(this.pagination.current==1)
           this.pagination.total = res.data.data.length;
         } else {
           this.deviceList = []

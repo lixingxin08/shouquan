@@ -13,7 +13,7 @@
     </div>
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableList" bordered size="small" :pagination="pagination"
       @change="handleTableChange">
-      <template slot="index" slot-scope="text, record,index">{{index+1}}</template>
+      <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="detail(record)">详情</a>
@@ -89,6 +89,7 @@
         let res = await this.$http.post(this.$api.journalpage, param);
         if (res.data.resultCode == "10000") {
           this.tableList = res.data.data.list;
+		  if(this.pagination.current==1)
           this.pagination.total = res.data.data.length;
           this.$forceUpdate();
         } else {

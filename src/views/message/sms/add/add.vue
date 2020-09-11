@@ -45,9 +45,9 @@
         <div class="flexrow flexac edit_item">
           <div class="edit_item_title">备注信息:</div>
           <div style="position: relative;">
-            <a-textarea class='edit_a_input' :rows="5" :maxLength='500' v-model='config.remark' placeholder="请输入描述"
+            <a-textarea class='edit_a_input' :rows="5" :maxLength='250' v-model='config.remark' placeholder="请输入描述"
               @change="onChangeConfig" />
-            <div class="edit_number">{{num}}/500</div>
+            <div class="edit_number">{{num}}/250</div>
           </div>
         </div>
 

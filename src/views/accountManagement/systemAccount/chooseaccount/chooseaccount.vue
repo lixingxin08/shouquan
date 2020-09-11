@@ -147,9 +147,9 @@
             if (item.existsFlag == 0)
               this.tabledata.push(item)
           })
-          if (this.istotal.type == 1) {
+          if(this.pagination.current==1)
             this.pagination.total = res.data.data.length;
-          }
+          
           this.istotal.type++;
           this.tabletype = true;
         } else {

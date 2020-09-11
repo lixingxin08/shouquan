@@ -22,7 +22,7 @@
       </div>
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title"><a style="color: #FF0000;">*</a>设备品牌:</div>
-        <a-select :value="brandSelect?brandSelect:'请选择设备品牌'"  :disabled='!typeSelect'class='select_item' @change="handleBrandChange">
+        <a-select :value="brandSelect?brandSelect:'请选择设备品牌'" :disabled='!typeSelect' class='select_item' @change="handleBrandChange">
           <a-select-option v-for='(item,index) in brandList' :key='index' :value="item.brandId">
             {{item.brandName}}
           </a-select-option>
@@ -52,8 +52,8 @@
       <div class="flexrow flexac edit_item">
         <div class="edit_item_title">备注信息:</div>
         <div style="position: relative;">
-          <a-textarea class='edit_a_input' :rows="5" v-model='remark' :maxLength='500' placeholder="请输入描述" @change="onChangeConfig" />
-          <div class="edit_number">{{num}}/500</div>
+          <a-textarea class='edit_a_input' :rows="5" v-model='remark' :maxLength='250' placeholder="请输入描述" @change="onChangeConfig" />
+          <div class="edit_number">{{num}}/250</div>
         </div>
       </div>
 
@@ -204,9 +204,10 @@
           remark: this.remark, //备注信息
           deviceAlarmList: this.getAlramList() //设备警报列表
         }
-        console.log()
         let res = await this.$http.post(this.$api.devicemodelform, param)
         if (res.data.resultCode == 10000) {
+          if (!this.Id)
+            this.$router.go(-1)
           this.$message.success(res.data.resultMsg);
         } else {
           this.$message.error(res.data.resultMsg);
@@ -304,7 +305,7 @@
       handleServerChange(e) {
         this.severSelect = e
         this.getTypeList()
-        this.typeSelect=''
+        this.typeSelect = ''
       },
       /* 设备类型下拉选择*/
       handleTypeChange(e) {

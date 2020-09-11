@@ -12,7 +12,7 @@
     </div>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="dictonaryList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
-      <template slot="index" slot-scope="text, record,index">{{index+1}}</template>
+      <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm(record)">
@@ -80,6 +80,7 @@
         let res = await this.$http.post(this.$api.dictionarypage, param);
         if (res.data.resultCode == "10000") {
           this.dictonaryList = res.data.data.list;
+           if(this.pagination.current==1)
 		   this.pagination.total = res.data.data.length;
           this.$forceUpdate();
         } else {

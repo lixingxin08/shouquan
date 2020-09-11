@@ -203,9 +203,9 @@
         let res = await this.$http.post(this.$api.accountinfopage, prame);
         if (res.data.resultCode == "10000") {
           this.tabledata = res.data.data.list;
-          if (this.istotal.type == 1) {
+         if(this.pagination.current==1)
             this.pagination.total = res.data.data.length;
-          }
+         
           this.istotal.type++;
           this.tabletype = true;
         } else {
