@@ -21,6 +21,11 @@
       <template slot="index" slot-scope="text, record,index">
         {{index+1}}
       </template>
+      <div slot="gradeno" slot-scope="text, record">
+        <div v-if="record.gradeno==0||record.gradeno==3">忽略</div>
+        <div style="color: #1890FF;" v-if="record.gradeno==2">普通</div>
+        <div style="color: #FF0033;" v-if="record.gradeno==1">高危</div>
+      </div>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>

@@ -51,8 +51,10 @@
     "adddictionaryColumns": [{
         "title": "序号",
         "width": "80px",
-        "align": "center"
-
+        "align": "center",
+ "scopedSlots": {
+          "customRender": "index"
+        }
       },
       {
         "title": "品牌名称",

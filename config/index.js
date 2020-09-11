@@ -12,10 +12,10 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {//代理api
-        target: "`",
-        target: "http://192.168.3.83:8091/authorization",// 代理接口
-        // target: "http://hean.fast2.svipss.top//authorization", 
-        // changeOrigin: true,//是否跨域
+        //target: "`",
+        target: "http://192.168.3.86:8092/haiot-auth", //代理接口
+         //target: "http://hean.fast2.svipss.top/authorization",
+        changeOrigin: true,//是否跨域
         // allowCredentials:true,
         pathRewrite: {//重写路径
           "^/api": ''//代理路径
@@ -25,7 +25,7 @@ module.exports = {
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8091, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8092, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
 
     autoOpenBrowser: false,
     errorOverlay: true,

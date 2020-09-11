@@ -27,6 +27,15 @@
         "dataIndex": "alarmTypeName"
       },
       {
+        "title": "警报等级",
+        "align": "center",
+        "ellipsis": true,
+        "dataIndex": "gradeno",
+        "scopedSlots": {
+          "customRender": "gradeno"
+        }
+      },
+      {
         "title": "转警事件数",
         "align": "center",
         "ellipsis": true,

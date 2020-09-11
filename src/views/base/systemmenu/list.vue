@@ -49,7 +49,7 @@
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         menuList: [], //字典数据
         pagination: {
-          total: 50, //总页数
+          total: 0, //总页数
           pageSize: 10, //每页中显示10条数据
           showSizeChanger: true,
           current: 1, //当前页

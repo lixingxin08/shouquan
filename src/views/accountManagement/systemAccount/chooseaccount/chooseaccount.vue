@@ -60,7 +60,7 @@
           },
         ],
         pagination: {//分页数据
-          total: 50,
+          total: 0,
           pageSize: 100, //每页中显示10条数据
           showSizeChanger: true,
           current: 1,

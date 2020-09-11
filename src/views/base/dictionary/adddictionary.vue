@@ -163,7 +163,6 @@
 
       save(index) { //保存数值请求
         let item = this.szList[index]
-        console.log(item)
         this.submitHttp(false, true, item.dictionaryId, item.className, item.classCode, item.remark, 2000)
       },
       addNum(item) { //添加数值
@@ -173,8 +172,8 @@
 
         let param = {
           dictionaryId: dictionaryId, //新增不传id
-          parentId: num ? this.cacheData.dictionaryId : this.cacheData.parentId, //父级id
-          parentCode: num ? this.cacheData.classCode : this.cacheData.parentCode, //父级代码
+          parentId: this.cacheData.dictionaryId, //父级id
+          parentCode: this.cacheData.classCode, //父级代码
           className: className, //类型
           classCode: classCode, //字典代码
           remark: remark, //备注
@@ -186,12 +185,13 @@
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
           //this.$router.go(-1)
-           this.getDictionaryInfo(this.dictid);
+          if (num)
+            this.getDictionaryInfo(this.dictid);
         } else {
           this.$message.error(res.data.resultMsg);
         }
         this.showAddDialog = false
-       
+
       },
 
       async cancel(item) { //删除数值行

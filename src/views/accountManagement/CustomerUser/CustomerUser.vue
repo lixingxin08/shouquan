@@ -144,7 +144,7 @@
         ],
         data: "", //左边菜单原始数据
         pagination: {
-          total: 50,
+          total: 0,
           pageSize: 10, //每页中显示10条数据
           showSizeChanger: true,
           current: 1,

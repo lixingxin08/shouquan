@@ -60,7 +60,7 @@
           },
         ],
         pagination: {
-          total: 50, //总条数
+          total: 0, //总条数
           pageSize: 10, //每页中显示10条数据
           showSizeChanger: true,
           current: 1,
