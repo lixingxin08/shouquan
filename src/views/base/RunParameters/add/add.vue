@@ -28,21 +28,23 @@
       <div class="edit_item_title">
         <span class="col_red">*</span>参数名称:
       </div>
-      <a-input class="edit_a_input" v-model="form.parameterName" placeholder="请输入参数名称" />
+      <div class="edit_a_input_run "><a-input  v-model="form.parameterName" placeholder="请输入参数名称" /></div>
+
       <div class="edit_item_toast">注:50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
         <span class="col_red">*</span>参数代码:
       </div>
-      <a-input class="edit_a_input" placeholder="请输入参数代码" v-model="form.parameterCode" />
+      <div class="edit_a_input_run "><a-input  placeholder="请输入参数代码" v-model="form.parameterCode" /></div>
+
       <div class="edit_item_toast">注:50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
         <span class="col_red">*</span>参数数值:
       </div>
-      <div style="position: relative;">
+      <div style="position: relative;width: 667px;">
         <a-textarea
           class="edit_a_input"
           :rows="5"
@@ -54,7 +56,7 @@
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">参数描述:</div>
-      <div style="position: relative;">
+      <div style="position: relative;width: 667px;">
         <a-textarea
           class="edit_a_input"
           :rows="5"
@@ -202,7 +204,7 @@ export default {
   margin-left: 20px;
 }
 
-.edit_a_input {
+.edit_a_input_run {
   width: 667px;
   height: 32px;
 }

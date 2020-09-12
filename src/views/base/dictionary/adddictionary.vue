@@ -3,30 +3,42 @@
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item_dic">
         <div class="edit_item_dic_title3_dic">上级名称:</div>
-        <div class='edit_a_input_dic' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{parentName}}</div>
+        <div class='edit_a_input_dic'>
+          <a-input v-model='parentName' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        </div>
         <div class="edit_item_dic_toast">注：不可选</div>
       </div>
       <div class="flexrow flexac edit_item_dic">
         <div class="edit_item_dic_title3_dic">上级代码:</div>
-        <div class='edit_a_input_dic' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{parentCode}}</div>
+        <div class='edit_a_input_dic'>
+          <a-input v-model='parentCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        </div>
         <div class="edit_item_dic_toast">注：不可选</div>
       </div>
       <div class="flexrow flexac edit_item_dic">
         <div class="edit_item_dic_title3_dic"><a style="color: #FF0000;">*</a>字典名称:</div>
-        <a-input class='edit_a_input_dic' v-model='className' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        <div class='edit_a_input_dic'>
+          <a-input v-model='className' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        </div>
+
         <div class="edit_item_dic_toast">注：区划名字不超过30个字</div>
       </div>
       <div class="flexrow flexac edit_item_dic">
         <div class="edit_item_dic_title3_dic"><a style="color: #FF0000;">*</a>字典代码:</div>
-        <a-input class='edit_a_input_dic' v-model='classCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        <div class='edit_a_input_dic'>
+          <a-input v-model='classCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        </div>
+
       </div>
       <div class="flexrow flexac edit_item_dic">
         <div class="edit_item_dic_title3_dic">字典等级:</div>
-        <div class='edit_a_input_dic' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{grade}}</div>
+        <div class='edit_a_input_dic'>
+          <a-input v-model='grade' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        </div>
       </div>
       <div class="flexrow flexac edit_item_dic">
         <div class="edit_item_dic_title3_dic">字典描述:</div>
-        <div style="position: relative;">
+        <div style="position: relative;width: 667px;">
           <a-textarea class='edit_a_input_dic' :maxLength='256' :rows="5" placeholder="字典描述" @change="onChangeConfig"
             v-model="remark" />
           <div class="edit_number_dic">{{congigmidLenght}}/256</div>

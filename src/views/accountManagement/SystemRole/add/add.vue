@@ -14,7 +14,7 @@
       <div class="flexrow flexac edit_item_zzx" style="align-items: flex-start;">
 
         <div class="edit_item_zzx_title1_zzx"><a style="color: #FF0000;">*</a>角色权限配置:</div>
-        <div class="flexcolumn selet_bg">
+        <div class="flexcolumn selet_bg_zzx">
           <div class="flexrow  flexac">
             <div style="flex-shrink: 0;margin-right: 7px;width: 100px;text-align: end;font-size: 14px;">
               服务子系统:

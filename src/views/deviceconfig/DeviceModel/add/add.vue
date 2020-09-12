@@ -31,13 +31,14 @@
       </div>
       <div class="flexrow flexac edit_item_model">
         <div class="edit_item_model_title3"><a style="color: #FF0000;">*</a>型号名称:</div>
-
-        <a-input class='edit_a_input_model' v-model='modelName' placeholder="请输入您选择的型号名称" />
+<div class='edit_a_input_model'><a-input  v-model='modelName' placeholder="请输入您选择的型号名称" /></div>
+        
         <div class="edit_item_model_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item_model">
         <div class="edit_item_model_title3"><a style="color: #FF0000;">*</a>型号代码:</div>
-        <a-input class='edit_a_input_model' v-model='modelCode' placeholder="请输入您选择的型号代码" />
+        <div class='edit_a_input_model'> <a-input  v-model='modelCode' placeholder="请输入您选择的型号代码" /></div>
+       
         <div class="edit_item_model_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item_model">
@@ -51,7 +52,7 @@
       </div>
       <div class="flexrow flexac edit_item_model">
         <div class="edit_item_model_title3">备注信息:</div>
-        <div style="position: relative;">
+        <div style="position: relative;width: 667px;">
           <a-textarea class='edit_a_input_model' :rows="5" v-model='remark' :maxLength='250' placeholder="请输入描述" @change="onChangeConfig" />
           <div class="edit_number">{{num}}/250</div>
         </div>
@@ -378,7 +379,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding-left: 10px;
   }
 
   .edit_number {

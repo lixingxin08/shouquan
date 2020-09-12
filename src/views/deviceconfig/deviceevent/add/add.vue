@@ -5,12 +5,18 @@
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item_event">
         <div class="edit_item_event_event"><a style="color: #FF0000;">*</a>事件名称:</div>
-        <a-input class='edit_a_input' v-model='event.eventName' placeholder="平台" />
+        <div class='edit_a_input_event'>
+          <a-input v-model='event.eventName' placeholder="事件名称" />
+        </div>
+
         <div class="edit_item_event_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item_event">
         <div class="edit_item_event_event"><a style="color: #FF0000;">*</a>事件代码:</div>
-        <a-input class='edit_a_input' v-model='event.eventCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        <div class='edit_a_input_event'>
+          <a-input  v-model='event.eventCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        </div>
+
         <div class="edit_item_event_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
 
@@ -25,7 +31,7 @@
       </div>
       <div class="flexrow flexac edit_item_event">
         <div class="edit_item_event_event">事件描述:</div>
-        <div style="position: relative;">
+        <div style="position: relative;width: 667px;">
           <a-textarea class='edit_a_input' :rows="5" v-model='event.remark' :maxLength='250' placeholder="请输入描述"
             @change="onChangeConfig" />
           <div class="edit_number">{{num}}/250</div>
@@ -159,13 +165,12 @@
     margin-left: 20px;
   }
 
-  .edit_a_input {
+  .edit_a_input_event {
     width: 667px;
     height: 32px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding-left: 10px;
   }
 
   .edit_number {

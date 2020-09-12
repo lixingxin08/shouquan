@@ -14,7 +14,7 @@ module.exports = {
       '/api': {//代理api
         //target: "`",
         // target: "http://192.168.3.86:8092/haiot-auth", //代理接口
-        target: "http://192.168.3.86:8092/haiot-auth",
+        target: "http://192.168.3.86:8092/authorization",
         changeOrigin: true,//是否跨域
         allowCredentials:true,
         pathRewrite: {//重写路径

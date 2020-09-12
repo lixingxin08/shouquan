@@ -5,18 +5,24 @@
     <div style="margin: 0 auto;">
       <div class="flexrow flexac select_item_types_email">
         <div class="select_item_types_email_title3"><a style="color: #FF0000;">*</a>类型名称:</div>
-        <a-input class='edit_a_input_types' v-model='typeName' placeholder="平台" />
+        <div class='edit_a_input_types'>
+           <a-input  v-model='typeName' placeholder="平台" />
+        </div>
+
         <div class="select_item_types_email_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac select_item_types_email">
         <div class="select_item_types_email_title3"><a style="color: #FF0000;">*</a>类型代码:</div>
-        <a-input class='edit_a_input_types' v-model='typeCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <div class='edit_a_input_types'>
+               <a-input  v-model='typeCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          </div>
+
         <div class="select_item_types_email_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
 
       <div class="flexrow flexac select_item_types_email">
         <div class="select_item_types_email_title3"><a style="color: #FF0000;">*</a>业务类别:</div>
-        <a-select :value='selectDefault' style="width: 200px;" @change="handleSelectChange">
+        <a-select :value='selectDefault' style="width: 667px;" @change="handleSelectChange">
           <a-select-option v-for='(item,index) in selectList' :key='index' :value="item.comboBoxName">
             {{item.comboBoxName}}
           </a-select-option>
@@ -25,7 +31,7 @@
       </div>
       <div class="flexrow flexac select_item_types_email">
         <div class="select_item_types_email_title3">类型描述:</div>
-        <div style="position: relative;">
+        <div style="position: relative;width: 667px;">
           <a-textarea class='edit_a_input_types' :rows="5" v-model='remark' :maxLength='250' placeholder="请输入描述" @change="onChangeConfig" />
           <div class="edit_number">{{num}}/250</div>
         </div>
@@ -235,7 +241,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding-left: 10px;
   }
 
   .edit_number {
