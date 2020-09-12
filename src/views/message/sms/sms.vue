@@ -47,9 +47,9 @@
             <div slot="smsConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</div>
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
-                <div class="col_red ispointer" @click="showdialogsms(areaName)">
-                  <span>删除</span>
-                </div>
+               <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(record)">
+                 <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
+               </a-popconfirm>
               </div>
             </a-table>
           </div>
@@ -208,10 +208,13 @@ export default {
       }
     },
     //删除接口
-    async getremove() {
+    async getremove(item) {
+      let removeparam={
+        smsConfigId:item.smsConfigId
+      }
       let res = await this.$http.post(
         this.$api.smsremove,
-        this.removeparam
+        removeparam
       );
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
