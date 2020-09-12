@@ -8,46 +8,46 @@
         <a-step v-for="item in steps" :key="item.status" :title="item.title" />
       </a-steps>
       <div v-if="current==0">
-        <div class="flexrow flexac edit_item">
-          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>短信账号别名:</div>
-          <a-input class='edit_a_input' v-model='config.smsConfigName' placeholder="50字以内，支持中英文" />
-          <!-- <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        <div class="flexrow flexac edit_item_sms">
+          <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信账号别名:</div>
+          <a-input class='edit_a_input_sms' v-model='config.smsConfigName' placeholder="50字以内，支持中英文" />
+          <!-- <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
-        <div class="flexrow flexac edit_item">
-          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>帐号应用标识:</div>
-          <a-input class='edit_a_input' v-model='config.smsAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        <div class="flexrow flexac edit_item_sms">
+          <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>帐号应用标识:</div>
+          <a-input class='edit_a_input_sms' v-model='config.smsAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
-        <div class="flexrow flexac edit_item">
-          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>帐号应用密钥:</div>
-          <a-input class='edit_a_input' v-model='config.smsKey' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        <div class="flexrow flexac edit_item_sms">
+          <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>帐号应用密钥:</div>
+          <a-input class='edit_a_input_sms' v-model='config.smsKey' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
-        <div class="flexrow flexac edit_item" >
-          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>短信签名:</div>
-          <a-input class='edit_a_input' v-model='config.signName' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        <div class="flexrow flexac edit_item_sms" >
+          <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信签名:</div>
+          <a-input class='edit_a_input_sms' v-model='config.signName' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
-        <div class="flexrow flexac edit_item" >
-          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>短信价格:</div>
-          <a-input class='edit_a_input' v-model='config.price' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-          <div class="edit_item_toast">分/条</div>
+        <div class="flexrow flexac edit_item_sms" >
+          <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信价格:</div>
+          <a-input class='edit_a_input_sms' v-model='config.price' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <div class="edit_item_sms_toast">分/条</div>
         </div>
-        <div class="flexrow flexac edit_item">
-          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>网关类型:</div>
+        <div class="flexrow flexac edit_item_sms">
+          <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>网关类型:</div>
           <a-select :value="config.typeCode?config.typeCode:'请选择短信账号类型'" style="width: 667px;" @change="handleSelectChange">
             <a-select-option v-for='(item,index) in smsTypeList' :key='index' :value="item.comboBoxId">
               {{item.comboBoxName}}
             </a-select-option>
           </a-select>
-          <!--  <div class="edit_item_toast">注：数字字典</div> -->
+          <!--  <div class="edit_item_sms_toast">注：数字字典</div> -->
         </div>
-        <div class="flexrow flexac edit_item">
-          <div class="edit_item_title2">备注信息:</div>
+        <div class="flexrow flexac edit_item_sms">
+          <div class="edit_item_sms_title2_sms">备注信息:</div>
           <div style="position: relative;">
-            <a-textarea class='edit_a_input' :rows="5" :maxLength='250' v-model='config.remark' placeholder="请输入描述"
+            <a-textarea class='edit_a_input_sms' :rows="5" :maxLength='250' v-model='config.remark' placeholder="请输入描述"
               @change="onChangeConfig" />
-            <div class="edit_number">{{num}}/250</div>
+            <div class="edit_number_sms">{{num}}/250</div>
           </div>
         </div>
 
@@ -239,7 +239,7 @@
 </script>
 
 <style>
-  .edit_item_title2 {
+  .edit_item_sms_title2_sms {
     width: 120px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -248,12 +248,12 @@
     color: #000000;
   }
 
-  .edit_item {
+  .edit_item_sms {
     margin: 0 auto;
     margin-top: 24px;
   }
 
-  .edit_item_toast {
+  .edit_item_sms_toast {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
@@ -262,7 +262,7 @@
     margin-left: 20px;
   }
 
-  .edit_a_input {
+  .edit_a_input_sms {
     width: 667px;
     height: 32px;
     display: flex;
@@ -271,7 +271,7 @@
     padding-left: 10px;
   }
 
-  .edit_number {
+  .edit_number_sms {
     position: absolute;
     right: 10px;
     bottom: 3px;

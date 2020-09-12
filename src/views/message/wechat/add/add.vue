@@ -8,46 +8,46 @@
         <a-step v-for="item in steps" :key="item.status" :title="item.title" />
       </a-steps>
       <div v-if="current==0">
-        <div class="flexrow flexac edit_item">
-          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>微信账号别名:</div>
-          <a-input class='edit_a_input' v-model='wechat.wechatConfigName' placeholder="50字以内，支持中英文" />
-          <!-- <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        <div class="flexrow flexac edit_item_wechat">
+          <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;">*</a>微信账号别名:</div>
+          <a-input class='edit_a_input_wechat' v-model='wechat.wechatConfigName' placeholder="50字以内，支持中英文" />
+          <!-- <div class="edit_item_wechat_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
-        <div class="flexrow flexac edit_item">
-          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>帐号应用标识:</div>
-          <a-input class='edit_a_input' v-model='wechat.wechatAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        <div class="flexrow flexac edit_item_wechat">
+          <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;">*</a>帐号应用标识:</div>
+          <a-input class='edit_a_input_wechat' v-model='wechat.wechatAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_wechat_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
-        <div class="flexrow flexac edit_item">
-          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>帐号应用密钥:</div>
-          <a-input class='edit_a_input' v-model='wechat.wechatKey' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        <div class="flexrow flexac edit_item_wechat">
+          <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;">*</a>帐号应用密钥:</div>
+          <a-input class='edit_a_input_wechat' v-model='wechat.wechatKey' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_wechat_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
-        <div class="flexrow flexac edit_item" v-if="id">
-          <div class="edit_item_title2"><a style="color: #FF0000;"></a>接口通行令牌:</div>
-          <a-input class='edit_a_input' v-model='wechat.tokenCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        <div class="flexrow flexac edit_item_wechat" v-if="id">
+          <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;"></a>接口通行令牌:</div>
+          <a-input class='edit_a_input_wechat' v-model='wechat.tokenCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_wechat_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
-        <div class="flexrow flexac edit_item" v-if="id">
-          <div class="edit_item_title2"><a style="color: #FF0000;"></a>令牌失效时间:</div>
-          <a-input class='edit_a_input' v-model='wechat.expirationTime' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-          <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+        <div class="flexrow flexac edit_item_wechat" v-if="id">
+          <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;"></a>令牌失效时间:</div>
+          <a-input class='edit_a_input_wechat' v-model='wechat.expirationTime' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!--     <div class="edit_item_wechat_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
-        <div class="flexrow flexac edit_item">
-          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>微信账号类型:</div>
+        <div class="flexrow flexac edit_item_wechat">
+          <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;">*</a>微信账号类型:</div>
           <a-select :value="wechat.typeCode?wechat.typeCode:'请选择微信账号类型'" style="width: 667px;" @change="handleSelectChange">
             <a-select-option v-for='(item,index) in wetchatTypeList' :key='index' :value="item.comboBoxId">
               {{item.comboBoxName}}
             </a-select-option>
           </a-select>
-          <!--  <div class="edit_item_toast">注：数字字典</div> -->
+          <!--  <div class="edit_item_wechat_toast">注：数字字典</div> -->
         </div>
-        <div class="flexrow flexac edit_item">
-          <div class="edit_item_title2">备注信息:</div>
+        <div class="flexrow flexac edit_item_wechat">
+          <div class="edit_item_wechat_title2_wechat">备注信息:</div>
           <div style="position: relative;">
-            <a-textarea class='edit_a_input' :rows="5" :maxLength='250' v-model='wechat.remark' placeholder="请输入描述"
+            <a-textarea class='edit_a_input_wechat' :rows="5" :maxLength='250' v-model='wechat.remark' placeholder="请输入描述"
               @change="onChangeConfig" />
-            <div class="edit_number">{{num}}/250</div>
+            <div class="edit_number_wechat">{{num}}/250</div>
           </div>
         </div>
 
@@ -67,7 +67,6 @@
         <a-button type="primary" v-if='current==1' @click='submit'>保存</a-button>
         <a-button type="primary" v-if='current==0' @click='onChange(1)'>下一步</a-button>
         <a-button style="margin-left: 60px;" @click='reset'>重置</a-button>
-        <a-alert message="Warning" type="warning" show-icon />
       </div>
     </div>
 
@@ -246,7 +245,7 @@
 </script>
 
 <style>
-  .edit_item_title2 {
+  .edit_item_wechat_title2_wechat {
     width: 120px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -255,12 +254,12 @@
     color: #000000;
   }
 
-  .edit_item {
+  .edit_item_wechat {
     margin: 0 auto;
     margin-top: 24px;
   }
 
-  .edit_item_toast {
+  .edit_item_wechat_toast {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
@@ -269,7 +268,7 @@
     margin-left: 20px;
   }
 
-  .edit_a_input {
+  .edit_a_input_wechat {
     width: 667px;
     height: 32px;
     display: flex;
@@ -282,7 +281,7 @@
     background-color: #F5F5F5;
   }
 
-  .edit_number {
+  .edit_number_wechat {
     position: absolute;
     right: 10px;
     bottom: 3px;

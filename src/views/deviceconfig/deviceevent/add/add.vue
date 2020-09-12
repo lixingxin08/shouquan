@@ -3,28 +3,28 @@
   <div class="flexcolumn" style="background-color: #FFFFFF;">
 
     <div style="margin: 0 auto;">
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>事件名称:</div>
+      <div class="flexrow flexac edit_item_event">
+        <div class="edit_item_event_event"><a style="color: #FF0000;">*</a>事件名称:</div>
         <a-input class='edit_a_input' v-model='event.eventName' placeholder="平台" />
-        <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
+        <div class="edit_item_event_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>事件代码:</div>
+      <div class="flexrow flexac edit_item_event">
+        <div class="edit_item_event_event"><a style="color: #FF0000;">*</a>事件代码:</div>
         <a-input class='edit_a_input' v-model='event.eventCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-        <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
+        <div class="edit_item_event_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
 
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>事件类型:</div>
+      <div class="flexrow flexac edit_item_event">
+        <div class="edit_item_event_event"><a style="color: #FF0000;">*</a>事件类型:</div>
         <a-select :value="eventSelect?eventSelect:'请选择事件类型'" style="width: 667px;" @change="handleSelectChange">
           <a-select-option v-for='(item,index) in eventList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
-        <div class="edit_item_toast">注：数字字典</div>
+        <div class="edit_item_event_toast">注：数字字典</div>
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3">事件描述:</div>
+      <div class="flexrow flexac edit_item_event">
+        <div class="edit_item_event_event">事件描述:</div>
         <div style="position: relative;">
           <a-textarea class='edit_a_input' :rows="5" v-model='event.remark' :maxLength='250' placeholder="请输入描述"
             @change="onChangeConfig" />
@@ -134,7 +134,7 @@
 </script>
 
 <style>
-  .edit_item_title3 {
+  .edit_item_event_event {
     width: 70px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -145,12 +145,12 @@
     flex-shrink: 0;
   }
 
-  .edit_item {
+  .edit_item_event {
     margin: 0 auto;
     margin-top: 24px;
   }
 
-  .edit_item_toast {
+  .edit_item_event_toast {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;

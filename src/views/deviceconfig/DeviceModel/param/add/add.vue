@@ -5,22 +5,22 @@
         <a-icon type="close" @click='closedialog' />
       </div>
 
-      <div class="flexrow flexac item" style="margin-top: 20px;">
+      <div class="flexrow flexac item-model" style="margin-top: 20px;">
         <a style="color: #FF0033;">*</a>
-        <div class="item-title">参数名称：</div>
+        <div class="item-title-model">参数名称：</div>
         <a-input v-model='param.parameterName' :maxLenght="50" placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号"></a-input>
       </div>
-      <div class="flexrow flexac item">
+      <div class="flexrow flexac item-model">
         <a style="color: #FF0033;">*</a>
-        <div class="item-title">参数代码：</div>
+        <div class="item-title-model">参数代码：</div>
         <a-input v-model='param.parameterCode' :maxLenght="50" placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号"></a-input>
       </div>
-      <div class="flexrow flexac item">
-        <div class="item-title">参数数值：</div>
+      <div class="flexrow flexac item-model">
+        <div class="item-title-model">参数数值：</div>
         <a-input v-model='param.parameterValue' :maxLenght="50" placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号"></a-input>
       </div>
-      <div class="flexrow flexac item">
-        <div class="item-title">参数描述：</div>
+      <div class="flexrow flexac item-model">
+        <div class="item-title-model">参数描述：</div>
 
         <a-textarea v-model="param.description" :maxLenght="500" placeholder="请输入参数描述,500字以内" :auto-size="{ minRows: 3, maxRows: 5 }" />
       </div>
@@ -78,13 +78,13 @@
     line-height: 14px;
   }
 
-  .item {
+  .item-model {
     margin-left: 40px;
     margin-right: 40px;
     margin-top: 10px;
   }
 
-  .item-title {
+  .item-title-model {
     font-size: 16px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;

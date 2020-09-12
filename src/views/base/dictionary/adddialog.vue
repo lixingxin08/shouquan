@@ -5,19 +5,19 @@
         <a-icon type="close" @click='closedialog' />
       </div>
 
-      <div class="flexrow flexac item" style="margin-top: 20px;">
+      <div class="flexrow flexac item_dic " style="margin-top: 20px;">
         <a style="color: #FF0033;">*</a>
-        <div class="item-title">数值名称：</div>
+        <div class="item-title_dic">数值名称：</div>
         <a-input v-model='autoName'></a-input>
       </div>
-      <div class="flexrow flexac item">
+      <div class="flexrow flexac item_dic ">
         <a style="color: #FF0033;">*</a>
-        <div class="item-title">数值代码：</div>
+        <div class="item-title_dic">数值代码：</div>
         <a-input v-model='autoCode'></a-input>
       </div>
-      <div class="flexrow flexac item">
+      <div class="flexrow flexac item_dic ">
         <a style="color: #FFFFFF;">*</a>
-        <div class="item-title">数值描述：</div>
+        <div class="item-title_dic">数值描述：</div>
         <a-textarea v-model='autoDescribe'></a-textarea>
       </div>
       <a-button type='primary' style='margin-top: 30px;margin-bottom: 30px;' @click='submit'>确定</a-button>
@@ -75,13 +75,13 @@
     line-height: 14px;
   }
 
-  .item {
+  .item_dic {
     margin-left: 40px;
     margin-right: 40px;
     margin-top: 10px;
   }
 
-  .item-title {
+  .item-title_dic {
     font-size: 16px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;

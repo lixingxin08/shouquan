@@ -1,42 +1,42 @@
 <template>
   <div class="flexcolumn" style="background-color: #FFFFFF;">
     <div style="margin: 0 auto;">
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3">上级名称:</div>
-        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{parentName}}</div>
-        <div class="edit_item_toast">注：不可选</div>
+      <div class="flexrow flexac edit_item_dic">
+        <div class="edit_item_dic_title3_dic">上级名称:</div>
+        <div class='edit_a_input_dic' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{parentName}}</div>
+        <div class="edit_item_dic_toast">注：不可选</div>
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3">上级代码:</div>
-        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{parentCode}}</div>
-        <div class="edit_item_toast">注：不可选</div>
+      <div class="flexrow flexac edit_item_dic">
+        <div class="edit_item_dic_title3_dic">上级代码:</div>
+        <div class='edit_a_input_dic' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{parentCode}}</div>
+        <div class="edit_item_dic_toast">注：不可选</div>
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>字典名称:</div>
-        <a-input class='edit_a_input' v-model='className' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-        <div class="edit_item_toast">注：区划名字不超过30个字</div>
+      <div class="flexrow flexac edit_item_dic">
+        <div class="edit_item_dic_title3_dic"><a style="color: #FF0000;">*</a>字典名称:</div>
+        <a-input class='edit_a_input_dic' v-model='className' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        <div class="edit_item_dic_toast">注：区划名字不超过30个字</div>
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>字典代码:</div>
-        <a-input class='edit_a_input' v-model='classCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+      <div class="flexrow flexac edit_item_dic">
+        <div class="edit_item_dic_title3_dic"><a style="color: #FF0000;">*</a>字典代码:</div>
+        <a-input class='edit_a_input_dic' v-model='classCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3">字典等级:</div>
-        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{grade}}</div>
+      <div class="flexrow flexac edit_item_dic">
+        <div class="edit_item_dic_title3_dic">字典等级:</div>
+        <div class='edit_a_input_dic' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{grade}}</div>
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3">字典描述:</div>
+      <div class="flexrow flexac edit_item_dic">
+        <div class="edit_item_dic_title3_dic">字典描述:</div>
         <div style="position: relative;">
-          <a-textarea class='edit_a_input' :maxLength='256' :rows="5" placeholder="字典描述" @change="onChangeConfig"
+          <a-textarea class='edit_a_input_dic' :maxLength='256' :rows="5" placeholder="字典描述" @change="onChangeConfig"
             v-model="remark" />
-          <div class="edit_number">{{congigmidLenght}}/256</div>
+          <div class="edit_number_dic">{{congigmidLenght}}/256</div>
         </div>
       </div>
       <div class="flexrow " style="margin-top: 30px;justify-item: flex-start;margin-left: 80px;">
         <a-button @click='submit'>保存</a-button>
         <a-button type="primary" style="margin-left: 20px;" @click='setShowData'>重置</a-button>
       </div>
-      <div class="flexrow edit_item_title3" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">数值列表</div>
+      <div class="flexrow edit_item_dic_title3_dic" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">数值列表</div>
 
       <a-table :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true' size='small'>
         <template v-for="col in ['className', 'classCode', 'remark']" :slot="col" slot-scope="text, record, index">
@@ -55,7 +55,7 @@
           </div>
         </template>
       </a-table>
-      <div class="flexrow edit_item_title3" style="margin-top: 10px;justify-item: flex-start;margin-bottom: 50px;font-size: 16px;">
+      <div class="flexrow edit_item_dic_title3_dic" style="margin-top: 10px;justify-item: flex-start;margin-bottom: 50px;font-size: 16px;">
         <a-button type='primary' @click='addLine' v-if='szList.length < 999'>新增行</a-button>
       </div>
 
@@ -206,7 +206,7 @@
 </script>
 
 <style>
-  .edit_item_title3 {
+  .edit_item_dic_title3_dic {
     width: 70px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -217,12 +217,12 @@
     flex-shrink: 0;
   }
 
-  .edit_item {
+  .edit_item_dic {
     margin: 0 auto;
     margin-top: 24px;
   }
 
-  .edit_item_toast {
+  .edit_item_dic_toast {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
@@ -231,7 +231,7 @@
     margin-left: 20px;
   }
 
-  .edit_a_input {
+  .edit_a_input_dic {
     width: 667px;
     text-align: left;
     display: flex;
@@ -242,7 +242,7 @@
     height: 32px;
   }
 
-  .edit_number {
+  .edit_number_dic {
     position: absolute;
     right: 10px;
     bottom: 3px;
