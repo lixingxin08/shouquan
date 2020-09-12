@@ -2,49 +2,49 @@
 
   <div class="flexcolumn" style="background-color: #FFFFFF;">
     <div style="margin: 0 auto;">
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3">上级名称:</div>
-        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{cacheData.parentName?cacheData.parentName:parentName}}</div>
-        <div class="edit_item_toast">注：不可选</div>
+      <div class="flexrow flexac edit_item_menu">
+        <div class="edit_item_menu_title3_menu">上级名称:</div>
+        <div class='edit_a_input_menu' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{cacheData.parentName?cacheData.parentName:parentName}}</div>
+        <div class="edit_item_menu_toast">注：不可选</div>
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>菜单名称:</div>
-        <a-input class='edit_a_input' v-model='menuName' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+      <div class="flexrow flexac edit_item_menu">
+        <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>菜单名称:</div>
+        <a-input class='edit_a_input_menu' v-model='menuName' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
 
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3">菜单等级:</div>
-        <div class='edit_a_input' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{grade}}</div>
+      <div class="flexrow flexac edit_item_menu">
+        <div class="edit_item_menu_title3_menu">菜单等级:</div>
+        <div class='edit_a_input_menu' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{grade}}</div>
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>菜单类型:</div>
+      <div class="flexrow flexac edit_item_menu">
+        <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>菜单类型:</div>
         <a-radio-group :options="menuTypeList" :default-value="menuValue" @change="onChange1" />
         <br />
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>授权类型:</div>
+      <div class="flexrow flexac edit_item_menu">
+        <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>授权类型:</div>
         <a-select :default-value="empowerDefault" style="width: 100%;margin-right: 80px;" @change="handleSelectChange">
           <a-select-option v-for='(item,index) in empowerList' :key='index' :value="item.key">
             {{item.name}}
           </a-select-option>
         </a-select>
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>菜单图标:</div>
+      <div class="flexrow flexac edit_item_menu">
+        <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>菜单图标:</div>
         <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76" list-type="picture">
           <a-button>
             <a-icon type="upload" /> upload </a-button>
         </a-upload>
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3">菜单描述:</div>
+      <div class="flexrow flexac edit_item_menu">
+        <div class="edit_item_menu_title3_menu">菜单描述:</div>
         <div style="position: relative;">
-          <a-textarea class='edit_a_input' :rows="5" v-model='remark' :maxLength='250' placeholder="请输入描述" @change="onChangeConfig" />
-          <div class="edit_number">{{num}}/250</div>
+          <a-textarea class='edit_a_input_menu' :rows="5" v-model='remark' :maxLength='250' placeholder="请输入描述" @change="onChangeConfig" />
+          <div class="edit_number_menu">{{num}}/250</div>
         </div>
       </div>
 
-      <div class="flexrow edit_item_title3" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
+      <div class="flexrow edit_item_menu_title3_menu" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
           style="color: #FF0000;">*</a>鉴权接口</div>
 
       <a-table :columns="dictionaryColumns" :data-source="authList" :pagination='false' :bordered='true' size='small'>
@@ -66,7 +66,7 @@
           </div>
         </template>
       </a-table>
-      <div class="flexrow edit_item_title3" style="margin-top: 10px;justify-item: flex-start;margin-bottom: 50px;font-size: 16px;">
+      <div class="flexrow edit_item_menu_title3_menu" style="margin-top: 10px;justify-item: flex-start;margin-bottom: 50px;font-size: 16px;">
         <a-button type='primary' @click='editAction({},-1)'>新增行</a-button>
       </div>
       <div class="flexrow flexjc " style="margin-top: 30px;margin-bottom: 80px;">
@@ -284,7 +284,7 @@
 </script>
 
 <style>
-  .edit_item_title3 {
+  .edit_item_menu_title3_menu {
     width: 70px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -295,12 +295,12 @@
     flex-shrink: 0;
   }
 
-  .edit_item {
+  .edit_item_menu {
     margin: 0 auto;
     margin-top: 24px;
   }
 
-  .edit_item_toast {
+  .edit_item_menu_toast {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
@@ -317,7 +317,7 @@
     margin-right: 20px;
   }
 
-  .edit_a_input {
+  .edit_a_input_menu {
     width: 667px;
     height: 32px;
     text-align: left;
@@ -328,7 +328,7 @@
     padding-left: 10px;
   }
 
-  .edit_number {
+  .edit_number_menu {
     position: absolute;
     right: 10px;
     bottom: 3px;

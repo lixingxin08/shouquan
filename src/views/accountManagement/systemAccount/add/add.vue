@@ -2,74 +2,74 @@
 
   <div class="flexcolumn" style="background-color: #FFFFFF;">
     <div style="margin: 0 auto;">
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title2"><a style="color: #FF0000;">*</a>关联人员姓名:</div>
-        <a-input :disabled='true' class='edit_a_input' v-model='config.realName' placeholder="请选择人员" />
+      <div class="flexrow flexac edit_item_zzx">
+        <div class="edit_item_zzx_title2_zzx"><a style="color: #FF0000;">*</a>关联人员姓名:</div>
+        <a-input :disabled='true' class='edit_a_input_zzx' v-model='config.realName' placeholder="请选择人员" />
         <a-button type='primary' @click='chooseAccount' style='margin-left: 20px;'>选择人员</a-button>
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title2">所属部门:</div>
-        <a-input :disabled='true' class='edit_a_input' v-model="config.departmentName" :placeholder="!config.realName?'请选择人员':'无'" />
+      <div class="flexrow flexac edit_item_zzx">
+        <div class="edit_item_zzx_title2_zzx">所属部门:</div>
+        <a-input :disabled='true' class='edit_a_input_zzx' v-model="config.departmentName" :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title2">人员性别:</div>
-        <a-input v-if='!config.realName' :disabled='true' class='edit_a_input' placeholder="请选择人员" />
-        <a-input v-else :disabled='true' class='edit_a_input' v-model="config.gender==1?'男':'女'" :placeholder="!config.realName?'请选择人员':'无'" />
+      <div class="flexrow flexac edit_item_zzx">
+        <div class="edit_item_zzx_title2_zzx">人员性别:</div>
+        <a-input v-if='!config.realName' :disabled='true' class='edit_a_input_zzx' placeholder="请选择人员" />
+        <a-input v-else :disabled='true' class='edit_a_input_zzx' v-model="config.gender==1?'男':'女'" :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title2">手机号码:</div>
+      <div class="flexrow flexac edit_item_zzx">
+        <div class="edit_item_zzx_title2_zzx">手机号码:</div>
 
-        <a-input :disabled='true' class='edit_a_input' v-model='config.mobilePhone' :placeholder="!config.realName?'请选择人员':'无'" />
+        <a-input :disabled='true' class='edit_a_input_zzx' v-model='config.mobilePhone' :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title2">电子邮箱:</div>
-        <a-input :disabled='true' class='edit_a_input' v-model='config.email' :placeholder="!config.realName?'请选择人员':'无'" />
+      <div class="flexrow flexac edit_item_zzx">
+        <div class="edit_item_zzx_title2_zzx">电子邮箱:</div>
+        <a-input :disabled='true' class='edit_a_input_zzx' v-model='config.email' :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title2">人员状态:</div>
-        <a-input v-if='!config.realName' :disabled='true' class='edit_a_input' placeholder="请选择人员" />
-        <a-input v-if='config.personStatus==0&&config.realName' :disabled='true' class='edit_a_input' placeholder="休假" />
-        <a-input v-if='config.personStatus==1&&config.realName' :disabled='true' class='edit_a_input' placeholder="正常" />
-        <a-input v-if='config.personStatus==2&&config.realName' :disabled='true' class='edit_a_input' placeholder="离岗" />
+      <div class="flexrow flexac edit_item_zzx">
+        <div class="edit_item_zzx_title2_zzx">人员状态:</div>
+        <a-input v-if='!config.realName' :disabled='true' class='edit_a_input_zzx' placeholder="请选择人员" />
+        <a-input v-if='config.personStatus==0&&config.realName' :disabled='true' class='edit_a_input_zzx' placeholder="休假" />
+        <a-input v-if='config.personStatus==1&&config.realName' :disabled='true' class='edit_a_input_zzx' placeholder="正常" />
+        <a-input v-if='config.personStatus==2&&config.realName' :disabled='true' class='edit_a_input_zzx' placeholder="离岗" />
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title2">岗位职务:</div>
-        <a-input :disabled='true' class='edit_a_input' v-model='config.position' :placeholder="!config.realName?'请选择人员':'无岗位职务'" />
+      <div class="flexrow flexac edit_item_zzx">
+        <div class="edit_item_zzx_title2_zzx">岗位职务:</div>
+        <a-input :disabled='true' class='edit_a_input_zzx' v-model='config.position' :placeholder="!config.realName?'请选择人员':'无岗位职务'" />
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title2"><a style="color: #FF0000;">*</a>账号名称:</div>
-        <a-input class='edit_a_input' :maxLength='11' v-model='config.userName' placeholder="5-11位，支持英文和数字，字母区分大小写" />
+      <div class="flexrow flexac edit_item_zzx">
+        <div class="edit_item_zzx_title2_zzx"><a style="color: #FF0000;">*</a>账号名称:</div>
+        <a-input class='edit_a_input_zzx' :maxLength='11' v-model='config.userName' placeholder="5-11位，支持英文和数字，字母区分大小写" />
       </div>
-      <div class="flexrow flexac edit_item" v-if="!accountid">
-        <div class="edit_item_title2"><a style="color: #FF0000;">*</a>账号密码:</div>
-        <a-input-password :maxLength='16' class='edit_a_input' style='margin-left: -7px;width: 455px;' v-model='config.cipher'
+      <div class="flexrow flexac edit_item_zzx" v-if="!accountid">
+        <div class="edit_item_zzx_title2_zzx"><a style="color: #FF0000;">*</a>账号密码:</div>
+        <a-input-password :maxLength='16' class='edit_a_input_zzx' style='margin-left: -7px;width: 455px;' v-model='config.cipher'
           placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
       </div>
-      <div class="flexrow flexac edit_item" v-if="!accountid">
-        <div class="edit_item_title2"><a style="color: #FF0000;">*</a>确认密码:</div>
-        <a-input-password :maxLength='16' class='edit_a_input' style='margin-left: -7px;width: 455px;' v-model='config.cipher2'
+      <div class="flexrow flexac edit_item_zzx" v-if="!accountid">
+        <div class="edit_item_zzx_title2_zzx"><a style="color: #FF0000;">*</a>确认密码:</div>
+        <a-input-password :maxLength='16' class='edit_a_input_zzx' style='margin-left: -7px;width: 455px;' v-model='config.cipher2'
           placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
       </div>
 
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title2"><a style="color: #FF0000;">*</a>账号状态:</div>
+      <div class="flexrow flexac edit_item_zzx">
+        <div class="edit_item_zzx_title2_zzx"><a style="color: #FF0000;">*</a>账号状态:</div>
         <a-radio-group v-model='config.statusCode' @change="onChange">
           <a-radio v-for="(item,index) in plainOptions" :key="index" :value="item.key">
             {{item.name}}
           </a-radio>
         </a-radio-group>
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title2">账号描述:</div>
+      <div class="flexrow flexac edit_item_zzx">
+        <div class="edit_item_zzx_title2_zzx">账号描述:</div>
         <div style="position: relative;">
-          <a-textarea class='edit_a_input' :rows="5" v-model='config.remark' :maxLength='250' placeholder="500字以内，格式不限制"
+          <a-textarea class='edit_a_input_zzx' :rows="5" v-model='config.remark' :maxLength='250' placeholder="500字以内，格式不限制"
             @change="onChangeConfig" />
-          <div class="edit_number">{{num}}/250</div>
+          <div class="edit_number_zzx">{{num}}/250</div>
         </div>
       </div>
 
 
-      <div class="flexrow edit_item_title2" style="width: 100%;margin-left: 60px; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 14px;"><a
+      <div class="flexrow edit_item_zzx_title2_zzx" style="width: 100%;margin-left: 60px; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 14px;"><a
           style="color: #FF0000;">*</a>分配角色</div>
 
       <a-table style='width: 447px;margin-left: 130px;' :columns="tableTitle" :data-source="tableList" :pagination='false'
@@ -160,33 +160,33 @@
       /* 保存，确认*/
       async submit() {
         if (!this.config.realName) {
-          this.$message.error('请关联人员')
+          this.$message.warning('请关联人员')
           return
         }
         if (!this.config.userName) {
-          this.$message.error('请输入账号名称')
+          this.$message.warning('请输入账号名称')
           return
         }
         if (this.config.userName.length < 5) {
-          this.$message.error('账号长度要求5-11位')
+          this.$message.warning('账号长度要求5-11位')
           return
         }
         if (!this.accountid) {
           if (!this.config.cipher || !this.config.cipher2) {
-            this.$message.error('请输入密码')
+            this.$message.warning('请输入密码')
             return
           }
           if (this.config.cipher.length < 5 || this.config.cipher2.length < 5) {
-            this.$message.error('密码格式不对')
+            this.$message.warning('密码格式不对')
             return
           }
           if (this.config.cipher != this.config.cipher2) {
-            this.$message.error('两次密码不一致')
+            this.$message.warning('两次密码不一致')
             return
           }
         }
         if (this.selectedRowKeys.length <= 0) {
-          this.$message.error('请关联角色')
+          this.$message.warning('请关联角色')
           return
         }
         this.config.operatorId = '5172dadd6d7c404e8ac657f32f81d969'
@@ -283,7 +283,7 @@
 </script>
 
 <style>
-  .edit_item_title2 {
+  .edit_item_zzx_title2_zzx {
     width: 120px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -294,16 +294,16 @@
     flex-shrink: 0;
   }
 
-  .edit_item {
+  .edit_item_zzx {
     margin: 0 auto;
     margin-top: 24px;
   }
 
-  .select_item {
+  .select_item_zzx {
     width: 447px;
   }
 
-  .edit_item_toast {
+  .edit_item_zzx_toast {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
@@ -312,7 +312,7 @@
     margin-left: 20px;
   }
 
-  .edit_a_input {
+  .edit_a_input_zzx {
     width: 447px;
     height: 32px;
     display: flex;
@@ -321,7 +321,7 @@
     padding-left: 10px;
   }
 
-  .edit_number {
+  .edit_number_zzx {
     position: absolute;
     right: 10px;
     bottom: 3px;

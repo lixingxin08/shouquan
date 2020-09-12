@@ -3,26 +3,26 @@
   <div class="flexcolumn" style="background-color: #FFFFFF;">
 
     <div style="margin: 0 auto;">
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>品牌名称:</div>
-        <a-input class='edit_a_input' v-model='typeName' placeholder="平台" />
-        <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
+      <div class="flexrow flexac edit_item_brand">
+        <div class="edit_item_brand_title3"><a style="color: #FF0000;">*</a>品牌名称:</div>
+        <a-input class='edit_a_input_brand' v-model='typeName' placeholder="平台" />
+        <div class="edit_item_brand_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>品牌代码:</div>
-        <a-input class='edit_a_input' v-model='typeCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-        <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
+      <div class="flexrow flexac edit_item_brand">
+        <div class="edit_item_brand_title3"><a style="color: #FF0000;">*</a>品牌代码:</div>
+        <a-input class='edit_a_input_brand' v-model='typeCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        <div class="edit_item_brand_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
 
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title3">品牌描述:</div>
+      <div class="flexrow flexac edit_item_brand">
+        <div class="edit_item_brand_title3">品牌描述:</div>
         <div style="position: relative;">
-          <a-textarea class='edit_a_input' :rows="5" v-model='remark' :maxLength='250' placeholder="请输入描述" @change="onChangeConfig" />
+          <a-textarea class='edit_a_input_brand' :rows="5" v-model='remark' :maxLength='250' placeholder="请输入描述" @change="onChangeConfig" />
           <div class="edit_number">{{num}}/250</div>
         </div>
       </div>
 
-      <div class="flexrow edit_item_title3" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
+      <div class="flexrow edit_item_brand_title3" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
           style="color: #FF0000;">*</a>设备类型</div>
 
       <a-table :columns="dictionaryColumns" :data-source="typeList" :pagination='false' :bordered='true' size='small'
@@ -172,7 +172,7 @@
 </script>
 
 <style>
-  .edit_item_title3 {
+  .edit_item_brand_title3 {
     width: 70px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -183,12 +183,12 @@
     flex-shrink: 0;
   }
 
-  .edit_item {
+  .edit_item_brand {
     margin: 0 auto;
     margin-top: 24px;
   }
 
-  .edit_item_toast {
+  .edit_item_brand_toast {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
@@ -197,7 +197,7 @@
     margin-left: 20px;
   }
 
-  .edit_a_input {
+  .edit_a_input_brand {
     width: 667px;
     height: 32px;
     display: flex;

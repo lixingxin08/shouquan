@@ -66,7 +66,9 @@
   font-size: 24px;
   opacity: 1;
 }
-
+.edit_a_input{
+  width: 667px!important;
+}
 .flexac {
   align-items: center;
 }

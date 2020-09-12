@@ -82,8 +82,8 @@
         let param = {
           actionName: this.keyword,
           pageSize: this.pagination.pageSize,
-          startTime: this.timeValue[0],
-          endTime: this.timeValue[1],
+          startTime: this.timeValue[0].replaceAll('/','-'),
+          endTime: this.timeValue[1].replaceAll('/','-'),
           pageIndex: this.pagination.current
         };
         let res = await this.$http.post(this.$api.journalpage, param);

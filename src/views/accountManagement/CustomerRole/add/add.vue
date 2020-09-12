@@ -3,29 +3,29 @@
   <div class="flexcolumn" style="background-color: #FFFFFF;">
 
     <div style="margin: 0 auto;">
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title1"><a style="color: #FF0000;">*</a>角色名称:</div>
-        <a-input class='edit_a_input' v-model='config.roleName' :maxLength='50' placeholder="2-16个字，支持中英文" />
+      <div class="flexrow flexac edit_item_zzx">
+        <div class="edit_item_zzx_title1_zzx"><a style="color: #FF0000;">*</a>角色名称:</div>
+        <a-input class='edit_a_input_zzx' v-model='config.roleName' :maxLength='50' placeholder="2-16个字，支持中英文" />
       </div>
-      <div class="flexrow flexac edit_item">
-        <div class="edit_item_title1">角色描述:</div>
-        <a-input class='edit_a_input' v-model='config.remark' placeholder="500字以内，格式不限制" />
+      <div class="flexrow flexac edit_item_zzx">
+        <div class="edit_item_zzx_title1_zzx">角色描述:</div>
+        <a-input class='edit_a_input_zzx' v-model='config.remark' placeholder="500字以内，格式不限制" />
       </div>
-      <div class="flexrow flexac edit_item" style="align-items: flex-start;">
+      <div class="flexrow flexac edit_item_zzx" style="align-items: flex-start;">
 
-        <div class="edit_item_title1"><a style="color: #FF0000;">*</a>角色权限配置:</div>
-        <div class="flexcolumn selet_bg">
+        <div class="edit_item_zzx_title1_zzx"><a style="color: #FF0000;">*</a>角色权限配置:</div>
+        <div class="flexcolumn selet_bg_zzx">
           <div class="flexrow  flexac">
             <div style="flex-shrink: 0;margin-right: 7px;width: 100px;text-align: end;font-size: 14px;">
               服务子系统:
             </div>
-            <a-select :value="selectValue?selectValue:'全部'" class='select_item' @change="handleSelectChange">
+            <a-select :value="selectValue?selectValue:'全部'" class='selet_bg_zzx' @change="handleSelectChange">
               <a-select-option v-for='(item,index) in selectList' :key='index' :value="item.menuId">
                 {{item.menuName}}
               </a-select-option>
             </a-select>
           </div>
-          <div class="tree_box">
+          <div class="tree_box_zzx">
             <is-left :treedata="treedata" :replaceFields="replaceFields" :checkedKeys="defaultExpandedKeys"
               @checkedKeys="getcheckedKeys" v-if="showtree"></is-left>
           </div>
@@ -222,7 +222,7 @@
 </script>
 
 <style>
-  .edit_item_title1 {
+  .edit_item_zzx_title1_zzx {
     width: 100px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -233,23 +233,23 @@
     flex-shrink: 0;
   }
 
-  .edit_item {
+  .edit_item_zzx {
 
     margin: 0 auto;
     margin-top: 24px;
   }
 
-  .selet_bg {
+  .selet_bg_zzx {
     padding: 10px;
     width: 667px;
     border: 1px solid #dcdcdc;
   }
 
-  .select_item {
+  .selet_bg_zzx {
     width: 667px;
   }
 
-  .edit_item_toast {
+  .edit_item_zzx_toast {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
@@ -258,7 +258,7 @@
     margin-left: 20px;
   }
 
-  .edit_a_input {
+  .edit_a_input_zzx {
     width: 667px;
     height: 32px;
     display: flex;
@@ -267,14 +267,14 @@
     padding-left: 10px;
   }
 
-  .tree_box {
+  .tree_box_zzx {
 
     width: 600px;
     margin: 0 auto;
     background-color: #FFFFFF;
   }
 
-  .edit_number {
+  .edit_number_zzx {
     position: absolute;
     right: 10px;
     bottom: 3px;

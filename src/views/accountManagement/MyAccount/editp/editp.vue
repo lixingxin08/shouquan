@@ -4,17 +4,17 @@
       <div class="dialog-title flexrow flexac flexsb">新增数值
         <a-icon type="close" @click='closedialog' />
       </div>
-      <div class="flexrow flexac item" style="margin-top: 20px;">
-        <div class="item-title"> <a style="color: #FF0033;">*</a>当前密码：</div>
+      <div class="flexrow flexac item_zzx" style="margin-top: 20px;">
+        <div class="item-title_zzx"> <a style="color: #FF0033;">*</a>当前密码：</div>
         <a-input-password v-model='toalword'></a-input-password>
       </div>
-      <div class="flexrow flexac item" style="margin-top: 20px;">
-        <div class="item-title"> <a style="color: #FF0033;">*</a>密码：</div>
+      <div class="flexrow flexac item_zzx" style="margin-top: 20px;">
+        <div class="item-title_zzx"> <a style="color: #FF0033;">*</a>密码：</div>
         <a-input-password v-model='password'></a-input-password>
       </div>
-      <div class="flexrow flexac item">
+      <div class="flexrow flexac item_zzx">
         <a style="color: #FF0033;">*</a>
-        <div class="item-title">确认密码：</div>
+        <div class="item-title_zzx">确认密码：</div>
         <a-input-password v-model='password2'></a-input-password>
       </div>
       <a-button type='primary' style='margin-top: 30px;margin-bottom: 30px;' @click='submit'>确定</a-button>
@@ -73,13 +73,13 @@
     line-height: 14px;
   }
 
-  .item {
+  .item_zzx {
     margin-left: 40px;
     margin-right: 40px;
     margin-top: 10px;
   }
 
-  .item-title {
+  .item-title_zzx {
     width: 90px;
     font-size: 16px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
