@@ -247,7 +247,6 @@
     width: 667px;
     text-align: left;
     display: flex;
-
     flex-direction: row;
     justify-content: flex-start;
     height: 32px;
