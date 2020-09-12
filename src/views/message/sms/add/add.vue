@@ -94,7 +94,9 @@
         smsTypeList: [],
         addcolumns: table.data.adddColumns,
         msgList: [],
-        config:{},
+        config:{
+          typeCode:0
+        },
         id: null,
         num: 0 //描述长度
       }

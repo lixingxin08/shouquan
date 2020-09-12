@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-      <router-view />
+	  <a-config-provider :locale="zhCN">
+      <router-view /></a-config-provider>
   </div>
 </template>
 
 <script>
+	import zhCN from 'ant-design-vue/es/locale/zh_CN';
 window.addEventListener(
   "message",
   function (e) {
@@ -24,6 +26,7 @@ export default {
   name: "App",
   data() {
     return {
+		zhCN,
       ivews:"login,home"//缓存组件
     }
   },

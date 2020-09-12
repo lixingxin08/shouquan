@@ -35,7 +35,7 @@
             <div class="btn_gray" @click="clear()">清除</div>
           </div>
           <div class="btn_blue btn2" @click="toadd({})">新增</div>
-          <div class="table" v-if="tabletype">
+          <div class="table" >
             <a-table
               :columns="tablecolumns"
               :data-source="tabledata"
@@ -44,6 +44,7 @@
               :pagination="pagination"
               @change="handleTableChange"
             >
+              <div slot="emailConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</div>
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
                 <div class="col_red ispointer" @click="showdialog(areaName)">
@@ -78,6 +79,9 @@ export default {
           dataIndex: "emailConfigId",
           key: "emailConfigId",
           ellipsis: true,
+          scopedSlots: {
+            customRender: "emailConfigId",
+          },
         },
         {
           width: 158,
