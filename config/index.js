@@ -13,10 +13,10 @@ module.exports = {
     proxyTable: {
       '/api': {//代理api
         //target: "`",
-        target: "http://192.168.3.86:8092/haiot-auth", //代理接口
-         //target: "http://hean.fast2.svipss.top/authorization",
+        // target: "http://192.168.3.86:8092/haiot-auth", //代理接口
+        target: "http://192.168.3.86:8092/haiot-auth",
         changeOrigin: true,//是否跨域
-        // allowCredentials:true,
+        allowCredentials:true,
         pathRewrite: {//重写路径
           "^/api": ''//代理路径
         }

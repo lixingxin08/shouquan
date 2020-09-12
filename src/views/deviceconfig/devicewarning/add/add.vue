@@ -5,18 +5,18 @@
 
 
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>警报名称:</div>
+        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>警报名称:</div>
 
         <a-input class='edit_a_input' :maxLength='50' v-model='warning.alarmName' placeholder="请输入您选择的型号名称" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>警报代码:</div>
+        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>警报代码:</div>
         <a-input class='edit_a_input' :maxLength='50' v-model='warning.alarmCode' placeholder="请输入您选择的型号代码" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>警报类型:</div>
+        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>警报类型:</div>
         <a-select :value="warningSelect?warningSelect:'请选择警报类型'" class='select_item' @change="handleSelectChange">
           <a-select-option v-for='(item,index) in warningTypeList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
@@ -25,7 +25,7 @@
         <div class="edit_item_toast">注：可直接选择警报类型</div>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>警报等级:</div>
+        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>警报等级:</div>
         <a-select :value="warning.gradeno?warning.gradeno:'请选择警报类型'" class='select_item' @change="handleGradeSelectChange">
           <a-select-option v-for='(item,index) in gradeList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
@@ -34,7 +34,7 @@
         <div class="edit_item_toast">注：可直接选择警报等级</div>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">警报描述:</div>
+        <div class="edit_item_title3">警报描述:</div>
         <div style="position: relative;">
           <a-textarea class='edit_a_input' :rows="5" v-model='warning.remark' :maxLength='250' placeholder="请输入描述"
             @change="onChangeConfig" />
@@ -43,7 +43,7 @@
       </div>
 
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">设备图标:</div>
+        <div class="edit_item_title3">设备图标:</div>
         <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76" list-type="picture">
           <a-button>
             <a-icon type="upload" /> upload </a-button>
@@ -51,7 +51,7 @@
       </div>
 
 
-      <div class="flexrow edit_item_title" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">转警事件</div>
+      <div class="flexrow edit_item_title3" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">转警事件</div>
 
       <a-table :columns="dictionaryColumns" :data-source="eventList" :pagination='false' :bordered='true' size='small'
         :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
@@ -234,7 +234,7 @@
 </script>
 
 <style>
-  .edit_item_title {
+  .edit_item_title3 {
     width: 70px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;

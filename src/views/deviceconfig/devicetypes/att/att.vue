@@ -2,7 +2,7 @@
   <div class="content2">
     <div class="flexcolumn" v-for="(item,index) in groups" :key='index'>
       <div class="flexrow flexac" style="margin-top: 10px;margin-bottom: 10px;">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>属性分组:</div>
+        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>属性分组:</div>
         <a-input class='edit_a_input' v-model='item.propertyName' placeholder="注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
         <a-button class='top-btn' type='primary' @click='saveGroup(item)'>保存</a-button>
         <a-button class='top-btn' :disabled='!item.propertyId' @click='addGroupAtt(index)'>新增属性</a-button>
@@ -193,7 +193,7 @@
 </script>
 
 <style>
-  .edit_item_title {
+  .edit_item_title3 {
     width: 70px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;

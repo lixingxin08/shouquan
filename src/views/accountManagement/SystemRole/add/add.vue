@@ -4,16 +4,16 @@
 
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>角色名称:</div>
+        <div class="edit_item_title1"><a style="color: #FF0000;">*</a>角色名称:</div>
         <a-input class='edit_a_input' v-model='config.roleName' :maxLength='50' placeholder="2-16个字，支持中英文" />
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">角色描述:</div>
+        <div class="edit_item_title1">角色描述:</div>
         <a-input class='edit_a_input' v-model='config.remark' placeholder="500字以内，格式不限制" />
       </div>
       <div class="flexrow flexac edit_item" style="align-items: flex-start;">
 
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>角色权限配置:</div>
+        <div class="edit_item_title1"><a style="color: #FF0000;">*</a>角色权限配置:</div>
         <div class="flexcolumn selet_bg">
           <div class="flexrow  flexac">
             <div style="flex-shrink: 0;margin-right: 7px;width: 100px;text-align: end;font-size: 14px;">
@@ -222,7 +222,7 @@
 </script>
 
 <style>
-  .edit_item_title {
+  .edit_item_title1 {
     width: 100px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
