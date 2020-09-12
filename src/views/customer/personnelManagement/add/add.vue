@@ -250,7 +250,7 @@ export default {
   text-align: center;
 }
 
-.dialog {
+.dialogaddperson {
   width: 920px;
   height: 810px;
   position: relative;
@@ -261,7 +261,7 @@ export default {
   background-color: #fff;
   z-index: 2;
 }
-.dialog_t {
+.dialogaddperson_t {
   width: 920px;
   height: 72px;
   background-color: #1890ff;
@@ -269,7 +269,7 @@ export default {
   font-size: 24px;
   padding: 0 40px;
 }
-.dialog_c {
+.dialogaddperson_c {
   width: 920px;
   height: 554px;
   font-size: 20px;
@@ -280,12 +280,12 @@ export default {
   z-index: 3;
   padding: 0 40px;
 }
-.dialog_c_t {
+.dialogaddperson_c_t {
   height: 32px;
   margin-top: 30px;
   margin-bottom: 20px;
 }
-.dialog_inp {
+.dialogaddperson_inp {
   width: 744px;
   height: 32px;
   border: 1px solid #dcdcdc;
@@ -295,7 +295,7 @@ export default {
   width: 840px;
   height: 472px;
 }
-.dialog_f {
+.dialogaddperson_f {
   margin-top: 40px;
 }
 </style>

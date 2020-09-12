@@ -1,8 +1,8 @@
 <template>
   <div class="ps_ab">
     <div class="ps_flex" style="padding: 0px;border-radius: 10px;width: auto;">
-      <div class="dialog-title flexrow flexac flexsb">选择关联人员
-        <a-icon type="close" @click='closedialog' />
+      <div class="dialogchhoos2-title flexrow flexac flexsb">选择关联人员
+        <a-icon type="close" @click='closedialogchhoos2' />
       </div>
       <div class="r_top flex_f" style="padding: 20px;">
         <div class="r_t_text">人员姓名/手机号码:</div>
@@ -158,7 +158,7 @@
         }
       },
       /* 关闭选人员*/
-      closedialog() {
+      closedialogchhoos2() {
         this.$emit('cancleDialog')
       },
       /* 分页切换数据*/
@@ -221,7 +221,7 @@
     margin-right: 10px;
   }
 
-  .dialog-title {
+  .dialogchhoos2-title {
     background: #1890FF;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -282,7 +282,7 @@
     height: 42px;
   }
 
-  .dialog {
+  .dialogchhoos2 {
     width: 920px;
     height: 492px;
     position: relative;
@@ -296,7 +296,7 @@
     z-index: 2;
   }
 
-  .dialog_t {
+  .dialogchhoos2_t {
     width: 920px;
     height: 72px;
     background: #1890ff;
@@ -306,7 +306,7 @@
     font-size: 24px;
   }
 
-  .dialog_c {
+  .dialogchhoos2_c {
     height: 348px;
     font-size: 20px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;

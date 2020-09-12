@@ -4,7 +4,7 @@
       <div>
         <div class="right">
           <div class="r_top flex_f">
-            <div class="r_t_text" @click="showdialog()">参数分组:</div>
+            <div class="r_t_text" @click="showdialogrunn()">参数分组:</div>
             <a-select
               show-search
               placeholder="全部"
@@ -23,7 +23,7 @@
                 :value="item.comboBoxId"
               >{{item.comboBoxName}}</a-select-option>
             </a-select>
-            <div class="r_t_text" @click="showdialog()">参数名称/代码:</div>
+            <div class="r_t_text" @click="showdialogrunn()">参数名称/代码:</div>
             <a-input
               placeholder="请输入名称/代码"
               class="r_t_inp"
@@ -44,7 +44,7 @@
             >
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
-                <div class="col_red ispointer" @click="showdialog(areaName)">
+                <div class="col_red ispointer" @click="showdialogrunn(areaName)">
                   <span>删除</span>
                 </div>
               </div>
@@ -53,7 +53,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialogrunn v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogrunn>
   </div>
 </template>
 <script>
@@ -260,7 +260,7 @@ export default {
       // this.getareapage();
     },
     //弹窗
-    showdialog(val) {
+    showdialogrunn(val) {
       console.log(val, 221212);
       this.removeparam.parameterId = val.parameterId;
       this.visible = true;
@@ -360,7 +360,7 @@ export default {
   height: 42px;
 }
 
-.dialog {
+.dialogrunn {
   width: 920px;
   height: 492px;
   position: relative;
@@ -374,7 +374,7 @@ export default {
   z-index: 2;
 }
 
-.dialog_t {
+.dialogrunn_t {
   width: 920px;
   height: 72px;
   background: #1890ff;
@@ -384,7 +384,7 @@ export default {
   font-size: 24px;
 }
 
-.dialog_c {
+.dialogrunn_c {
   height: 348px;
   font-size: 20px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;

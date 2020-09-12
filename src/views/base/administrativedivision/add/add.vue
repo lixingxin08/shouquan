@@ -22,7 +22,7 @@
         <span class="col_red">*</span>地图位置:
       </div>
       <a-input class="edit_a_input" v-model="form.position" placeholder="在地图定位后获取" />
-      <div class="edit_item_toast btn_blue mapbtn" @click="showdialog()">
+      <div class="edit_item_toast btn_blue mapbtn" @click="showdialogadminadd()">
         <a-icon type="environment"></a-icon>地图定位
       </div>
     </div>
@@ -44,17 +44,17 @@
       <a-button type="primary" style="margin-left: 20px;" @click="reset()">重置</a-button>
     </div>
 
-    <div class="dialog" v-if="visible">
-      <div class="dialog_t flex_b">
+    <div class="dialogadminadd" v-if="visible">
+      <div class="dialogadminadd_t flex_b">
         <div>地理位置</div>
         <div @click="cancel()">
           <a-icon type="close" />
         </div>
       </div>
-      <div class="dialog_c">
-        <div class="flex_f dialog_c_t">
+      <div class="dialogadminadd_c">
+        <div class="flex_f dialogadminadd_c_t">
           <div>
-            <a-input placeholder="输入位置名称" id="searinp" class="dialog_inp" v-model="city" />
+            <a-input placeholder="输入位置名称" id="searinp" class="dialogadminadd_inp" v-model="city" />
           </div>
           <div class="edit_item_toast btn_blue mapbtn" @click="getLatLngLocation()">
             <a-icon type="environment"></a-icon>地图定位
@@ -62,7 +62,7 @@
         </div>
         <div id="map-container" class="map"></div>
       </div>
-      <div class="dialog_f flex_a">
+      <div class="dialogadminadd_f flex_a">
         <div class="flex_f">
           <div class="ok_btn" @click="define()">确定</div>
           <div class="cancel_btn" @click="cancel()">取消</div>
@@ -162,7 +162,7 @@ export default {
       this.visible = false;
       this.form.position = "";
     },
-    showdialog() {
+    showdialogadminadd() {
       this.visible = true;
       this.$nextTick(() => {
         this.init();
@@ -310,11 +310,11 @@ export default {
 }
 .mapbtn {
   width: 100px;
-  color: #fff;
-  text-align: center;
+  color: #fff!important;
+  text-align: center!important;
 }
 
-.dialog {
+.dialogadminadd {
   width: 920px;
   height: 810px;
   position: relative;
@@ -325,7 +325,7 @@ export default {
   background-color: #fff;
   z-index: 2;
 }
-.dialog_t {
+.dialogadminadd_t {
   width: 920px;
   height: 72px;
   background-color: #1890ff;
@@ -333,7 +333,7 @@ export default {
   font-size: 24px;
   padding: 0 40px;
 }
-.dialog_c {
+.dialogadminadd_c {
   width: 920px;
   height: 554px;
   font-size: 20px;
@@ -344,12 +344,12 @@ export default {
   z-index: 3;
   padding: 0 40px;
 }
-.dialog_c_t {
+.dialogadminadd_c_t {
   height: 32px;
   margin-top: 30px;
   margin-bottom: 20px;
 }
-.dialog_inp {
+.dialogadminadd_inp {
   width: 744px;
   height: 32px;
   border: 1px solid #dcdcdc;
@@ -359,7 +359,7 @@ export default {
   width: 840px;
   height: 472px;
 }
-.dialog_f {
+.dialogadminadd_f {
   margin-top: 40px;
 }
 </style>

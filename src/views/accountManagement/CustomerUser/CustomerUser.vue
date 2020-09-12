@@ -30,7 +30,7 @@
               <div slot="edit" class="flex_a" slot-scope="val,departmentId">
                 <div class="col_blue ispointer" @click="toadd(departmentId)">编辑</div>
                 <div class="col_blue ispointer" @click="toedit(departmentId)">修改密码</div>
-                <div class="col_red ispointer" @click="showdialog(val)">
+                <div class="col_red ispointer" @click="showdialogcuser(val)">
                   <span>删除</span>
                 </div>
 
@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialogcuser v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogcuser>
     <is-edit-pass-word v-if="visiblePass" @confirmPass="confirmPass" @cancle='cancelPass'></is-edit-pass-word>
   </div>
 </template>
@@ -342,7 +342,7 @@
         this.pageparam.statusCode = "";
       },
       //弹窗
-      showdialog(val) {
+      showdialogcuser(val) {
         console.log(val, 221212);
         this.removeparam.accountId = val.accountId;
         this.visible = true;
@@ -428,7 +428,7 @@
     height: 42px;
   }
 
-  .dialog {
+  .dialogcuser {
     width: 920px;
     height: 492px;
     position: relative;
@@ -442,7 +442,7 @@
     z-index: 2;
   }
 
-  .dialog_t {
+  .dialogcuser_t {
     width: 920px;
     height: 72px;
     background: #1890ff;
@@ -452,7 +452,7 @@
     font-size: 24px;
   }
 
-  .dialog_c {
+  .dialogcuser_c {
     height: 348px;
     font-size: 20px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;

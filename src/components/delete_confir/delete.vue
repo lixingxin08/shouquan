@@ -1,13 +1,13 @@
 <template>
-  <div class="dialog">
-    <div class="dialog_t flex_b">
+  <div class="dialogdel">
+    <div class="dialogdel_t flex_b">
       <div></div>
       <div @click="cancel()">
         <a-icon type="close" />
       </div>
     </div>
-    <div class="dialog_c flex_a">您确定要删除吗？</div>
-    <div class="dialog_f flex_a">
+    <div class="dialogdel_c flex_a">您确定要删除吗？</div>
+    <div class="dialogdel_f flex_a">
       <div class="flex_f">
         <div class="ok_btn" @click="confirm()">确定</div>
         <div class="cancel_btn" @click="cancel()">取消</div>
@@ -31,7 +31,7 @@
 </script>
 
 <style>
-  .dialog {
+  .dialogdel {
     width: 920px;
     height: 492px;
     position: relative;
@@ -43,7 +43,7 @@
     z-index: 2;
   }
 
-  .dialog_t {
+  .dialogdel_t {
     width: 920px;
     height: 72px;
     background: #1890ff;
@@ -53,7 +53,7 @@
     font-size: 24px;
   }
 
-  .dialog_c {
+  .dialogdel_c {
     height: 348px;
     font-size: 20px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
