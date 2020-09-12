@@ -3,37 +3,37 @@
     <div class="flexrow" style="margin: 0 auto;">
       <div class=" flexcolumn">
         <div class="flexrow flexac edit_item">
-          <div class="edit_item_title">人员姓名:</div>
+          <div class="edit_item_title2">人员姓名:</div>
           <a-input :disabled='true' class='edit_a_input' v-model='personConfig.realName' placeholder="请选择人员" />
         </div>
         <div class="flexrow flexac edit_item">
-          <div class="edit_item_title">所属部门:</div>
+          <div class="edit_item_title2">所属部门:</div>
           <a-input :disabled='true' class='edit_a_input' v-model='personConfig.position' placeholder="请选择人员" />
         </div>
         <div class="flexrow flexac edit_item">
-          <div class="edit_item_title">人员性别:</div>
+          <div class="edit_item_title2">人员性别:</div>
           <a-input :disabled='true' class='edit_a_input' v-model="personConfig.gender==1?'男':'女'" placeholder="请选择人员" />
         </div>
         <div class="flexrow flexac edit_item">
-          <div class="edit_item_title">手机号码:</div>
+          <div class="edit_item_title2">手机号码:</div>
           <a-input :disabled='true' class='edit_a_input' v-model='personConfig.mobilePhone' placeholder="请选择人员" />
         </div>
         <div class="flexrow flexac edit_item">
-          <div class="edit_item_title"><a style="color: #FF0000;">*</a>账号名称:</div>
+          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>账号名称:</div>
           <a-input :disabled='true' class='edit_a_input' v-model='config.userName' placeholder="5-11位，支持英文和数字，字母区分大小写" />
         </div>
         <div class="flexrow flexac edit_item">
-          <div class="edit_item_title">电子邮箱:</div>
+          <div class="edit_item_title2">电子邮箱:</div>
           <a-input class='edit_a_input' v-model='personConfig.email' placeholder="请填写电子邮箱" />
         </div>
 
         <div class="flexrow flexac edit_item">
-          <div class="edit_item_title">岗位职务:</div>
+          <div class="edit_item_title2">岗位职务:</div>
           <a-input class='edit_a_input' v-model='personConfig.position' placeholder="请填写岗位职务" />
         </div>
       </div>
       <div class="flexcolumn">
-        <div class="edit_item_title" style="width: auto;text-align: left;margin-left: 20px;margin-top: 20px;"><span
+        <div class="edit_item_title2" style="width: auto;text-align: left;margin-left: 20px;margin-top: 20px;"><span
             style="color: #FF0000;">*</span>账号权限</div>
         <div class="treebox">
           <is-right :treedata="treedata" :replaceFields="replaceFields" :checkable='false'></is-right>
@@ -174,7 +174,7 @@
 </script>
 
 <style>
-  .edit_item_title {
+  .edit_item_title2 {
     width: 120px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;

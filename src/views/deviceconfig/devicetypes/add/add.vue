@@ -4,18 +4,18 @@
 
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>类型名称:</div>
+        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>类型名称:</div>
         <a-input class='edit_a_input' v-model='typeName' placeholder="平台" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>类型代码:</div>
+        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>类型代码:</div>
         <a-input class='edit_a_input' v-model='typeCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
 
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>业务类别:</div>
+        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>业务类别:</div>
         <a-select :value='selectDefault' style="width: 200px;" @change="handleSelectChange">
           <a-select-option v-for='(item,index) in selectList' :key='index' :value="item.comboBoxName">
             {{item.comboBoxName}}
@@ -24,14 +24,14 @@
         <div class="edit_item_toast">注：数字字典</div>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">类型描述:</div>
+        <div class="edit_item_title3">类型描述:</div>
         <div style="position: relative;">
           <a-textarea class='edit_a_input' :rows="5" v-model='remark' :maxLength='250' placeholder="请输入描述" @change="onChangeConfig" />
           <div class="edit_number">{{num}}/250</div>
         </div>
       </div>
 
-      <div class="flexrow edit_item_title" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">设备品牌</div>
+      <div class="flexrow edit_item_title3" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">设备品牌</div>
 
       <a-table :columns="dictionaryColumns" :data-source="brandList" :pagination='false' :bordered='true' size='small'
         :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
@@ -204,7 +204,7 @@
 </script>
 
 <style>
-  .edit_item_title {
+  .edit_item_title3 {
     width: 70px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;

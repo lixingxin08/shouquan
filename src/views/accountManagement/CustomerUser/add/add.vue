@@ -3,53 +3,53 @@
   <div class="flexcolumn" style="background-color: #FFFFFF;">
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>关联人员姓名:</div>
+        <div class="edit_item_title2"><a style="color: #FF0000;">*</a>关联人员姓名:</div>
         <a-input :disabled='true' class='edit_a_input' v-model='config.realName' placeholder="请选择人员" />
         <a-button type='primary' @click='chooseAccount' style='margin-left: 20px;'>选择人员</a-button>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">所属部门:</div>
+        <div class="edit_item_title2">所属部门:</div>
         <a-input :disabled='true' class='edit_a_input' v-model="config.departmentName" :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">人员性别:</div>
+        <div class="edit_item_title2">人员性别:</div>
         <a-input v-if='!config.realName' :disabled='true' class='edit_a_input' placeholder="请选择人员" />
         <a-input v-else :disabled='true' class='edit_a_input' v-model="config.gender==1?'男':'女'" :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">手机号码:</div>
+        <div class="edit_item_title2">手机号码:</div>
 
         <a-input :disabled='true' class='edit_a_input' v-model='config.mobilePhone' :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">电子邮箱:</div>
+        <div class="edit_item_title2">电子邮箱:</div>
         <a-input :disabled='true' class='edit_a_input' v-model='config.email' :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">人员状态:</div>
+        <div class="edit_item_title2">人员状态:</div>
         <a-input v-if='!config.realName' :disabled='true' class='edit_a_input' placeholder="请选择人员" />
         <a-input v-if='config.personStatus==0&&config.realName' :disabled='true' class='edit_a_input' placeholder="休假" />
         <a-input v-if='config.personStatus==1&&config.realName' :disabled='true' class='edit_a_input' placeholder="正常" />
         <a-input v-if='config.personStatus==2&&config.realName' :disabled='true' class='edit_a_input' placeholder="离岗" />
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">岗位职务:</div>
+        <div class="edit_item_title2">岗位职务:</div>
         <a-input :disabled='true' class='edit_a_input' v-model='config.position' :placeholder="!config.realName?'请选择人员':'无岗位职务'" />
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>账号名称:</div>
+        <div class="edit_item_title2"><a style="color: #FF0000;">*</a>账号名称:</div>
         <a-input class='edit_a_input' v-model='config.userName' placeholder="5-11位，支持英文和数字，字母区分大小写" />
       </div>
       <div class="flexrow flexac edit_item" v-if="!accountid">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>账号密码:</div>
+        <div class="edit_item_title2"><a style="color: #FF0000;">*</a>账号密码:</div>
         <a-input-password class='edit_a_input' v-model='config.cipher' placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
       </div>
       <div class="flexrow flexac edit_item" v-if="!accountid">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>确认密码:</div>
+        <div class="edit_item_title2"><a style="color: #FF0000;">*</a>确认密码:</div>
         <a-input-password class='edit_a_input' v-model='config.cipher2' placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>账号状态:</div>
+        <div class="edit_item_title2"><a style="color: #FF0000;">*</a>账号状态:</div>
         <a-radio-group v-model='config.statusCode' @change="onChange">
           <a-radio v-for="(item,index) in plainOptions" :key="index" :value="item.key">
             {{item.name}}
@@ -57,7 +57,7 @@
         </a-radio-group>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">账号描述:</div>
+        <div class="edit_item_title2">账号描述:</div>
         <div style="position: relative;">
           <a-textarea class='edit_a_input' :rows="5" v-model='config.remark' :maxLength='250' placeholder="500字以内，格式不限制"
             @change="onChangeConfig" />
@@ -66,7 +66,7 @@
       </div>
 
 
-      <div class="flexrow edit_item_title" style="width: 100%;margin-left: 50px; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
+      <div class="flexrow edit_item_title2" style="width: 100%;margin-left: 50px; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
           style="color: #FF0000;">*</a>分配角色</div>
 
       <a-table style='width: 447px;margin-left: 130px;' :columns="tableTitle" :data-source="tableList" :pagination='false'
@@ -279,7 +279,7 @@
 </script>
 
 <style>
-  .edit_item_title {
+  .edit_item_title2 {
     width: 120px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;

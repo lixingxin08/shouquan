@@ -9,32 +9,32 @@
       </a-steps>
       <div v-if="current==0">
         <div class="flexrow flexac edit_item">
-          <div class="edit_item_title"><a style="color: #FF0000;">*</a>短信账号别名:</div>
+          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>短信账号别名:</div>
           <a-input class='edit_a_input' v-model='config.smsConfigName' placeholder="50字以内，支持中英文" />
           <!-- <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item">
-          <div class="edit_item_title"><a style="color: #FF0000;">*</a>帐号应用标识:</div>
+          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>帐号应用标识:</div>
           <a-input class='edit_a_input' v-model='config.smsAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item">
-          <div class="edit_item_title"><a style="color: #FF0000;">*</a>帐号应用密钥:</div>
+          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>帐号应用密钥:</div>
           <a-input class='edit_a_input' v-model='config.smsKey' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item" >
-          <div class="edit_item_title"><a style="color: #FF0000;">*</a>短信签名:</div>
+          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>短信签名:</div>
           <a-input class='edit_a_input' v-model='config.signName' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <!--     <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item" >
-          <div class="edit_item_title"><a style="color: #FF0000;">*</a>短信价格:</div>
+          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>短信价格:</div>
           <a-input class='edit_a_input' v-model='config.price' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <div class="edit_item_toast">分/条</div>
         </div>
         <div class="flexrow flexac edit_item">
-          <div class="edit_item_title"><a style="color: #FF0000;">*</a>网关类型:</div>
+          <div class="edit_item_title2"><a style="color: #FF0000;">*</a>网关类型:</div>
           <a-select :value="config.typeCode?config.typeCode:'请选择短信账号类型'" style="width: 667px;" @change="handleSelectChange">
             <a-select-option v-for='(item,index) in smsTypeList' :key='index' :value="item.comboBoxId">
               {{item.comboBoxName}}
@@ -43,7 +43,7 @@
           <!--  <div class="edit_item_toast">注：数字字典</div> -->
         </div>
         <div class="flexrow flexac edit_item">
-          <div class="edit_item_title">备注信息:</div>
+          <div class="edit_item_title2">备注信息:</div>
           <div style="position: relative;">
             <a-textarea class='edit_a_input' :rows="5" :maxLength='250' v-model='config.remark' placeholder="请输入描述"
               @change="onChangeConfig" />
@@ -239,7 +239,7 @@
 </script>
 
 <style>
-  .edit_item_title {
+  .edit_item_title2 {
     width: 120px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;

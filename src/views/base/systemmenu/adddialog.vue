@@ -5,17 +5,17 @@
         <a-icon type="close" @click='closedialog' />
       </div>
 
-      <div class="flexrow flexac item" style="margin-top: 20px;">
+      <div class="flexrow flex_f item" style="margin-top: 20px;">
         <a style="color: #FF0033;">*</a>
         <div class="item-title">接口名称：</div>
         <a-input v-model='item.actionName'></a-input>
       </div>
-      <div class="flexrow flexac item">
+      <div class="flexrow flex_f item">
         <a style="color: #FF0033;">*</a>
         <div class="item-title">URL地址：</div>
         <a-input v-model='item.linkURL'></a-input>
       </div>
-      <div class="flexrow flexac item">
+      <div class="flexrow flex_f item">
         <a style="color: #FFFFFF;">*</a>
         <div class="item-title">是否默认：</div>
         <a-switch v-model='item.defaultFlag==1' @change="onChangeSwitch"></a-switch>

@@ -3,7 +3,7 @@
   <div class="flexcolumn" style="background-color: #FFFFFF;">
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>业务类别:</div>
+        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>业务类别:</div>
         <a-select :value="severSelect?severSelect:'请选择业务类别'" class='select_item' @change="handleServerChange">
           <a-select-option v-for='(item,index) in severList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
@@ -12,7 +12,7 @@
         <div class="edit_item_toast">注：可直接选择业务类型</div>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>设备类型:</div>
+        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>设备类型:</div>
         <a-select :value="typeSelect?typeSelect:'请选择设备类型'" :disabled='!severSelect' class='select_item' @change="handleTypeChange">
           <a-select-option v-for='(item,index) in typeList' :key='index' :value="item.deviceTypeId">
             {{item.deviceTypeName}}
@@ -21,7 +21,7 @@
         <div class="edit_item_toast">注：可直接选择设备类型</div>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>设备品牌:</div>
+        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>设备品牌:</div>
         <a-select :value="brandSelect?brandSelect:'请选择设备品牌'" :disabled='!typeSelect' class='select_item' @change="handleBrandChange">
           <a-select-option v-for='(item,index) in brandList' :key='index' :value="item.brandId">
             {{item.brandName}}
@@ -30,18 +30,18 @@
         <div class="edit_item_toast">注：可直接选择设备品牌</div>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>型号名称:</div>
+        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>型号名称:</div>
 
         <a-input class='edit_a_input' v-model='modelName' placeholder="请输入您选择的型号名称" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title"><a style="color: #FF0000;">*</a>型号代码:</div>
+        <div class="edit_item_title3"><a style="color: #FF0000;">*</a>型号代码:</div>
         <a-input class='edit_a_input' v-model='modelCode' placeholder="请输入您选择的型号代码" />
         <div class="edit_item_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">通信方式:</div>
+        <div class="edit_item_title3">通信方式:</div>
         <a-select :value="msgSelect?msgSelect:'请选择通信方式'" class='select_item' @change="handleMsgChange">
           <a-select-option v-for='(item,index) in msgList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
@@ -50,7 +50,7 @@
         <div class="edit_item_toast">注：通信方式数据字典设置</div>
       </div>
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">备注信息:</div>
+        <div class="edit_item_title3">备注信息:</div>
         <div style="position: relative;">
           <a-textarea class='edit_a_input' :rows="5" v-model='remark' :maxLength='250' placeholder="请输入描述" @change="onChangeConfig" />
           <div class="edit_number">{{num}}/250</div>
@@ -58,7 +58,7 @@
       </div>
 
       <div class="flexrow flexac edit_item">
-        <div class="edit_item_title">设备图标:</div>
+        <div class="edit_item_title3">设备图标:</div>
         <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76" list-type="picture">
           <a-button>
             <a-icon type="upload" /> upload </a-button>
@@ -66,7 +66,7 @@
       </div>
 
 
-      <div class="flexrow edit_item_title" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
+      <div class="flexrow edit_item_title3" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
           style="color: #FF0000;">*</a>关联警报</div>
 
       <a-table :columns="dictionaryColumns" :data-source="warningList" :pagination='false' :bordered='true' size='small'
@@ -343,7 +343,7 @@
 </script>
 
 <style>
-  .edit_item_title {
+  .edit_item_title3 {
     width: 70px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
