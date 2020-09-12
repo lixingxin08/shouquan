@@ -224,7 +224,7 @@
     text-align: center;
   }
 
-  .dialog {
+  .dialogaddemail {
     width: 920px;
     height: 810px;
     position: relative;
@@ -236,7 +236,7 @@
     z-index: 2;
   }
 
-  .dialog_t {
+  .dialogaddemail_t {
     width: 920px;
     height: 72px;
     background-color: #1890ff;
@@ -245,7 +245,7 @@
     padding: 0 40px;
   }
 
-  .dialog_c {
+  .dialogaddemail_c {
     width: 920px;
     height: 554px;
     font-size: 20px;
@@ -257,13 +257,13 @@
     padding: 0 40px;
   }
 
-  .dialog_c_t {
+  .dialogaddemail_c_t {
     height: 32px;
     margin-top: 30px;
     margin-bottom: 20px;
   }
 
-  .dialog_inp {
+  .dialogaddemail_inp {
     width: 744px;
     height: 32px;
     border: 1px solid #dcdcdc;
@@ -275,7 +275,7 @@
     height: 472px;
   }
 
-  .dialog_f {
+  .dialogaddemail_f {
     margin-top: 40px;
   }
 </style>

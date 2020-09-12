@@ -4,7 +4,7 @@
       <div>
         <div class="right">
           <div class="r_top flex_f">
-            <div class="r_t_text" @click="showdialog()">微信帐号别名:</div>
+            <div class="r_t_text" @click="showdialogwechat()">微信帐号别名:</div>
             <a-input
               placeholder="请输入微信帐号别名"
               class="r_t_inp"
@@ -12,7 +12,7 @@
               @keydown.enter="tosearch()"
             />
 
-            <div class="r_t_text" @click="showdialog()">微信帐号类型:</div>
+            <div class="r_t_text" @click="showdialogwechat()">微信帐号类型:</div>
             <a-select
               show-search
               placeholder="全部"
@@ -46,7 +46,7 @@
             >
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
-                <div class="col_red ispointer" @click="showdialog(areaName)">
+                <div class="col_red ispointer" @click="showdialogwechat(areaName)">
                   <span>删除</span>
                 </div>
               </div>
@@ -55,7 +55,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialogwechat v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogwechat>
   </div>
 </template>
 <script>
@@ -230,7 +230,7 @@ export default {
       // this.getareapage();
     },
     //弹窗
-    showdialog(val) {
+    showdialogwechat(val) {
       console.log(val, 221212);
       this.removeparam.wechatConfigId = val.wechatConfigId;
       this.visible = true;
@@ -328,7 +328,7 @@ export default {
   height: 42px;
 }
 
-.dialog {
+.dialogwechat {
   width: 920px;
   height: 492px;
   position: relative;
@@ -342,7 +342,7 @@ export default {
   z-index: 2;
 }
 
-.dialog_t {
+.dialogwechat_t {
   width: 920px;
   height: 72px;
   background: #1890ff;
@@ -352,7 +352,7 @@ export default {
   font-size: 24px;
 }
 
-.dialog_c {
+.dialogwechat_c {
   height: 348px;
   font-size: 20px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;

@@ -33,7 +33,7 @@
               <div slot="edit" class="flex_a" slot-scope="val,departmentId">
                 <div class="col_blue ispointer" @click="toadd(departmentId)">编辑</div>
                 <div class="col_blue ispointer" @click="toedit(departmentId)">修改密码</div>
-                <div class="col_red ispointer" @click="showdialog(val)">
+                <div class="col_red ispointer" @click="showdialogsys(val)">
                   <span>删除</span>
                 </div>
 
@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialogsys v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogsys>
     <is-edit-pass-word v-if="visiblePass" @confirmPass="confirmPass" @cancle='cancelPass'></is-edit-pass-word>
   </div>
 </template>
@@ -347,7 +347,7 @@
         this.pageparam.statusCode = "";
       },
       //展示删除确认框
-      showdialog(val) {
+      showdialogsys(val) {
         this.removeparam.accountId = val.accountId;
         this.visible = true;
       },
@@ -434,7 +434,7 @@
     height: 42px;
   }
 
-  .dialog {
+  .dialogsys {
     width: 920px;
     height: 492px;
     position: relative;
@@ -448,7 +448,7 @@
     z-index: 2;
   }
 
-  .dialog_t {
+  .dialogsys_t {
     width: 920px;
     height: 72px;
     background: #1890ff;
@@ -458,7 +458,7 @@
     font-size: 24px;
   }
 
-  .dialog_c {
+  .dialogsys_c {
     height: 348px;
     font-size: 20px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;

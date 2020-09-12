@@ -35,7 +35,7 @@
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
                 <div class="col_blue ispointer" @click="tostage(areaName)">阶段信息</div>
-                <div class="col_red ispointer" @click="showdialog(areaName)">
+                <div class="col_red ispointer" @click="showdialogproj(areaName)">
                   <span>删除</span>
                 </div>
               </div>
@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialogproj v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogproj>
   </div>
 </template>
 <script>
@@ -229,7 +229,7 @@ export default {
       this.pageparam.keyword = "";
     },
     //弹窗
-    showdialog(val) {
+    showdialogproj(val) {
       console.log(val, 221212);
       this.removeparam.areaName = val.areaName;
       this.removeparam.areaId = val.areaId;
@@ -309,7 +309,7 @@ export default {
   height: 42px;
 }
 
-.dialog {
+.dialogproj {
   width: 920px;
   height: 492px;
   position: relative;
@@ -323,7 +323,7 @@ export default {
   z-index: 2;
 }
 
-.dialog_t {
+.dialogproj_t {
   width: 920px;
   height: 72px;
   background: #1890ff;
@@ -333,7 +333,7 @@ export default {
   font-size: 24px;
 }
 
-.dialog_c {
+.dialogproj_c {
   height: 348px;
   font-size: 20px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;

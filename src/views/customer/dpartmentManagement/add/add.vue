@@ -181,7 +181,7 @@ export default {
   text-align: center;
 }
 
-.dialog {
+.dialogadddpart {
   width: 920px;
   height: 810px;
   position: relative;
@@ -192,7 +192,7 @@ export default {
   background-color: #fff;
   z-index: 2;
 }
-.dialog_t {
+.dialogadddpart_t {
   width: 920px;
   height: 72px;
   background-color: #1890ff;
@@ -200,7 +200,7 @@ export default {
   font-size: 24px;
   padding: 0 40px;
 }
-.dialog_c {
+.dialogadddpart_c {
   width: 920px;
   height: 554px;
   font-size: 20px;
@@ -211,12 +211,12 @@ export default {
   z-index: 3;
   padding: 0 40px;
 }
-.dialog_c_t {
+.dialogadddpart_c_t {
   height: 32px;
   margin-top: 30px;
   margin-bottom: 20px;
 }
-.dialog_inp {
+.dialogadddpart_inp {
   width: 744px;
   height: 32px;
   border: 1px solid #dcdcdc;
@@ -226,7 +226,7 @@ export default {
   width: 840px;
   height: 472px;
 }
-.dialog_f {
+.dialogadddpart_f {
   margin-top: 40px;
 }
 </style>

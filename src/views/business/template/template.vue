@@ -30,7 +30,7 @@
               </div>
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
-                <div class="col_red ispointer" @click="showdialog(areaName)">
+                <div class="col_red ispointer" @click="showdialogtem(areaName)">
                   <span>删除</span>
                 </div>
               </div>
@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-   <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+   <is-delete-dialogtem v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogtem>
   </div>
 </template>
 <script>
@@ -180,7 +180,7 @@ export default {
       this.pageparam.keyword = "";
     },
     //弹窗
-    showdialog(val) {
+    showdialogtem(val) {
       console.log(val, 221212);
       this.removeparam.templateId = val.templateId;
       this.visible = true;
@@ -259,7 +259,7 @@ export default {
   height: 42px;
 }
 
-.dialog {
+.dialogtem {
   width: 920px;
   height: 492px;
   position: absolute;
@@ -273,7 +273,7 @@ export default {
   z-index: 2;
 }
 
-.dialog_t {
+.dialogtem_t {
   width: 920px;
   height: 72px;
   background: #1890ff;
@@ -283,7 +283,7 @@ export default {
   font-size: 24px;
 }
 
-.dialog_c {
+.dialogtem_c {
   height: 348px;
   font-size: 20px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -291,7 +291,7 @@ export default {
   text-align: center;
   color: #333333;
 }
-.isdialog{
+.isdialogtem{
   margin-top: 300px;
 }
 </style>

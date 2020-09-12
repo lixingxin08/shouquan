@@ -4,7 +4,7 @@
       <div>
         <div class="right">
           <div class="r_top flex_f">
-            <div class="r_t_text" @click="showdialog()">客户名称:</div>
+            <div class="r_t_text" @click="showdialogcumfile()">客户名称:</div>
             <a-input
               placeholder="请输入客户名称"
               class="r_t_inp"
@@ -12,7 +12,7 @@
               @keydown.enter="tosearch()"
             />
 
-            <div class="r_t_text" @click="showdialog()">客户状态:</div>
+            <div class="r_t_text" @click="showdialogcumfile()">客户状态:</div>
             <a-select
               show-search
               placeholder="全部"
@@ -59,7 +59,7 @@
 
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
-                <div class="col_red ispointer" @click="showdialog(areaName)">
+                <div class="col_red ispointer" @click="showdialogcumfile(areaName)">
                   <span>删除</span>
                 </div>
               </div>
@@ -68,7 +68,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialogcumfile v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogcumfile>
   </div>
 </template>
 <script>
@@ -264,7 +264,7 @@ export default {
       // this.getareapage();
     },
     //弹窗
-    showdialog(val) {
+    showdialogcumfile(val) {
       console.log(val, 221212);
       this.removeparam.customerId = val.customerId;
       this.visible = true;
@@ -362,7 +362,7 @@ export default {
   height: 42px;
 }
 
-.dialog {
+.dialogcumfile {
   width: 920px;
   height: 492px;
   position: relative;
@@ -376,7 +376,7 @@ export default {
   z-index: 2;
 }
 
-.dialog_t {
+.dialogcumfile_t {
   width: 920px;
   height: 72px;
   background: #1890ff;
@@ -386,7 +386,7 @@ export default {
   font-size: 24px;
 }
 
-.dialog_c {
+.dialogcumfile_c {
   height: 348px;
   font-size: 20px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;

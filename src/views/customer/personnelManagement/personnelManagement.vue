@@ -64,7 +64,7 @@
               </div>
               <div slot="edit" class="flex_a" slot-scope="val,departmentId">
                 <div class="col_blue ispointer" @click="toadd('edit',departmentId)">编辑</div>
-                <div class="col_red ispointer" v-if="val.existsFlag==0" @click="showdialog(val)">
+                <div class="col_red ispointer" v-if="val.existsFlag==0" @click="showdialogperson(val)">
                   <span>删除</span>
                 </div>
                 <div class="col_gray ispointer" v-if="val.existsFlag!==0">删除</div>
@@ -75,7 +75,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialogperson v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogperson>
   </div>
 </template>
 <script>
@@ -377,7 +377,7 @@ export default {
       this.pageparam.statusCode = "";
     },
     //弹窗
-    showdialog(val) {
+    showdialogperson(val) {
       console.log(val, 221212);
       this.removeparam.personId = val.personId;
       this.visible = true;
@@ -462,7 +462,7 @@ export default {
   height: 42px;
 }
 
-.dialog {
+.dialogperson {
   width: 920px;
   height: 492px;
   position: relative;
@@ -476,7 +476,7 @@ export default {
   z-index: 2;
 }
 
-.dialog_t {
+.dialogperson_t {
   width: 920px;
   height: 72px;
   background: #1890ff;
@@ -486,7 +486,7 @@ export default {
   font-size: 24px;
 }
 
-.dialog_c {
+.dialogperson_c {
   height: 348px;
   font-size: 20px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;

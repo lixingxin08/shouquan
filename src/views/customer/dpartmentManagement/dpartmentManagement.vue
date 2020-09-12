@@ -14,7 +14,7 @@
       <div>
         <div class="right">
           <div class="r_top flex_f">
-            <div class="r_t_text" @click="showdialog()">部门名称</div>
+            <div class="r_t_text" @click="showdialogdpart()">部门名称</div>
             <a-input
               placeholder="请输入部门名称"
               class="r_t_inp"
@@ -35,7 +35,7 @@
             >
               <div slot="edit" class="flex_a" slot-scope="childTotal,val">
                 <div class="col_blue ispointer" @click="toadd('edit',val)">编辑</div>
-                <div class="col_red ispointer" v-if="val.personTotal==0" @click="showdialog(val)">
+                <div class="col_red ispointer" v-if="val.personTotal==0" @click="showdialogdpart(val)">
                   <span>删除</span>
                 </div>
                 <div class="col_gray ispointer" v-if="val.personTotal!==0">删除</div>
@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialogdpart v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogdpart>
   </div>
 </template>
 <script>
@@ -308,7 +308,7 @@ export default {
       // this.getpage();
     },
     //弹窗
-    showdialog(val) {
+    showdialogdpart(val) {
       console.log(val, 221212);
       this.removeparam.departmentId = val.departmentId;
       this.visible = true;
@@ -388,7 +388,7 @@ export default {
   height: 42px;
 }
 
-.dialog {
+.dialogdpart {
   width: 920px;
   height: 492px;
   position: relative;
@@ -402,7 +402,7 @@ export default {
   z-index: 2;
 }
 
-.dialog_t {
+.dialogdpart_t {
   width: 920px;
   height: 72px;
   background: #1890ff;
@@ -412,7 +412,7 @@ export default {
   font-size: 24px;
 }
 
-.dialog_c {
+.dialogdpart_c {
   height: 348px;
   font-size: 20px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;
