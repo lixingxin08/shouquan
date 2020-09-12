@@ -1,8 +1,7 @@
 <template>
-  <div class="administrativedivision">
-    <div class="flex_fs">
-      <div>
-        <div class="right">
+  <div class="content2">
+   
+       
           <div class="r_top flex_f">
             <div class="r_t_text" @click="showdialog()">邮箱帐号别名:</div>
             <a-input placeholder="请输入邮箱帐号别名" class="r_t_inp" v-model="runpageparam.keyword" @keydown.enter="tosearch()" />
@@ -17,22 +16,20 @@
             <div class="btn_blue btn" @click="tosearch()">查询</div>
             <div class="btn_gray" @click="clear()">清除</div>
           </div>
+            <div class="view-title-line"></div>
           <div class="btn_blue btn2" @click="toadd({})">新增</div>
-          <div class="table">
-            <a-table :columns="tablecolumns" :data-source="tabledata" bordered size='small' :pagination="pagination"
-              @change="handleTableChange">
-              <div slot="emailConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</div>
-              <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
-                <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
-                <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(record)">
-                  <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
-                </a-popconfirm>
-              </div>
-            </a-table>
+
+
+        <a-table  :columns="tablecolumns" :data-source="tabledata" bordered size='small' :pagination="pagination"
+          @change="handleTableChange">
+          <div slot="emailConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</div>
+          <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
+            <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
+            <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(record)">
+              <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
+            </a-popconfirm>
           </div>
-        </div>
-      </div>
-    </div>
+        </a-table>
     <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
   </div>
 </template>
@@ -325,7 +322,6 @@
   }
 
   .btn2 {
-    margin-top: 20px;
     margin-bottom: 20px;
   }
 

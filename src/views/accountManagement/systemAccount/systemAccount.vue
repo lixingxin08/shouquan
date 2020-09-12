@@ -1,11 +1,11 @@
 <template>
-  <div class="administrativedivision">
+  <div class="content2">
     <div class="flex_fs">
       <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys"
         @selectdata="getselectdata" @searchdata="getsearchdata" v-if="showtree"></is-left>
       <div>
-        <div class="right">
-          <div class="r_top flex_f">
+        <div class="right" style="margin-left: 40px;padding: 0px;">
+          <div class="r_top flex_f" style="margin: 0px;">
             <div class="r_t_text">帐号名称/手机号:</div>
             <a-input placeholder="请输入人员姓名/手机号码" class="r_t_inp" v-model="pageparam.keyword" @keydown.enter="tosearch()" />
             <div class="r_t_text">帐号状态:</div>
@@ -17,6 +17,7 @@
             <a-button type='primary' class="btn_blue btn" @click="tosearch()">查询</a-button>
             <a-button class="btn_gray" @click="clear()">清除</a-button>
           </div>
+              <div class="view-title-line"></div>
           <a-button type='primary' class="btn_blue btn2" @click="toadd({})">新增</a-button>
           <div class="table" v-if="tabletype">
             <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination" @change="handleTableChange"
@@ -211,7 +212,7 @@
           this.tabledata = res.data.data.list;
          if(this.pagination.current==1)
             this.pagination.total = res.data.data.length;
-          
+
           this.istotal.type++;
           this.tabletype = true;
         } else {
@@ -360,7 +361,7 @@
         this.cancel()
         this.getremove();
       },
-   
+
       //分页
       handleTableChange(pagination) {
         this.pagination.page = pagination.current;
@@ -426,7 +427,6 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
     margin-bottom: 20px;
   }
 

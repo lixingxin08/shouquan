@@ -32,7 +32,7 @@
           <a-input class='edit_a_input' v-model='personConfig.position' placeholder="请填写岗位职务" />
         </div>
       </div>
-      <div class="flexcolumn">
+      <div class="flexcolumn" style="margin-left: 60px;">
         <div class="edit_item_title2" style="width: auto;text-align: left;margin-left: 20px;margin-top: 20px;"><span
             style="color: #FF0000;">*</span>账号权限</div>
         <div class="treebox">
