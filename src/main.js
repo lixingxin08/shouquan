@@ -18,7 +18,7 @@ import locale from 'ant-design-vue/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
-import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker ,Switch,Popconfirm,Modal,message ,Radio,Upload,Steps,Tabs,InputNumber,ConfigProvider} from 'ant-design-vue';
+import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table, DatePicker, Switch, Popconfirm, Modal, message, Radio, Upload, Steps, Tabs, InputNumber, ConfigProvider } from 'ant-design-vue';
 
 Vue.use(Dropdown);
 Vue.use(Layout);
@@ -42,9 +42,6 @@ Vue.use(Steps);
 Vue.use(Tabs);
 Vue.use(InputNumber);
 Vue.use(ConfigProvider);
-
-import md5 from 'js-md5';
-Vue.prototype.$md5 = md5
 // const isDebug_mode = process.env.NODE_ENV !== 'production'
 // Vue.config.debug = isDebug_mode
 // Vue.config.devtools = isDebug_mode
@@ -52,57 +49,53 @@ Vue.prototype.$md5 = md5
 
 
 // http response 拦截器
-axios.interceptors.response.use(
-  response => {
-    console.log(response,222222222222);
-    return response;
-  },
-  error => {
-    console.log(error,66666666666);
-    if (error.response) {
-      console.log(error,66666666666);
-      switch (error.response.status) {
-        case 404:
-          // 返回 401 (未授权) 清除 token 并跳转到登录页面
-
-          router.replace({
-            path: 'error404',
-            query: {
-              redirect: router.currentRoute.fullPath
-            }
-          })
-          case 504:
-          // 返回 401 (未授权) 清除 token 并跳转到登录页面
-
-          router.replace({
-            path: 'error500',
-            query: {
-              redirect: router.currentRoute.fullPath
-            }
-          })
-          case 500:
-          // 返回 401 (未授权) 清除 token 并跳转到登录页面
-
-          router.replace({
-            path: 'error500',
-            query: {
-              redirect: router.currentRoute.fullPath
-            }
-          })
-          case 403:
-          // 返回 401 (未授权) 清除 token 并跳转到登录页面
-
-          router.replace({
-            path: 'error403',
-            query: {
-              redirect: router.currentRoute.fullPath
-            }
-          })
-      }
-    }
-    return Promise.reject(error.response.data) // 返回接口返回的错误信息
-  }
-)
+// axios.interceptors.response.use(
+//   response => {
+//     return response;
+//   },
+//   error => {
+//     if (error.response) {
+//       switch (error.response.status) {
+//         case 404:
+//           router.replace({
+//             path: 'error404',
+//             query: {
+//               redirect: router.currentRoute.fullPath
+//             }
+//           })
+//         case 504:
+//           router.replace({
+//             path: 'error500',
+//             query: {
+//               redirect: router.currentRoute.fullPath
+//             }
+//           })
+//         case 500:
+//           router.replace({
+//             path: 'error500',
+//             query: {
+//               redirect: router.currentRoute.fullPath
+//             }
+//           })
+//         case 504:
+//           router.replace({
+//             path: 'error504',
+//             query: {
+//               redirect: router.currentRoute.fullPath
+//             }
+//           })
+//         case 403:
+//           router.replace({
+//             path: 'error403',
+//             query: {
+//               redirect: router.currentRoute.fullPath
+//             }
+//           })
+//       }
+//     }
+//     return Promise.reject(error.response.data)
+//   }
+// )
 
 
 
@@ -115,7 +108,7 @@ axios.interceptors.response.use(
 
 //校验中英文文字符
 Vue.prototype.vify_cn = function (phone) {
-  let myreg = /^[\u4e00-\u9fa5a-zA-Z\d_]{0,50}$/gi;
+  let myreg = /^[\u4e00-\u9fa5a-zA-Z\d_]{0,50}$/gi;
   if (myreg.test(phone) !== true) {
 
     return false;
@@ -127,7 +120,7 @@ Vue.prototype.vify_cn = function (phone) {
 };
 //校验中英文文字符
 Vue.prototype.vify_cn16 = function (phone) {
-  let myreg = /^[\u4e00-\u9fa5a-zA-Z\d_]{2,16}$/gi;
+  let myreg = /^[\u4e00-\u9fa5a-zA-Z\d_]{2,16}$/gi;
   if (myreg.test(phone) !== true) {
 
     return false;
@@ -139,7 +132,7 @@ Vue.prototype.vify_cn16 = function (phone) {
 };
 //校验中文字符
 Vue.prototype.vify_cn2 = function (phone) {
-  let myreg = /^[\u4e00-\u9fa5]+$/gi;
+  let myreg = /^[\u4e00-\u9fa5]+$/gi;
   if (myreg.test(phone) !== true) {
     console.log(211);
     return false;
@@ -151,7 +144,7 @@ Vue.prototype.vify_cn2 = function (phone) {
 };
 //校验50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号
 Vue.prototype.vify_cn3 = function (phone) {
-  let myreg =/^[\u4e00-\u9fa5a-z0-9A-Z\（\）\(\)\d_]{0,50}$/gi;
+  let myreg = /^[\u4e00-\u9fa5a-z0-9A-Z\（\）\(\)\d_]{0,50}$/gi;
   if (myreg.test(phone) !== true) {
     console.log(211);
     return false;
@@ -174,7 +167,7 @@ Vue.prototype.verEmail = function (str) {
 };
 //验证手机号码
 Vue.prototype.verPhone = function (str) {
-  var re =/^1[3456789]\d{9}$/
+  var re = /^1[3456789]\d{9}$/
   if (re.test(str) !== true) {
     return false;
   } else {

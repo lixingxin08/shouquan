@@ -76,6 +76,7 @@ const LogManagement = () => import('@/views/LogManagement/LogManagement') //æ—¥å
 const error_404 = () => import('@/components/error_page/404.vue')
 const error_403 = () => import('@/components/error_page/403.vue')
 const error_500 = () => import('@/components/error_page/500.vue')
+const error_504 = () => import('@/components/error_page/504.vue')
 Vue.use(Router)
 export default new Router({
   routes: [{
@@ -575,6 +576,11 @@ export default new Router({
       path: '/error500',
       name: 'error_500',
       component: error_500
+    },
+    {
+      path: '/error504',
+      name: 'error_504',
+      component: error_504
     },
   ]
 })

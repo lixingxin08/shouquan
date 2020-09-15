@@ -2,14 +2,14 @@
   <div class="administrativedivision">
     <div class="flex_fs">
       <div class="isleft">
-      <is-left
-        :treedata="treedata"
-        :replaceFields="replaceFields"
-        :defaultExpandedKeys="defaultExpandedKeys"
-        @selectdata="getselectdata"
-        @searchdata="getsearchdata"
-        v-if="showtree"
-      ></is-left>
+        <is-left
+          :treedata="treedata"
+          :replaceFields="replaceFields"
+          :defaultExpandedKeys="defaultExpandedKeys"
+          @selectdata="getselectdata"
+          @searchdata="getsearchdata"
+          v-if="showtree"
+        ></is-left>
       </div>
       <div>
         <div class="right">
@@ -34,9 +34,17 @@
               :pagination="pagination"
               @change="handleTableChange"
             >
+              <template
+                slot="index"
+                slot-scope="text, record,index"
+              >{{(index+1)+((pagination.current-1)*10)}}</template>
               <div slot="edit" class="flex_a" slot-scope="childTotal,val">
                 <div class="col_blue ispointer" @click="toadd('edit',val)">编辑</div>
-                <div class="col_red ispointer" v-if="val.personTotal==0" @click="showdialogdpart(val)">
+                <div
+                  class="col_red ispointer"
+                  v-if="val.personTotal==0"
+                  @click="showdialogdpart(val)"
+                >
                   <span>删除</span>
                 </div>
                 <div class="col_gray ispointer" v-if="val.personTotal!==0">删除</div>
@@ -82,6 +90,9 @@ export default {
           dataIndex: "departmentId",
           key: "departmentId",
           ellipsis: true,
+            scopedSlots: {
+            customRender: "index",
+          },      
         },
         {
           width: 100,
@@ -187,7 +198,7 @@ export default {
         }
         this.istotal.type++;
         this.tabletype = true;
-      }else {
+      } else {
         this.$message.error(res.data.resultMsg);
       }
     },
@@ -221,7 +232,7 @@ export default {
             type: val,
             id: this.isselectdata.id,
             name: this.isselectdata.name,
-            levelType: this.isselectdata.levelType
+            levelType: this.isselectdata.levelType,
           },
         });
       } else {

@@ -16,6 +16,10 @@
               :pagination="pagination"
               @change="handleTableChange"
             >
+             <template
+                slot="index"
+                slot-scope="text, record,index"
+              >{{(index+1)+((pagination.current-1)*10)}}</template>
               <div slot="statusCode" class="flex_a" slot-scope="statusCode">
                 <div v-if="statusCode==1">启用</div>
                 <div v-if="statusCode==2">备用</div>
@@ -58,6 +62,10 @@ export default {
           dataIndex: "phaseId",
           key: "phaseId",
           ellipsis: true,
+           ellipsis: true,
+              scopedSlots: {
+            customRender: "index",
+          }, 
         },
         {
           width: 208,

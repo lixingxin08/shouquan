@@ -9,6 +9,7 @@
         @select="onSelect"
         :tree-data="treedata"
         :replaceFields="replaceFields"
+        :default-selected-keys='defaultSelectedKeys'
         :default-expanded-keys="defaultExpandedKeys"
       >
         <a-icon slot="icon" type="carry-out" />
@@ -30,6 +31,7 @@ export default {
     treedata: Array, //树数据
     replaceFields: Object, //替换属性
     defaultExpandedKeys: Array, //默认展开
+    defaultSelectedKeys:Array
   },
   created() {},
   methods: {

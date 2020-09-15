@@ -6,6 +6,7 @@
         :treedata="treedata"
         :replaceFields="replaceFields"
         :defaultExpandedKeys="defaultExpandedKeys"
+        :defaultSelectedKeys='defaultSelectedKeys'
         @selectdata="getselectdata"
         @searchdata="getsearchdata"
         v-if="showtree"
@@ -143,6 +144,7 @@ export default {
       ],
       tabledata: "",
       defaultExpandedKeys: [],
+      defaultSelectedKeys:[],
       data: "",
       pagination: {
         total: 0,
@@ -194,23 +196,23 @@ export default {
         this.$message.error(res.data.resultMsg);
       }
       this.setdata();
-      this.showtree = true;
-      console.log(1111111);
+     console.log(this.treedata,66666);
+     this.isselectdata.id=this.treedata[0].pid
       this.getareapage();
     },
 
     //行政区划分页列表接口
     async getareapage() {
+ 
       this.tabletype = false;
       let prame = {
-        areaId: this.isselectdata.id,
-        keyword: this.isselectdata.name,
+        keyword:  this.inp_data,
         latitude: 0,
         list: [{}],
         longitude: 0,
+        parentId:this.isselectdata.id,
         pageIndex: this.pagination.page,
         pageSize: this.pagination.pageSize,
-        parentId: this.isselectdata.pid,
         remark: "",
         searchIndex: 0,
       };
@@ -294,6 +296,11 @@ export default {
         }
       }
       this.treedata = this.toTree(this.data);
+      console.log(this.treedata,222222222);
+       this.defaultSelectedKeys=[]
+      this.defaultSelectedKeys.push(this.treedata[0].id)
+      console.log(this.defaultSelectedKeys,544444);
+        this.showtree = true;
     },
     //获取树搜索数据
     getsearchdata(val) {
@@ -325,11 +332,11 @@ export default {
       this.isselectdata.name = val.name;
       this.isselectdata.pid = val.pid;
       this.istotal.type = 1;
+      this.inp_data=""
       this.getareapage();
     },
     //查询
     tosearch() {
-      this.isselectdata.name = this.inp_data;
       this.isselectdata.id = "";
       this.isselectdata.pid = "";
       this.istotal.type = 1;

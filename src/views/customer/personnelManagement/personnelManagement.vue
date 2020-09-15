@@ -50,6 +50,10 @@
               :pagination="pagination"
               @change="handleTableChange"
             >
+                <template
+                slot="index"
+                slot-scope="text, record,index"
+              >{{(index+1)+((pagination.current-1)*10)}}</template>
               <div slot="gender" class="flex_a" slot-scope="gender">
                 <div v-if="gender==1">男</div>
                 <div v-else>女</div>
@@ -112,6 +116,9 @@ export default {
           dataIndex: "departmentId",
           key: "departmentId",
           ellipsis: true,
+              scopedSlots: {
+            customRender: "index",
+          }, 
         },
         {
           width: 100,
