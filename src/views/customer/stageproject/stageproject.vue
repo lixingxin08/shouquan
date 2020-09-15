@@ -142,7 +142,7 @@ export default {
       },
       pageparam: {
         projectId: "",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
         pageIndex: 1,
         pageSize: 10,
       },

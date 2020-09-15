@@ -157,7 +157,7 @@ export default {
       data: "",
       showtree: false,
       listparam: {
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
         customerId: "",
       },
       pagination: {

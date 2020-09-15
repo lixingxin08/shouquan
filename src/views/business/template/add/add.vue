@@ -107,7 +107,7 @@ export default {
         statusCode: "",
         remark: "",
         menuList: [],
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
       },
       replaceFields: {
         title: "name",

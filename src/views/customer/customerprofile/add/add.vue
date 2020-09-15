@@ -134,7 +134,7 @@ export default {
         position: "",
         statusCode: "",
         remark: "",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
       },
       detailparam: {
         customerId: "",

@@ -180,14 +180,14 @@ export default {
       showtree: false,
       treeprame: {
         customerId: "",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
       },
       listparam: {
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
         customerId: "",
       },
       modellistparam: {
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
         customerId: "",
       },
       treemodelparam:{
@@ -200,7 +200,7 @@ export default {
         modelIdList: [],
         accountId: "",
         remark: "",
-         operatorId: "1",
+         operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
       },
       rowClick: (record) => ({
         // 事件

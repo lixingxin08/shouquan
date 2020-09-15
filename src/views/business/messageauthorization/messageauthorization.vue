@@ -182,7 +182,7 @@ export default {
       ],
       tabledata4: [],
       listparam: {
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
         customerId: "",
       },
       selectedRowKeys: [],
@@ -198,7 +198,7 @@ export default {
         smsConfigId: [],
         emailConfigId: [],
         remark: "",
-         operatorId: "1",
+         operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
       },
     };
   },

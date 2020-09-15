@@ -207,12 +207,12 @@ export default {
       treeprame: {
         //树接口参数
         departmentId: "",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
         customerId: "",
       },
       removeparam: {
         personId: "",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
       },
       istotal: {
         type: 1,
