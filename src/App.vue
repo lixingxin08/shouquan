@@ -31,8 +31,17 @@
       }
     },
     mounted() {
-      let sessionid = JSON.parse(localStorage.getItem('usermsg')).iscookie || "asdkasgdkjakkj"
-      this.setCookie('session', sessionid, 10000)
+      if (window.location.host.indexOf("localhost") >= 0) {//本地测试
+        let usermsg = {
+          accountId: "23tg43qrfdrr4wrtggrtr434tr4tt4rtrt43tt"
+        }
+        localStorage.setItem('usermsg', JSON.stringify(usermsg))
+      } else {
+        let sessionid = JSON.parse(localStorage.getItem('usermsg')).iscookie || "asdkasgdkjakkj"
+        this.setCookie('session', sessionid, 10000)
+      }
+
+
     },
     methods: {
       setCookie: function(cname, cvalue, exdays) {
