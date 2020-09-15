@@ -101,7 +101,7 @@
           brandId: this.id == '' ? '' : this.id,
           brandName: this.typeName, //品牌名称
           brandCode: this.typeCode, //品牌代码
-          operatorId: '5172dadd6d7c404e8ac657f32f81d969',
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
           remark: this.remark, //描述
           typeIds: this.getTypeListIds()
         }

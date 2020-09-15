@@ -189,7 +189,7 @@
           this.$message.warning('请关联角色')
           return
         }
-        this.config.operatorId = '5172dadd6d7c404e8ac657f32f81d969'
+        this.config.operatorId = JSON.parse(localStorage.getItem('usermsg')).accountId
         this.config.roleList = this.getRolesId() //获取分配的角色列表
         let res = await this.$http.post(this.$api.accountinfoform, this.config)
         if (res.data.resultCode == 10000) {

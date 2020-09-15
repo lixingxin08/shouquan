@@ -72,8 +72,7 @@
       }
     },
     created() { //获取账号详情数据
-      this.accountid = this.$route.query.accountid //是否新增
-      this.accountid = 'e75379b1d41a4356b998bd2f31719f71'
+      this.accountid = JSON.parse(localStorage.getItem('usermsg')).accountId
       if (this.accountid) {
         this.getAccountDetail()
       }
@@ -81,7 +80,7 @@
     methods: {
       /* 确认提交 */
       async submit() {
-        this.personConfig.operatorId = '5172dadd6d7c404e8ac657f32f81d969'
+        this.personConfig.operatorId = JSON.parse(localStorage.getItem('usermsg')).accountId
         let res = await this.$http.post(this.$api.personform, this.personConfig)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)

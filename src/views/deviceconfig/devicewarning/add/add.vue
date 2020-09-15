@@ -160,7 +160,7 @@
           alarmType: this.warningSelect, //警报类型
           flowImage: this.warning.flowImage, //流程示意图
           gradeno: this.warning.gradeno,
-          operatorId: '5172dadd6d7c404e8ac657f32f81d969', //操作者id
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId, //操作者id
           remark: this.warning.remark, //警报描述
           eventIdList: this.getEventSelectList() //转警事件
         }

@@ -167,7 +167,7 @@
           deviceTypeName: this.typeName, //设备类型名称
           deviceTypeCode: this.typeCode, //设备类型代码
           serviceType: this.getServiceType(), //业务类型
-          operatorId: '5172dadd6d7c404e8ac657f32f81d969',
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
           remark: this.remark, //描述
           deviceBrandList: this.getdeviceBrand() //设备品牌列表
         }

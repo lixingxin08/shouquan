@@ -36,9 +36,9 @@
         dictonaryList: [], //字典数据
         dicName: '', //搜索字典名称
         pagination: {
-			total:0,
-       size:"default",
-       current:1,
+          total: 0,
+          size: "default",
+          current: 1,
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
@@ -81,8 +81,8 @@
         let res = await this.$http.post(this.$api.dictionarypage, param);
         if (res.data.resultCode == "10000") {
           this.dictonaryList = res.data.data.list;
-           if(this.pagination.current==1)
-		   this.pagination.total = res.data.data.length;
+          if (this.pagination.current == 1)
+            this.pagination.total = res.data.data.length;
           this.$forceUpdate();
         } else {
           this.dictonaryList = []

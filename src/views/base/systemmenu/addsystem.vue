@@ -282,7 +282,7 @@
           authFlag: this.authFlag,
           menuIcon: '未填',
           grade: this.grade,
-          operatorId: '5172dadd6d7c404e8ac657f32f81d969',
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
           authList: this.authList,
           remark: this.remark
         }

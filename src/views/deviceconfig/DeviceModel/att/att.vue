@@ -124,7 +124,7 @@
                 modelId: this.id,
                 deviceTypeId: item.deviceTypeId,
                 propertyValue: item.propertyValue ? item.propertyValue : "",
-                operatorId: '5172dadd6d7c404e8ac657f32f81d969'
+                operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId
               }
               param.push(param1)
               // }
