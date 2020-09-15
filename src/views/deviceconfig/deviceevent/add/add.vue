@@ -85,7 +85,7 @@
           eventName: this.event.eventName,
           eventCode: this.event.eventCode,
           eventType: this.eventSelect,
-          operatorId: '5172dadd6d7c404e8ac657f32f81d969', //操作者id
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId, //操作者id
           remark: this.event.remark
         }
         let res = await this.$http.post(this.$api.deviceeventform, param)

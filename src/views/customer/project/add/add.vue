@@ -125,7 +125,7 @@ export default {
         leader: "",
         linkphone: "",
         remark: "",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
       },
       detailparam: {
         projectId: "",

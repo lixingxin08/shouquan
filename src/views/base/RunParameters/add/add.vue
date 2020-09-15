@@ -85,7 +85,7 @@ export default {
         parameterName: "",
         parameterCode: "",
         parameterValue: "",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
         description: "",
       },
       typeName:"",
@@ -140,7 +140,7 @@ export default {
           parameterName: "",
           parameterCode: "",
           parameterValue: "",
-          operatorId: "1",
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
           description: "",
         };
       } else {

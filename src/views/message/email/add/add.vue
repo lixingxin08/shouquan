@@ -95,7 +95,7 @@
           debugType: "",
           typeCode: "",
           remark: "",
-          operatorId: '5172dadd6d7c404e8ac657f32f81d969'
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId
         },
         detailparam: {
           customerId: "",
@@ -127,7 +127,7 @@
       },
       //运行参数表单接口
       async getform() {
-        this.form.operatorId='5172dadd6d7c404e8ac657f32f81d969'
+        this.form.operatorId=JSON.parse(localStorage.getItem('usermsg')).accountId
         let res = await this.$http.post(this.$api.emailAccountform, this.form);
         if (res.data.resultCode == "10000") {
           this.$message.success(res.data.resultMsg);

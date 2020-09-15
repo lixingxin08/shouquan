@@ -216,7 +216,7 @@
           brandId: this.brandSelect, //品牌序号
           communicationMode: this.msgSelect, //通讯方式
           imageJson: this.imageUrl, //型号图例
-          operatorId: '5172dadd6d7c404e8ac657f32f81d969', //操作者id
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId, //操作者id
           remark: this.remark, //备注信息
           deviceAlarmList: this.getAlramList() //设备警报列表
         }

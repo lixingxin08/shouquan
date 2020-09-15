@@ -69,7 +69,7 @@
           propertyId: item.propertyId ? this.propertyId : "",
           deviceTypeId: this.id, //属性id 为空新增
           parentId: groupItem.propertyId, //父级属性id
-          operatorId: '5172dadd6d7c404e8ac657f32f81d969'
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId
         }
         let res = await this.$http.post(this.$api.propertyform, param)
         if (res.data.resultCode == 10000) {
@@ -149,7 +149,7 @@
         let param = {
           propertyName: item.propertyName,//分组名称
           deviceTypeId: this.id,//为空 新增 不能为空编辑
-          operatorId: '5172dadd6d7c404e8ac657f32f81d969'//操作者id
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId//操作者id
         }
         let res = await this.$http.post(this.$api.propertyform, param)
         if (res.data.resultCode == 10000) {

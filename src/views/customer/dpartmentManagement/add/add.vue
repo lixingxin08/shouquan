@@ -48,7 +48,7 @@ export default {
         parentId:"",
         introduce:"",
         gradeno:"",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
       },
       detailparam: {
         departmentId: "",

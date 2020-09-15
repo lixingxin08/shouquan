@@ -108,14 +108,14 @@ export default {
         customerId: "",
       },
       listparam: {
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
         customerId: "",
       },
       form: {
         customerId: "",
         alarmIdList: "",
         remark: "",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
       },
     };
   },

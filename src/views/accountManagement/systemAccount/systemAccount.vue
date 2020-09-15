@@ -166,12 +166,12 @@
         treeprame: {
           //树接口参数
           departmentId: "",
-          operatorId: "1",
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
           customerId: "",
         },
         removeparam: {//删除接口参数
           accountId: "",
-          operatorId: "1",
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
           cipher: ''
         },
         istotal: {

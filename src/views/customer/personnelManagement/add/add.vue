@@ -98,7 +98,7 @@ export default {
         departmentId: "",
         remark: "",
         email: "",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
       },
       detailparam: {
         personId: "",

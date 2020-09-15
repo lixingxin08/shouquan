@@ -107,7 +107,7 @@ export default {
         statusCode: "",
         keyword: "",
         accountId: "",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
         pageIndex: 1,
         pageSize: 10,
       },
@@ -118,7 +118,7 @@ export default {
       ischeck: [],
       remark: "",
       listparam: {
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
         customerId: "",
       },
 
@@ -171,7 +171,7 @@ export default {
         grade: "",
         parentId: "",
         remark: "",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
       };
       if (this.ischeck.length == 0) {
         return this.$message.error("请选择授权区域");

@@ -115,11 +115,11 @@ export default {
       showtree: false,
       treeprame: {
         accountId: "",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId
       },
       listparam: {
-        operatorId: "1",
-        accountId: "",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        accountId: ""
       },
       istotal: {
         type: 1,
@@ -128,7 +128,7 @@ export default {
         customerIdList: [],
         accountId: "",
         remark: "",
-          operatorId: "1",
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId
       },
     };
   },

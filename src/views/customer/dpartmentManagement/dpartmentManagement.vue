@@ -150,7 +150,7 @@ export default {
         //行政区划树接口参数
         customerId: "",
         departmentId: "",
-        operatorId: "1",
+        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
       },
       removeparam: {
         departmentId: "",
