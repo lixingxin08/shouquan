@@ -44,11 +44,25 @@
       </div>
 
       <div class="flexrow flexac edit_item_warnings">
-        <div class="edit_item_warnings_title3">设备图标:</div>
-        <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76" list-type="picture">
-          <a-button>
-            <a-icon type="upload" /> upload </a-button>
+        <div class="edit_item_warnings_title3">流程示意图:</div>
+      <div class="isupload">
+        <a-upload
+          name="avatar"
+          list-type="picture-card"
+          class="avatar-uploader"
+          :show-upload-list="false"
+          action="http://192.168.3.101:8808/upload"
+          :before-upload="beforeUpload"
+          @change="handleChange"
+        >
+          <img v-if="warning.flowImage" :src="warning.flowImage" alt="avatar" />
+          <div v-else>
+            <a-icon :type="loading ? 'loading' : 'plus'" />
+            <div class="ant-upload-text">Upload</div>
+          </div>
         </a-upload>
+        <div class="col_red">支持PNG、JPEG、JPG格式，1KB至2M</div>
+      </div>
       </div>
 
 
@@ -70,7 +84,11 @@
 
 <script>
   import tableTitleData from "../table.json";
-
+  function getBase64(img, callback) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  }
   export default {
 
     data() {
@@ -98,7 +116,9 @@
         }, //警告信息
         dictionaryColumns: tableTitleData.data.add,
         num: 0, //描述长度
-        id: '' //修改的id
+        id: '' ,//修改的id
+        loading: false,
+        imageUrl: '',
       }
     },
     created() {
@@ -154,6 +174,33 @@
         }
       },
 
+    handleChange(info) {
+      if (info.file.status === "uploading") {
+        this.loading = true;
+        return;
+      }
+      if (info.file.status === "done") {
+        // Get this url from response in real world.
+        getBase64(info.file.originFileObj, (imageUrl) => {
+          this.warning.flowImage = imageUrl;
+        });
+      }
+      console.log(this.imageUrl, 88999, info);
+    },
+    beforeUpload(file) {
+      const isJpgOrPng =
+        file.type === "image/jpeg" ||
+        file.type === "image/png" ||
+        file.type === "image/jpg";
+      if (!isJpgOrPng) {
+        this.$message.error("只能上传jpeg,jpg,png格式的图片");
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.$message.error("图片大小不能超过2MB!");
+      }
+      return isJpgOrPng && isLt2M;
+    },
       /* 获取警报类别列表 */
       async getCombobox() {
         let param = {

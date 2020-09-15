@@ -223,7 +223,12 @@ justify-content: flex-start;
   width: 667px!important;
 }
 
-
+.isline{
+  width: 100%;
+  height: 1px;
+  margin-top: 20px;
+  background-color: rgb(204, 204, 204);
+}
 
 
 

@@ -32,13 +32,13 @@
       <div class="flexrow flexac edit_item_model">
         <div class="edit_item_model_title3"><a style="color: #FF0000;">*</a>型号名称:</div>
 <div class='edit_a_input_model'><a-input  v-model='modelName' placeholder="请输入您选择的型号名称" /></div>
-        
+
         <div class="edit_item_model_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item_model">
         <div class="edit_item_model_title3"><a style="color: #FF0000;">*</a>型号代码:</div>
         <div class='edit_a_input_model'> <a-input  v-model='modelCode' placeholder="请输入您选择的型号代码" /></div>
-       
+
         <div class="edit_item_model_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item_model">
@@ -60,10 +60,24 @@
 
       <div class="flexrow flexac edit_item_model">
         <div class="edit_item_model_title3">设备图标:</div>
-        <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76" list-type="picture">
-          <a-button>
-            <a-icon type="upload" /> upload </a-button>
-        </a-upload>
+        <div class="isupload">
+          <a-upload
+            name="avatar"
+            list-type="picture-card"
+            class="avatar-uploader"
+            :show-upload-list="false"
+            action="http://192.168.3.101:8808/upload"
+            :before-upload="beforeUpload"
+            @change="handleChange"
+          >
+            <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+            <div v-else>
+              <a-icon :type="loading ? 'loading' : 'plus'" />
+              <div class="ant-upload-text">Upload</div>
+            </div>
+          </a-upload>
+          <div class="col_red">支持PNG、JPEG、JPG格式，1KB至2M</div>
+        </div>
       </div>
 
 
@@ -152,6 +166,7 @@
           this.severSelect = res.data.data.serviceTypeName
           this.modelName = res.data.data.modelName
           this.modelCode = res.data.data.modelCode
+          this.imageUrl=res.data.data.imageJson
           this.remark = res.data.data.remark
           this.warningList = res.data.data.deviceAlarmList
           if (this.warningList.length > 0) {
@@ -200,7 +215,7 @@
           deviceTypeId: this.typeSelect, //设备类型序号
           brandId: this.brandSelect, //品牌序号
           communicationMode: this.msgSelect, //通讯方式
-          imageJson: 'ceshi', //型号图例
+          imageJson: this.imageUrl, //型号图例
           operatorId: '5172dadd6d7c404e8ac657f32f81d969', //操作者id
           remark: this.remark, //备注信息
           deviceAlarmList: this.getAlramList() //设备警报列表
@@ -339,6 +354,36 @@
       onChangeConfig(e) {
         this.num = this.remark.length
       },
+	  /* 上传图片*/
+	  handleChange(info) {
+	    if (info.file.status === "uploading") {
+	      this.loading = true;
+	      return;
+	    }
+	    if (info.file.status === "done") {
+	      // Get this url from response in real world.
+	      getBase64(info.file.originFileObj, (imageUrl) => {
+	        this.imageUrl = imageUrl;
+	        this.form.customerLogo = imageUrl;
+	        this.loading = false;
+	      });
+	    }
+	    console.log(this.imageUrl, 88999, info);
+	  },
+	  beforeUpload(file) {
+	    const isJpgOrPng =
+	      file.type === "image/jpeg" ||
+	      file.type === "image/png" ||
+	      file.type === "image/jpg";
+	    if (!isJpgOrPng) {
+	      this.$message.error("只能上传jpeg,jpg,png格式的图片");
+	    }
+	    const isLt2M = file.size / 1024 / 1024 < 2;
+	    if (!isLt2M) {
+	      this.$message.error("图片大小不能超过2MB!");
+	    }
+	    return isJpgOrPng && isLt2M;
+	  },
     },
   }
 </script>

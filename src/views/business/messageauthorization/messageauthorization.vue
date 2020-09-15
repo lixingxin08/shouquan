@@ -373,9 +373,9 @@ export default {
 }
 .tree_box {
   width: 1232px;
-  height: 353px;
+  height: 384px;
   margin-top: 20px;
-  margin-bottom: 170px;
+  margin-bottom: 210px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
 }
@@ -387,7 +387,7 @@ export default {
   color: #333333;
 }
 .rb_text {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 .rb_b {
   margin-top: 40px;

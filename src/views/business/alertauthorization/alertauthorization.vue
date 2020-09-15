@@ -18,7 +18,7 @@
     </div>
     <div class="isright">
       <div class="left_title">警报列表</div>
-      <div class="tree_box">
+      <div class="tree_box_aler">
         <is-left
 
                 :treedata="treedata"
@@ -288,11 +288,11 @@ export default {
 .btn {
   margin-left: 20px;
 }
-.tree_box {
+.tree_box_aler {
   width: 1232px;
-  height: 353px;
+  height: 384px;
   margin-top: 20px;
-  margin-bottom: 170px;
+  margin-bottom: 222px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
 }
@@ -304,7 +304,7 @@ export default {
   color: #333333;
 }
 .rb_text {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 .rb_b {
   margin-top: 40px;

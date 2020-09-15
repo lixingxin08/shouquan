@@ -4,7 +4,7 @@
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu">上级名称:</div>
-        
+
         <div class='edit_a_input_menu' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{cacheData.parentName?cacheData.parentName:parentName}}</div>
         <div class="edit_item_menu_toast">注：不可选</div>
       </div>
@@ -35,10 +35,24 @@
       </div>
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>菜单图标:</div>
-        <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76" list-type="picture">
-          <a-button>
-            <a-icon type="upload" /> upload </a-button>
-        </a-upload>
+        <div class="isupload">
+          <a-upload
+            name="avatar"
+            list-type="picture-card"
+            class="avatar-uploader"
+            :show-upload-list="false"
+            action="http://192.168.3.101:8808/upload"
+            :before-upload="beforeUpload"
+            @change="handleChangeImage"
+          >
+            <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+            <div v-else>
+              <a-icon :type="loading ? 'loading' : 'plus'" />
+              <div class="ant-upload-text">Upload</div>
+            </div>
+          </a-upload>
+          <div class="col_red">支持PNG、JPEG、JPG格式，1KB至2M</div>
+        </div>
       </div>
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu">菜单描述:</div>
@@ -95,6 +109,7 @@
     components: {
       isAdd: isAdd
     },
+      inject:['reload'],
     data() {
       return {
         dictionaryColumns: tableTitleData.data.adddictionaryColumns,
@@ -179,29 +194,35 @@
           this.remark = ''
         }
       },
-      handleImageChange(info) { //上传图片
-        if (info.file.status === 'uploading') {
+
+      confirmDelete(index) {
+        this.authList.splice(index, 1)
+      },
+      handleChangeImage(info) {
+        if (info.file.status === "uploading") {
           this.loading = true;
           return;
         }
-        if (info.file.status === 'done') {
-          getBase64(info.file.originFileObj, imageUrl => {
+        if (info.file.status === "done") {
+          // Get this url from response in real world.
+          getBase64(info.file.originFileObj, (imageUrl) => {
             this.imageUrl = imageUrl;
             this.loading = false;
           });
         }
+        console.log(this.imageUrl, 88999, info);
       },
-      confirmDelete(index) {
-        this.authList.splice(index, 1)
-      },
-      beforeUpload(file) { //图片上传
-        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+      beforeUpload(file) {
+        const isJpgOrPng =
+          file.type === "image/jpeg" ||
+          file.type === "image/png" ||
+          file.type === "image/jpg";
         if (!isJpgOrPng) {
-          this.$message.error('You can only upload JPG file!');
+          this.$message.error("只能上传jpeg,jpg,png格式的图片");
         }
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {
-          this.$message.error('Image must smaller than 2MB!');
+          this.$message.error("图片大小不能超过2MB!");
         }
         return isJpgOrPng && isLt2M;
       },
@@ -244,10 +265,10 @@
           this.$message.warning('菜单名称不能为空');
           return
         }
-        // if (!this.imageUrl) {
-        //   this.$message.warning('菜单图标不能为空');
-        //   return
-        // }
+         if (!this.imageUrl) {
+           this.$message.warning('菜单图标不能为空');
+           return
+         }
         if (this.authList.length <= 0) {
           this.$message.warning('鉴权接口不能为空');
           return

@@ -24,6 +24,7 @@
             <div class="btn_blue btn" @click="tosearch()">查询</div>
             <div class="btn_gray" @click="clear()">清除</div>
           </div>
+          <div class="isline"></div>
           <div class="btn_blue btn2" @click="toadd('add')">新增</div>
           <div class="table" v-if="tabletype">
             <a-table

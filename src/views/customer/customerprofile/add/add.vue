@@ -29,7 +29,7 @@
           list-type="picture-card"
           class="avatar-uploader"
           :show-upload-list="false"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          action="http://192.168.3.101:8808/upload"
           :before-upload="beforeUpload"
           @change="handleChange"
         >
@@ -39,7 +39,7 @@
             <div class="ant-upload-text">Upload</div>
           </div>
         </a-upload>
-        <div class="col_red">支持PNG、JPEG、JPG格式，1KB至200KB</div>
+        <div class="col_red">支持PNG、JPEG、JPG格式，1KB至2M</div>
       </div>
     </div>
 
@@ -78,6 +78,7 @@
         style="width: 667px;margin-right:20px"
         v-model="form.statusCode"
         :filter-option="filterOption"
+      :headers='istoken'
         @change="handleChange2"
       >
         <a-select-option value>全部</a-select-option>
@@ -113,6 +114,7 @@ export default {
   inject:['reload'],
   data() {
     return {
+          istoken:{token:JSON.parse(localStorage.getItem('usermsg')).token||""},
       loading: false,
       imageUrl: "",
       sel_data: [

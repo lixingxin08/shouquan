@@ -24,7 +24,7 @@
         </div>
         <div class="btn_blue btn" @click="searchtree()">查询</div>
       </div>
-      <div class="tree_box">
+      <div class="tree_box_zon">
         <is-left
           :treedata="treedata"
           :replaceFields="replaceFields"
@@ -148,6 +148,7 @@ export default {
         this.$api.customeraccountmylist,
         this.listparam
       );
+      console.log(res,555555);
       if (res.data.resultCode == "10000") {
         for (let i = 0; i < res.data.data.length; i++) {
           if (res.data.data[i].statusCode == 1) {
@@ -324,11 +325,11 @@ this.reload()
 .btn {
   margin-left: 20px;
 }
-.tree_box {
+.tree_box_zon {
   width: 1232px;
-  height: 353px;
+  height: 384px;
   margin-top: 20px;
-  margin-bottom: 170px;
+  margin-bottom: 210px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
 }
@@ -340,7 +341,7 @@ this.reload()
   color: #333333;
 }
 .rb_text {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 .rb_b {
   margin-top: 40px;
