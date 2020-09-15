@@ -30,7 +30,7 @@
         </div>
         <div class="flexrow flexac edit_item_sms" >
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信价格:</div>
-          <a-input class='edit_a_input_sms' v-model='config.price' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input-number class='edit_a_input_sms' v-model='config.price' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <div class="edit_item_sms_toast">分/条</div>
         </div>
         <div class="flexrow flexac edit_item_sms">
@@ -94,7 +94,9 @@
         smsTypeList: [],
         addcolumns: table.data.adddColumns,
         msgList: [],
-        config:{},
+        config:{
+          typeCode:0
+        },
         id: null,
         num: 0 //描述长度
       }

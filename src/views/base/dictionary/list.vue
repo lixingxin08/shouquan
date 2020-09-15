@@ -38,6 +38,7 @@
         pagination: {
 			total:0,
        size:"default",
+       current:1,
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项

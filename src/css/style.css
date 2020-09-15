@@ -44,7 +44,7 @@
 }
 
 .ps_ab {
-  z-index: 9999999;
+  z-index: 9;
   position: absolute;
   color: rgba(51, 51, 51, 1);
   font-family: Microsoft YaHei;
@@ -98,7 +98,7 @@
     border-bottom: 1px solid #e8e8e8!important;
   } */
 .btn_blue {
-  width: 88px;
+  width: 68px;
   height: 36px;
   background: #1890ff;
   border: 1px solid #1890ff;
@@ -113,7 +113,7 @@
 }
 
 .btn_gray {
-  width: 88px;
+  width: 68px;
   height: 36px;
   border: 1px solid #dcdcdc;
   border-radius: 8px;
@@ -127,7 +127,7 @@
 }
 
 .tab_blue {
-  width: 88px;
+  width: 68px;
   height: 36px;
   background: #1890ff;
   border: 1px solid #1890ff;
@@ -264,4 +264,7 @@ justify-content: flex-start;
  }
  .ant-table-thead>tr>th {
   background-color: #F6FBFF!important;
+}
+.view-title-line{
+  width: 100%;height: 0.5px;background: #DCDCDC;margin: 15px auto;
 }

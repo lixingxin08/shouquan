@@ -8,8 +8,8 @@
       <a-button type="primary" class="title_btn" @click='getTableData'>查询</a-button>
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
-
-    <a-button type="primary" class="flexrow flexjc flexac addbtn" style="margin-top: 30px;" @click="edit({})">
+    <div class="view-title-line"></div>
+    <a-button type="primary" class="flexrow flexjc flexac addbtn" @click="edit({})">
       <a-icon two-tone-color="#ffffff" type="plus" /> 新增
     </a-button>
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableList" bordered size="small" :pagination="pagination"

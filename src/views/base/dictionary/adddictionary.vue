@@ -48,9 +48,9 @@
         <a-button @click='submit'>保存</a-button>
         <a-button type="primary" style="margin-left: 20px;" @click='setShowData'>重置</a-button>
       </div>
-      <div class="flexrow edit_item_dic_title3_dic" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">数值列表</div>
+      <div v-if="isAdd!='true'" class="flexrow edit_item_dic_title3_dic" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">数值列表</div>
 
-      <a-table :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true' size='small'>
+      <a-table v-if="isAdd!='true'" :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true' size='small'>
         <template v-for="col in ['className', 'classCode', 'remark']" :slot="col" slot-scope="text, record, index">
           <div :key="col">
             <a-input style="margin: -5px 0;border: 0px;" :value="text" @change="e => handleChange(e.target.value, index, col)" />
@@ -67,7 +67,7 @@
           </div>
         </template>
       </a-table>
-      <div class="flexrow edit_item_dic_title3_dic" style="margin-top: 10px;justify-item: flex-start;margin-bottom: 50px;font-size: 16px;">
+      <div v-if="isAdd!='true'" class="flexrow edit_item_dic_title3_dic" style="margin-top: 10px;justify-item: flex-start;margin-bottom: 50px;font-size: 16px;">
         <a-button type='primary' @click='addLine' v-if='szList.length < 999'>新增行</a-button>
       </div>
 
@@ -247,8 +247,6 @@
     width: 667px;
     text-align: left;
     display: flex;
-
-    padding-left: 10px;
     flex-direction: row;
     justify-content: flex-start;
     height: 32px;

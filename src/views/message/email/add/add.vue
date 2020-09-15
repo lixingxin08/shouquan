@@ -52,7 +52,6 @@
       </div>
       <a-select show-search placeholder="全部" option-filter-prop="children" style="width: 667px;margin-right:20px"
         v-model="form.typeCode" @change="handleChange2">
-        <a-select-option value>全部</a-select-option>
         <a-select-option v-for="(item,index) in sel_data" :key="index" :value="item.comboBoxId">{{item.comboBoxName}}</a-select-option>
       </a-select>
     </div>

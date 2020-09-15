@@ -7,7 +7,7 @@
       <a-button type="primary" class="title_btn" @click='getBrandData'>查询</a-button>
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
-    <div style="width: 100%;height: 1px;background: #FFFFFF;margin: 10px auto;"></div>
+    <div class="view-title-line"></div>
     <a-button class='addbtn' type="primary" @click="add">
       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
     </a-button>

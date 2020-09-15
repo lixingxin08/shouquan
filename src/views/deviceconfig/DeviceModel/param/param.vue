@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <a-button type="primary" class="flexrow flexjc flexac addbtn" @click="editParam({})">
+    <a-button type="primary" class="flexrow flexjc flexac addbtn2" @click="editParam({})">
       <a-icon two-tone-color="#ffffff" type="plus" /> 新增运行参数
     </a-button>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="paramList" bordered size="small"
@@ -42,7 +42,7 @@
       </template>
     </a-table>
 
-    <is-add v-if="isVis" :param="paramItem" @callback='addCallBack'></is-add>
+    <is-add v-show="isVis" ref='addparam' :param="paramItem" @callback='addCallBack'></is-add>
   </div>
 </template>
 <script>
@@ -80,7 +80,7 @@
         }
       },
       /* 获取参数数据*/
-      async getParamData() { 
+      async getParamData() {
         let param = {
           pageIndex: 1,
           pageSize: 200,
@@ -92,7 +92,7 @@
         }
       },
       /* 删除确定*/
-      async confirmDelete(item) { 
+      async confirmDelete(item) {
         let param = {
           parameterId: item.parameterId
         }
@@ -105,12 +105,15 @@
         }
       },
       /* 新增编辑弹框*/
-      editParam(item) { 
+      editParam(item) {
+
         this.paramItem = item
         this.isVis = true
+             this.$refs.addparam.getCombobox()
       },
       /* 添加编辑回调*/
-      async addCallBack(param) { 
+      async addCallBack(param) {
+        console.log(param)
         if (param) {
           param.modelId = this.id
           param.typeCode = 'sms_template_device_running'
@@ -145,13 +148,13 @@
     margin-right: 20px;
   }
 
-  .addbtn {
+  .addbtn2 {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
     text-align: left;
     color: #ffffff;
-    width: 120px;
+    width: 108px;
     margin-bottom: 20px;
     height: 40px;
     background: #1890ff;
