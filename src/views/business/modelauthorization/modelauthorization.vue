@@ -19,7 +19,7 @@
     <div class="isright">
       <div class="flex_f">
         <div class="isright_l">
-          <div class="left_title">设备类型</div>
+          <div class="left_title_model">设备类型</div>
           <div class="tree_box tree_box1">
             <is-left
               :treedata="treedata"
@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="isright_r">
-          <div class="left_title">型号列表</div>
+          <div class="left_title_model">型号列表</div>
           <div class="tree_box">
             <a-table
               :columns="tablecolumns2"
@@ -396,7 +396,7 @@ export default {
 .isright_r {
   width: 100%;
 }
-.left_title {
+.left_title_model {
   width: 120px;
   height: 24px;
   font-size: 18px;
@@ -415,14 +415,18 @@ export default {
 }
 .tree_box {
   width: 100%;
-  height: 353px;
+  height: 384px;
   margin-top: 20px;
-  margin-bottom: 170px;
+  margin-bottom: 222px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
 }
 .tree_box1{
   padding: 20px;
+  overflow: scroll;
+}
+.tree_box1::-webkit-scrollbar{
+  display: none;
 }
 .r_b_title {
   font-size: 18px;
@@ -432,7 +436,7 @@ export default {
   color: #333333;
 }
 .rb_text {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 .rb_b {
   margin-top: 40px;

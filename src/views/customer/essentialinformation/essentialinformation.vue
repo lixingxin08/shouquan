@@ -29,9 +29,11 @@
           list-type="picture-card"
           class="avatar-uploader"
           :show-upload-list="false"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          action="http://192.168.3.101:8808/upload"
           :before-upload="beforeUpload"
+          :headers='istoken'
           @change="handleChange"
+           
         >
           <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
           <div v-else>
@@ -39,7 +41,7 @@
             <div class="ant-upload-text">Upload</div>
           </div>
         </a-upload>
-        <div class="col_red">支持PNG、JPEG、JPG格式，1KB至200KB</div>
+        <div class="col_red">支持PNG、JPEG、JPG格式，1KB至2M</div>
       </div>
     </div>
 
@@ -113,6 +115,7 @@ export default {
    inject:['reload'],
   data() {
     return {
+      istoken:{token:JSON.parse(localStorage.getItem('usermsg')).token||""},
       loading: false,
       imageUrl: "",
       sel_data: [

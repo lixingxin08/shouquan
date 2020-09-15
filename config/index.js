@@ -14,7 +14,8 @@ module.exports = {
       '/api': {//代理api
         //target: "`",
         // target: "http://192.168.3.86:8092/haiot-auth", //代理接口
-        target: "http://192.168.3.86:8092/authorization",
+        target: "http://127.0.0.1:8088/haiot-zuul/haiot-auth/", //代理接口
+        // target: "http://192.168.3.171:8092/authorization",
         changeOrigin: true,//是否跨域
         allowCredentials:true,
         pathRewrite: {//重写路径
@@ -50,10 +51,10 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '../shouquan/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    assetsRoot: path.resolve(__dirname, '../shouquan'),
     assetsSubDirectory: 'static',
     assetsPublicPath: './',
 

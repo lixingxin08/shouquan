@@ -14,7 +14,7 @@
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title2_zzx">人员性别:</div>
         <a-input v-if='!config.realName' :disabled='true' class='edit_a_input_zzx' placeholder="请选择人员" />
-        <a-input v-else :disabled='true' class='edit_a_input_zzx' v-model="config.gender==1?'男':'女'" :placeholder="!config.realName?'请选择人员':'无'" />
+        <a-input v-else :disabled='true' class='edit_a_input_zzx'  v-model="config.gender==1?'男':'女'"  :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title2_zzx">手机号码:</div>

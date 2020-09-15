@@ -4,7 +4,7 @@
       <div>
         <div class="right">
           <div class="r_top flex_f">
-            <div class="r_t_text" @click="showdialog()">邮箱帐号别名:</div>
+            <div class="r_t_text" @click="showdialogemail()">邮箱帐号别名:</div>
             <a-input
               placeholder="请输入邮箱帐号别名"
               class="r_t_inp"
@@ -12,7 +12,7 @@
               @keydown.enter="tosearch()"
             />
 
-            <div class="r_t_text" @click="showdialog()">邮箱网关类型:</div>
+            <div class="r_t_text" @click="showdialogemail()">邮箱网关类型:</div>
             <a-select
               show-search
               placeholder="全部"
@@ -46,7 +46,7 @@
             >
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
-                <div class="col_red ispointer" @click="showdialog(areaName)">
+                <div class="col_red ispointer" @click="showdialogemail(areaName)">
                   <span>删除</span>
                 </div>
               </div>
@@ -55,7 +55,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialogemail v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogemail>
   </div>
 </template>
 <script>
@@ -253,7 +253,7 @@ export default {
       // this.getareapage();
     },
     //弹窗
-    showdialog(val) {
+    showdialogemail(val) {
       console.log(val, 221212);
       this.removeparam.emailConfigId = val.emailConfigId;
       this.visible = true;
@@ -351,7 +351,7 @@ export default {
   height: 42px;
 }
 
-.dialog {
+.dialogemail {
   width: 920px;
   height: 492px;
   position: relative;
@@ -365,7 +365,7 @@ export default {
   z-index: 2;
 }
 
-.dialog_t {
+.dialogemail_t {
   width: 920px;
   height: 72px;
   background: #1890ff;
@@ -375,7 +375,7 @@ export default {
   font-size: 24px;
 }
 
-.dialog_c {
+.dialogemail_c {
   height: 348px;
   font-size: 20px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;

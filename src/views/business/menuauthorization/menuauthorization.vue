@@ -17,40 +17,44 @@
       </a-table>
     </div>
     <div class="isright">
-      <div class="tree_box flex_f">
+      <div class="tree_boxmenu flex_f">
         <div class="tree_box_i tree_box_i_l">
           <div class="left_title">选择授权模板</div>
-          <a-table
-            :columns="tablecolumns2"
-            :data-source="tabledata2"
-            bordered
-            :customRow="rowClick"
-          ></a-table>
+          <div class="isscroll">
+            <a-table
+              :columns="tablecolumns2"
+              :data-source="tabledata2"
+              bordered
+              :customRow="rowClick"
+            ></a-table>
+          </div>
         </div>
 
-        <div class="tree_box_i">
+        <div class="tree_box_i tree_box_i_r">
           <div class="flex_f templatetree_sel">
             <span>服务子系统：</span>
             <div>
-              <a-select
-                show-search
-                placeholder="全部"
-                option-filter-prop="children"
-                style="width:200px;margin-right:20px;height:36px;border-radius: 8px;"
-                @change="handleChange2"
-                v-if="showtree"
-              >
-                <a-select-option value="all">全部</a-select-option>
-                <a-select-option
-                  v-for="(item,index) in oldtreedata"
-                  :key="index"
-                  :value="item.id"
-                >{{item.name}}</a-select-option>
-              </a-select>
+                <a-select
+                  show-search
+                  placeholder="全部"
+                  option-filter-prop="children"
+                  style="width:200px;margin-right:20px;height:36px;border-radius: 8px;"
+                  @change="handleChange2"
+                  v-if="showtree"
+                >
+                  <a-select-option value="all">全部</a-select-option>
+                  <a-select-option
+                    v-for="(item,index) in oldtreedata"
+                    :key="index"
+                    :value="item.id"
+                  >{{item.name}}</a-select-option>
+                </a-select>
             </div>
           </div>
+          <div class="tree_box_i_rtree">
+            <div class="istree_box2">
           <is-left
-          ref='select'
+            ref="select"
             :treedata="treedata"
             :replaceFields="replaceFields"
             :defaultExpandedKeys="defaultExpandedKeys"
@@ -58,6 +62,8 @@
             :checkedKeys="checkedKeys"
             v-if="showtree"
           ></is-left>
+          </div>
+          </div>
         </div>
       </div>
       <div class="r_b">
@@ -78,7 +84,7 @@
 <script>
 import isLeft from "../../../components/tree/check_seltree.vue";
 export default {
-   inject: ['reload'],
+  inject: ["reload"],
   components: {
     isLeft,
   },
@@ -130,31 +136,18 @@ export default {
           title: "序号",
           dataIndex: "templateId",
           key: "templateId",
+          ellipsis: true,
         },
         {
-          width: 141,
+          width: 220,
           align: "center",
           title: "模板名称",
           dataIndex: "templateName",
           key: "templateName",
+          ellipsis: true,
         },
       ],
-      tabledata2: [
-        {
-          key: "1",
-          name: "John Brown",
-          templateId: 32,
-          templateName: "New York No. 1 Lake Park, New York No. 1 Lake Park",
-          tags: ["nice", "developer"],
-        },
-        {
-          key: "2",
-          name: "Jim Green",
-          templateId: 42,
-          templateName: "London No. 2 Lake Park, London No. 2 Lake Park",
-          tags: ["loser"],
-        },
-      ],
+      tabledata2: [],
       treedata2: "",
 
       replaceFields2: {
@@ -273,8 +266,8 @@ export default {
     },
     async getform() {
       this.form.operatorId = 1;
-     this.form.menuIdList = this.checkedKeys
-      if (this.form.menuIdList == ""||this.form.menuIdList==[]) {
+      this.form.menuIdList = this.checkedKeys;
+      if (this.form.menuIdList == "" || this.form.menuIdList == []) {
         return this.$message.error("请选择授权系统");
       }
       let res = await this.$http.post(
@@ -357,7 +350,7 @@ export default {
       this.form.menuIdList = val;
     },
     handleChange2(value, key) {
-      console.log(value,key);
+      console.log(value, key);
       this.showtree = false;
       this.treedata = this.oldtreedata;
       if (value == "all") {
@@ -372,11 +365,11 @@ export default {
         this.treedata = Array(filterTreeNode);
       }
       this.showtree = true;
-      console.log(this.checkedKeys,5544444);
+      console.log(this.checkedKeys, 5544444);
     },
-    cancel(){
-     this.reload()
-    }
+    cancel() {
+      this.reload();
+    },
   },
 };
 </script>
@@ -408,7 +401,7 @@ export default {
   text-align: left;
   color: #333333;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .r_t_inp {
   margin-left: 10px;
@@ -416,22 +409,55 @@ export default {
 .btn {
   margin-left: 20px;
 }
-.tree_box {
+.tree_boxmenu {
   width: 1232px;
-  height: 353px;
-  margin-bottom: 170px;
+  height: 460px;
+  margin-bottom: 210px;
   background: #ffffff;
 }
 .tree_box_i {
   width: 600px;
-  height: 353px;
-  overflow: scroll;
-}
-.tree_box_i::-webkit-scrollbar {
-  display: none;
+  height: 460px;
 }
 .tree_box_i_l {
   padding-left: 20px;
+  width: 356px;
+  padding-right: 60px;
+}
+.isscroll {
+  width: 100%;
+  height: 100%;
+  max-height: 416px;
+  overflow: scroll;
+}
+.isscroll::-webkit-scrollbar {
+  display: none;
+}
+.tree_box_i_r {
+  width: 896px;
+}
+.templatetree_sel {
+  width: 100%;
+  height: 76px;
+  border: 1px solid #dcdcdc;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+.tree_box_i_rtree {
+  width: 100%;
+  padding-top: 28px;
+  height: 384px;
+  box-sizing: border-box;
+  border: 1px solid #dcdcdc;
+  border-top: none;
+}
+.istree_box2{
+  width: 50%;
+  margin: 0 auto;
+  overflow: scroll;
+}
+.istree_box2::-webkit-scrollbar{
+  display: none;
 }
 .r_b_title {
   font-size: 18px;
@@ -441,7 +467,7 @@ export default {
   color: #333333;
 }
 .rb_text {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 .rb_b {
   margin-top: 40px;

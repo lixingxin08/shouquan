@@ -1,8 +1,12 @@
 <template>
   <div class="administrativedivision">
     <div class="flex_fs">
+      
       <div>
+        
         <div class="right">
+           <div class="r_t_text" style="font-size:18px">阶段信息</div>
+           <div class="isline"></div>
           <div class="btn_blue btn2" @click="toadd('add')">新增</div>
           <div class="table" v-if="tabletype">
             <a-table
@@ -238,6 +242,15 @@ export default {
   position: relative;
 }
 
+.r_t_text {
+  height: 16px;
+  font-size: 12px;
+  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+  font-weight: 400;
+  text-align: left;
+  color: #333333;
+  margin-right: 10px;
+}
 .tree {
   text-align: left;
 }

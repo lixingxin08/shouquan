@@ -28,18 +28,8 @@ export default {
     }
   },
   mounted() {
-    let sessionid=  JSON.parse(localStorage.getItem('usermsg')).iscookie||"asdkasgdkjakkj"
-      this.setCookie('session',sessionid,10000)
   },
   methods:{
-      setCookie: function (cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString();
-        console.info(cname + "=" + cvalue + "; " + expires);
-        document.cookie = cname + "=" + cvalue + "; " + expires;
-        console.info(document.cookie);
-      },
   }
 
 };

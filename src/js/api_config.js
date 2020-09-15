@@ -30,33 +30,33 @@ export default {
   runremove: `/config/dictionary/remove`, //运行参数删除接口
 
   //客户人员信息表API
-  persondeleteByPersonId: `/customer/person/deleteByPersonId`,
+  persondeleteByPersonId: `/customer/person/remove`,
   persondetail: `/customer/person/detail`,
   personform: `/customer/person/form`,
   personpage: `/customer/person/page`,
   persontree: `/customer/person/tree`,
 
   //客户档案基础信息表API
-  deleteByInformationId: `/customer/information/deleteByInformationId`,
+  deleteByInformationId: `/customer/information/remove`,
   informationdetail: `/customer/information/detail`,
   informationform: `/customer/information/form`,
   informationpage: `/customer/information/page`,
 
   //客户部门信息表API
-  departmentdeleteByDepartmentId: `/customer/department/deleteByDepartmentId`,
+  departmentdeleteByDepartmentId: `/customer/department/remove`,
   departmentdetail: `/customer/department/detail`,
   departmentform: `/customer/department/form`,
   departmentpage: `/customer/department/page`,
   departmenttree: `/customer/department/tree`,
 
   //客户项目信息表API
-  deleteByProjectId: `/customer/project/deleteByProjectId `,
+  deleteByProjectId: `/customer/project/remove `,
   projectdetail: `/customer/project/detail `,
   projectpage: `/customer/project/page `,
   projectform: `/customer/project/form `,
 
   //客户项目阶段信息表API
-  deleteByProjectPhaseId: `/customer/projectPhase/deleteByProjectPhaseId`,
+  deleteByProjectPhaseId: `/customer/projectPhase/remove`,
   projectPhasedetail: `/customer/projectPhase/detail `,
   projectPhaselist: `/customer/projectPhase/list `,
   projectPhaseform: `/customer/projectPhase/form `,
@@ -64,13 +64,13 @@ export default {
   smspage: `/message/sms/account/page`,
 
   //短信账号基本信息API
-  deleteBySmsAccountId: `/message/sms/account/deleteBySmsAccountId`, //微信帐号基础信息分页查询接口
+  deleteBySmsAccountId: `/message/sms/account/remove`, //微信帐号基础信息分页查询接口
   smsform: `/message/sms/account/form`,
   smsdetail: `/message/sms/account/detail`,
   smspage: `/message/sms/account/page`,
-  smsremove: `/message/sms/account/deleteBySmsAccountId`,
+  smsremove: `/message/sms/account/remove`,
 
-  deleteByemailAccountId: `/message/email/account/deleteByEmailAccountId`, //邮箱帐号基础信息删除接口
+  deleteByemailAccountId: `/message/email/account/remove`, //邮箱帐号基础信息删除接口
   emailtAccountdetail: `/message/email/account/detail`, //邮箱帐号基础信息查询详情接口
   emailAccountform: `/message/email/account/form`, // 邮箱帐号基础信息表单接口
   emailAccountpage: `/message/email/account/page`, //邮箱帐号基础信息分页查询接口
@@ -115,7 +115,7 @@ export default {
 
 
   //系统菜单模板API
-  deleteByTemplateId: `/auth/template/deleteByTemplateId`,
+  deleteByTemplateId: `/auth/template/remove`,
   templatedetail: `/auth/template/detail`,
   templateform: `/auth/template/form`,
   templatepage: `/auth/template/page`,
@@ -158,7 +158,7 @@ export default {
   customersmsform:`/auth/customer-sms/form`,
 
   //微信帐号基础信息API
-  deleteByWechatAccountId: `/message/wechat/account/deleteByWechatAccountId`, //微信帐号基础信息分页查询接口
+  deleteByWechatAccountId: `/message/wechat/account/remove`, //微信帐号基础信息分页查询接口
   wechtTemplateList: `/message/wechat/template/list`,
   wechatform: `/message/wechat/account/form`,
   wechatdetail: `/message/wechat/account/detail`,
