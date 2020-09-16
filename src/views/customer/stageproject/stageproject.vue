@@ -8,7 +8,7 @@
         <div class="right">
            <div class="r_t_text" style="font-size:18px">阶段信息</div>
            <div class="isline"></div>
-          <div class="btn_blue btn2" @click="toadd('add')">新增</div>
+          <div class="btn_blue btn2" @click="toadd('add')"> <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" />新增</div>
           <div class="table" v-if="tabletype">
             <a-table
               :columns="tablecolumns"
@@ -245,12 +245,6 @@ export default {
 };
 </script>
 <style scoped>
-.administrativedivision {
-  height: 100%;
-  width: 100%;
-  position: relative;
-}
-
 .r_t_text {
   height: 16px;
   font-size: 12px;

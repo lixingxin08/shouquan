@@ -30,7 +30,7 @@ export default {
     return {
       collapsed: false,
       searchdata: "",
-      isinclude: "header,nav",
+      isinclude: "header,nav,administrativedivision,dpartmentManagement,personnelManagement",
       isRouterShow: true,
     };
   },

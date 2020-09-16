@@ -15,7 +15,7 @@
             <div class="btn_blue btn" @click="tosearch()">查询</div>
             <div class="btn_gray" @click="clear()">清除</div>
           </div>
-          <div class="btn_blue btn2" @click="toadd('add')">新增</div>
+          <div class="btn_blue btn2" @click="toadd('add')"> <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" />新增</div>
           <div class="table" v-if="tabletype">
             <a-table
               :columns="tablecolumns"
@@ -215,11 +215,6 @@ export default {
 };
 </script>
 <style scoped>
-.administrativedivision {
-  height: 100%;
-  width: 100%;
-  position: relative;
-}
 
 .tree {
   text-align: left;

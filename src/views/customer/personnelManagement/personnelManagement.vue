@@ -1,7 +1,6 @@
-<template>
-  <div class="administrativedivision">
-     <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
-    <div class="flex_fs">
+<template> 
+    <div class="administrativedivision flex_fs">
+       <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
       <div class="isleft">
       <is-left
         :treedata="treedata"
@@ -42,7 +41,7 @@
             <div class="btn_gray" @click="clear()">清除</div>
           </div>
           <div class="isline"></div>
-          <div class="btn_blue btn2" @click="toadd('add')">新增</div>
+          <div class="btn_blue btn2" @click="toadd('add')"> <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" />新增</div>
           <div class="table" v-if="tabletype">
             <a-table
               :columns="tablecolumns"
@@ -80,7 +79,6 @@
           <div class="table" v-if="!tabletype">无</div>
         </div>
       </div>
-    </div>
    
   </div>
 </template>
@@ -88,6 +86,7 @@
 import isLeft from "../../../components/tree/tree.vue";
 import isDeleteDialog from "../../../components/delete_confir/delete.vue";
 export default {
+  name:"personnelManagement",
   components: {
     isLeft,
     isDeleteDialog,
@@ -416,12 +415,6 @@ export default {
 };
 </script>
 <style scoped>
-.administrativedivision {
-  height: 100%;
-  width: 100%;
-  position: relative;
-}
-
 .tree {
   text-align: left;
 }

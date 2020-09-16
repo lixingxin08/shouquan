@@ -1,6 +1,6 @@
 <template>
   <div class="flex_f father">
-    <div class="isleft">
+    <div class="isleftmsg">
       <div class="left_title">客户列表</div>
       <a-table
         :columns="tablecolumns"
@@ -53,12 +53,12 @@
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
-             <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
+          <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
           <div class="edit_number">{{remarklen}}/500</div>
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
-            <div class="cancel_btn rb_b_btn"  @click="cancel()">取消</div>
+            <div class="cancel_btn rb_b_btn" @click="cancel()">取消</div>
             <div class="ok_btn" @click="setform()">授权</div>
           </div>
         </div>
@@ -69,14 +69,9 @@
 <script>
 import isLeft from "../../../components/tree/seltree.vue";
 export default {
-   inject:['reload'],
+  inject: ["reload"],
   components: {
     isLeft,
-  },
-    computed: {
-    remarklen() {
-      return this.form.remark.length;
-    },
   },
   data() {
     return {
@@ -188,7 +183,7 @@ export default {
       ],
       tabledata4: [],
       listparam: {
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
         customerId: "",
       },
       selectedRowKeys: [],
@@ -204,7 +199,7 @@ export default {
         smsConfigId: [],
         emailConfigId: [],
         remark: "",
-         operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
     };
   },
@@ -213,9 +208,13 @@ export default {
     this.getwechatlist();
   },
   computed: {
+        remarklen() {
+      return this.form.remark.length;
+    },
     hasSelected() {
       return this.selectedRowKeys.length > 0;
     },
+
   },
   methods: {
     async getlist() {
@@ -235,7 +234,9 @@ export default {
       }
     },
     async getemailform() {
-       this.form.emailConfigId= this.tabledata4[this.selectedRowKeys4[0]].emailConfigId
+      this.form.emailConfigId = this.tabledata4[
+        this.selectedRowKeys4[0]
+      ].emailConfigId;
       let res = await this.$http.post(this.$api.customeremailform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
@@ -244,8 +245,9 @@ export default {
       }
     },
     async getwechatlform() {
-
-      this.form.wechatConfigId= this.tabledata2[this.selectedRowKeys2[0]].wechatConfigId
+      this.form.wechatConfigId = this.tabledata2[
+        this.selectedRowKeys2[0]
+      ].wechatConfigId;
       let res = await this.$http.post(this.$api.customerwechatform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
@@ -254,7 +256,9 @@ export default {
       }
     },
     async getsmsform() {
-       this.form.smsConfigId= this.tabledata3[this.selectedRowKeys3[0]].smsConfigId
+      this.form.smsConfigId = this.tabledata3[
+        this.selectedRowKeys3[0]
+      ].smsConfigId;
       let res = await this.$http.post(this.$api.customersmsform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
@@ -263,7 +267,7 @@ export default {
       }
     },
     setform() {
-      this.form.customerId =this.listparam.customerId 
+      this.form.customerId = this.listparam.customerId;
       if (this.listtype == "wechat") {
         this.getwechatlform();
       }
@@ -335,9 +339,9 @@ export default {
       console.log("selectedRowKeys changed: ", selectedRowKeys4);
       this.selectedRowKeys4 = selectedRowKeys4;
     },
-    cancel(){
-      this.reload()
-    }
+    cancel() {
+      this.reload();
+    },
   },
 };
 </script>
@@ -345,7 +349,7 @@ export default {
 .father {
   height: 100%;
 }
-.isleft {
+.isleftmsg {
   width: 400px;
   padding: 0 20px;
   height: 100%;
