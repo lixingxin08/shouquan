@@ -16,7 +16,7 @@
     <a-button class='addbtn' type="primary" @click="edit({})">
       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" @click='edit({})' /> 新增
     </a-button>
-    <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="warningList" bordered size="small"
+    <a-table  :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="warningList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
       {{(index+1)+((pagination.current-1)*10)}}

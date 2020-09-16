@@ -6,13 +6,17 @@
 
       <div class="flexrow flexac edit_item_warnings">
         <div class="edit_item_warnings_title3"><a style="color: #FF0000;">*</a>警报名称:</div>
-<div class='edit_a_input_warnings'><a-input  :maxLength='50' v-model='warning.alarmName' placeholder="请输入您选择的型号名称" /></div>
+        <div class='edit_a_input_warnings'>
+          <a-input :maxLength='50' v-model='warning.alarmName' placeholder="请输入您选择的型号名称" />
+        </div>
 
         <div class="edit_item_warnings_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item_warnings">
         <div class="edit_item_warnings_title3"><a style="color: #FF0000;">*</a>警报代码:</div>
-        <div  class='edit_a_input_warnings'> <a-input :maxLength='50' v-model='warning.alarmCode' placeholder="请输入您选择的型号代码" /></div>
+        <div class='edit_a_input_warnings'>
+          <a-input :maxLength='50' v-model='warning.alarmCode' placeholder="请输入您选择的型号代码" />
+        </div>
 
         <div class="edit_item_warnings_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
@@ -45,31 +49,24 @@
 
       <div class="flexrow flexac edit_item_warnings">
         <div class="edit_item_warnings_title3">流程示意图:</div>
-      <div class="isupload">
-        <a-upload
-          name="avatar"
-          list-type="picture-card"
-          class="avatar-uploader"
-          :show-upload-list="false"
-          action="http://192.168.3.101:8808/upload"
-          :before-upload="beforeUpload"
-          @change="handleChange"
-        >
-          <img v-if="warning.flowImage" :src="warning.flowImage" alt="avatar" />
-          <div v-else>
-            <a-icon :type="loading ? 'loading' : 'plus'" />
-            <div class="ant-upload-text">Upload</div>
-          </div>
-        </a-upload>
-        <div class="col_red">支持PNG、JPEG、JPG格式，1KB至2M</div>
-      </div>
+        <div class="isupload">
+          <a-upload name="avatar" list-type="picture-card" class="avatar-uploader" :show-upload-list="false" action="http://192.168.3.101:8808/upload"
+            :before-upload="beforeUpload" @change="handleChange">
+            <img v-if="warning.flowImage" :src="warning.flowImage" alt="avatar" />
+            <div v-else>
+              <a-icon :type="loading ? 'loading' : 'plus'" />
+              <div class="ant-upload-text">Upload</div>
+            </div>
+          </a-upload>
+          <div class="col_red">支持PNG、JPEG、JPG格式，1KB至2M</div>
+        </div>
       </div>
 
 
       <div class="flexrow edit_item_warnings_title3" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">转警事件</div>
 
-      <a-table :columns="dictionaryColumns" :data-source="eventList" :pagination='false' :bordered='true' size='small'
-        :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
+      <a-table style='width: 50vw;' :columns="dictionaryColumns" :data-source="eventList" :pagination='false' :bordered='true'
+        size='small' :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
         <template slot="index" slot-scope="text, record,index">
           {{index+1}}
         </template>
@@ -84,6 +81,7 @@
 
 <script>
   import tableTitleData from "../table.json";
+
   function getBase64(img, callback) {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
@@ -113,11 +111,11 @@
         warningSelect: '', //转警选择
         warning: {
           gradeno: 0,
-          remark:''
+          remark: ''
         }, //警告信息
         dictionaryColumns: tableTitleData.data.add,
         num: 0, //描述长度
-        id: '' ,//修改的id
+        id: '', //修改的id
         loading: false,
         imageUrl: '',
       }
@@ -175,33 +173,33 @@
         }
       },
 
-    handleChange(info) {
-      if (info.file.status === "uploading") {
-        this.loading = true;
-        return;
-      }
-      if (info.file.status === "done") {
-        // Get this url from response in real world.
-        getBase64(info.file.originFileObj, (imageUrl) => {
-          this.warning.flowImage = imageUrl;
-        });
-      }
-      console.log(this.imageUrl, 88999, info);
-    },
-    beforeUpload(file) {
-      const isJpgOrPng =
-        file.type === "image/jpeg" ||
-        file.type === "image/png" ||
-        file.type === "image/jpg";
-      if (!isJpgOrPng) {
-        this.$message.error("只能上传jpeg,jpg,png格式的图片");
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.$message.error("图片大小不能超过2MB!");
-      }
-      return isJpgOrPng && isLt2M;
-    },
+      handleChange(info) {
+        if (info.file.status === "uploading") {
+          this.loading = true;
+          return;
+        }
+        if (info.file.status === "done") {
+          // Get this url from response in real world.
+          getBase64(info.file.originFileObj, (imageUrl) => {
+            this.warning.flowImage = imageUrl;
+          });
+        }
+        console.log(this.imageUrl, 88999, info);
+      },
+      beforeUpload(file) {
+        const isJpgOrPng =
+          file.type === "image/jpeg" ||
+          file.type === "image/png" ||
+          file.type === "image/jpg";
+        if (!isJpgOrPng) {
+          this.$message.error("只能上传jpeg,jpg,png格式的图片");
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+          this.$message.error("图片大小不能超过2MB!");
+        }
+        return isJpgOrPng && isLt2M;
+      },
       /* 获取警报类别列表 */
       async getCombobox() {
         let param = {
@@ -275,9 +273,10 @@
           this.getWarnInfo()
         } else {
           this.selectedRowKeys = []
+          this.warningSelect=''
           this.warning = {
             gradeno: 0,
-            remark:''
+            remark: ''
           }
         }
       }

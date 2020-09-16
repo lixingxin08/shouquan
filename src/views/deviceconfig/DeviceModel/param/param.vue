@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <a-button type="primary" class="flexrow flexjc flexac addbtn2" @click="editParam({})">
+    <a-button type="primary" class="flexrow flexjc flexac addbtn2-param" @click="editParam({})">
       <a-icon two-tone-color="#ffffff" type="plus" /> 新增运行参数
     </a-button>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="paramList" bordered size="small"
@@ -147,13 +147,13 @@
     margin-right: 20px;
   }
 
-  .addbtn2 {
+  .addbtn2-param {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
     text-align: left;
     color: #ffffff;
-    width: 108px;
+    width: 128px;
     margin-bottom: 20px;
     height: 40px;
     background: #1890ff;

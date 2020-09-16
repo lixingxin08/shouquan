@@ -8,13 +8,11 @@
       <div class="flexrow flexac item-model" style="margin-top: 20px;">
 
         <div class="item-title-model"><span style="color: #FF0033;">*</span>参数名称：</div>
-        <a-input v-model='param.parameterName' :maxLenght="50" placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号"></a-input>
+        <a-input v-model='param.parameterName' :maxLength="50" placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号"></a-input>
       </div>
       <div class="flexrow flexac item-model">
-
-
         <div class="item-title-model"> <span style="color: #FF0033;">*</span>参数代码：</div>
-        <a-input v-model='param.parameterCode' :maxLenght="50" placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号"></a-input>
+        <a-input v-model='param.parameterCode' :maxLength="50" placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号"></a-input>
       </div>
 
       <div class="flexrow flexac item-model">
@@ -27,7 +25,7 @@
       </div>
       <div class="flexrow flexac item-model">
         <div class="item-title-model">参数数值：</div>
-        <a-input v-model='param.parameterValue' :maxLenght="50" placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号"></a-input>
+        <a-input v-model='param.parameterValue' :maxLength="50" placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号"></a-input>
       </div>
       <div class="flexrow flexac item-model">
         <div class="item-title-model">参数描述：</div>
@@ -63,8 +61,9 @@
     methods: {
       setParam(item) {
         item.paramType = ''
-        this.param = item
         localStorage.setItem('modelparam', JSON.stringify(item))
+        let item2 = JSON.parse(localStorage.getItem('modelparam'))
+        this.param = item2
       },
       submit() {
         if (!this.param.parameterName) {

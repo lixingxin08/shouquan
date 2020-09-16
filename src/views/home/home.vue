@@ -2,13 +2,9 @@
   <div id="home">
     <a-layout id="components-layout-demo-custom-trigger">
       <isnav :iscollapsed="collapsed"></isnav>
-
       <a-layout >
         <ishead @tocollapsed="getcollapsed"></ishead>
-
         <a-layout-content class='scroller '>
-
-    
           <keep-alive :include="isinclude">
             <router-view v-if="isRouterShow"></router-view>
           </keep-alive>
