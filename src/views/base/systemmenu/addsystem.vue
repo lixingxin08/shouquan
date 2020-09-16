@@ -4,23 +4,25 @@
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu">上级名称:</div>
+        <div class='edit_a_input_menu'>
+          <a-input v-model='parentName' disabled placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        </div>
 
-        <div class='edit_a_input_menu' style="background-color:#f5f5f5 ;border: 1px solid #dcdcdc;">{{cacheData.parentName?cacheData.parentName:parentName}}</div>
         <div class="edit_item_menu_toast">注：不可选</div>
       </div>
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>菜单名称:</div>
-		<div  class='edit_a_input_menu'>
-        <a-input  v-model='menuName' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-</div>
-      </div>
-      <div class="flexrow flexac edit_item_menu">
-        <div class="edit_item_menu_title3_menu">菜单等级:</div>
-        <div  class='edit_a_input_menu'>
-                <a-input  v-model='grade' disabled placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        <div class='edit_a_input_menu'>
+          <a-input v-model='menuName' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
         </div>
       </div>
       <div class="flexrow flexac edit_item_menu">
+        <div class="edit_item_menu_title3_menu">菜单等级:</div>
+        <div class='edit_a_input_menu'>
+          <a-input v-model='grade' disabled placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        </div>
+      </div>
+      <div class="flexrow flexac edit_item_menu" v-if="(grade-1)==3">
         <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>菜单类型:</div>
         <a-radio-group :options="menuTypeList" :default-value="menuValue" @change="onChange1" />
         <br />
@@ -36,15 +38,8 @@
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>菜单图标:</div>
         <div class="isupload">
-          <a-upload
-            name="avatar"
-            list-type="picture-card"
-            class="avatar-uploader"
-            :show-upload-list="false"
-            action="http://192.168.3.101:8808/upload"
-            :before-upload="beforeUpload"
-            @change="handleChangeImage"
-          >
+          <a-upload name="avatar" list-type="picture-card" class="avatar-uploader" :show-upload-list="false" action="http://192.168.3.101:8808/upload"
+            :before-upload="beforeUpload" @change="handleChangeImage">
             <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
             <div v-else>
               <a-icon :type="loading ? 'loading' : 'plus'" />
@@ -109,16 +104,16 @@
     components: {
       isAdd: isAdd
     },
-      inject:['reload'],
+    inject: ['reload'],
     data() {
       return {
         dictionaryColumns: tableTitleData.data.adddictionaryColumns,
-        menuValue: '子系统', //菜单类型
+        menuValue: '页签', //菜单类型
         menuName: '', //菜单名称
         menuType: 1000, //菜单类型
         remark: '', //备注
         num: 0, //描述长度
-        menuTypeList: ['子系统', '子栏目', '子菜单', '页签', '按钮'],
+        menuTypeList: ['页签', '按钮'], //'子系统', '子栏目', '子菜单',  测试提不需要加
         empowerDefault: '默认拥有类',
         empowerList: [{
             key: 0,
@@ -177,6 +172,7 @@
         this.num = this.remark.length
       },
       async getMenuInfo() { //获取菜单信息
+
         let param = {
           menuId: this.menuId
         }
@@ -189,10 +185,13 @@
       setShowData() { //设置数据
         this.menuName = this.cacheData.menuName
         this.remark = this.cacheData.remark
+this.authList=this.cacheData.authList
         if (this.isAdd == 'true') {
           this.menuName = ''
           this.remark = ''
+          this.authList = []
         }
+        this.num = this.remark.length
       },
 
       confirmDelete(index) {
@@ -265,25 +264,29 @@
           this.$message.warning('菜单名称不能为空');
           return
         }
-         if (!this.imageUrl) {
-           this.$message.warning('菜单图标不能为空');
-           return
-         }
+        this.imageUrl = 'dd'
+        if (!this.imageUrl) {
+          this.$message.warning('菜单图标不能为空');
+          return
+        }
         if (this.authList.length <= 0) {
           this.$message.warning('鉴权接口不能为空');
           return
         }
-
+        if (!this.menuType && (this.grade-1) == 3) {
+          this.$message.warning('请选择菜单类型');
+          return
+        }
         let param = {
           menuId: this.isAdd == 'true' ? '' : this.menuId,
           parentId: this.isAdd == 'true' ? this.menuId : this.cacheData.parentId,
           menuName: this.menuName,
           menuType: this.menuType,
           authFlag: this.authFlag,
-          menuIcon: '未填',
+          menuIcon: this.imageUrl,
           grade: this.grade,
           operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
-          authList: this.authList,
+          hiddenURL: JSON.stringify(this.authList),
           remark: this.remark
         }
 
@@ -299,10 +302,9 @@
         for (let i = 0; i < this.authList.length; i++) {
           let item = this.authList[i]
 
-         item.defaultFlag =(index == i) ? 1 : 0
+          item.defaultFlag = (index == i) ? 1 : 0
           this.$set(this.authList, i, item)
         }
-      //  console.log(this.authList)
       }
     },
   }

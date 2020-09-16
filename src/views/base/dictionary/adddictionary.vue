@@ -4,36 +4,36 @@
       <div class="flexrow flexac edit_item_dic">
         <div class="edit_item_dic_title3_dic">上级名称:</div>
         <div class='edit_a_input_dic'>
-          <a-input v-model='parentName' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input v-model='parentName' disabled placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
         </div>
         <div class="edit_item_dic_toast">注：不可选</div>
       </div>
       <div class="flexrow flexac edit_item_dic">
         <div class="edit_item_dic_title3_dic">上级代码:</div>
         <div class='edit_a_input_dic'>
-          <a-input v-model='parentCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input v-model='parentCode' disabled placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
         </div>
         <div class="edit_item_dic_toast">注：不可选</div>
       </div>
       <div class="flexrow flexac edit_item_dic">
         <div class="edit_item_dic_title3_dic"><a style="color: #FF0000;">*</a>字典名称:</div>
         <div class='edit_a_input_dic'>
-          <a-input v-model='className' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input v-model='className' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
         </div>
 
-        <div class="edit_item_dic_toast">注：区划名字不超过30个字</div>
+        <div class="edit_item_dic_toast">注：字典名称</div>
       </div>
       <div class="flexrow flexac edit_item_dic">
         <div class="edit_item_dic_title3_dic"><a style="color: #FF0000;">*</a>字典代码:</div>
         <div class='edit_a_input_dic'>
-          <a-input v-model='classCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input v-model='classCode' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
         </div>
 
       </div>
       <div class="flexrow flexac edit_item_dic">
         <div class="edit_item_dic_title3_dic">字典等级:</div>
         <div class='edit_a_input_dic'>
-          <a-input v-model='grade' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input v-model='grade' disabled placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
         </div>
       </div>
       <div class="flexrow flexac edit_item_dic">
@@ -50,7 +50,8 @@
       </div>
       <div v-if="isAdd!='true'" class="flexrow edit_item_dic_title3_dic" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">数值列表</div>
 
-      <a-table v-if="isAdd!='true'" :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true' size='small'>
+      <a-table v-if="isAdd!='true'" :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true'
+        size='small'>
         <template v-for="col in ['className', 'classCode', 'remark']" :slot="col" slot-scope="text, record, index">
           <div :key="col">
             <a-input style="margin: -5px 0;border: 0px;" :value="text" @change="e => handleChange(e.target.value, index, col)" />
@@ -97,7 +98,6 @@
         cacheData: {}, //编辑缓存的原始数据
         szList: [], //数值列表
         dictid: '', //页面传的字典id
-
         isAdd: false, //是否是添加/编辑
         showAddDialog: false //是否展示添加dialog
       }
@@ -136,6 +136,7 @@
         this.parentName = this.cacheData.parentName; //上级名称
         this.parentCode = this.cacheData.parentCode; //上级代码
         this.remark = this.cacheData.remark; //字典描述
+        this.congigmidLenght=this.remark.length
         if (this.isAdd == 'true') { //如果是新增
           this.classCode = "";
           this.className = "";
@@ -196,7 +197,8 @@
         let res = await this.$http.post(this.$api.dictionaryform, param);
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
-          //this.$router.go(-1)
+          if (this.isAdd == 'true')
+            this.$router.go(-1)
           if (num)
             this.getDictionaryInfo(this.dictid);
         } else {

@@ -36,7 +36,7 @@
     height: 492px;
     position: relative;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -95%);
     border: 1px solid #000;
     border-radius: 8px;
     background-color: #fff;

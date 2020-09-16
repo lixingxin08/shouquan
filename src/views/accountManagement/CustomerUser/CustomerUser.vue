@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialogcuser v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogcuser>
+    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog >
     <is-edit-pass-word v-if="visiblePass" @confirmPass="confirmPass" @cancle='cancelPass'></is-edit-pass-word>
   </div>
 </template>

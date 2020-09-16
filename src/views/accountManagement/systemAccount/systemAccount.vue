@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialogsys v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogsys>
+    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
     <is-edit-pass-word v-if="visiblePass" @confirmPass="confirmPass" @cancle='cancelPass'></is-edit-pass-word>
   </div>
 </template>
