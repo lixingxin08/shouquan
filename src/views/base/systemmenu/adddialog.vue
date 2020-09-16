@@ -20,7 +20,11 @@
         <div class="item-title_menu">是否默认：</div>
         <a-switch v-model='item.defaultFlag==1' @change="onChangeSwitch"></a-switch>
       </div>
-      <a-button type='primary' style='margin-top: 120px;margin-bottom: 30px;' @click='submit'>确定</a-button>
+      <div class="flexrow flexjc" style='margin-top: 120px;margin-bottom: 30px;'>
+        <a-button type='primary' @click='submit'>确定</a-button>
+        <a-button style='margin-left: 30px;' @click='reset'>重置</a-button>
+      </div>
+
     </div>
   </div>
 </template>
@@ -30,21 +34,24 @@
     data() {
       return {
         item: {
-          defaultFlag:0
+          defaultFlag: 0
         },
+        cacheItem: {},
         index: -1
       }
     },
     methods: {
 
       setItem(item, index) {
-
+        localStorage.setItem('systemitem', JSON.stringify(item))
         this.item = item
         this.index = index
-        console.log(item)
       },
       onChangeSwitch(checked) {
-      this.item.defaultFlag=checked?1:0
+        this.item.defaultFlag = checked ? 1 : 0
+      },
+      reset() {
+        this.item = JSON.parse(localStorage.getItem('systemitem'))
       },
       submit() {
         if (!this.item.actionName) {
@@ -55,8 +62,6 @@
           this.$message.warning('URL地址不能为空');
           return
         }
-
-
         this.$emit('callback', this.item, this.index)
       },
       closedialog() {

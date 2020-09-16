@@ -39,8 +39,6 @@ import DevicePixelRatio from './utils/device.js';
         }
         localStorage.setItem('usermsg', JSON.stringify(usermsg))
       } else {
-        let sessionid = JSON.parse(localStorage.getItem('usermsg')).iscookie || "asdkasgdkjakkj"
-        this.setCookie('session', sessionid, 10000)
       }
 
 

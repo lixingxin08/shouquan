@@ -6,7 +6,7 @@
         <div class='title_tx'>菜单名称:</div>
         <a-input maxLenght='50' v-model='keyword' placeholder="请输入菜单名称" />
 
-        <a-button type="primary"  class="title_btn" @click='getMenuData'>查询</a-button>
+        <a-button type="primary" class="title_btn" @click='getMenuData'>查询</a-button>
         <a-button @click='cleanKeyWord'>清除</a-button>
       </div>
       <a-button type="primary" @click="add">新增</a-button>
@@ -14,7 +14,7 @@
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="menuList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
-       {{(index+1)+((pagination.current-1)*10)}}
+        {{(index+1)+((pagination.current-1)*10)}}
       </template>
       <template slot="authFlag" slot-scope="text, record,index">
         <div v-if="record.authFlag==0">默认拥有类</div>
@@ -25,10 +25,12 @@
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
 
+
+          <a href="#" style='font-size: 12px;' @click="editDictionary(record)">编辑</a>
+            <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 10px;margin-right: 10px;"></div>
           <a href="#" style='color: #FF0000;font-size: 12px;' @click='showDelete(record)'>删除</a>
 
-          <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 10px;margin-right: 10px;"></div>
-          <a href="#" style='font-size: 12px;' @click="editDictionary(record)">编辑</a>
+
         </div>
       </template>
     </a-table>
@@ -55,7 +57,7 @@
           showSizeChanger: true,
           current: 1, //当前页
           page: 1, //几页
-		   size:"default",
+          size: "default",
           pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
           showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
@@ -84,7 +86,7 @@
         this.getMenuData()
       },
       async getMenuData() { //获取菜单数据
-                this.pagination.total = 0;
+        this.pagination.total = 0;
         let param = {
           keyword: this.keyword,
           parentId: this.parentItem.id,
@@ -94,9 +96,9 @@
         let res = await this.$http.post(this.$api.menupage, param);
         console.log(res)
         if (res.data.resultCode == "10000") {
-          
+
           this.menuList = res.data.data.list;
-           if(this.pagination.current==1)
+          if (this.pagination.current == 1)
             this.pagination.total = res.data.data.length;
         } else {
           this.menuList = []
@@ -110,11 +112,10 @@
         this.isShowDelete = !this.isShowDelete
       },
       showDelete(item) {
-        console.log(item)
         this.deleteItem = item
         this.isShowDelete = !this.isShowDelete
       },
-      async deletMenu(item) {//删除菜单
+      async deletMenu(item) { //删除菜单
         let param = {
           menuId: item.menuId,
         };
@@ -133,7 +134,8 @@
           path: '/addsystem',
           query: {
             add: false,
-            grade:this.parentItem.levelType+1,
+            name: this.parentItem.name,
+            grade: this.parentItem.levelType + 1,
             id: item.menuId
           }
         });
@@ -143,7 +145,7 @@
           path: '/addsystem',
           query: {
             add: true,
-            grade:this.parentItem.levelType+1,
+            grade: this.parentItem.levelType + 1,
             name: this.parentItem.name,
             id: this.parentItem.id,
           }

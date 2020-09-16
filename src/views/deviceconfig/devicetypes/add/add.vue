@@ -6,7 +6,7 @@
       <div class="flexrow flexac select_item_types_email">
         <div class="select_item_types_email_title3"><a style="color: #FF0000;">*</a>类型名称:</div>
         <div class='edit_a_input_types'>
-           <a-input  v-model='typeName' placeholder="平台" />
+           <a-input  v-model='typeName' :maxLength='50' placeholder="请输入类型名称" />
         </div>
 
         <div class="select_item_types_email_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
@@ -14,7 +14,7 @@
       <div class="flexrow flexac select_item_types_email">
         <div class="select_item_types_email_title3"><a style="color: #FF0000;">*</a>类型代码:</div>
           <div class='edit_a_input_types'>
-               <a-input  v-model='typeCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+               <a-input  v-model='typeCode':maxLength='50' placeholder="请输入类型代码" />
           </div>
 
         <div class="select_item_types_email_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
@@ -27,7 +27,6 @@
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
-        <div class="select_item_types_email_toast">注：数字字典</div>
       </div>
       <div class="flexrow flexac select_item_types_email">
         <div class="select_item_types_email_title3">类型描述:</div>
@@ -48,7 +47,7 @@
 
       <div class="flexrow flexjc" style="margin-top: 30px;margin-bottom: 100px;">
         <a-button type="primary" @click='submit'>保存</a-button>
-        <a-button style="margin-left: 60px;">重置</a-button>
+        <a-button style="margin-left: 60px;" @click='reset'>重置</a-button>
       </div>
     </div>
 
@@ -103,6 +102,7 @@
           this.typeCode = res.data.data.deviceTypeCode //设备代码
           this.selectDefault = res.data.data.serviceTypeName //业务类型
           this.remark = res.data.data.remark //描述
+          this.num=this.remark.length
           this.brandList = res.data.data.deviceBrandList //品牌列表
           if (this.brandList.length > 0) {
             this.selectedRowKeys = []
@@ -158,10 +158,7 @@
           this.$message.warning('请选择业务类别')
           return
         }
-        if (this.selectedRowKeys.length <= 0) {
-          this.$message.warning('请关联设备品牌')
-          return
-        }
+
         let param = {
           deviceTypeId: this.deviceId, //设备id
           deviceTypeName: this.typeName, //设备类型名称
@@ -190,7 +187,6 @@
       },
       /* 授权类型下拉选择*/
       handleSelectChange(e) {
-        console.log(e)
         this.serviceType = e
         this.selectDefault = e
       },
@@ -205,6 +201,19 @@
         }
         return type
       },
+      reset(){
+        this.typeName= '' //类型名称
+        this.typeCode= '' //类型代码
+        this.remark= ''//类型秒速
+        this.num= 0 //描述文字长度
+        this.selectDefault='请选择业务类别'
+        this.selectedRowKeys= []
+        if (this.deviceId) { //编辑
+          this.getDeviceInfo()
+        } else {
+          this.getBrandData()
+        }
+      }
     },
   }
 </script>
