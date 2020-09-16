@@ -59,6 +59,7 @@
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
+		   showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
       }
     },

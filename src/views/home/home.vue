@@ -2,10 +2,10 @@
   <div id="home">
     <a-layout id="components-layout-demo-custom-trigger">
       <isnav :iscollapsed="collapsed"></isnav>
-      <a-layout>
+      <a-layout style='background: #FFFFFF;margin: 20px;'>
         <ishead @tocollapsed="getcollapsed"></ishead>
         <a-layout-content
-          :style="{ margin: '20px 20px', background: '#fff', minHeight: '280px' ,minWidth:'1672px'}"
+          :style="{  minHeight: '280px' ,minWidth:'1672px'}"
         >
           <keep-alive :include="isinclude">
             <router-view v-if="isRouterShow"></router-view>
