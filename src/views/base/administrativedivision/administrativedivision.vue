@@ -1,16 +1,17 @@
 <template>
   <div class="administrativedivision">
+    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
     <div class="flex_fs">
       <div class="isleft">
-      <is-left
-        :treedata="treedata"
-        :replaceFields="replaceFields"
-        :defaultExpandedKeys="defaultExpandedKeys"
-        :defaultSelectedKeys='defaultSelectedKeys'
-        @selectdata="getselectdata"
-        @searchdata="getsearchdata"
-        v-if="showtree"
-      ></is-left>
+        <is-left
+          :treedata="treedata"
+          :replaceFields="replaceFields"
+          :defaultExpandedKeys="defaultExpandedKeys"
+          :defaultSelectedKeys="defaultSelectedKeys"
+          @selectdata="getselectdata"
+          @searchdata="getsearchdata"
+          v-if="showtree"
+        ></is-left>
       </div>
       <div>
         <div class="right">
@@ -35,9 +36,17 @@
               :pagination="pagination"
               @change="handleTableChange"
             >
+              <template
+                slot="index"
+                slot-scope="text, record,index"
+              >{{(index+1)+((pagination.current-1)*10)}}</template>
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
-                <div class="col_red ispointer" v-if="childTotal==0" @click="showdialogadmin(areaName)">
+                <div
+                  class="col_red ispointer"
+                  v-if="childTotal==0"
+                  @click="showdialogadmin(areaName)"
+                >
                   <span>删除</span>
                 </div>
                 <div class="col_gray ispointer" v-if="childTotal!==0">删除</div>
@@ -47,7 +56,6 @@
         </div>
       </div>
     </div>
-    <is-delete-dialogadmin v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogadmin>
   </div>
 </template>
 <script>
@@ -89,6 +97,10 @@ export default {
           dataIndex: "areaId",
           key: "areaId",
           ellipsis: true,
+          ellipsis: true,
+          scopedSlots: {
+            customRender: "index",
+          },
         },
         {
           width: 100,
@@ -135,7 +147,7 @@ export default {
           align: "center",
           title: "操作",
           ellipsis: true,
-           key: "1",
+          key: "1",
           dataIndex: "childTotal",
           scopedSlots: {
             customRender: "edit",
@@ -144,7 +156,7 @@ export default {
       ],
       tabledata: "",
       defaultExpandedKeys: [],
-      defaultSelectedKeys:[],
+      defaultSelectedKeys: [],
       data: "",
       pagination: {
         total: 0,
@@ -152,7 +164,7 @@ export default {
         showSizeChanger: true,
         current: 1,
         page: 1,
-         size:"default",
+        size: "default",
         pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
         showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
       },
@@ -196,21 +208,20 @@ export default {
         this.$message.error(res.data.resultMsg);
       }
       this.setdata();
-     console.log(this.treedata,66666);
-     this.isselectdata.id=this.treedata[0].pid
+      console.log(this.treedata, 66666);
+      this.isselectdata.id = this.treedata[0].pid;
       this.getareapage();
     },
 
     //行政区划分页列表接口
     async getareapage() {
- 
       this.tabletype = false;
       let prame = {
-        keyword:  this.inp_data,
+        keyword: this.inp_data,
         latitude: 0,
         list: [{}],
         longitude: 0,
-        parentId:this.isselectdata.id,
+        parentId: this.isselectdata.id,
         pageIndex: this.pagination.page,
         pageSize: this.pagination.pageSize,
         remark: "",
@@ -224,29 +235,36 @@ export default {
         }
         this.istotal.type++;
         this.tabletype = true;
-      }else{
+      } else {
+          this.tabletype = true;
+        this.tabledata =""
+       
         return this.$message.error(res.data.resultMsg);
       }
+      
     },
     //行政区划删除接口
     async getarearemove() {
       let res = await this.$http.post(this.$api.arearemove, this.removeparam);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.getareapage()
+        this.getareapage();
         this.visible = false;
       } else {
-    return    this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
-    confirm() {
-      this.visible = false;
-    },
     toadd(val, id) {
+      console.log(this.isselectdata, 898989);
       if (val == "add") {
+        if (this.isselectdata.levelType>=6) {
+          return  this.$message.error("只能新增区划等级5级及5级以下的区域")
+        }
         if (this.isselectdata.id == "") {
           this.isselectdata.id = this.treedata[0].id;
           this.isselectdata.name = this.treedata[0].name;
+          this.isselectdata.levelType = this.treedata[0].levelType;
+          this.isselectdata.pid = this.treedata[0].pid;
         }
         this.$router.push({
           path: "/addadministrativedivision",
@@ -254,6 +272,8 @@ export default {
             type: val,
             id: this.isselectdata.id,
             name: this.isselectdata.name,
+            levelType: this.isselectdata.levelType,
+            pid: this.isselectdata.pid,
           },
         });
       } else {
@@ -262,6 +282,9 @@ export default {
           query: {
             type: val,
             id: id.areaId,
+            name: id.name,
+            levelType: id.levelType,
+            pid: id.pid,                
           },
         });
       }
@@ -296,11 +319,14 @@ export default {
         }
       }
       this.treedata = this.toTree(this.data);
-      console.log(this.treedata,222222222);
-       this.defaultSelectedKeys=[]
-      this.defaultSelectedKeys.push(this.treedata[0].id)
-      console.log(this.defaultSelectedKeys,544444);
-        this.showtree = true;
+      console.log(this.treedata, 222222222);
+      this.defaultSelectedKeys = [];
+      this.defaultSelectedKeys.push(this.treedata[0].id);
+      this.isselectdata.id = this.treedata[0].id;
+      this.isselectdata.name = this.treedata[0].name;
+      this.isselectdata.pid = this.treedata[0].pid;
+      this.isselectdata.levelType = this.treedata[0].levelType;
+      this.showtree = true;
     },
     //获取树搜索数据
     getsearchdata(val) {
@@ -331,18 +357,18 @@ export default {
       this.isselectdata.id = val.id;
       this.isselectdata.name = val.name;
       this.isselectdata.pid = val.pid;
+      this.isselectdata.levelType = val.levelType;
+
       this.istotal.type = 1;
-      this.inp_data=""
+      this.inp_data = "";
       this.getareapage();
     },
     //查询
     tosearch() {
-      this.isselectdata.id = "";
-      this.isselectdata.pid = "";
+      this.isselectdata.levelType = "";
       this.istotal.type = 1;
       this.pagination.page = 1;
       this.pagination.pageSize = 10;
-      console.log(33333);
       this.getareapage();
     },
     //清除
@@ -362,6 +388,8 @@ export default {
       this.visible = false;
     },
     confirm() {
+      this.visible = false;
+      this.getareatree();
       this.getarearemove();
     },
     handleCancel(e) {

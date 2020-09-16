@@ -20,19 +20,19 @@
       <div class="left_title">警报列表</div>
       <div class="tree_box_aler">
         <is-left
-
-                :treedata="treedata"
-            :replaceFields="replaceFields"
-            :defaultExpandedKeys="defaultExpandedKeys"
-            @checkedKeys="getcheckedKeys"
-            :checkedKeys="checkedKeys"
+          :treedata="treedata"
+          :replaceFields="replaceFields"
+          :defaultExpandedKeys="defaultExpandedKeys"
+          @checkedKeys="getcheckedKeys"
+          :checkedKeys="checkedKeys"
           v-if="showtree"
         ></is-left>
       </div>
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
-          <a-textarea placeholder="Basic usage" :rows="5" />
+          <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
+          <div class="edit_number">{{remarklen}}/500</div>
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
@@ -47,9 +47,14 @@
 <script>
 import isLeft from "../../../components/tree/check_seltree.vue";
 export default {
-  inject:['reload'],
+  inject: ["reload"],
   components: {
     isLeft,
+  },
+  computed: {
+    remarklen() {
+      return this.form.remark.length;
+    },
   },
   data() {
     return {
@@ -96,7 +101,7 @@ export default {
       ],
       tabledata: [],
       treedata: "",
-          checkedKeys: [],
+      checkedKeys: [],
       replaceFields: {
         title: "name",
         key: "id",
@@ -108,14 +113,14 @@ export default {
         customerId: "",
       },
       listparam: {
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
         customerId: "",
       },
       form: {
         customerId: "",
         alarmIdList: "",
         remark: "",
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
     };
   },
@@ -139,13 +144,13 @@ export default {
         this.treeprame.customerId = this.tabledata[0].customerId;
         this.gettree();
       } else {
-      return  this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
     async getform() {
-      console.log(this.checkedKeys,55555555);
+      console.log(this.checkedKeys, 55555555);
       this.form.customerId = this.treeprame.customerId;
-       this.form.alarmIdList=this.checkedKeys
+      this.form.alarmIdList = this.checkedKeys;
       if (this.form.alarmIdList.length == 0) {
         return this.$message.error("请选择授权区域");
       }
@@ -156,7 +161,7 @@ export default {
       if (res.data.resultCode == "10000") {
         this.$message.error("授权成功");
       } else {
-      return  this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
 
@@ -170,8 +175,7 @@ export default {
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
       } else {
-
-       return this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
       this.setdata();
       this.showtree = true;
@@ -204,7 +208,7 @@ export default {
         if (this.data[i].open == true) {
           this.defaultExpandedKeys.push(this.data[i].id);
         }
-             if (this.data[i].checked == true) {
+        if (this.data[i].checked == true) {
           this.checkedKeys.push(this.data[i].id);
         }
       }
@@ -246,9 +250,9 @@ export default {
       console.log(val, 44444);
       this.form.alarmIdList = val;
     },
-    cancel(){
-      this.reload()
-    }
+    cancel() {
+      this.reload();
+    },
   },
 };
 </script>
@@ -305,6 +309,7 @@ export default {
 }
 .rb_text {
   margin-top: 20px;
+  position: relative;
 }
 .rb_b {
   margin-top: 40px;

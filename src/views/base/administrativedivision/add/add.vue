@@ -7,7 +7,7 @@
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">区划等级:</div>
-      <a-input class="edit_a_input" v-model="form.levelType"  />
+      <a-input class="edit_a_input" v-model="form.levelType" disabled />
       <div class="edit_item_toast">注：不可选</div>
     </div>
     <div class="flexrow flexac edit_item">
@@ -21,9 +21,10 @@
       <div class="edit_item_title">
         <span class="col_red">*</span>地图位置:
       </div>
-      <a-input class="edit_a_input" v-model="form.position" placeholder="在地图定位后获取" />
+      <a-input class="edit_a_input" disabled v-model="position" placeholder="在地图定位后获取" />
       <div class="edit_item_toast btn_blue mapbtn" @click="showdialogadminadd()">
-        <a-icon type="environment"></a-icon>地图定位
+        <a-icon type="environment"></a-icon>
+        <span class="positiontext">地图定位</span>
       </div>
     </div>
     <div class="flexrow flexac edit_item">
@@ -32,10 +33,11 @@
         <a-textarea
           class="edit_a_input"
           :rows="5"
+          :maxlength="256"
           placeholder="格式不限制，256个字符以内，包含标点符号"
           v-model="form.remark"
         />
-        <div class="edit_number">0/256</div>
+        <div class="edit_number">{{remarklen}}/256</div>
       </div>
       <div class="edit_item_toast">注：不可选</div>
     </div>
@@ -54,10 +56,17 @@
       <div class="dialogadminadd_c">
         <div class="flex_f dialogadminadd_c_t">
           <div>
-            <a-input placeholder="输入位置名称" id="searinp" class="dialogadminadd_inp" v-model="city" />
+            <a-input
+              placeholder="输入位置名称"
+              id="searinp"
+              class="dialogadminadd_inp"
+              @keydown.enter="getLatLngLocation()"
+              v-model="city"
+            />
           </div>
           <div class="edit_item_toast btn_blue mapbtn" @click="getLatLngLocation()">
-            <a-icon type="environment"></a-icon>地图定位
+            <a-icon type="environment"></a-icon>
+            <span class="positiontext">地图定位</span>
           </div>
         </div>
         <div id="map-container" class="map"></div>
@@ -75,26 +84,35 @@
 <script>
 import AMap from "AMap";
 export default {
-  inject:['reload'],
+  inject: ["reload"],
+  computed: {
+    remarklen() {
+      return this.form.remark.length;
+    },
+  },
   data() {
     return {
+      isimg: require("../../../../assets/icon_tc_dw.png"),
       visible: false,
       inttype: true,
       inp_data: "",
       lng: [116.397428, 39.90923],
       city: "",
       markertype: false,
+      position: "",
       marker: "",
-      form:{
+      form: {
         areaId: "",
         areaName: "",
         levelType: "",
-        position: "",
+        longitude: "",
+        latitude: "",
         remark: "",
         parentId: "",
         parentName: "",
-        operatorId:1
+        operatorId: 1,
       },
+      sourceName: "",
       areadetailprame: {
         //行政区划详情接口参数
         areaId: "",
@@ -114,9 +132,12 @@ export default {
     if (this.$route.query.type == "add") {
       this.form.parentId = this.$route.query.id;
       this.form.parentName = this.$route.query.name;
+      this.form.levelType = this.$route.query.levelType;
+      this.form.parentId = this.$route.query.pid;
     }
     if (this.$route.query.type == "edit") {
       this.areadetailprame.areaId = this.$route.query.id;
+
       this.getareadetail();
     }
   },
@@ -129,38 +150,51 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.form = res.data.data;
+        this.position = this.form.longitude + "," + this.form.latitude;
+        this.sourceName = res.data.data.areaName;
       } else {
         this.$message.error(res.data.resultMsg);
       }
       console.log(res, 8888);
     },
-        //行政区划表单接口
+    //行政区划表单接口
     async getareaform() {
-      if (this.form.areaName=="") {
-        return  this.$message.error("请输入区划名称")
+      if (this.form.areaName == "") {
+        return this.$message.error("请输入区划名称");
       }
-      if (this.form.position=="") {
-        return  this.$message.error("请输入地图位置")
+      if (
+        this.vify_cn2(this.form.areaName) == false ||
+        this.form.areaName.length < 2 ||
+        this.form.areaName > 16
+      ) {
+        return this.$message.error("区划名称格式不正确");
       }
-      this.form.operatorId="1"
+      if (this.$route.query.type == "edit") {
+        this.form.sourceName = this.sourceName;
+      }
+      if (this.position == "") {
+        return this.$message.error("请输入地图位置");
+      }
+
+      this.form.operatorId = "1";
       let res = await this.$http.post(this.$api.areaform, this.form);
       if (res.data.resultCode == "10000") {
-         this.$message.success(res.data.resultMsg);
-            this.$router.go(-1)
+        this.$message.success(res.data.resultMsg);
+        this.$router.go(-1);
       } else {
         this.$message.error(res.data.resultMsg);
       }
     },
     define() {
-      if (this.form.position == "") {
+      if (this.position == "") {
         return this.$message.error("请选择地图位置");
       } else {
-      this.visible = false;
+        this.visible = false;
       }
     },
     cancel() {
       this.visible = false;
-      this.form.position = "";
+      this.position = "";
     },
     showdialogadminadd() {
       this.visible = true;
@@ -175,64 +209,58 @@ export default {
       const map = new AMap.Map("map-container", {
         zoom: 13,
         center: _that.lng,
-        viewMode: "3D",
+        viewMode: "2D",
       });
-      map.plugin(
-        ["AMap.ToolBar", "AMap.MapType", "AMap.Geolocation"],
-        function () {
-          map.addControl(new AMap.ToolBar());
-          map.addControl(
-            new AMap.MapType({ showTraffic: false, showRoad: false })
-          );
-          const geolocation = new AMap.Geolocation({
-            // 是否使用高精度定位，默认：true
-            enableHighAccuracy: true,
-            showButton: true, // 是否显示定位按钮
-            buttonPosition: "LB", // 定位按钮的位置
-            buttonOffset: new AMap.Pixel(10, 20), // 定位按钮距离对应角落的距离
-            showMarker: true, // 是否显示定位点
-            showCircle: false, // 是否显示定位精度圈
-            circleOptions: {
-              // 定位精度圈的样式
-              strokeColor: "#0093FF",
-              noSelect: true,
-              strokeOpacity: 0.5,
-              strokeWeight: 1,
-              fillColor: "#02B0FF",
-              fillOpacity: 0.25,
-            },
-            zoomToAccuracy: true, // 定位成功后是否自动调整地图视野到定位点
-            // 设置定位超时时间，默认：无穷大
-            timeout: 10000,
-          });
+      map.plugin(["AMap.ToolBar", "AMap.Geolocation"], function () {
+        map.addControl(new AMap.ToolBar());
+        const geolocation = new AMap.Geolocation({
+          // 是否使用高精度定位，默认：true
+          enableHighAccuracy: true,
+          showButton: true, // 是否显示定位按钮
+          buttonPosition: "LB", // 定位按钮的位置
+          buttonOffset: new AMap.Pixel(10, 20), // 定位按钮距离对应角落的距离
+          showMarker: true, // 是否显示定位点
+          showCircle: false, // 是否显示定位精度圈
+          circleOptions: {
+            // 定位精度圈的样式
+            strokeColor: "#0093FF",
+            noSelect: true,
+            strokeOpacity: 0.5,
+            strokeWeight: 1,
+            fillColor: "#02B0FF",
+            fillOpacity: 0.25,
+          },
+          zoomToAccuracy: true, // 定位成功后是否自动调整地图视野到定位点
+          // 设置定位超时时间，默认：无穷大
+          timeout: 10000,
+        });
 
-          // 把定位插件加入地图实例
-          map.addControl(geolocation);
+        // 把定位插件加入地图实例
+        map.addControl(geolocation);
 
-          // 添加地图全局定位事件
-          AMap.event.addListener(geolocation, "complete", _that.onComplete); //返回定位信息
-          AMap.event.addListener(geolocation, "error", _that.onError); //返回定位出错信息
-          console.log(geolocation, 2222);
-          // 调用定位
-          if (_that.inttype == true) {
-            geolocation.getCurrentPosition();
-          }
+        // 添加地图全局定位事件
+        AMap.event.addListener(geolocation, "complete", _that.onComplete); //返回定位信息
+        AMap.event.addListener(geolocation, "error", _that.onError); //返回定位出错信息
+        console.log(geolocation, 2222);
+        // 调用定位
+        if (_that.inttype == true) {
+          geolocation.getCurrentPosition();
         }
-      );
+      });
       map.on("click", function (params) {
         console.log(params, 112);
         if (_that.markertype == true) {
           map.remove(_that.marker);
         }
-        _that.form.position = params.lnglat.lng + "," + params.lnglat.lat;
+        _that.position = params.lnglat.lng + "," + params.lnglat.lat;
+        _that.form.longitude = params.lnglat.lng;
+        _that.form.latitude = params.lnglat.lat;
         _that.marker = new AMap.Marker({
           position: new AMap.LngLat(params.lnglat.lng, params.lnglat.lat),
-          offset: new AMap.Pixel(-10, -10),
-          icon: "//vdata.amap.com/icons/b18/1/2.png", // 添加 Icon 图标 URL
+          offset: new AMap.Pixel(-23, -54),
+          icon: _that.isimg, // 添加 Icon 图标 URL
         });
-        _that.$message.success(
-          "当前经纬度为" + _that.form.position
-        );
+        _that.$message.success("当前经纬度为" + _that.position);
         map.add(_that.marker);
         _that.markertype = true;
       });
@@ -250,15 +278,14 @@ export default {
           const lnglat = result.geocodes[0].location;
           _that.lng[1] = lnglat.lat;
           _that.lng[0] = lnglat.lng;
-          _that.form.position = lnglat.lng + "," + lnglat.lat;
           this.init();
         } else {
           console.log(result);
         }
       });
     },
-    reset(){
-      this.reload()
+    reset() {
+      this.reload();
     },
 
     onComplete(e) {
@@ -309,9 +336,11 @@ export default {
   color: #999999;
 }
 .mapbtn {
-  width: 100px;
-  color: #fff!important;
-  text-align: center!important;
+  width: 100px !important;
+  color: #fff !important;
+  text-align: center !important;
+  margin-left: 16px;
+  vertical-align: middle;
 }
 
 .dialogadminadd {
@@ -320,8 +349,8 @@ export default {
   position: relative;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 1px solid #000;
   border-radius: 8px;
+  box-shadow: 0px 0px 20px 0px #ccc;
   background-color: #fff;
   z-index: 2;
 }
@@ -350,8 +379,8 @@ export default {
   margin-bottom: 20px;
 }
 .dialogadminadd_inp {
-  width: 744px;
-  height: 32px;
+  width: 724px;
+  height: 36px;
   border: 1px solid #dcdcdc;
   border-radius: 8px;
 }
@@ -361,5 +390,8 @@ export default {
 }
 .dialogadminadd_f {
   margin-top: 40px;
+}
+.positiontext {
+  margin-left: 5px;
 }
 </style>

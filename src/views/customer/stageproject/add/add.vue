@@ -1,9 +1,7 @@
 <template>
   <div class="isedit">
     <div class="flexrow flexac edit_item">
-      <div class="edit_item_title">
-        项目名称:
-      </div>
+      <div class="edit_item_title">项目名称:</div>
       <div>
         <a-input
           class="edit_a_input"
@@ -41,9 +39,11 @@
         <a-textarea
           class="edit_a_input"
           :rows="5"
+          :maxlength="500"
           placeholder="500字以内，格式不限制"
           v-model="form.contractDes"
         />
+        <div class="edit_number">{{contractDesklen}}/500</div>
       </div>
     </div>
     <div class="flexrow flexac edit_item">
@@ -130,9 +130,11 @@
         <a-textarea
           class="edit_a_input"
           :rows="5"
+          :maxlength="500"
           placeholder="500字以内，格式不限制"
           v-model="form.remark"
         />
+        <div class="edit_number">{{remarklen}}/500</div>
       </div>
     </div>
     <div class="flexrow" style="margin-top: 30px;justify-item: flex-start;margin-left: 325px;">
@@ -144,7 +146,7 @@
 
 <script>
 export default {
-   inject:['reload'],
+  inject: ["reload"],
   data() {
     return {
       sel_data: "",
@@ -160,12 +162,12 @@ export default {
         leader: "",
         linkphone: "",
         remark: "",
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       detailparam: {
         phaseId: "",
       },
-      projectName:"",
+      projectName: "",
       plainOptions: ["男", "女"],
       value1: "男",
       statusCode: [
@@ -182,11 +184,17 @@ export default {
         return true;
       }
     },
+    remarklen() {
+      return this.form.remark.length;
+    },
+    contractDesklen() {
+      return this.form.contractDes.length;
+    },
   },
   created() {
-         this.projectName = this.$route.query.name;
+    this.projectName = this.$route.query.name;
     if (this.$route.query.type == "edit") {
-      this.detailparam.phaseId = this.$route.query.id;   
+      this.detailparam.phaseId = this.$route.query.id;
       this.getdetail();
     }
   },
@@ -206,13 +214,16 @@ export default {
     },
     //运行参数表单接口
     async getform() {
-     this.form.projectId=this.$route.query.projectid
-     this.form.customerId=this.$route.query.customerId
+      this.form.projectId = this.$route.query.projectid;
+      this.form.customerId = this.$route.query.customerId;
       this.form.operatorId = 1;
-      if (new Date(this.form.startDate).getTime()>new Date(this.form.endDate).getTime()) {
-        let a=this.form.startDate
-        this.form.startDate=this.form.endDate
-        this.form.endDate=a
+      if (
+        new Date(this.form.startDate).getTime() >
+        new Date(this.form.endDate).getTime()
+      ) {
+        let a = this.form.startDate;
+        this.form.startDate = this.form.endDate;
+        this.form.endDate = a;
       }
       let res = await this.$http.post(this.$api.projectPhaseform, this.form);
       if (res.data.resultCode == "10000") {
@@ -223,7 +234,7 @@ export default {
       }
     },
     reset() {
-      this.reload()
+      this.reload();
     },
 
     handleChange(value, key) {

@@ -1,5 +1,6 @@
 <template>
   <div>
+     <is-delete-dialog v-if="isShowDelete" @confirm='confirm' @cancle='cancel'></is-delete-dialog>
     <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
       <div class="flexrow flexac">
         <div class='title_tx'>菜单名称:</div>
@@ -31,7 +32,7 @@
         </div>
       </template>
     </a-table>
-    <is-delete-dialog v-if="isShowDelete" @confirm='confirm' @cancle='cancel'></is-delete-dialog>
+   
   </div>
 </template>
 

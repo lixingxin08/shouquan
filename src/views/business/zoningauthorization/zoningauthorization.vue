@@ -36,7 +36,8 @@
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
-          <a-textarea placeholder="Basic usage" v-model="remark" :rows="5" />
+          <a-textarea :maxlength="500" v-model="remark" :rows="5" />
+          <div class="edit_number">{{remarklen}}/500</div>
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
@@ -51,7 +52,7 @@
 <script>
 import isLeft from "../../../components/tree/seltree.vue";
 export default {
-   inject: ['reload'],
+  inject: ["reload"],
   components: {
     isLeft,
   },
@@ -87,9 +88,9 @@ export default {
         },
       ],
       tabledata: [],
-      issearchdata:"",
+      issearchdata: "",
       treedata: "",
-      filterdata:[],
+      filterdata: [],
       oldtreedata: "",
       replaceFields: {
         title: "name",
@@ -107,7 +108,7 @@ export default {
         statusCode: "",
         keyword: "",
         accountId: "",
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
         pageIndex: 1,
         pageSize: 10,
       },
@@ -118,7 +119,7 @@ export default {
       ischeck: [],
       remark: "",
       listparam: {
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
         customerId: "",
       },
 
@@ -141,6 +142,11 @@ export default {
     this.getlist();
     this.gettree();
   },
+  computed: {
+    remarklen() {
+      return this.remark.length;
+    },
+  },
   methods: {
     async getlist() {
       this.tabletype = false;
@@ -148,19 +154,19 @@ export default {
         this.$api.customeraccountmylist,
         this.listparam
       );
-      console.log(res,555555);
+      console.log(res, 555555);
       if (res.data.resultCode == "10000") {
         for (let i = 0; i < res.data.data.length; i++) {
           if (res.data.data[i].statusCode == 1) {
             this.tabledata.push(res.data.data[i]);
           }
         }
-        this.customerId=this.tabledata[0].customerId
-        this.form.customerId=this.tabledata[0].customerId
+        this.customerId = this.tabledata[0].customerId;
+        this.form.customerId = this.tabledata[0].customerId;
         this.istotal.type++;
         this.tabletype = true;
       } else {
-      return  this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
     async getform() {
@@ -171,7 +177,7 @@ export default {
         grade: "",
         parentId: "",
         remark: "",
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       };
       if (this.ischeck.length == 0) {
         return this.$message.error("请选择授权区域");
@@ -196,7 +202,7 @@ export default {
       if (res.data.resultCode == "10000") {
         this.$message.error("授权成功");
       } else {
-      return  this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
 
@@ -209,7 +215,7 @@ export default {
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
       } else {
-      return  this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
       this.setdata();
       this.showtree = true;
@@ -248,14 +254,14 @@ export default {
     },
 
     searchtree() {
-      this.treedata=this.oldtreedata  
-      if (this.issearchdata=='') {
-        return
+      this.treedata = this.oldtreedata;
+      if (this.issearchdata == "") {
+        return;
       }
-      let aa=  this.oldtreedata
-        this.setfilltertree(aa)
+      let aa = this.oldtreedata;
+      this.setfilltertree(aa);
     },
-    
+
     //过滤树搜索数据
     setfilltertree(datas) {
       let _that = this;
@@ -263,13 +269,13 @@ export default {
         let name = datas[i].name + "";
         if (name.search(_that.issearchdata) != -1) {
           _that.filterdata.push(datas[i]);
-          console.log(_that.filterdata,22222);
+          console.log(_that.filterdata, 22222);
         }
         if (datas[i].children) {
           _that.setfilltertree(datas[i].children);
         }
       }
-      console.log(this.filtersdata,111111);
+      console.log(this.filtersdata, 111111);
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
@@ -283,9 +289,9 @@ export default {
       console.log(val, 44444);
       this.ischeck = val;
     },
-    cancel(){
-this.reload()
-    }
+    cancel() {
+      this.reload();
+    },
   },
 };
 </script>
@@ -342,6 +348,7 @@ this.reload()
 }
 .rb_text {
   margin-top: 20px;
+  position: relative;
 }
 .rb_b {
   margin-top: 40px;

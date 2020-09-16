@@ -26,10 +26,13 @@
         <a-textarea
           class="edit_a_input"
           :rows="5"
+          :maxlength="500"
           placeholder="500字以内，格式不限制"
           v-model="form.contractDes"
         />
+           <div class="edit_number">{{contractDesklen}}/500</div>
       </div>
+   
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">合同期始:</div>
@@ -95,9 +98,11 @@
         <a-textarea
           class="edit_a_input"
           :rows="5"
+          :maxlength="500"
           placeholder="500字以内，格式不限制"
           v-model="form.remark"
         />
+        <div class="edit_number">{{remarklen}}/500</div>
       </div>
     </div>
     <div class="flexrow" style="margin-top: 30px;justify-item: flex-start;margin-left: 325px;">
@@ -109,7 +114,7 @@
 
 <script>
 export default {
-   inject:['reload'],
+  inject: ["reload"],
   data() {
     return {
       sel_data: "",
@@ -125,7 +130,8 @@ export default {
         leader: "",
         linkphone: "",
         remark: "",
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        contractDes:"",
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       detailparam: {
         projectId: "",
@@ -145,6 +151,12 @@ export default {
       } else {
         return true;
       }
+    },
+    remarklen() {
+      return this.form.remark.length;
+    },
+    contractDesklen() {
+      return this.form.contractDes.length;
     },
   },
   created() {
@@ -169,34 +181,36 @@ export default {
     },
     //运行参数表单接口
     async getform() {
-
       if (this.form.projectName == "") {
         return this.$message.error("请输入项目名称");
       }
       if (this.form.statusCode == "") {
         return this.$message.error("请选择项目状态");
       }
-       if (!this.vify_cn16(this.form.leader)) {
-       this.form.leader=""
-     return  this.$message.error('项目经理格式不正确')
-     }
+      if (!this.vify_cn16(this.form.leader)) {
+        this.form.leader = "";
+        return this.$message.error("项目经理格式不正确");
+      }
       if (!this.vify_cn3(this.form.projectName)) {
-       this.form.projectName=""
-     return  this.$message.error('项目名称格式不正确')
-     }
+        this.form.projectName = "";
+        return this.$message.error("项目名称格式不正确");
+      }
       if (!this.vify_cn3(this.form.contractNo)) {
-       this.form.contractNo=""
-     return  this.$message.error('合同编号格式不正确')
-     }
+        this.form.contractNo = "";
+        return this.$message.error("合同编号格式不正确");
+      }
       if (!this.verPhone(this.form.linkphone)) {
-       this.form.linkphone=""
-     return  this.$message.error('联系手机格式不正确')
-     }
+        this.form.linkphone = "";
+        return this.$message.error("联系手机格式不正确");
+      }
       this.form.operatorId = 1;
-      if (new Date(this.form.startDate).getTime()>new Date(this.form.endDate).getTime()) {
-        let a=this.form.startDate
-        this.form.startDate=this.form.endDate
-        this.form.endDate=a
+      if (
+        new Date(this.form.startDate).getTime() >
+        new Date(this.form.endDate).getTime()
+      ) {
+        let a = this.form.startDate;
+        this.form.startDate = this.form.endDate;
+        this.form.endDate = a;
       }
       let res = await this.$http.post(this.$api.projectform, this.form);
       if (res.data.resultCode == "10000") {
@@ -207,8 +221,7 @@ export default {
       }
     },
     reset() {
-      this.reload()
-  
+      this.reload();
     },
 
     handleChange(value, key) {

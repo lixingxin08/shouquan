@@ -34,9 +34,10 @@
   .dialogdel {
     width: 920px;
     height: 492px;
-    position: relative;
+    position: absolute;
     left: 50%;
-    transform: translate(-50%, -50%);
+    top: 250px;
+    transform: translate(-50%);
     border: 1px solid #000;
     border-radius: 8px;
     background-color: #fff;

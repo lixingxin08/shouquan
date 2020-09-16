@@ -16,7 +16,7 @@
       <div class="edit_item_title">
         <span class="col_red">*</span>客户简称:
       </div>
-      <a-input class="edit_a_input" v-model="form.shortName"  :maxLength="10" placeholder="请输入客户简称" />
+      <a-input class="edit_a_input" v-model="form.shortName" :maxLength="10" placeholder="请输入客户简称" />
       <div class="edit_item_toast">注:10字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
     </div>
     <div class="flexrow flexac edit_item">
@@ -31,9 +31,8 @@
           :show-upload-list="false"
           action="http://192.168.3.101:8808/upload"
           :before-upload="beforeUpload"
-          :headers='istoken'
+          :headers="istoken"
           @change="handleChange"
-           
         >
           <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
           <div v-else>
@@ -93,9 +92,11 @@
         <a-textarea
           class="edit_a_input"
           :rows="5"
+          :maxlength="500"
           placeholder="500字以内，格式不限制"
           v-model="form.remark"
         />
+        <div class="edit_number">{{remarklen}}/500</div>
       </div>
     </div>
     <div class="flexrow" style="margin-top: 30px;justify-item: flex-start;margin-left: 325px;">
@@ -112,10 +113,17 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 }
 export default {
-   inject:['reload'],
+  inject: ["reload"],
+  computed: {
+    remarklen() {
+      return this.form.remark.length;
+    },
+  },
   data() {
     return {
-      istoken:{token:JSON.parse(localStorage.getItem('usermsg')).token||""},
+      istoken: {
+        token: JSON.parse(localStorage.getItem("usermsg")).token || "",
+      },
       loading: false,
       imageUrl: "",
       sel_data: [
@@ -135,7 +143,7 @@ export default {
         position: "",
         statusCode: "",
         remark: "",
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       detailparam: {
         customerId: "",
@@ -171,38 +179,38 @@ export default {
     //表单接口
     async getform() {
       this.form.operatorId = 1;
-     if (!this.vify_cn3(this.form.customerName)) {
-       this.form.customerName=""
-     return  this.$message.error('客户全称格式不正确')
-     }
-     if (this.form.customerName=="") {
-     return  this.$message.error('请输入客户全称')
-     }
-     if (!this.vify_cn3(this.form.shortName)) {
-       this.form.shortName=""
-     return  this.$message.error('客户简称格式不正确')
-     }
-      if (this.form.shortName=="") {
-     return  this.$message.error('请输入客户简称')
-     }
-       if (this.form.customerLogo=="") {
-     return  this.$message.error('请选择客户logo')
-     }
-       if (this.form.statusCode=="") {
-     return  this.$message.error('请选择客户状态')
-     }
+      if (!this.vify_cn3(this.form.customerName)) {
+        this.form.customerName = "";
+        return this.$message.error("客户全称格式不正确");
+      }
+      if (this.form.customerName == "") {
+        return this.$message.error("请输入客户全称");
+      }
+      if (!this.vify_cn3(this.form.shortName)) {
+        this.form.shortName = "";
+        return this.$message.error("客户简称格式不正确");
+      }
+      if (this.form.shortName == "") {
+        return this.$message.error("请输入客户简称");
+      }
+      if (this.form.customerLogo == "") {
+        return this.$message.error("请选择客户logo");
+      }
+      if (this.form.statusCode == "") {
+        return this.$message.error("请选择客户状态");
+      }
       if (!this.vify_cn(this.form.linkman)) {
-       this.form.linkman=""
-     return  this.$message.error('联系人姓名格式不正确')
-     }
+        this.form.linkman = "";
+        return this.$message.error("联系人姓名格式不正确");
+      }
       if (!this.verPhone(this.form.linkphone)) {
-       this.form.linkphone=""
-     return  this.$message.error('联系人手机号码格式不正确')
-     }
+        this.form.linkphone = "";
+        return this.$message.error("联系人手机号码格式不正确");
+      }
       if (!this.vify_cn(this.form.position)) {
-       this.form.position=""
-     return  this.$message.error('联系人职务格式不正确')
-     }
+        this.form.position = "";
+        return this.$message.error("联系人职务格式不正确");
+      }
 
       let res = await this.$http.post(this.$api.informationform, this.form);
       if (res.data.resultCode == "10000") {
@@ -213,7 +221,7 @@ export default {
       }
     },
     reset() {
-     this.reload()
+      this.reload();
     },
     handleChange(info) {
       if (info.file.status === "uploading") {

@@ -12,8 +12,10 @@
       <a-breadcrumb-item>
          <div class="flex_f">
            <div class="head_r"></div>
-           <div class="head_r">返回首页</div>
-           <!-- <div class="head_r head_r_last"><img src="../../assets/nav_img/user.png" alt="" class="head_r_img">{{user.realName}}</div> -->
+           <div class="head_r">
+             <router-link to="/">返回首页</router-link>
+           </div>
+           <div class="head_r head_r_last"><img src="../../assets/nav_img/user.png" alt="" class="head_r_img">{{user.realName}}</div>
          </div>
       </a-breadcrumb-item>
     </a-breadcrumb>

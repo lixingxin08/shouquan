@@ -40,13 +40,15 @@
         <a-textarea
           class="edit_a_input"
           :rows="5"
+          :maxlength="500"
           placeholder="500字以内，格式不限制"
           v-model="form.remark"
         />
+        <div class="edit_number">{{remarklen}}/500</div>
       </div>
     </div>
     <div class="flexrow flexac edit_item">
-      <div class="edit_item_title">模板描述:</div>
+      <div class="edit_item_title">权限配置:</div>
       <div style="position: relative;">
         <div class="templatetree edit_item_tree">
           <div class="flex_f templatetree_sel">
@@ -71,16 +73,16 @@
             </div>
           </div>
           <div>
-          <is-left
-            :treedata="treedata"
-            :replaceFields="replaceFields"
-            :defaultExpandedKeys="defaultExpandedKeys"
-            :checkedKeys="checkedKeys"
-            @checkedKeys="getcheckedKeys"
-            @selectdata="getselectdata"
-            :selectable='true'
-            v-if="showtree"
-          ></is-left>
+            <is-left
+              :treedata="treedata"
+              :replaceFields="replaceFields"
+              :defaultExpandedKeys="defaultExpandedKeys"
+              :checkedKeys="checkedKeys"
+              @checkedKeys="getcheckedKeys"
+              @selectdata="getselectdata"
+              :selectable="true"
+              v-if="showtree"
+            ></is-left>
           </div>
         </div>
       </div>
@@ -107,14 +109,14 @@ export default {
         statusCode: "",
         remark: "",
         menuList: [],
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       replaceFields: {
         title: "name",
         key: "id",
       },
       defaultExpandedKeys: [],
-      checkedKeys:[],
+      checkedKeys: [],
       treedata: "",
       oldtreedata: "",
       detailparam: {
@@ -139,6 +141,9 @@ export default {
       } else {
         return true;
       }
+    },
+    remarklen() {
+      return this.form.remark.length;
     },
   },
   created() {
@@ -176,16 +181,16 @@ export default {
         this.setdata();
         this.showtree = true;
       } else {
-       return this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
       console.log(res, 8888);
     },
     //表单接口
     async getform() {
-       if (!this.vify_cn(this.form.templateName)) {
-       this.form.templateName=""
-     return  this.$message.error('模板名称格式不正确')
-     }
+      if (!this.vify_cn(this.form.templateName)) {
+        this.form.templateName = "";
+        return this.$message.error("模板名称格式不正确");
+      }
       if (this.form.templateName == "") {
         return this.$message.error("请输入模板名称");
       }
@@ -201,7 +206,7 @@ export default {
         this.$message.success(res.data.resultMsg);
         this.$router.go(-1);
       } else {
-     return   this.$message.error(res.data.resultMsg);
+        return this.$message.error(res.data.resultMsg);
       }
     },
     reset() {
@@ -214,7 +219,7 @@ export default {
     handleChange2(value, key) {
       console.log(this.treeprame.templateId, 88);
       this.showtree = false;
-        this.treedata = this.oldtreedata;
+      this.treedata = this.oldtreedata;
       if (this.treeprame.templateId == "all") {
         this.treedata = this.oldtreedata;
       } else {
@@ -257,7 +262,7 @@ export default {
         if (this.data[i].open == true) {
           this.defaultExpandedKeys.push(this.data[i].id);
         }
-         if (this.data[i].checked == true) {
+        if (this.data[i].checked == true) {
           this.checkedKeys.push(this.data[i].id);
         }
       }
@@ -328,7 +333,7 @@ export default {
   color: #999999;
   margin-left: 20px;
 }
-.edit_item_tree{
+.edit_item_tree {
   min-height: 300px;
 }
 .edit_a_input {

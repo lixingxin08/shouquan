@@ -1,5 +1,6 @@
 <template>
   <div class="content2">
+       <is-delete-dialog v-if="visible" @confirm='confirmDialog' @cancle='cancelDialog'></is-delete-dialog>
     <div class="flexcolumn" v-for="(item,index) in groups" :key='index'>
       <div class="flexrow flexac" style="margin-top: 10px;margin-bottom: 10px;">
         <div class="edit_item_title3"><a style="color: #FF0000;">*</a>属性分组:</div>
@@ -34,7 +35,7 @@
     <div class="flexrow flexjc flexac addbtn" @click="add">
       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增分组
     </div>
-    <is-delete-dialog v-if="visible" @confirm='confirmDialog' @cancle='cancelDialog'></is-delete-dialog>
+ 
   </div>
 </template>
 

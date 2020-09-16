@@ -1,5 +1,6 @@
 <template>
   <div class="administrativedivision">
+     <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
     <div class="flex_fs">
       <div>
         <div class="right">
@@ -54,7 +55,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialogrunn v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogrunn>
+   
   </div>
 </template>
 <script>
@@ -183,7 +184,7 @@ export default {
       if (res.data.resultCode == "10000") {
         this.sel_data = res.data.data;
       } else {
-        this.$message.error(res.data.resultMsg);
+        // this.$message.error(res.data.resultMsg);
       }
     },
 
@@ -222,9 +223,6 @@ export default {
       } else {
         this.$message.error(res.data.resultMsg);
       }
-    },
-    confirm() {
-      this.visible = false;
     },
     toadd(val, id) {
       localStorage.setItem("sel", JSON.stringify(this.sel_data));
@@ -270,6 +268,7 @@ export default {
       this.visible = false;
     },
     confirm() {
+        this.visible = false;
       this.getarunremove();
     },
     handleCancel(e) {

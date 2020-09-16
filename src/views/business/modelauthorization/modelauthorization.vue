@@ -47,7 +47,8 @@
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
-          <a-textarea placeholder="Basic usage" :rows="5" />
+          <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
+          <div class="edit_number">{{remarklen}}/500</div>
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
@@ -66,8 +67,14 @@ export default {
   components: {
     isLeft,
   },
+    computed: {
+    remarklen() {
+      return this.form.remark.length;
+    },
+  },
   data() {
     return {
+      remark:"",
      isdefaultChecked :'路灯控制器NB版',
       rowSelection: {
          getCheckboxProps: record => ({
@@ -437,6 +444,7 @@ export default {
 }
 .rb_text {
   margin-top: 20px;
+  position: relative;
 }
 .rb_b {
   margin-top: 40px;

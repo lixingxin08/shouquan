@@ -1,21 +1,16 @@
 <template>
   <div class="isedit">
-
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
         <span class="col_red">*</span>部门名称:
       </div>
       <a-input class="edit_a_input" v-model="form.departmentName" placeholder="请输入部门名称" />
-         <div class="edit_item_toast">注:2-16个字，支持中英文</div>
+      <div class="edit_item_toast">注:2-16个字，支持中英文</div>
     </div>
     <div class="flexrow flexac edit_item">
-      <div class="edit_item_title">
-        上级部门:
-      </div>
+      <div class="edit_item_title">上级部门:</div>
       <a-input class="edit_a_input" v-model="form.parentName" disabled />
-     
     </div>
-
 
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">部门介绍:</div>
@@ -23,9 +18,11 @@
         <a-textarea
           class="edit_a_input"
           :rows="5"
+          :maxlength="500"
           placeholder="500字以内，格式不限制"
           v-model="form.introduce"
         />
+        <div class="edit_number">{{remarklen}}/500</div>
       </div>
     </div>
     <div class="flexrow" style="margin-top: 30px;justify-item: flex-start;margin-left: 325px;">
@@ -38,17 +35,22 @@
 <script>
 import AMap from "AMap";
 export default {
-   inject:['reload'],
+  inject: ["reload"],
+  computed: {
+    remarklen(){
+      return this.form.introduce.length
+    }
+  },
   data() {
     return {
       sel_data: "",
       form: {
-        departmentId:"",
-        departmentName:"",
-        parentId:"",
-        introduce:"",
-        gradeno:"",
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        departmentId: "",
+        departmentName: "",
+        parentId: "",
+        introduce: "",
+        gradeno: "",
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       detailparam: {
         departmentId: "",
@@ -61,7 +63,6 @@ export default {
       this.form.parentName = this.$route.query.name;
       this.form.parentId = this.$route.query.id;
       this.form.gradeno = this.$route.query.levelType;
-
     }
     if (this.$route.query.type == "edit") {
       this.detailparam.departmentId = this.$route.query.id;
@@ -71,7 +72,10 @@ export default {
   methods: {
     //详情接口
     async getdetail() {
-      let res = await this.$http.post(this.$api.departmentdetail,this.detailparam);
+      let res = await this.$http.post(
+        this.$api.departmentdetail,
+        this.detailparam
+      );
       if (res.data.resultCode == "10000") {
         this.form = res.data.data;
         this.form.realName = res.data.data.realName;
@@ -83,13 +87,13 @@ export default {
     //表单接口
     async getform() {
       this.form.operatorId = 1;
-         if (this.form.departmentName=="") {
-     return  this.$message.error('请输入部门名称')
-     }
+      if (this.form.departmentName == "") {
+        return this.$message.error("请输入部门名称");
+      }
       if (!this.vify_cn16(this.form.departmentName)) {
-       this.form.departmentName=""
-     return  this.$message.error('部门名称格式不正确')
-     }
+        this.form.departmentName = "";
+        return this.$message.error("部门名称格式不正确");
+      }
       let res = await this.$http.post(this.$api.departmentform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
@@ -99,7 +103,7 @@ export default {
       }
     },
     reset() {
-       this.reload()
+      this.reload();
     },
 
     onComplete(e) {

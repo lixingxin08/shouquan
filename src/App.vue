@@ -20,7 +20,7 @@
     },
     false
   );
-
+import DevicePixelRatio from './utils/device.js';
   export default {
 
     name: "App",
@@ -29,6 +29,8 @@
         zhCN,
         ivews: "login,home" //缓存组件
       }
+    },
+    created() {
     },
     mounted() {
       if (window.location.host.indexOf("localhost") >= 0) {//本地测试
@@ -65,6 +67,8 @@
     text-align: center;
     color: #2c3e50;
     font-size: 12px;
+    min-width: 1920px;
     height: 100%;
+    overflow: scroll;
   }
 </style>

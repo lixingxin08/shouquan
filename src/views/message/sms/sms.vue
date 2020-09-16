@@ -1,6 +1,6 @@
 <template>
   <div class="content2">
-
+  <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
 
           <div class="r_top flex_f">
             <div class="r_t_text" @click="showdialogsms()">短信帐号别名:</div>
@@ -30,7 +30,7 @@
             </a-popconfirm>
           </div>
         </a-table>
-    <is-delete-dialogsms v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogsms>
+  
   </div>
 </template>
 <script>

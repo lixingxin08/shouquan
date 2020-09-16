@@ -1,5 +1,6 @@
 <template>
   <div class="administrativedivision">
+        <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
     <div class="flex_fs">
       <div>
         <div class="right">
@@ -49,7 +50,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialogproj v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogproj>
+
   </div>
 </template>
 <script>

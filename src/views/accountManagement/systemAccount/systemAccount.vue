@@ -1,5 +1,6 @@
 <template>
   <div class="content2">
+       <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
     <div class="flex_fs">
       <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys"
         @selectdata="getselectdata" @searchdata="getsearchdata" v-if="showtree"></is-left>
@@ -45,7 +46,7 @@
         </div>
       </div>
     </div>
-    <is-delete-dialogsys v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialogsys>
+ 
     <is-edit-pass-word v-if="visiblePass" @confirmPass="confirmPass" @cancle='cancelPass'></is-edit-pass-word>
   </div>
 </template>
