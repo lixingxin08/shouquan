@@ -29,7 +29,7 @@
           <a-popconfirm v-if='record.alarmTotal<=0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
-          <div v-else style="color: #999999;font-size: 12px;">
+          <div v-else style="color: #CCCCCC;font-size: 12px;">
             删除
           </div>
         </div>
