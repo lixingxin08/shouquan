@@ -31,13 +31,17 @@
       </div>
       <div class="flexrow flexac edit_item_model">
         <div class="edit_item_model_title3"><a style="color: #FF0000;">*</a>型号名称:</div>
-<div class='edit_a_input_model'><a-input  v-model='modelName' placeholder="请输入您选择的型号名称" /></div>
+        <div class='edit_a_input_model'>
+          <a-input v-model='modelName' :maxLength='50' placeholder="请输入您选择的型号名称" />
+        </div>
 
         <div class="edit_item_model_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item_model">
         <div class="edit_item_model_title3"><a style="color: #FF0000;">*</a>型号代码:</div>
-        <div class='edit_a_input_model'> <a-input  v-model='modelCode' placeholder="请输入您选择的型号代码" /></div>
+        <div class='edit_a_input_model'>
+          <a-input :maxLength='50' v-model='modelCode' placeholder="请输入您选择的型号代码" />
+        </div>
 
         <div class="edit_item_model_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
@@ -53,23 +57,17 @@
       <div class="flexrow flexac edit_item_model">
         <div class="edit_item_model_title3">备注信息:</div>
         <div style="position: relative;width: 667px;">
-          <a-textarea class='edit_a_input_model' :rows="5" v-model='remark' :maxLength='250' placeholder="请输入描述" @change="onChangeConfig" />
-          <div class="edit_number">{{num}}/250</div>
+          <a-textarea class='edit_a_input_model' :rows="5" v-model='remark' :maxLength='250' placeholder="请输入描述"
+            @change="onChangeConfig" />
+          <div class="edit_number">{{remark.length}}/250</div>
         </div>
       </div>
 
       <div class="flexrow flexac edit_item_model">
         <div class="edit_item_model_title3">设备图标:</div>
         <div class="isupload">
-          <a-upload
-            name="avatar"
-            list-type="picture-card"
-            class="avatar-uploader"
-            :show-upload-list="false"
-            action="http://192.168.3.101:8808/upload"
-            :before-upload="beforeUpload"
-            @change="handleChange"
-          >
+          <a-upload name="avatar" list-type="picture-card" class="avatar-uploader" :show-upload-list="false" action="http://192.168.3.101:8808/upload"
+            :before-upload="beforeUpload" @change="handleChange">
             <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
             <div v-else>
               <a-icon :type="loading ? 'loading' : 'plus'" />
@@ -141,7 +139,7 @@
 
       this.getCombobox('device_service_type')
       this.getCombobox('device_communication_mode')
-      this.getBrandList()
+
       this.Id = this.$route.query.id
       if (this.Id) { //编辑
         this.getModelInfo();
@@ -166,8 +164,8 @@
           this.severSelect = res.data.data.serviceTypeName
           this.modelName = res.data.data.modelName
           this.modelCode = res.data.data.modelCode
-          this.imageUrl=res.data.data.imageJson
-          this.remark = res.data.data.remark
+          this.imageUrl = res.data.data.imageJson
+          this.remark = res.data.data.remark ? res.data.data.remark : ''
           this.warningList = res.data.data.deviceAlarmList
           if (this.warningList.length > 0) {
             this.selectedRowKeys = []
@@ -264,18 +262,18 @@
 
       /* 获取品牌列表 */
       async getBrandList() {
+        this.brandList = []
         let param = {
-          pageIndex: 1,
-          pageSize: 200,
-          keyword: ''
+          deviceTypeId: this.typeSelect,
         }
-        let res = await this.$http.post(this.$api.devicebrandspage, param)
+        let res = await this.$http.post(this.$api.devicetypebrandlistbyid, param)
         if (res.data.resultCode == 10000) {
-          this.brandList = this.brandList.concat(res.data.data.list)
+          this.brandList = res.data.data
         }
       },
       /* 获取设备类型列表*/
       async getTypeList() {
+        this.typeList = []
         let param = {
           keyword: '',
           serviceType: this.severSelect,
@@ -326,6 +324,7 @@
       /* 设备类型下拉选择*/
       handleTypeChange(e) {
         this.typeSelect = e
+        this.getBrandList()
       },
       /* 品牌下拉选择*/
       handleBrandChange(e) {
@@ -354,36 +353,36 @@
       onChangeConfig(e) {
         this.num = this.remark.length
       },
-	  /* 上传图片*/
-	  handleChange(info) {
-	    if (info.file.status === "uploading") {
-	      this.loading = true;
-	      return;
-	    }
-	    if (info.file.status === "done") {
-	      // Get this url from response in real world.
-	      getBase64(info.file.originFileObj, (imageUrl) => {
-	        this.imageUrl = imageUrl;
-	        this.form.customerLogo = imageUrl;
-	        this.loading = false;
-	      });
-	    }
-	    console.log(this.imageUrl, 88999, info);
-	  },
-	  beforeUpload(file) {
-	    const isJpgOrPng =
-	      file.type === "image/jpeg" ||
-	      file.type === "image/png" ||
-	      file.type === "image/jpg";
-	    if (!isJpgOrPng) {
-	      this.$message.error("只能上传jpeg,jpg,png格式的图片");
-	    }
-	    const isLt2M = file.size / 1024 / 1024 < 2;
-	    if (!isLt2M) {
-	      this.$message.error("图片大小不能超过2MB!");
-	    }
-	    return isJpgOrPng && isLt2M;
-	  },
+      /* 上传图片*/
+      handleChange(info) {
+        if (info.file.status === "uploading") {
+          this.loading = true;
+          return;
+        }
+        if (info.file.status === "done") {
+          // Get this url from response in real world.
+          getBase64(info.file.originFileObj, (imageUrl) => {
+            this.imageUrl = imageUrl;
+            this.form.customerLogo = imageUrl;
+            this.loading = false;
+          });
+        }
+        console.log(this.imageUrl, 88999, info);
+      },
+      beforeUpload(file) {
+        const isJpgOrPng =
+          file.type === "image/jpeg" ||
+          file.type === "image/png" ||
+          file.type === "image/jpg";
+        if (!isJpgOrPng) {
+          this.$message.error("只能上传jpeg,jpg,png格式的图片");
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+          this.$message.error("图片大小不能超过2MB!");
+        }
+        return isJpgOrPng && isLt2M;
+      },
     },
   }
 </script>

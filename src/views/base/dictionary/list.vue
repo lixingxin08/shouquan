@@ -8,20 +8,21 @@
         <a-button type="primary" class="title_btn" @click='getDictionnaryData'>查询</a-button>
         <a-button @click='cleanTxt'>清除</a-button>
       </div>
-      <a-button type="primary" @click="add">新增</a-button>
+
     </div>
+    <a-button type="primary" style='margin-bottom: 20px;width: 68px;' @click="add">新增</a-button>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="dictonaryList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
-       
+
           <a href="#" style='font-size: 12px;' @click="editDictionary(record)">编辑</a>
              <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 20px;margin-right: 20px;"></div>
           <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
-          
+
         </div>
       </template>
     </a-table>

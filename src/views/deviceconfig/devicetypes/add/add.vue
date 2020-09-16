@@ -38,7 +38,7 @@
 
       <div class="flexrow select_item_types_email_title3" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">设备品牌</div>
 
-      <a-table :columns="dictionaryColumns" :data-source="brandList" :pagination='false' :bordered='true' size='small'
+      <a-table style='width: 50vw;' :columns="dictionaryColumns" :data-source="brandList" :pagination='false' :bordered='true' size='small'
         :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
         <template slot="index" slot-scope="text, record,index">
           {{index+1}}

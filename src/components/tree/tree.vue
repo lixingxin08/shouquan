@@ -55,8 +55,10 @@ export default {
 .istree {
   width: 100%;
   text-align: left;
-  height: 100%;
+  height: 90vh;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
   overflow-y: scroll;
 }
 .istree::-webkit-scrollbar {

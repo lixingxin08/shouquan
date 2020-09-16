@@ -7,13 +7,13 @@
       <div class="flexrow flexac edit_item_warnings">
         <div class="edit_item_warnings_title3"><a style="color: #FF0000;">*</a>警报名称:</div>
 <div class='edit_a_input_warnings'><a-input  :maxLength='50' v-model='warning.alarmName' placeholder="请输入您选择的型号名称" /></div>
-        
+
         <div class="edit_item_warnings_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item_warnings">
         <div class="edit_item_warnings_title3"><a style="color: #FF0000;">*</a>警报代码:</div>
         <div  class='edit_a_input_warnings'> <a-input :maxLength='50' v-model='warning.alarmCode' placeholder="请输入您选择的型号代码" /></div>
-       
+
         <div class="edit_item_warnings_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item_warnings">
@@ -39,7 +39,7 @@
         <div style="position: relative;width: 667px;">
           <a-textarea class='edit_a_input_warnings' :rows="5" v-model='warning.remark' :maxLength='250' placeholder="请输入描述"
             @change="onChangeConfig" />
-          <div class="edit_number">{{num}}/250</div>
+          <div class="edit_number">{{warning.remark.length}}/250</div>
         </div>
       </div>
 
@@ -112,7 +112,8 @@
         warningTypeList: [], //转警事件列表
         warningSelect: '', //转警选择
         warning: {
-          gradeno: 0
+          gradeno: 0,
+          remark:''
         }, //警告信息
         dictionaryColumns: tableTitleData.data.add,
         num: 0, //描述长度
@@ -274,7 +275,10 @@
           this.getWarnInfo()
         } else {
           this.selectedRowKeys = []
-          this.warning = {}
+          this.warning = {
+            gradeno: 0,
+            remark:''
+          }
         }
       }
     },

@@ -38,9 +38,10 @@
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>
           <div class="item-line"></div>
-          <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
+          <a-popconfirm v-if='record.authNum<=0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
+          <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
           <div class="item-line"></div>
           <a href="#" style='font-size: 12px;' @click="paramDevice(record)">运行参数</a>
           <div class="item-line"></div>

@@ -6,7 +6,7 @@
       <div class="flexrow flexac edit_item_event">
         <div class="edit_item_event_event"><a style="color: #FF0000;">*</a>事件名称:</div>
         <div class='edit_a_input_event'>
-          <a-input v-model='event.eventName' placeholder="事件名称" />
+          <a-input v-model='event.eventName'  :maxLength='50' placeholder="事件名称" />
         </div>
 
         <div class="edit_item_event_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
@@ -14,7 +14,7 @@
       <div class="flexrow flexac edit_item_event">
         <div class="edit_item_event_event"><a style="color: #FF0000;">*</a>事件代码:</div>
         <div class='edit_a_input_event'>
-          <a-input  v-model='event.eventCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input  v-model='event.eventCode' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
         </div>
 
         <div class="edit_item_event_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
@@ -27,14 +27,14 @@
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
-        <div class="edit_item_event_toast">注：数字字典</div>
+        <div class="edit_item_event_toast">注：事件类型</div>
       </div>
       <div class="flexrow flexac edit_item_event">
         <div class="edit_item_event_event">事件描述:</div>
         <div style="position: relative;width: 667px;">
           <a-textarea class='edit_a_input' :rows="5" v-model='event.remark' :maxLength='250' placeholder="请输入描述"
             @change="onChangeConfig" />
-          <div class="edit_number">{{num}}/250</div>
+          <div class="edit_number">{{event.remark.length}}/250</div>
         </div>
       </div>
 
@@ -53,7 +53,9 @@
       return {
         eventSelect: '', //事件选择
         eventList: [], //事件类型
-        event: {}, //事件详情
+        event: {
+          remark:''
+        }, //事件详情
         id: "",
         num: 0 //描述长度
       }
@@ -128,7 +130,10 @@
         if (this.id) {
           this.getEventInfo()
         } else {
-          this.event = {}
+          this.eventSelect=''
+          this.event = {
+            remark:''
+          }
         }
       },
       /* 描述字符长度*/

@@ -30,9 +30,10 @@
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
           <div class="item-line"></div>
-          <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="deleteConfirm(record)">
+          <a-popconfirm  v-if='record.authTotal<=0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="deleteConfirm(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
+		  <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
         </div>
       </template>
     </a-table>

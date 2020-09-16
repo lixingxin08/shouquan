@@ -6,22 +6,25 @@
       <div class="flexrow flexac edit_item_brand">
         <div class="edit_item_brand_title3"><a style="color: #FF0000;">*</a>品牌名称:</div>
         <div class='edit_a_input_brand'>
-           <a-input  v-model='typeName' placeholder="平台" />
+          <a-input v-model='typeName' :maxLength='50' placeholder="平台" />
         </div>
-       
+
         <div class="edit_item_brand_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
       <div class="flexrow flexac edit_item_brand">
         <div class="edit_item_brand_title3"><a style="color: #FF0000;">*</a>品牌代码:</div>
-        <div class='edit_a_input_brand'>    <a-input  v-model='typeCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" /></div>
-     
+        <div class='edit_a_input_brand'>
+          <a-input v-model='typeCode' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+        </div>
+
         <div class="edit_item_brand_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
       </div>
 
       <div class="flexrow flexac edit_item_brand">
         <div class="edit_item_brand_title3">品牌描述:</div>
         <div style="position: relative;width: 667px;">
-          <a-textarea class='edit_a_input_brand' :rows="5" v-model='remark' :maxLength='250' placeholder="请输入描述" @change="onChangeConfig" />
+          <a-textarea class='edit_a_input_brand' :rows="5" v-model='remark' :maxLength='250' placeholder="请输入描述"
+            @change="onChangeConfig" />
           <div class="edit_number">{{num}}/250</div>
         </div>
       </div>
@@ -38,7 +41,7 @@
 
       <div class="flexrow flexjc" style="margin-top: 30px;margin-bottom: 100px;">
         <a-button type="primary" @click='submit'>保存</a-button>
-        <a-button style="margin-left: 60px;" @change='reset'>重置</a-button>
+        <a-button style="margin-left: 60px;" @click='reset'>重置</a-button>
       </div>
     </div>
 
@@ -80,6 +83,7 @@
           this.typeName = ''
           this.typeCode = ''
           this.remark = ''
+		 this.num=0
           this.selectedRowKeys = []
         }
       },
@@ -107,10 +111,10 @@
         }
         let res = await this.$http.post(this.$api.devicebrandsform, param)
         if (res.data.resultCode == 10000) {
-			if(!this.id){
-				this.$router.go(-1)
-			}
-         
+          if (!this.id) {
+            this.$router.go(-1)
+          }
+
           this.$message.success(res.data.resultMsg);
         } else {
           this.$message.error(res.data.resultMsg);
@@ -139,6 +143,7 @@
           this.typeName = res.data.data.brandName
           this.typeCode = res.data.data.brandCode
           this.remark = res.data.data.remark
+		  this.num=this.remark.length
           this.typeList = res.data.data.deviceTypeList
           if (this.typeList.length > 0) {
             this.selectedRowKeys = []
@@ -152,12 +157,12 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-/* 选择类型 */
-      onSelectChange(selectedRowKeys) { 
+      /* 选择类型 */
+      onSelectChange(selectedRowKeys) {
         this.selectedRowKeys = selectedRowKeys;
       },
       /* 获取设备类型列表*/
-      async getTypeList() { 
+      async getTypeList() {
         let param = {
           keyword: '',
           serviceType: '',

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content2">
      <is-delete-dialog v-if="isShowDelete" @confirm='confirm' @cancle='cancel'></is-delete-dialog>
     <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
       <div class="flexrow flexac">
@@ -9,8 +9,8 @@
         <a-button type="primary" class="title_btn" @click='getMenuData'>查询</a-button>
         <a-button @click='cleanKeyWord'>清除</a-button>
       </div>
-      <a-button type="primary" @click="add">新增</a-button>
     </div>
+      <a-button type="primary" style='width: 68px; margin-bottom: 20px;' @click="add">新增</a-button>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="menuList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
@@ -34,7 +34,7 @@
         </div>
       </template>
     </a-table>
-   
+
   </div>
 </template>
 

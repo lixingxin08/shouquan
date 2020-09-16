@@ -42,7 +42,7 @@
       </template>
     </a-table>
 
-    <is-add v-show="isVis" ref='addparam' :param="paramItem" @callback='addCallBack'></is-add>
+    <is-add v-show="isVis" ref='addparam' @callback='addCallBack'></is-add>
   </div>
 </template>
 <script>
@@ -55,7 +55,6 @@
     data() {
       return {
         isVis: false,
-        paramItem: {},
         dictionaryColumns: tableTitleData.data.param,
         paramList: [], //参数列表
         id: '',
@@ -107,9 +106,9 @@
       /* 新增编辑弹框*/
       editParam(item) {
 
-        this.paramItem = item
+        this.$refs.addparam.setParam(item)
         this.isVis = true
-             this.$refs.addparam.getCombobox()
+        this.$refs.addparam.getCombobox()
       },
       /* 添加编辑回调*/
       async addCallBack(param) {
