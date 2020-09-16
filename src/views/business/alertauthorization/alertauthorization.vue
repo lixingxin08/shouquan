@@ -1,6 +1,6 @@
 <template>
   <div class="flex_f father">
-    <div class="isleft">
+    <div class="isleftalar">
       <div class="left_title">客户列表</div>
       <a-table
         :columns="tablecolumns"
@@ -260,7 +260,7 @@ export default {
 .father {
   height: 100%;
 }
-.isleft {
+.isleftalar {
   width: 400px;
   padding: 0 20px;
   height: 100%;

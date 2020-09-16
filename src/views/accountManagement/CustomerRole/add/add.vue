@@ -268,7 +268,6 @@
   }
 
   .tree_box_zzx {
-
     width: 600px;
     margin: 0 auto;
     background-color: #FFFFFF;

@@ -216,12 +216,6 @@
   };
 </script>
 <style scoped>
-  .administrativedivision {
-    height: 100%;
-    width: 100%;
-    position: relative;
-  }
-
   .tree {
     text-align: left;
   }

@@ -2,11 +2,13 @@
   <div id="home">
     <a-layout id="components-layout-demo-custom-trigger">
       <isnav :iscollapsed="collapsed"></isnav>
+
       <a-layout >
         <ishead @tocollapsed="getcollapsed"></ishead>
 
-        <a-layout-content class='scroller '
-        >
+        <a-layout-content class='scroller '>
+
+    
           <keep-alive :include="isinclude">
             <router-view v-if="isRouterShow"></router-view>
           </keep-alive>
@@ -30,7 +32,7 @@ export default {
     return {
       collapsed: false,
       searchdata: "",
-      isinclude: "header,nav",
+      isinclude: "header,nav,administrativedivision,dpartmentManagement,personnelManagement",
       isRouterShow: true,
     };
   },

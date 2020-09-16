@@ -6,7 +6,7 @@
       </div>
       <div>
         <a-select
-          mode="tags"
+         show-search
           placeholder="请选择"
           option-filter-prop="children"
           style=" width: 667px;height: 32px;"
@@ -138,6 +138,7 @@ export default {
       let res = await this.$http.post(this.$api.runform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
+        this.$router.go(-1)
       } else {
         this.$message.error(res.data.resultMsg);
       }
@@ -168,8 +169,8 @@ export default {
       console.log(e, "onError ");
     },
     handleChange(value,key) {
+      console.log(value,key,6666);
       this.form.typeCode=this.sel_data[key.data.key].comboBoxId
-      console.log( this.form.typeCode,88);
     },
     handleBlur() {
       console.log("blur");

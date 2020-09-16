@@ -1,6 +1,6 @@
 <template>
   <div class="flex_f father">
-    <div class="isleft">
+    <div class="isleftcu">
       <div class="left_title">系统帐号</div>
       <is-left
         :treedata="treedata"
@@ -245,7 +245,7 @@ export default {
 .father {
   height: 100%;
 }
-.isleft {
+.isleftcu {
   width: 400px;
   padding: 0 20px;
   height: 100%;

@@ -1,15 +1,15 @@
 <template>
-  <div class="search">
     <!-- <div class="search">
       <a-input-search placeholder enter-button="搜索" size="default" @search="onSearch" />
     </div>-->
+    <div class="search">
     <div class="istree">
       <a-tree :show-line="showLine" @select="onSelect" :checkable="checkable" :tree-data="treedata" :replaceFields="replaceFields"
         :checked-keys="checkedKeys" :default-expanded-keys="defaultExpandedKeys" @check="onCheck">
         <a-icon slot="icon" type="carry-out" />
       </a-tree>
     </div>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -79,22 +79,15 @@
     height: 100%;
     padding: 20px;
     background-color: #fff;
-    overflow: scroll;
+    overflow-x: scroll;
   }
-
-  .search::-webkit-scrollbar {
+    .search::-webkit-scrollbar {
     display: none;
   }
-
-  .search {
-    width: 100%;
-  }
-
   .istree {
     text-align: left;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    height: 90vh;
+    overflow: scroll;
   }
 
   .istree::-webkit-scrollbar {
