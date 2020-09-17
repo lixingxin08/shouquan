@@ -111,8 +111,6 @@
       this.id = this.$route.query.id
       if (this.id) { //编辑
         this.getWeChatInfo();
-      } else {
-        this.getWeChatMsgList()
       }
       this.getCombobox()
 
@@ -168,7 +166,7 @@
           this.$message.warning('消息服务序号不能有重复值')
           return
         }
-       
+
         let param = {
           wechatConfigId: this.id,
           wechatConfigName: this.wechat.wechatConfigName,
@@ -206,10 +204,11 @@
       },
       async getWeChatMsgList() {
         let param = {
-          classCode: 'wechat_push_template',
+          classCode: this.wechat.typeCode,
         }
         let res = await this.$http.post(this.$api.dictionarycombobox, param)
         if (res.data.resultCode == 10000) {
+          this.msgList=[]
           res.data.data.forEach((item) => {
             this.msgList.push({
               serviceId: '',
@@ -255,6 +254,7 @@
       handleSelectChange(e) {
         console.log(e)
         this.wechat.typeCode = e
+         this.getWeChatMsgList()
       },
       /* 获取业务类别*/
       async getCombobox() {

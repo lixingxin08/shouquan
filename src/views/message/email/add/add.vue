@@ -4,19 +4,19 @@
       <div class="edit_item_title">
         <span class="col_red">*</span>邮箱账号别名:
       </div>
-      <a-input class="edit_a_input" v-model="form.emailConfigName" placeholder="请输入邮箱账号别名" />
+      <a-input class="edit_a_input" :maxLength='50' v-model="form.emailConfigName" placeholder="请输入邮箱账号别名" />
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
         <span class="col_red">*</span>发送邮箱:
       </div>
-      <a-input class="edit_a_input" v-model="form.sender" placeholder="请输入邮箱" />
+      <a-input class="edit_a_input" :maxLength='50' v-model="form.sender" placeholder="请输入邮箱" />
     </div>
 
 
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title"><span class="col_red">*</span>邮箱服务地址:</div>
-      <a-input class="edit_a_input" v-model="form.emailHost" placeholder="请输入邮箱服务地址" />
+      <a-input class="edit_a_input" :maxLength='255' v-model="form.emailHost" placeholder="请输入邮箱服务地址" />
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title"><span class="col_red">*</span>邮箱服务端口:</div>

@@ -194,7 +194,6 @@
       tosearch() {
         this.pagination.current = 1;
         this.pagination.pageSize = 10;
-        this.istotal.type = 1;
         this.getpage();
       },
       //清除
