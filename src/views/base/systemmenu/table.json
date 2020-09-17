@@ -47,7 +47,7 @@
         "align": "center",
         "dataIndex": "menuIcon",
         "ellipsis": true,
-"scopedSlots": {
+        "scopedSlots": {
           "customRender": "menuIcon"
         }
       },
@@ -88,15 +88,15 @@
         }
       },
 
-	  {
-	    "title": "编辑",
-	    "dataIndex": "operation",
-	    "width": "25%",
-	    "align": "center",
-	    "scopedSlots": {
-	      "customRender": "operation"
-	    }
-	  }
+      {
+        "title": "编辑",
+        "dataIndex": "operation",
+        "width": "25%",
+        "align": "center",
+        "scopedSlots": {
+          "customRender": "operation"
+        }
+      }
     ]
   }
 }

@@ -26,8 +26,6 @@
 	    <img href="#"  slot="menuIcon" slot-scope="text, record,index" style='width: 30px;height: 30px;' :src="text">去维护</img>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
-
-
           <a href="#" style='font-size: 12px;' @click="editDictionary(record)">编辑</a>
           <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 10px;margin-right: 10px;"></div>
           <a href="#" v-if="record.childTotal<=0&&record.authTotal<=0" style='color: #FF0000;font-size: 12px;' @click='showDelete(record)'>删除</a>
