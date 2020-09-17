@@ -14,7 +14,7 @@
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="brandList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
-        {{(index+1)+((pagination.current-1)*10)}}
+        {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
       </template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">

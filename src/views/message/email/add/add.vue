@@ -128,39 +128,39 @@
       },
       //运行参数表单接口
       async getform() {
-        if(!form.emailConfigName){
+        if(!this.form.emailConfigName){
           this.$message.warning('请输入邮箱别名')
           return
         }
-        if(!form.sender){
+        if(!this.form.sender){
           this.$message.warning('请输入邮箱')
           return
         }
-        if(!this.verEmail(form.sender)){
+        if(!this.verEmail(this.form.sender)){
           this.$message.warning('邮箱格式不正确')
           return
         }
-        if(!form.emailHost){
+        if(!this.form.emailHost){
           this.$message.warning('请输入邮箱服务地址')
           return
         }
-        if(!form.emailPort){
+        if(!this.form.emailPort){
           this.$message.warning('请输入邮箱服务端口')
           return
         }
-        if(!form.authType){
+        if(!this.form.authType){
           this.$message.warning('请勾选是否身份验证')
           return
         }
-        if(!form.sslType){
+        if(!this.form.sslType){
           this.$message.warning('请勾选是否采用安全链接')
           return
         }
-        if(!form.debugType){
+        if(!this.form.debugType){
           this.$message.warning('请勾选是否开启打印模式')
           return
         }
-        if(!form.typeCode){
+        if(!this.form.typeCode){
           this.$message.warning('请选择网关类型')
           return
         }

@@ -23,15 +23,19 @@
           <div class="table" v-if="tabletype">
             <a-table :columns="tablecolumns" :data-source="tabledata" size='small' bordered :pagination="pagination"
               @change="handleTableChange">
-
+ <template slot="accountId" slot-scope="text, record,index">
+      {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
+      </template>
               <div slot="statusCode" class="flex_a" slot-scope="statusCode">
                 <div v-if="statusCode==1">启用</div>
                 <div v-if="statusCode==0">锁定</div>
               </div>
 
-              <div slot="edit" class="flex_a" slot-scope="val,departmentId">
+              <div slot="edit" class="flexrow flexjc" slot-scope="val,departmentId">
                 <div class="col_blue ispointer" @click="toadd(departmentId)">编辑</div>
+                 <div class="item-line"></div>
                 <div class="col_blue ispointer" @click="toedit(departmentId)">修改密码</div>
+                 <div class="item-line"></div>
                 <div class="col_red ispointer" @click="showdialogcuser(val)">
                   <span>删除</span>
                 </div>
@@ -43,7 +47,7 @@
         </div>
       </div>
     </div>
-  
+
     <is-edit-pass-word v-if="visiblePass" @confirmPass="confirmPass" @cancle='cancelPass'></is-edit-pass-word>
   </div>
 </template>
@@ -74,11 +78,14 @@
           key: "id",
         },
         tablecolumns: [{ //表title
-            width: 110,
+            width: 60,
             align: "center",
             title: "序号",
             dataIndex: "accountId",
             ellipsis: true,
+            scopedSlots: {
+              customRender: "accountId",
+            },
           },
           {
             width: 100,

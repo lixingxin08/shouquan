@@ -14,7 +14,7 @@
       <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="dictonaryList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
-      <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
+      <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
 

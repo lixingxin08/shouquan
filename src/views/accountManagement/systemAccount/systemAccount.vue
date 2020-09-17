@@ -1,6 +1,6 @@
 <template>
   <div class="content2">
-       <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
     <div class="flex_fs">
       <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys"
         @selectdata="getselectdata" @searchdata="getsearchdata" v-if="showtree"></is-left>
@@ -18,27 +18,26 @@
             <a-button type='primary' class="btn_blue btn" @click="tosearch()">查询</a-button>
             <a-button class="btn_gray" @click="clear()">清除</a-button>
           </div>
-              <div class="view-title-line"></div>
+          <div class="view-title-line"></div>
           <a-button type='primary' class="btn_blue btn2" @click="toadd({})">新增</a-button>
           <div class="table" v-if="tabletype">
             <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination" @change="handleTableChange"
               size='small'>
-
               <div slot="accountId" slot-scope="text, record,index">
-            {{(index+1)+((pagination.current-1)*10)}}
+                {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
               </div>
               <div slot="statusCode" class="flex_a" slot-scope="statusCode">
                 <div v-if="statusCode==1">启用</div>
                 <div v-if="statusCode==0">锁定</div>
               </div>
-
-              <div slot="edit" class="flex_a" slot-scope="val,departmentId">
+              <div slot="edit" class="flexrow flexjc" slot-scope="val,departmentId">
                 <div class="col_blue ispointer" @click="toadd(departmentId)">编辑</div>
+                <div class="item-line"></div>
                 <div class="col_blue ispointer" @click="toedit(departmentId)">修改密码</div>
+                <div class="item-line"></div>
                 <div class="col_red ispointer" @click="showdialogsys(val)">
                   <span>删除</span>
                 </div>
-
               </div>
             </a-table>
           </div>
@@ -46,7 +45,7 @@
         </div>
       </div>
     </div>
- 
+
     <is-edit-pass-word v-if="visiblePass" @confirmPass="confirmPass" @cancle='cancelPass'></is-edit-pass-word>
   </div>
 </template>
@@ -170,7 +169,7 @@
           operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
           customerId: "",
         },
-        removeparam: {//删除接口参数
+        removeparam: { //删除接口参数
           accountId: "",
           operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
           cipher: ''
@@ -211,7 +210,7 @@
         let res = await this.$http.post(this.$api.accountinfopage, prame);
         if (res.data.resultCode == "10000") {
           this.tabledata = res.data.data.list;
-         if(this.pagination.current==1)
+          if (this.pagination.current == 1)
             this.pagination.total = res.data.data.length;
 
           this.istotal.type++;

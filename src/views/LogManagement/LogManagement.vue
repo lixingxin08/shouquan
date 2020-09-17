@@ -1,9 +1,9 @@
 <template>
   <div class="administrativedivision flex_fs">
-    <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
+    <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultSelectedKeys="defaultSelectedKeys" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
       v-if="showtree"></is-left>
     <div class="flexcolumn" style="width: 100%;padding: 20px;">
-      <is-list v-show="isselectdata" ref="dictionarylist" @refreshtree='getdictionarytree'></is-list>
+      <is-list v-show="isselectdata" ref="log" @refreshtree='getdictionarytree'></is-list>
     </div>
   </div>
 </template>
@@ -25,6 +25,7 @@
           key: "id",
         },
         defaultExpandedKeys: [],
+        defaultSelectedKeys:[],
         data: "",
       };
     },
@@ -41,14 +42,14 @@
         this.showtree = false;
         let prame = {};
         let res = await this.$http.post(this.$api.dictionarytree, prame);
-        console.log("-----------", res);
         if (res.data.resultCode == "10000") {
           this.data = res.data.data;
         }
         this.setdata();
         this.showtree = true;
-        console.log(this.treedata)
+
         this.getselectdata(this.treedata[0])
+         this.defaultSelectedKeys.push(this.treedata[0].id);
       },
 
 
@@ -85,7 +86,7 @@
       getselectdata(val) {
         this.isselectdata = val;
         if (val)
-          this.$refs.dictionarylist.getDictionnaryInfo(val)
+          this.$refs.log.getLogInfo(val)
       },
     },
   };

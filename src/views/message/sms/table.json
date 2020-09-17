@@ -47,6 +47,7 @@
         "scopedSlots": {
           "customRender": "index"
         },
+          "className": "topic-info",
         "width": "5%",
         "align": "center"
       },
@@ -55,6 +56,7 @@
         "dataIndex": "modelCode",
         "width": "20%",
         "align": "center",
+         "className": "topic-info",
         "scopedSlots": {
           "customRender": "modelCode"
         }
@@ -64,6 +66,7 @@
         "dataIndex": "remark",
         "width": "20%",
         "align": "center",
+         "className": "topic-info",
         "scopedSlots": {
           "customRender": "remark"
         }

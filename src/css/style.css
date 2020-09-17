@@ -301,3 +301,12 @@ width: 1672px;
 .table::-webkit-scrollbar {
   display: none;
 }
+
+
+.item-line{
+  height: 20px;
+  width: 1px;
+  background-color: #e5e5e5;
+  margin-left: 10px;
+  margin-right: 10px;
+}

@@ -13,7 +13,7 @@
     </div>
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableList" bordered size="small" :pagination="pagination"
       @change="handleTableChange">
-      <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
+      <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="detail(record)">详情</a>
@@ -73,7 +73,7 @@
         this.timeValue = ['', '']
         this.getTableData()
       },
-      getDictionnaryInfo(val) {
+      getLogInfo(val) {
         this.parentItem = val
         this.getTableData()
       },
@@ -82,8 +82,8 @@
         let param = {
           actionName: this.keyword,
           pageSize: this.pagination.pageSize,
-          startTime: this.timeValue[0].replaceAll('/','-'),
-          endTime: this.timeValue[1].replaceAll('/','-'),
+          startTime: this.timeValue[0]? this.timeValue[0].replaceAll('/','-') :'',
+          endTime: this.timeValue[1]?this.timeValue[1].replaceAll('/','-'):'',
           pageIndex: this.pagination.current
         };
         let res = await this.$http.post(this.$api.journalpage, param);

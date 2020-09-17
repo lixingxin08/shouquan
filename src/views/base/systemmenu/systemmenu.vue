@@ -52,7 +52,7 @@
           this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('systemmenuId')).id);
         } else {
           this.getselectdata(this.treedata[0])
-          this.getselectdata(this.treedata[0].id)
+           this.defaultSelectedKeys.push(this.treedata[0].id);
         }
       },
 

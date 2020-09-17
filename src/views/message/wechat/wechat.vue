@@ -20,9 +20,10 @@
       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
     </a-button>
     <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination" size='small' @change="handleTableChange">
-      <div slot="wechatConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</div>
-      <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
+      <div slot="wechatConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</div>
+      <div slot="edit" class="flexrow flexjc" slot-scope="childTotal,areaName">
         <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
+         <div class="item-line"></div>
         <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(areaName)">
           <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
         </a-popconfirm>
@@ -81,7 +82,7 @@
             dataIndex: "typeCode",
           },
           {
-            width: 208,
+            width: 158,
             align: "center",
             title: "操作",
             ellipsis: true,
@@ -101,7 +102,7 @@
           pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
           showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
-     
+
         wetchatTypeList: [{ //通信方式列表
           comboBoxId: 'account_wechat_type',
           comboBoxName: '公众号'
@@ -144,12 +145,13 @@
         this.runpageparam.pageSize = this.pagination.pageSize;
         let res = await this.$http.post(this.$api.wechatpage, this.runpageparam);
         if (res.data.resultCode == "10000") {
+          if(res.data.data){
           this.tabledata = res.data.data.list;
           this.runpageparam.keyword = "";
           this.runpageparam.parameterCode = "";
           if(this.pagination.current==1)
             this.pagination.total = res.data.data.length;
-
+}
         } else {
           this.$message.error(res.data.resultMsg);
         }
@@ -191,8 +193,8 @@
         this.runpageparam.statusCode = "";
         // this.getareapage();
       },
-   
-     
+
+
       //分页
       handleTableChange(pagination) {
         this.pagination.current = pagination.current;

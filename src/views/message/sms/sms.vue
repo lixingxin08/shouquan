@@ -1,35 +1,34 @@
 <template>
   <div class="content2">
 
-          <div class="r_top flex_f">
-            <div class="r_t_text" @click="showdialogsms()">短信帐号别名:</div>
-            <a-input placeholder="请输入短信帐号别名"  class="r_t_inp" v-model="runpageparam.keyword" @keydown.enter="tosearch()" />
+    <div class="r_top flex_f">
+      <div class="r_t_text" @click="showdialogsms()">短信帐号别名:</div>
+      <a-input placeholder="请输入短信帐号别名" class="r_t_inp" v-model="runpageparam.keyword" @keydown.enter="tosearch()" />
 
-            <div class="r_t_text" @click="showdialogsms()">短信类型:</div>
-            <a-select show-search placeholder="全部" option-filter-prop="children" style="width: 200px;margin-right:20px"
-              :filter-option="filterOption" v-model="runpageparam.typeCode" 
-              @change="handleChange">
-              <a-select-option value>全部</a-select-option>
-              <a-select-option v-for="(item,index) in sel_data" :key="index" :value="item.comboBoxId">{{item.comboBoxName}}</a-select-option>
-            </a-select>
-            <div class="btn_blue btn" @click="tosearch()">查询</div>
-            <div class="btn_gray" @click="clear()">清除</div>
-          </div>
-          <div class="view-title-line"></div>
- <a-button class='addbtn' type="primary" @click="toadd({})">
+      <div class="r_t_text" @click="showdialogsms()">短信类型:</div>
+      <a-select show-search placeholder="全部" option-filter-prop="children" style="width: 200px;margin-right:20px"
+        :filter-option="filterOption" v-model="runpageparam.typeCode" @change="handleChange">
+        <a-select-option value>全部</a-select-option>
+        <a-select-option v-for="(item,index) in sel_data" :key="index" :value="item.comboBoxId">{{item.comboBoxName}}</a-select-option>
+      </a-select>
+      <div class="btn_blue btn" @click="tosearch()">查询</div>
+      <div class="btn_gray" @click="clear()">清除</div>
+    </div>
+    <div class="view-title-line"></div>
+    <a-button class='addbtn' type="primary" @click="toadd({})">
       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
     </a-button>
 
-        <a-table  :columns="tablecolumns" :data-source="tabledata"
-          bordered size='small' :pagination="pagination" @change="handleTableChange">
-          <div slot="smsConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</div>
-          <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
-            <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
-            <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(areaName)">
-              <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
-            </a-popconfirm>
-          </div>
-        </a-table>
+    <a-table :columns="tablecolumns" :data-source="tabledata" bordered size='small' :pagination="pagination" @change="handleTableChange">
+      <div slot="smsConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</div>
+      <div slot="edit" class="flexrow flexjc" slot-scope="childTotal,areaName">
+        <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
+        <div class="item-line"></div>
+        <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(areaName)">
+          <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
+        </a-popconfirm>
+      </div>
+    </a-table>
 
   </div>
 </template>
@@ -38,8 +37,7 @@
 
     data() {
       return {
-        sel_data: [
-        ],
+        sel_data: [],
         tablecolumns: [{
             width: 60,
             align: "center",
@@ -97,7 +95,7 @@
             dataIndex: "price",
           },
           {
-            width: 208,
+            width: 158,
             align: "center",
             title: "操作",
             ellipsis: true,
@@ -138,7 +136,6 @@
           classCode: "message_type_sms",
         };
         let res = await this.$http.post(this.$api.dictionarycombobox, pram);
-        console.log(res, 12221);
         if (res.data.resultCode == "10000") {
           this.sel_data = res.data.data;
         } else {
@@ -148,16 +145,18 @@
 
       //列表接口
       async getpage() {
-        this.tabledata=[]
+        this.tabledata = []
         this.runpageparam.pageIndex = this.pagination.current;
         this.runpageparam.pageSize = this.pagination.pageSize;
         let res = await this.$http.post(this.$api.smspage, this.runpageparam);
         if (res.data.resultCode == "10000") {
-          this.tabledata = res.data.data.list;
-          this.runpageparam.keyword = "";
-          this.runpageparam.parameterCode = "";
-          if (this.pagination.current == 1) {
-            this.pagination.total = res.data.data.length;
+          if (res.data.data) {
+            this.tabledata = res.data.data.list;
+            this.runpageparam.keyword = "";
+            this.runpageparam.parameterCode = "";
+            if (this.pagination.current == 1) {
+              this.pagination.total = res.data.data.length;
+            }
           }
         } else {
           this.$message.error(res.data.resultMsg);
@@ -240,6 +239,7 @@
     color: #333333;
     margin-right: 10px;
   }
+
   .addbtn {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
@@ -253,6 +253,7 @@
     border: 1px solid #1890ff;
     border-radius: 8px;
   }
+
   .r_t_inp {
     width: 200px;
     height: 36px;
