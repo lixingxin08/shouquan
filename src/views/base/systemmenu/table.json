@@ -46,8 +46,10 @@
         "title": "菜单图标",
         "align": "center",
         "dataIndex": "menuIcon",
-        "ellipsis": true
-
+        "ellipsis": true,
+"scopedSlots": {
+          "customRender": "menuIcon"
+        }
       },
       {
         "title": "操作",

@@ -23,6 +23,7 @@
         <div v-if="record.authFlag==2">客户操作类</div>
         <div v-if="record.authFlag==3">均可操作类</div>
       </template>
+	    <img href="#"  slot="menuIcon" slot-scope="text, record,index" style='width: 30px;height: 30px;' :src="text">去维护</img>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
 
