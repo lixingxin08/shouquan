@@ -47,15 +47,15 @@
         <div class="edit_item_warnings_title3">流程示意图:</div>
       <div class="isupload">
         <a-upload
-          name="avatar"
+          name="file"
           list-type="picture-card"
           class="avatar-uploader"
           :show-upload-list="false"
-          action="http://192.168.3.101:8808/upload"
+          action="http://192.168.3.101:80/upload"
           :before-upload="beforeUpload"
           @change="handleChange"
         >
-          <img v-if="warning.flowImage" :src="warning.flowImage" alt="avatar" />
+          <img v-if="warning.flowImage" :src="warning.flowImage" alt="file" />
           <div v-else>
             <a-icon :type="loading ? 'loading' : 'plus'" />
             <div class="ant-upload-text">Upload</div>
@@ -181,9 +181,8 @@
       }
       if (info.file.status === "done") {
         // Get this url from response in real world.
-        getBase64(info.file.originFileObj, (imageUrl) => {
-          this.warning.flowImage = imageUrl;
-        });
+          this.warning.flowImage  = info.file.response.data;
+          this.loading = false;
       }
       console.log(this.imageUrl, 88999, info);
     },

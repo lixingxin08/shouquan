@@ -137,6 +137,7 @@ export default {
         total: 0,
         pageSize: 10, //每页中显示10条数据
         showSizeChanger: true,
+        showQuickJumper:true,
         current: 1,
         page: 1,
         pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
@@ -348,13 +349,6 @@ export default {
 .tree {
   text-align: left;
 }
-
-.right {
-  width: 1372px;
-  padding-left: 20px;
-  padding-top: 20px;
-}
-
 .r_t_text {
   width: 70px;
   height: 16px;

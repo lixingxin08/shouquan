@@ -128,8 +128,17 @@ export default {
       if (this.form.parameterName == "") {
         return this.$message.error("请输入参数名称");
       }
+      if (this.vify_cn3(this.form.parameterName)) {
+        this.form.parameterName = ""
+        return this.$message.error("参数名称格式不正确");
+      }
+      
       if (this.form.parameterValue == "") {
         return this.$message.error("请输入参数数值");
+      }
+       if (this.vify_cn3(this.form.parameterCode)) {
+        this.form.parameterCode = ""
+        return this.$message.error("参数代码格式不正确");
       }
       if (this.form.parameterCode == "") {
         return this.$message.error("请输入参数代码");
@@ -138,7 +147,6 @@ export default {
       let res = await this.$http.post(this.$api.runform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.$router.go(-1)
       } else {
         this.$message.error(res.data.resultMsg);
       }

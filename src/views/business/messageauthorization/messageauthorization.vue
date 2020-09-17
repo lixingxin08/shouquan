@@ -6,9 +6,13 @@
         :columns="tablecolumns"
         :data-source="tabledata"
         bordered
-        :pagination="false"
+       :pagination="pagination"
         :customRow="rowClick"
       >
+       <template
+          slot="index"
+          slot-scope="text, record,index"
+        >{{(index+1)+((pagination.current-1)*10)}}</template>
         <div slot="statusCode" class="flex_a" slot-scope="statusCode">
           <div v-if="statusCode==1">启用</div>
           <div v-if="statusCode==2">备用</div>
@@ -28,9 +32,13 @@
           :data-source="tabledata2"
           :row-selection="{ selectedRowKeys: selectedRowKeys2, onChange: onSelectChange,type:'radio' }"
           bordered
-          :pagination="false"
+         :pagination="pagination2"
           v-if="tabletype"
         ></a-table>
+         <template
+          slot="index2"
+          slot-scope="text, record,index"
+        >{{(index+1)+((pagination2.current-1)*10)}}</template>
       </div>
       <div class="tree_box" v-show="listtype=='sms'">
         <a-table
@@ -38,8 +46,12 @@
           :data-source="tabledata3"
           :row-selection="{ selectedRowKeys: selectedRowKeys3, onChange: onSelectChange1,type:'radio'}"
           bordered
-          :pagination="false"
+          :pagination="pagination3"
         ></a-table>
+         <template
+          slot="index3"
+          slot-scope="text, record,index"
+        >{{(index+1)+((pagination3.current-1)*10)}}</template>
       </div>
       <div class="tree_box" v-show="listtype=='email'">
         <a-table
@@ -47,14 +59,18 @@
           :data-source="tabledata4"
           :row-selection="{ selectedRowKeys: selectedRowKeys4, onChange: onSelectChange2,type:'radio' }"
           bordered
-          :pagination="false"
+           :pagination="pagination4"
         ></a-table>
+         <template
+          slot="index4"
+          slot-scope="text, record,index"
+        >{{(index+1)+((pagination4.current-1)*10)}}</template>
       </div>
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
           <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
-          <div class="edit_number">{{remarklen}}/500</div>
+          <div class="remarknum">{{remarklen}}/500</div>
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
@@ -103,6 +119,9 @@ export default {
           dataIndex: "customerId",
           key: "customerId",
           ellipsis: true,
+           scopedSlots: {
+            customRender: "index",
+          },
         },
         {
           width: 141,
@@ -125,6 +144,13 @@ export default {
         },
       ],
       tabledata: [],
+       pagination: {
+        total: 0,
+        pageSize: 10000, //每页中显示10条数据
+        current: 1,
+        page: 1,
+        hideOnSinglePage:true
+      },
       tablecolumns2: [
         {
           width: 58,
@@ -133,6 +159,9 @@ export default {
           dataIndex: "wechatConfigId",
           key: "wechatConfigId",
           ellipsis: true,
+              scopedSlots: {
+            customRender: "index2",
+          },
         },
         {
           width: 141,
@@ -152,6 +181,9 @@ export default {
           dataIndex: "smsConfigId",
           key: "smsConfigId",
           ellipsis: true,
+              scopedSlots: {
+            customRender: "index3",
+          },
         },
         {
           width: 141,
@@ -171,6 +203,9 @@ export default {
           dataIndex: "emailConfigId",
           key: "emailConfigId",
           ellipsis: true,
+              scopedSlots: {
+            customRender: "index4",
+          },
         },
         {
           width: 141,
@@ -200,6 +235,27 @@ export default {
         emailConfigId: [],
         remark: "",
         operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
+      },
+          pagination2: {
+        total: 0,
+        pageSize: 10000, //每页中显示10条数据
+        current: 1,
+        page: 1,
+        hideOnSinglePage:true
+      },
+          pagination3: {
+        total: 0,
+        pageSize: 10000, //每页中显示10条数据
+        current: 1,
+        page: 1,
+        hideOnSinglePage:true
+      },
+          pagination4: {
+        total: 0,
+        pageSize: 10000, //每页中显示10条数据
+        current: 1,
+        page: 1,
+        hideOnSinglePage:true
       },
     };
   },
@@ -385,7 +441,7 @@ export default {
   width: 1232px;
   height: 384px;
   margin-top: 20px;
-  margin-bottom: 210px;
+  margin-bottom: 170px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
 }

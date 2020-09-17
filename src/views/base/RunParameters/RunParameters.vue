@@ -3,7 +3,7 @@
      <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
     <div class="flex_fs">
       <div>
-        <div class="right">
+        <div class="right right2">
           <div class="r_top flex_f">
             <div class="r_t_text" @click="showdialogrunn()">参数分组:</div>
             <a-select
@@ -142,6 +142,7 @@ export default {
         total: 0,
         pageSize: 10, //每页中显示10条数据
         showSizeChanger: true,
+        showQuickJumper:true,
         current: 1,
         page: 1,
          size:"default",
@@ -310,13 +311,6 @@ export default {
 .tree {
   text-align: left;
 }
-
-.right {
-  width: 1372px;
-  padding-left: 20px;
-  padding-top: 20px;
-}
-
 .r_t_text {
   height: 16px;
   font-size: 12px;

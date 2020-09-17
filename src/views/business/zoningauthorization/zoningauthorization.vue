@@ -6,9 +6,13 @@
         :columns="tablecolumns"
         :data-source="tabledata"
         bordered
-        :pagination="false"
+        :pagination="pagination"
         :customRow="rowClick"
       >
+        <template
+          slot="index"
+          slot-scope="text, record,index"
+        >{{(index+1)+((pagination.current-1)*10)}}</template>
         <div slot="statusCode" class="flex_a" slot-scope="statusCode">
           <div v-if="statusCode==1">启用</div>
           <div v-if="statusCode==2">备用</div>
@@ -29,7 +33,7 @@
           :treedata="treedata"
           :replaceFields="replaceFields"
           :defaultExpandedKeys="defaultExpandedKeys"
-          @checkedKeys="getcheckedKeys"
+          @checkedKeyslist="getcheckedKeys"
           v-if="showtree"
         ></is-left>
       </div>
@@ -37,7 +41,7 @@
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
           <a-textarea :maxlength="500" v-model="remark" :rows="5" />
-          <div class="edit_number">{{remarklen}}/500</div>
+          <div class="remarknum">{{remarklen}}/500</div>
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
@@ -50,7 +54,7 @@
   </div>
 </template>
 <script>
-import isLeft from "../../../components/tree/seltree.vue";
+import isLeft from "../../../components/tree/check_seltree.vue";
 export default {
   inject: ["reload"],
   components: {
@@ -66,6 +70,9 @@ export default {
           dataIndex: "customerId",
           key: "customerId",
           ellipsis: true,
+          scopedSlots: {
+            customRender: "index",
+          },
         },
         {
           width: 141,
@@ -103,6 +110,13 @@ export default {
       treeprame: {
         customerId: "",
         operatorId: "",
+      },
+      pagination: {
+        total: 0,
+        pageSize: 10000, //每页中显示10条数据
+        current: 1,
+        page: 1,
+        hideOnSinglePage:true
       },
       runpageparam: {
         statusCode: "",
@@ -201,6 +215,7 @@ export default {
       let res = await this.$http.post(this.$api.customerareaform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.error("授权成功");
+        this.reload();
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -279,6 +294,7 @@ export default {
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
+      console.log(val, 6666);
       this.isselectdata = val;
       this.isselectdata.id = val.id;
       this.isselectdata.name = val.name;
@@ -335,7 +351,7 @@ export default {
   width: 1232px;
   height: 384px;
   margin-top: 20px;
-  margin-bottom: 210px;
+  margin-bottom: 170px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
 }

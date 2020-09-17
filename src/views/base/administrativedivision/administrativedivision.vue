@@ -12,7 +12,7 @@
           v-if="showtree"
         ></is-left>
       </div>
-      <div>
+      <div class="right_box">
         <div class="right">
           <div class="r_top flex_f">
             <div class="r_t_text" @click="showdialogadmin()">区划名称</div>
@@ -161,11 +161,13 @@ export default {
         total: 0,
         pageSize: 10, //每页中显示10条数据
         showSizeChanger: true,
+        showQuickJumper:true,
         current: 1,
         page: 1,
         size: "default",
         pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
         showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
+
       },
       issearchdata: "",
       filterdata: [],
@@ -263,7 +265,6 @@ export default {
           this.isselectdata.id = this.treedata[0].id;
           this.isselectdata.name = this.treedata[0].name;
           this.isselectdata.levelType = this.treedata[0].levelType;
-          this.isselectdata.pid = this.treedata[0].pid;
         }
         this.$router.push({
           path: "/addadministrativedivision",
@@ -272,7 +273,6 @@ export default {
             id: this.isselectdata.id,
             name: this.isselectdata.name,
             levelType: this.isselectdata.levelType,
-            pid: this.isselectdata.pid,
           },
         });
       } else {
@@ -412,13 +412,6 @@ export default {
 .tree {
   text-align: left;
 }
-
-.right {
-  width: 1372px;
-  padding-left: 20px;
-  padding-top: 20px;
-}
-
 .r_t_text {
   width: 70px;
   height: 16px;

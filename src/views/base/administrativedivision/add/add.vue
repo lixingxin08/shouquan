@@ -116,15 +116,6 @@ export default {
       areadetailprame: {
         //行政区划详情接口参数
         areaId: "",
-        keyword: "",
-        latitude: 0,
-        list: [{}],
-        longitude: 0,
-        pageIndex: 0,
-        pageSize: 0,
-        parentId: "",
-        remark: "",
-        searchIndex: 0,
       },
     };
   },
@@ -133,7 +124,6 @@ export default {
       this.form.parentId = this.$route.query.id;
       this.form.parentName = this.$route.query.name;
       this.form.levelType = this.$route.query.levelType;
-      this.form.parentId = this.$route.query.pid;
     }
     if (this.$route.query.type == "edit") {
       this.areadetailprame.areaId = this.$route.query.id;
@@ -180,7 +170,6 @@ export default {
       let res = await this.$http.post(this.$api.areaform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.$router.go(-1);
       } else {
         this.$message.error(res.data.resultMsg);
       }

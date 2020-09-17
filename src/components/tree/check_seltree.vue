@@ -72,7 +72,7 @@ export default {
     onCheck(checkedKeys, info) {
       console.log("onCheck", checkedKeys, info);
       this.checkedKeys=checkedKeys
-    //   this.$emit("checkedKeys", this.checkedKeys);
+      this.$emit("checkedKeyslist", this.checkedKeys);
     },
   },
 };

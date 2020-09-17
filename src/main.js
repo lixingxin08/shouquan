@@ -49,8 +49,29 @@ Vue.use(ConfigProvider);
 
 
 // http response 拦截器
+axios.create({
+  timeout:5000
+})
 // axios.interceptors.response.use(
 //   response => {
+//     if (response.code=="20100") {
+//       message.error("令牌错误，请重新登录")
+//       router.replace({
+//         path: '/'
+//       }) 
+//     }
+//     if (response.code=="20101") {
+//       message.error("未登录，请先登录")
+//       router.replace({
+//         path: '/'
+//       }) 
+//     }
+//     if (response.code=="20100") {
+//       message.error("你的账号已在其他地方登录，请重新登录")
+//       router.replace({
+//         path: '/'
+//       }) 
+//     }
 //     return response;
 //   },
 //   error => {
@@ -65,7 +86,7 @@ Vue.use(ConfigProvider);
 //           })
 //         case 504:
 //           router.replace({
-//             path: 'error500',
+//             path: 'error504',
 //             query: {
 //               redirect: router.currentRoute.fullPath
 //             }

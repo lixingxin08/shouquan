@@ -6,9 +6,14 @@
         :columns="tablecolumns"
         :data-source="tabledata"
         bordered
-        :pagination="false"
+        
+        :pagination="pagination"
         :customRow="rowClick"
       >
+        <template
+          slot="index"
+          slot-scope="text, record,index"
+        >{{(index+1)+((pagination.current-1)*10)}}</template>
         <div slot="statusCode" class="flex_a" slot-scope="statusCode">
           <div v-if="statusCode==1">启用</div>
           <div v-if="statusCode==2">备用</div>
@@ -32,7 +37,7 @@
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
           <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
-          <div class="edit_number">{{remarklen}}/500</div>
+          <div class="remarknum">{{remarklen}}/500</div>
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
@@ -78,6 +83,9 @@ export default {
           dataIndex: "customerId",
           key: "customerId",
           ellipsis: true,
+           scopedSlots: {
+            customRender: "index",
+          },
         },
         {
           width: 141,
@@ -100,6 +108,13 @@ export default {
         },
       ],
       tabledata: [],
+       pagination: {
+        total: 0,
+        pageSize: 10000, //每页中显示10条数据
+        current: 1,
+        page: 1,
+        hideOnSinglePage:true
+      },
       treedata: "",
       checkedKeys: [],
       replaceFields: {
@@ -296,7 +311,7 @@ export default {
   width: 1232px;
   height: 384px;
   margin-top: 20px;
-  margin-bottom: 222px;
+  margin-bottom: 182px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
 }

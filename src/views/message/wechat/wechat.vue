@@ -256,12 +256,6 @@
     text-align: left;
   }
 
-  .right {
-    width: 1372px;
-    padding-left: 20px;
-    padding-top: 20px;
-  }
-
   .r_t_text {
     height: 16px;
     font-size: 12px;

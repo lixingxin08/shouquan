@@ -70,7 +70,7 @@
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
           <a-textarea    :maxlength="500" v-model="form.remark" :rows="5" />
-            <div class="edit_number">{{remarklen}}/500</div>
+            <div class="remarknum">{{remarklen}}/500</div>
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
@@ -170,6 +170,7 @@ export default {
         total: 0,
         pageSize: 10, //每页中显示10条数据
         showSizeChanger: true,
+        showQuickJumper:true,
         current: 1,
         page: 1,
         pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
@@ -418,7 +419,7 @@ export default {
 .tree_boxmenu {
   width: 1232px;
   height: 460px;
-  margin-bottom: 210px;
+  margin-bottom: 170px;
   background: #ffffff;
 }
 .tree_box_i {

@@ -3,7 +3,7 @@
     <a-layout id="components-layout-demo-custom-trigger">
       <isnav :iscollapsed="collapsed"></isnav>
       <a-layout>
-        <ishead @tocollapsed="getcollapsed"></ishead>
+        <ishead></ishead>
         <a-layout-content
           :style="{  minHeight: '280px' ,minWidth:'1672px' ,margin: '20px 20px', background: '#fff',}"
         >

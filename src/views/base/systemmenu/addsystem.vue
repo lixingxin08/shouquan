@@ -38,9 +38,9 @@
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>菜单图标:</div>
         <div class="isupload">
-          <a-upload name="avatar" list-type="picture-card" class="avatar-uploader" :show-upload-list="false" action="http://192.168.3.101:8808/upload"
+          <a-upload name="file" list-type="picture-card" class="avatar-uploader" :show-upload-list="false" action="http://192.168.3.101:80/upload"
             :before-upload="beforeUpload" @change="handleChangeImage">
-            <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+            <img v-if="imageUrl" :src="imageUrl" alt="file" />
             <div v-else>
               <a-icon :type="loading ? 'loading' : 'plus'" />
               <div class="ant-upload-text">Upload</div>
@@ -204,10 +204,9 @@ this.authList=this.cacheData.authList
         }
         if (info.file.status === "done") {
           // Get this url from response in real world.
-          getBase64(info.file.originFileObj, (imageUrl) => {
-            this.imageUrl = imageUrl;
-            this.loading = false;
-          });
+                this.imageUrl = info.file.response.data;
+          this.loading = false;
+
         }
         console.log(this.imageUrl, 88999, info);
       },

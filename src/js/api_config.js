@@ -27,7 +27,7 @@ export default {
   rundetail: `/config/parameter/detail `, //运行参数详情接口
   runform: `/config/parameter/form`, //运行参数表单接
   runpage: `/config/parameter/page`, //运行参数列表接口
-  runremove: `/config/dictionary/remove`, //运行参数删除接口
+  runremove: `/config/parameter/remove`, //运行参数删除接口
 
   //客户人员信息表API
   persondeleteByPersonId: `/customer/person/remove`,

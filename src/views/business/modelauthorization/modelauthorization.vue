@@ -6,9 +6,13 @@
         :columns="tablecolumns"
         :data-source="tabledata"
         bordered
-        :pagination="false"
+        :pagination="pagination"
         :customRow="rowClick"
       >
+        <template
+          slot="index"
+          slot-scope="text, record,index"
+        >{{(index+1)+((pagination.current-1)*10)}}</template>
         <div slot="statusCode" class="flex_a" slot-scope="statusCode">
           <div v-if="statusCode==1">启用</div>
           <div v-if="statusCode==2">备用</div>
@@ -25,7 +29,7 @@
               :treedata="treedata"
               :replaceFields="replaceFields"
               :defaultExpandedKeys="defaultExpandedKeys"
-                @selectdata="getselectdata"
+              @selectdata="getselectdata"
               @checkedKeys="getcheckedKeys"
               v-if="showtree"
             ></is-left>
@@ -37,10 +41,14 @@
             <a-table
               :columns="tablecolumns2"
               :data-source="tabledata2"
-              :row-selection="rowSelection"    
+              :row-selection="rowSelection"
               bordered
-              :pagination="false"
+              :pagination="pagination2"
             ></a-table>
+            <template
+              slot="index2"
+              slot-scope="text, record,index"
+            >{{(index+1)+((pagination2.current-1)*10)}}</template>
           </div>
         </div>
       </div>
@@ -48,7 +56,7 @@
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
           <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
-          <div class="edit_number">{{remarklen}}/500</div>
+          <div class="remarknum">{{remarklen}}/500</div>
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
@@ -63,21 +71,21 @@
 <script>
 import isLeft from "../../../components/tree/tree.vue";
 export default {
-  inject:['reload'],
+  inject: ["reload"],
   components: {
     isLeft,
   },
-    computed: {
+  computed: {
     remarklen() {
       return this.form.remark.length;
     },
   },
   data() {
     return {
-      remark:"",
-     isdefaultChecked :'路灯控制器NB版',
+      remark: "",
+      isdefaultChecked: "路灯控制器NB版",
       rowSelection: {
-         getCheckboxProps: record => ({
+        getCheckboxProps: (record) => ({
           props: {
             defaultChecked: record.modelName === this.isdefaultChecked, // Column configuration not to be checked
             name: record.modelName,
@@ -106,9 +114,8 @@ export default {
             selectedRows.forEach((item) => {
               this.form.modelIdList.push(item.modelId);
             });
-          
           }
-        }, 
+        },
       },
       tablecolumns: [
         {
@@ -118,6 +125,9 @@ export default {
           dataIndex: "customerId",
           key: "customerId",
           ellipsis: true,
+          scopedSlots: {
+            customRender: "index",
+          },
         },
         {
           width: 141,
@@ -140,6 +150,20 @@ export default {
         },
       ],
       tabledata: [],
+      pagination: {
+        total: 0,
+        pageSize: 10000, //每页中显示10条数据
+        current: 1,
+        page: 1,
+        hideOnSinglePage: true,
+      },
+      pagination2: {
+        total: 0,
+        pageSize: 10000, //每页中显示10条数据
+        current: 1,
+        page: 1,
+        hideOnSinglePage: true,
+      },
       tabletype: false,
       tabletype2: false,
       tablecolumns2: [
@@ -150,6 +174,9 @@ export default {
           dataIndex: "modelId",
           key: "modelId",
           ellipsis: true,
+          scopedSlots: {
+            customRender: "index2",
+          },
         },
         {
           width: 141,
@@ -187,27 +214,27 @@ export default {
       showtree: false,
       treeprame: {
         customerId: "",
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       listparam: {
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
         customerId: "",
       },
       modellistparam: {
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
         customerId: "",
       },
-      treemodelparam:{
-        id:"",
-        levelType:""
+      treemodelparam: {
+        id: "",
+        levelType: "",
       },
-      treemodeldata:"",
+      treemodeldata: "",
       customerId: "",
       form: {
         modelIdList: [],
         accountId: "",
         remark: "",
-         operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       rowClick: (record) => ({
         // 事件
@@ -216,7 +243,7 @@ export default {
             // 点击改行时要做的事情
             // ......
 
-           this.modellistparam.customerId= record.customerId;
+            this.modellistparam.customerId = record.customerId;
             this.getmodellist();
             console.log(record, "record", this.customerId);
           },
@@ -242,7 +269,7 @@ export default {
           }
         }
         this.modellistparam.customerId = this.tabledata[0].customerId;
-        this.form.customerId = this.tabledata[0].customerId; 
+        this.form.customerId = this.tabledata[0].customerId;
         this.getmodellist();
         this.tabletype = true;
       } else {
@@ -256,23 +283,23 @@ export default {
         this.modellistparam
       );
       if (res.data.resultCode == "10000") {
-          this.tabledata2 = res.data.data;
+        this.tabledata2 = res.data.data;
 
         this.tabletype2 = true;
       } else {
-         this.tabledata2 =''
+        this.tabledata2 = "";
         return this.$message.error(res.data.resultMsg);
       }
     },
-        async gettreemodellist() {
+    async gettreemodellist() {
       this.tabletype2 = false;
       let res = await this.$http.post(
         this.$api.devicemodelrelist,
         this.treemodelparam
       );
       if (res.data.resultCode == "10000") {
-         console.log(res.data.data,7778888);
-         this.treemodeldata=res.data.data
+        console.log(res.data.data, 7778888);
+        this.treemodeldata = res.data.data;
         this.tabletype2 = true;
       } else {
         return this.$message.error(res.data.resultMsg);
@@ -280,8 +307,8 @@ export default {
     },
     async getform() {
       this.tabletype2 = false;
-      console.log(this.form,111111111111);
-       this.form.customerId=this.modellistparam.customerId
+      console.log(this.form, 111111111111);
+      this.form.customerId = this.modellistparam.customerId;
       let res = await this.$http.post(this.$api.customermodelform, this.form);
       if (res.data.resultCode == "10000") {
         return this.$message.success(res.data.resultMsg);
@@ -358,18 +385,17 @@ export default {
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
-      console.log(val,544444);
-           this.treemodelparam.id=val.id
-      this.treemodelparam.levelType=val.levelType
-      this.gettreemodellist()
+      console.log(val, 544444);
+      this.treemodelparam.id = val.id;
+      this.treemodelparam.levelType = val.levelType;
+      this.gettreemodellist();
     },
     getcheckedKeys(val) {
       console.log(val, 44444);
- 
     },
-    cancel(){
-      this.reload()
-    }
+    cancel() {
+      this.reload();
+    },
   },
 };
 </script>
@@ -424,15 +450,15 @@ export default {
   width: 100%;
   height: 384px;
   margin-top: 20px;
-  margin-bottom: 222px;
+  margin-bottom: 182px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
 }
-.tree_box1{
+.tree_box1 {
   padding: 20px;
   overflow: scroll;
 }
-.tree_box1::-webkit-scrollbar{
+.tree_box1::-webkit-scrollbar {
   display: none;
 }
 .r_b_title {

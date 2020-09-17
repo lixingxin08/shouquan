@@ -1,6 +1,6 @@
 <template>
   <a-layout-header
-    style="background: #fff; padding: 0;text-align:left;height:60px;line-height:60px"
+    style="background: #fff; padding: 0;text-align:left;height:60px;line-height:60px;width:100%"
     class="flex_b"
   >
     <a-breadcrumb class="bread">
@@ -12,8 +12,8 @@
       <a-breadcrumb-item>
          <div class="flex_f">
            <div class="head_r"></div>
-           <div class="head_r">
-             <router-link to="/">返回首页</router-link>
+           <div class="head_r" @click="backhome()">
+             返回首页
            </div>
            <div class="head_r head_r_last"><img src="../../assets/nav_img/user.png" alt="" class="head_r_img">{{user.realName}}</div>
          </div>
@@ -35,6 +35,11 @@ export default {
     changecollapsed() {
       this.iscollapsed = !this.iscollapsed;
       this.$emit("tocollapsed", this.iscollapsed);
+    },
+    backhome(){
+    let aa= window.location.href.split('/#')
+      let bb=aa[0].split('/authorization')
+        window.location.href= bb[0]
     },
     gettitle(){
        this.$route.matched.forEach((item) => {
