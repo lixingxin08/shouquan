@@ -35,7 +35,7 @@
     <div class="flexrow flexjc flexac addbtn" @click="add">
       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增分组
     </div>
- 
+
   </div>
 </template>
 
@@ -67,7 +67,7 @@
           propertyDesc: item.propertyDesc, //属性描述
           propertyName: item.propertyName, //属性名称
           propertyCode: item.propertyCode, //属性代码
-          propertyId: item.propertyId ? this.propertyId : "",
+          propertyId: item.propertyId ,
           deviceTypeId: this.id, //属性id 为空新增
           parentId: groupItem.propertyId, //父级属性id
           operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId
@@ -148,6 +148,7 @@
         }
 
         let param = {
+          propertyId:item.propertyId,
           propertyName: item.propertyName,//分组名称
           deviceTypeId: this.id,//为空 新增 不能为空编辑
           operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId//操作者id
@@ -188,7 +189,7 @@
       cancleDialog() {
         this.visible = false
       },
-     
+
     }
   }
 </script>
