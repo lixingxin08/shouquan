@@ -30,7 +30,7 @@
       <div class="flexrow flexac item-model">
         <div class="item-title-model">参数描述：</div>
 
-        <a-textarea v-model="param.description" :maxLength="255" placeholder="请输入参数描述,255字以内" :auto-size="{ minRows: 3, maxRows: 5 }" />
+        <a-textarea v-model="param.description" :maxLength="250" placeholder="请输入参数描述,250字以内" :auto-size="{ minRows: 3, maxRows: 5 }" />
       </div>
       <div class="flexrow flexjc" style="margin-top: 40px;margin-bottom: 100px;">
         <a-button type='primary' @click='submit'>确定</a-button>

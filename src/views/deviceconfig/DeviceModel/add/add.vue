@@ -32,7 +32,7 @@
       <div class="flexrow flexac edit_item_model">
         <div class="edit_item_model_title3"><a style="color: #FF0000;">*</a>型号名称:</div>
         <div class='edit_a_input_model'>
-          <a-input v-model='modelName' :maxLength='50' placeholder="请输入您选择的型号名称" />
+          <a-input v-model='modelName' :maxLength='50' placeholder="请输入型号名称" />
         </div>
 
         <div class="edit_item_model_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
@@ -40,7 +40,7 @@
       <div class="flexrow flexac edit_item_model">
         <div class="edit_item_model_title3"><a style="color: #FF0000;">*</a>型号代码:</div>
         <div class='edit_a_input_model'>
-          <a-input :maxLength='50' v-model='modelCode' placeholder="请输入您选择的型号代码" />
+          <a-input :maxLength='50' v-model='modelCode' placeholder="请输入型号代码" />
         </div>
 
         <div class="edit_item_model_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>

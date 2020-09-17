@@ -5,11 +5,11 @@
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title1_zzx"><a style="color: #FF0000;">*</a>角色名称:</div>
-        <a-input class='edit_a_input_zzx' v-model='config.roleName' :maxLength='50' placeholder="2-16个字，支持中英文" />
+        <a-input class='edit_a_input_zzx' v-model='config.roleName' :maxLength='16' placeholder="2-16个字，支持中英文" />
       </div>
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title1_zzx">角色描述:</div>
-        <a-input class='edit_a_input_zzx' v-model='config.remark' placeholder="500字以内，格式不限制" />
+        <a-input class='edit_a_input_zzx' :maxLength='250' v-model='config.remark' placeholder="250字以内，格式不限制" />
       </div>
       <div class="flexrow flexac edit_item_zzx" style="align-items: flex-start;">
 
@@ -18,7 +18,7 @@
           <div class="flexrow  flexac">
             <div style="flex-shrink: 0;margin-right: 7px;width: 100px;text-align: end;font-size: 14px;">
               <div style="color: #333333;">  服务子系统:</div>
-            
+
             </div>
             <a-select :value="selectValue?selectValue:'全部'" class='selet_bg_zzx' @change="handleSelectChange">
               <a-select-option v-for='(item,index) in selectList' :key='index' :value="item.menuId">
@@ -80,6 +80,14 @@
       async submit() {
         if (!this.config.roleName) {
           this.$message.warning('角色名称不能为空')
+          return
+        }
+        if (this.config.roleName.length<2) {
+          this.$message.warning('角色名称要求2-16位')
+          return
+        }
+        if(!this.vify_cn16(this.config.roleName)){
+          this.$message.warning('角色名称格式不对')
           return
         }
         if (this.defaultExpandedKeys.length <= 0) {

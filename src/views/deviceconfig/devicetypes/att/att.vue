@@ -1,6 +1,6 @@
 <template>
   <div class="content2">
-       <is-delete-dialog v-if="visible" @confirm='confirmDialog' @cancle='cancelDialog'></is-delete-dialog>
+    <is-delete-dialog v-if="visible" @confirm='confirmDialog' @cancle='cancelDialog'></is-delete-dialog>
     <div class="flexcolumn" v-for="(item,index) in groups" :key='index'>
       <div class="flexrow flexac" style="margin-top: 10px;margin-bottom: 10px;">
         <div class="edit_item_title3"><a style="color: #FF0000;">*</a>属性分组:</div>
@@ -49,25 +49,25 @@
     data() {
 
       return {
-        visible: false,//是否显示删除确认框
-        dictionaryColumns: tableTitleData.data.attList,//table title
-        groups: [],//分组列表
-        id: '',//设备类型id
-        deleteItem: ""//删除的item 缓存记录
+        visible: false, //是否显示删除确认框
+        dictionaryColumns: tableTitleData.data.attList, //table title
+        groups: [], //分组列表
+        id: '', //设备类型id
+        deleteItem: "" //删除的item 缓存记录
       }
     },
     created() {
-      this.id = this.$route.query.id//获取传入的设备id
+      this.id = this.$route.query.id //获取传入的设备id
       this.getProperty()
     },
     methods: {
-		/* 保存属性 */
+      /* 保存属性 */
       async save(item, groupItem) {
         let param = {
           propertyDesc: item.propertyDesc, //属性描述
           propertyName: item.propertyName, //属性名称
           propertyCode: item.propertyCode, //属性代码
-          propertyId: item.propertyId ,
+          propertyId: item.propertyId,
           deviceTypeId: this.id, //属性id 为空新增
           parentId: groupItem.propertyId, //父级属性id
           operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId
@@ -81,8 +81,8 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-	  /* 删除某个分组下的子属性*/
-     async cancel(item) {
+      /* 删除某个分组下的子属性*/
+      async cancel(item) {
         let param = {
           propertyId: item.propertyId
         }
@@ -94,11 +94,11 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-	  /* 添加分组*/
+      /* 添加分组*/
       add() {
         this.groups.push({})
       },
-	  /* 添加分组的子属性*/
+      /* 添加分组的子属性*/
       addGroupAtt(index) {
         this.groups[index].childrenList.push({
           propertyCode: '',
@@ -107,7 +107,7 @@
           propertyDesc: ''
         })
       },
-/* 删除属性分组 */
+      /* 删除属性分组 */
       deleteGroup(item) {
         this.deleteItem = item
         this.visible = true
@@ -119,23 +119,23 @@
         }
         let res = await this.$http.post(this.$api.propertylist, param)
 
-      if (res.data.resultCode == 10000) {
-        let data = []
-        res.data.data.result.forEach((item) => {
-          if (item.parentId == '100000000000000000000000000000000000000000000000000000000000') {
-            item.childrenList = []
-            res.data.data.result.forEach((childItem) => {
-              if (childItem.parentId == item.propertyId) {
-                item.childrenList.push(childItem)
-              }
-            })
-            data.push(item)
-          }
-        })
-        this.groups = data
+        if (res.data.resultCode == 10000) {
+          let data = []
+          res.data.data.result.forEach((item) => {
+            if (item.parentId == '100000000000000000000000000000000000000000000000000000000000') {
+              item.childrenList = []
+              res.data.data.result.forEach((childItem) => {
+                if (childItem.parentId == item.propertyId) {
+                  item.childrenList.push(childItem)
+                }
+              })
+              data.push(item)
+            }
+          })
+          this.groups = data
 
 
-        } else {//没有分组信息时本地添加一个空的
+        } else { //没有分组信息时本地添加一个空的
           this.groups.push({})
           this.$message.error(res.data.resultMsg);
         }
@@ -148,15 +148,15 @@
         }
 
         let param = {
-          propertyId:item.propertyId,
-          propertyName: item.propertyName,//分组名称
-          deviceTypeId: this.id,//为空 新增 不能为空编辑
-          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId//操作者id
+          propertyId: item.propertyId,
+          propertyName: item.propertyName, //分组名称
+          deviceTypeId: this.id, //为空 新增 不能为空编辑
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId //操作者id
         }
         let res = await this.$http.post(this.$api.propertyform, param)
         if (res.data.resultCode == 10000) {
           this.getProperty()
-           this.$message.success(res.data.resultMsg);
+          this.$message.success(res.data.resultMsg);
         } else {
           this.$message.error(res.data.resultMsg);
         }
@@ -174,7 +174,7 @@
       async confirmDialog() {
         this.visible = false
         let param = {
-          propertyId: this.deleteItem.propertyId//分组的id
+          propertyId: this.deleteItem.propertyId //分组的id
         }
         let res = await this.$http.post(this.$api.propertyremove, param)
 

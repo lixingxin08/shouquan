@@ -24,7 +24,7 @@
       </div>
       <div class="flexrow flexac edit_item_menu" v-if="(grade-1)==3">
         <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>菜单类型:</div>
-        <a-radio-group :options="menuTypeList" :default-value="menuValue" @change="onChange1" />
+        <a-radio-group :options="menuTypeList" :value="menuValue" @change="onChange1" />
         <br />
       </div>
       <div class="flexrow flexac edit_item_menu">
@@ -110,7 +110,7 @@
         dictionaryColumns: tableTitleData.data.adddictionaryColumns,
         menuValue: '页签', //菜单类型
         menuName: '', //菜单名称
-        menuType: 1000, //菜单类型
+        menuType: 4000, //菜单类型
         remark: '', //备注
         num: 0, //描述长度
         menuTypeList: ['页签', '按钮'], //'子系统', '子栏目', '子菜单',  测试提不需要加
@@ -230,18 +230,19 @@ this.authList=this.cacheData.authList
         this.showAddDialog = true
       },
       onChange1(e) { //菜单类型选择
-        this.menuName = e.target.value
-        if (this.menuName == '子系统') {
+        this.menuValue = e.target.value
+        if (this.menuValue == '子系统') {
           this.menuType = 1000
-        } else if (this.menuName == '子栏目') {
+        } else if (this.menuValue == '子栏目') {
           this.menuType = 2000
-        } else if (this.menuName == '子菜单') {
+        } else if (this.menuValue == '子菜单') {
           this.menuType = 3000
-        } else if (this.menuName == '页签') {
+        } else if (this.menuValue == '页签') {
           this.menuType = 4000
-        } else if (this.menuName == '按钮') {
+        } else if (this.menuValue == '按钮') {
           this.menuType = 5000
         }
+        console.log(this.menuType)
       },
       handleSelectChange(key) { //授权类型下拉选择
         this.authFlag = key
@@ -263,7 +264,7 @@ this.authList=this.cacheData.authList
           this.$message.warning('菜单名称不能为空');
           return
         }
-        this.imageUrl = 'dd'
+     
         if (!this.imageUrl) {
           this.$message.warning('菜单图标不能为空');
           return

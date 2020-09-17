@@ -6,7 +6,7 @@
       <div class="flexrow flexac edit_item_brand">
         <div class="edit_item_brand_title3"><a style="color: #FF0000;">*</a>品牌名称:</div>
         <div class='edit_a_input_brand'>
-          <a-input v-model='typeName' :maxLength='50' placeholder="平台" />
+          <a-input v-model='typeName' :maxLength='50' placeholder="请输入品牌名称" />
         </div>
 
         <div class="edit_item_brand_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
@@ -14,7 +14,7 @@
       <div class="flexrow flexac edit_item_brand">
         <div class="edit_item_brand_title3"><a style="color: #FF0000;">*</a>品牌代码:</div>
         <div class='edit_a_input_brand'>
-          <a-input v-model='typeCode' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input v-model='typeCode' :maxLength='50' placeholder="请输入品牌代码" />
         </div>
 
         <div class="edit_item_brand_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>

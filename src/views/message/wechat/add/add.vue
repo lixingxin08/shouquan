@@ -55,7 +55,7 @@
         </div>
 
       </div>
-      <a-table v-else style='margin-top: 20px;margin-bottom: 20px; ' :scroll="{ x: 820 }" :columns="addcolumns"
+      <a-table v-else style='margin-top: 20px;margin-bottom: 20px; width: 820px;'  :columns="addcolumns"
         :data-source="msgList" :pagination='false' :bordered='true' size='small'>
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
