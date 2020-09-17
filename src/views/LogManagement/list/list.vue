@@ -43,7 +43,7 @@
         pagination: {
           total: 0,
           size: "default",
-          current:1,
+          current: 1,
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
@@ -63,7 +63,7 @@
         this.timeValue = dateStrings
       },
       handleTableChange(pagination) {
-        this.pagination.pageSize=pagination.pageSize
+        this.pagination.pageSize = pagination.pageSize
         this.pagination.current = pagination.current
         this.getTableData()
       },
@@ -79,19 +79,23 @@
       },
       async getTableData() {
         //menuId: this.parentItem.id,
+        console.log(this.timeValue[0])
+        console.log(this.timeValue[1])
         let param = {
           actionName: this.keyword,
           pageSize: this.pagination.pageSize,
-          startTime: this.timeValue[0]? this.timeValue[0].replaceAll('/','-') :'',
-          endTime: this.timeValue[1]?this.timeValue[1].replaceAll('/','-'):'',
+          startTime: this.timeValue[0] ? this.timeValue[0].toString().replace(new RegExp('/', 'gm'), '-') : '',
+          endTime: this.timeValue[1] ? this.timeValue[1].toString().replace(new RegExp('/', 'gm'), '-') : '',
           pageIndex: this.pagination.current
         };
         let res = await this.$http.post(this.$api.journalpage, param);
         if (res.data.resultCode == "10000") {
-          this.tableList = res.data.data.list;
-		  if(this.pagination.current==1)
-          this.pagination.total = res.data.data.length;
-          this.$forceUpdate();
+          if (res.data.data) {
+            this.tableList = res.data.data.list;
+            if (this.pagination.current == 1)
+              this.pagination.total = res.data.data.length;
+            this.$forceUpdate();
+          }
         } else {
           this.tableList = []
         }

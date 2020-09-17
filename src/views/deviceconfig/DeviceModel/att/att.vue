@@ -3,28 +3,28 @@
     <div class="flexrow flexac" style="margin-bottom: 20px;">
       <div class='title_tx'>业务类别:</div>
       <div class="flexrow flexac flexsb title_item">
-        {{modelDetail.serviceTypeName}}
+        {{modelDetail.serviceTypeName?modelDetail.serviceTypeName:'无'}}
         <a-icon type="down" />
       </div>
       <div class='title_tx'>设备类型:</div>
       <div class="flexrow flexac flexsb title_item">
-        {{modelDetail.deviceTypeName}}
+        {{modelDetail.deviceTypeName?modelDetail.deviceTypeName:'无'}}
         <a-icon type="down" />
       </div>
       <div class='title_tx'>设备品牌:</div>
       <div class="flexrow flexac flexsb title_item">
-        {{modelDetail.brandName}}
+        {{modelDetail.brandName?modelDetail.brandName:'无'}}
         <a-icon type="down" />
       </div>
       <div class='title_tx'>型号名称:</div>
       <div class="flexrow flexac flexsb title_item">
-        {{modelDetail.modelName}}
+        {{modelDetail.modelName?modelDetail.modelName:'无'}}
         <a-icon type="down" />
       </div>
     </div>
-    <div class="flexcolumn"  v-for="(item ,index) in groups" :key='index' style="padding: 10px;border: 1px solid #E5E5E5;margin-top: 20px;">
+    <div  class="flexcolumn"  v-for="(item ,index) in groups" :key='index' style="padding: 10px;border: 1px solid #E5E5E5;margin-top: 20px;">
       <div class="flexrow flexac">
-        属性分组:
+        <div style="color: #333333;margin-left: 10px;">属性分组:</div>
         <a class="title_item" style="margin-left: 20px;width: 667px;">{{item.propertyName}}</a>
       </div>
 
@@ -39,7 +39,10 @@
         </template>
       </a-table>
     </div>
-    <div class="flexrow flexjc" style="margin-top: 40px;margin-bottom: 100px;">
+    <div v-if="groups.length<=0" style="color: #000000;margin-top: 80px;margin-bottom: 80px;">
+      暂无属性值
+    </div>
+    <div v-if="groups.length>0" class="flexrow flexjc" style="margin-top: 40px;margin-bottom: 100px;">
       <a-button type="primary" @click='submit'>保存</a-button>
       <a-button style="margin-left: 20px;" @click='reset'>重置</a-button>
     </div>
@@ -51,7 +54,7 @@
 
   const attList = [{
       title: "序号",
-      width: "3%",
+      width: "5%",
       align: "center",
         className: 'topic-info',
       scopedSlots: {
@@ -164,10 +167,10 @@
 
         if (res.data.resultCode == 10000) {
           let data = []
-          res.data.data.forEach((item) => {
+          res.data.data.result.forEach((item) => {
             if (item.parentId == '100000000000000000000000000000000000000000000000000000000000') {
               item.childrenList = []
-              res.data.data.forEach((childItem) => {
+               res.data.data.result.forEach((childItem) => {
                 if (childItem.parentId == item.propertyId) {
                   item.childrenList.push(childItem)
                 }

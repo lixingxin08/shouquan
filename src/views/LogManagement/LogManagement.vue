@@ -1,6 +1,6 @@
 <template>
   <div class="administrativedivision flex_fs">
-    <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultSelectedKeys="defaultSelectedKeys" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
+    <is-left style="margin-top: 20px;margin-left:  20px;" :treedata="treedata" :replaceFields="replaceFields" :defaultSelectedKeys="defaultSelectedKeys" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
       v-if="showtree"></is-left>
     <div class="flexcolumn" style="width: 100%;padding: 20px;">
       <is-list v-show="isselectdata" ref="log" @refreshtree='getdictionarytree'></is-list>

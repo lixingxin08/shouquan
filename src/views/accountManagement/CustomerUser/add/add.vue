@@ -14,7 +14,7 @@
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title2_zzx">人员性别:</div>
         <a-input v-if='!config.realName' :disabled='true' class='edit_a_input_zzx' placeholder="请选择人员" />
-        <a-input v-else :disabled='true' class='edit_a_input_zzx' v-model="config.gender==1?'男':'女'" :placeholder="!config.realName?'请选择人员':'无'" />
+        <a-input v-else :disabled='true' class='edit_a_input_zzx' v-model="config.gender==0?'男':'女'" :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title2_zzx">手机号码:</div>
@@ -38,15 +38,15 @@
       </div>
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title2_zzx"><a style="color: #FF0000;">*</a>账号名称:</div>
-        <a-input class='edit_a_input_zzx' v-model='config.userName' placeholder="5-11位，支持英文和数字，字母区分大小写" />
+        <a-input class='edit_a_input_zzx' v-model='config.userName' :maxLength='11' placeholder="5-11位，支持英文和数字，字母区分大小写" />
       </div>
       <div class="flexrow flexac edit_item_zzx" v-if="!accountid">
         <div class="edit_item_zzx_title2_zzx"><a style="color: #FF0000;">*</a>账号密码:</div>
-        <a-input-password class='edit_a_input_zzx' v-model='config.cipher' placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
+        <a-input-password class='edit_a_input_zzx' v-model='config.cipher' :maxLength='16' placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
       </div>
       <div class="flexrow flexac edit_item_zzx" v-if="!accountid">
         <div class="edit_item_zzx_title2_zzx"><a style="color: #FF0000;">*</a>确认密码:</div>
-        <a-input-password class='edit_a_input_zzx' v-model='config.cipher2' placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
+        <a-input-password class='edit_a_input_zzx' v-model='config.cipher2' :maxLength='16' placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
       </div>
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title2_zzx"><a style="color: #FF0000;">*</a>账号状态:</div>
@@ -174,7 +174,7 @@
             return
           }
           if (this.config.cipher.length < 5 || this.config.cipher2.length < 5) {
-            this.$message.error('密码格式不对')
+            this.$message.error('密码长度要求5-16位')
             return
           }
           if (this.config.cipher != this.config.cipher2) {

@@ -20,7 +20,7 @@
         <a-table style='margin: 20px;' :scroll="{ x: 700 }" :columns="tablecolumns" :data-source="tabledata" bordered
           :pagination="pagination" @change="handleTableChange" size='small'>
           <div slot="gender" class="flex_a" slot-scope="gender">
-            <div v-if="gender==1">男</div>
+            <div v-if="gender==0">男</div>
             <div v-else>女</div>
           </div>
           <div slot="realName" class="flex_a" slot-scope="text, record" @click="chooseItem(record)">

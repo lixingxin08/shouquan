@@ -24,14 +24,16 @@
       <a-button type="primary" class="title_btn" @click='getDeviceData'>查询</a-button>
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
-     <div class="view-title-line"></div>
-    <a-button class='addbtn' type="primary" @click="add">
-      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
-    </a-button>
+    <div class="view-title-line"></div>
+    <div class="flexrow" style="margin-bottom: 20px;">
+      <a-button type="primary" @click="add">
+        <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
+      </a-button>
+    </div>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
-     {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
+        {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
       </template>
 
       <template slot="operation" slot-scope="text, record">
@@ -75,14 +77,14 @@
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         deviceList: [], //设备型号数据
         pagination: {
-          total:0,
-          current:1,
-           size:"default",
+          total: 0,
+          current: 1,
+          size: "default",
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
-           showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
+          showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
         pageSize: 20,
         pageIndex: 1,
@@ -102,7 +104,7 @@
         this.pagination.pageSize = pagination.pageSize;
         this.getDeviceData()
       },
-/* 获取设备类型 */
+      /* 获取设备类型 */
       async getDeviceData() {
         let param = {
           pageIndex: this.pagination.current,
@@ -115,8 +117,8 @@
         let res = await this.$http.post(this.$api.devicemodelpage, param)
         if (res.data.resultCode == 10000) {
           this.deviceList = res.data.data.list
-           if(this.pagination.current==1)
-        this.pagination.total = res.data.data.length;
+          if (this.pagination.current == 1)
+            this.pagination.total = res.data.data.length;
         } else {
           this.deviceList = []
           this.$message.error(res.data.resultMsg);
@@ -188,7 +190,7 @@
           }
         });
       },
-     /* 運行參數*/
+      /* 運行參數*/
       paramDevice(item) {
 
         this.$router.push({

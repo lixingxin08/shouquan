@@ -155,17 +155,7 @@
   }
 
   .addbtn {
-    font-size: 12px;
-    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-    font-weight: 400;
-    text-align: left;
-    color: #ffffff;
-    width: 80px;
     margin-bottom: 20px;
-    height: 36px;
-    background: #1890ff;
-    border: 1px solid #1890ff;
-    border-radius: 8px;
   }
 
   .item-line {

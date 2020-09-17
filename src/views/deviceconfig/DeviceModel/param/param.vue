@@ -106,7 +106,7 @@
       },
       /* 新增编辑弹框*/
       editParam(item) {
-        if (item == {}) {
+        if (!item.parameterType) {
           item.parameterType = ''
         }
         this.$refs.addparam.getCombobox()

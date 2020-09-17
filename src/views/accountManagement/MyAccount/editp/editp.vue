@@ -6,16 +6,16 @@
       </div>
       <div class="flexrow flexac item_zzx" style="margin-top: 20px;">
         <div class="item-title_zzx"> <a style="color: #FF0033;">*</a>当前密码：</div>
-        <a-input-password v-model='toalword'></a-input-password>
+        <a-input-password v-model='toalword' :maxLength='16'></a-input-password>
       </div>
       <div class="flexrow flexac item_zzx" style="margin-top: 20px;">
         <div class="item-title_zzx"> <a style="color: #FF0033;">*</a>密码：</div>
-        <a-input-password v-model='password'></a-input-password>
+        <a-input-password v-model='password' :maxLength='16'></a-input-password>
       </div>
       <div class="flexrow flexac item_zzx">
         <a style="color: #FF0033;">*</a>
-        <div class="item-title_zzx">确认密码：</div>
-        <a-input-password v-model='password2'></a-input-password>
+        <div class="item-title_zzx" >确认密码：</div>
+        <a-input-password v-model='password2' :maxLength='16'></a-input-password>
       </div>
       <a-button type='primary' style='margin-top: 30px;margin-bottom: 30px;' @click='submit'>确定</a-button>
     </div>
@@ -41,6 +41,10 @@
           this.$message.warning('请输入修改的密码');
           return
         }
+		if (!this.password.length<5 | this.password2.length<5|this.toalword.length<5) {
+		  this.$message.warning('密码格式要求5-16位');
+		  return
+		}
         if (this.password2 != this.password) {
           this.$message.warning('两次输入的密码不一致');
           return
