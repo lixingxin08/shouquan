@@ -17,7 +17,7 @@
     <div class="view-title-line"></div>
 
       <a-button type="primary" class='table-add-btn' @click="toadd({})">
-        <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
+        <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
       </a-button>
     
 
