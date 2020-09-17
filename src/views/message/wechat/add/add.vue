@@ -50,7 +50,7 @@
           <div style="position: relative;">
             <a-textarea class='edit_a_input_wechat' :rows="5" :maxLength='250' v-model='wechat.remark' placeholder="请输入描述"
               @change="onChangeConfig" />
-            <div class="edit_number_wechat">{{num}}/250</div>
+            <div class="edit_number_wechat">{{wechat.remark.length}}/250</div>
           </div>
         </div>
 
@@ -101,7 +101,8 @@
         wechatSelect: '', //事件选择
         msgList: [],
         wechat: {
-          typeCode: ''
+          typeCode: '',
+          remark:''
         }, //事件详情
         id: null,
         num: 0 //描述长度

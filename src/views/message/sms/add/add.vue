@@ -47,7 +47,7 @@
           <div style="position: relative;">
             <a-textarea class='edit_a_input_sms' :rows="5" :maxLength='250' v-model='config.remark' placeholder="请输入描述"
               @change="onChangeConfig" />
-            <div class="edit_number_sms">{{num}}/250</div>
+            <div class="edit_number_sms">{{config.remark.length}}/250</div>
           </div>
         </div>
 
@@ -95,7 +95,8 @@
         addcolumns: table.data.adddColumns,
         msgList: [],
         config:{
-          typeCode:0
+          typeCode:0,
+		  remark:''
         },
         id: null,
         num: 0 //描述长度
