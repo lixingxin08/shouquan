@@ -185,6 +185,7 @@
       setShowData() { //设置数据
         this.menuName = this.cacheData.menuName
         this.remark = this.cacheData.remark
+        this.imageUrl=this.cacheData.menuIcon
 this.authList=this.cacheData.authList
         if (this.isAdd == 'true') {
           this.menuName = ''
