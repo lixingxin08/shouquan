@@ -19,7 +19,12 @@
             <a-button class="btn_gray" @click="clear()">清除</a-button>
           </div>
           <div class="view-title-line"></div>
-          <a-button type='primary' class="btn_blue btn2" @click="toadd({})">新增</a-button>
+
+<div class="flexrow">
+          <a-button type="primary" style='margin-bottom:20px;' @click="toadd({})">
+            <a-icon two-tone-color="#ffffff" type="plus" /> 新增
+          </a-button>
+          </div>
           <div class="table" v-if="tabletype">
             <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination" @change="handleTableChange"
               size='small'>

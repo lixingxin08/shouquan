@@ -1,11 +1,11 @@
 <template>
   <div class="content2">
-      <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
     <div class="flex_fs">
       <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys"
         @selectdata="getselectdata" @searchdata="getsearchdata" v-if="showtree"></is-left>
       <div>
-     <div class="right" style="margin-left: 40px;padding: 0px;">
+        <div class="right" style="margin-left: 40px;padding: 0px;">
           <div class="r_top flex_f">
             <div class="r_t_text">帐号名称/手机号:</div>
             <a-input placeholder="请输入人员姓名/手机号码" class="r_t_inp" v-model="pageparam.keyword" @keydown.enter="tosearch()" />
@@ -15,17 +15,23 @@
               <a-select-option value>全部</a-select-option>
               <a-select-option v-for="(item,index) in statusCode" :key="index" :value="item.id">{{item.val}}</a-select-option>
             </a-select>
-            <div class="btn_blue btn" @click="tosearch()">查询</div>
-            <div class="btn_gray" @click="clear()">清除</div>
+            <a-button type="primary" @click="tosearch()">查询</a-button>
+            <a-button style='margin-left: 20px;' @click="clear()">清除</a-button>
           </div>
-              <div class="view-title-line"></div>
-          <div class="btn_blue btn2" @click="toadd({})">新增</div>
+          <div class="view-title-line"></div>
+
+          <div class="flexrow">
+            <a-button type="primary" style='margin-bottom:20px;' @click="toadd({})">
+              <a-icon two-tone-color="#ffffff" type="plus" /> 新增
+            </a-button>
+          </div>
+
           <div class="table" v-if="tabletype">
             <a-table :columns="tablecolumns" :data-source="tabledata" size='small' bordered :pagination="pagination"
               @change="handleTableChange">
- <template slot="accountId" slot-scope="text, record,index">
-      {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
-      </template>
+              <template slot="accountId" slot-scope="text, record,index">
+                {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
+              </template>
               <div slot="statusCode" class="flex_a" slot-scope="statusCode">
                 <div v-if="statusCode==1">启用</div>
                 <div v-if="statusCode==0">锁定</div>
@@ -33,9 +39,9 @@
 
               <div slot="edit" class="flexrow flexjc" slot-scope="val,departmentId">
                 <div class="col_blue ispointer" @click="toadd(departmentId)">编辑</div>
-                 <div class="item-line"></div>
+                <div class="item-line"></div>
                 <div class="col_blue ispointer" @click="toedit(departmentId)">修改密码</div>
-                 <div class="item-line"></div>
+                <div class="item-line"></div>
                 <div class="col_red ispointer" @click="showdialogcuser(val)">
                   <span>删除</span>
                 </div>
@@ -212,7 +218,7 @@
         let res = await this.$http.post(this.$api.accountinfopage, prame);
         if (res.data.resultCode == "10000") {
           this.tabledata = res.data.data.list;
-         if(this.pagination.current==1)
+          if (this.pagination.current == 1)
             this.pagination.total = res.data.data.length;
 
           this.istotal.type++;
@@ -382,11 +388,10 @@
   };
 </script>
 <style scoped>
-
-
   .tree {
     text-align: left;
   }
+
   .r_t_text {
     height: 16px;
     font-size: 12px;

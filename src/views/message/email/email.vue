@@ -11,19 +11,21 @@
         <a-select-option value>全部</a-select-option>
         <a-select-option v-for="(item,index) in wetchatTypeList" :key="index" :value="item.comboBoxId">{{item.comboBoxName}}</a-select-option>
       </a-select>
-      <div class="btn_blue btn" @click="tosearch()">查询</div>
-      <div class="btn_gray" @click="clear()">清除</div>
+      <a-button type='primary' @click="tosearch()">查询</a-button>
+      <a-button style='margin-left: 20px;' @click="clear()">清除</a-button>
     </div>
     <div class="view-title-line"></div>
+    <div class=" flexrow" style="margin-bottom: 20px;">
+      <a-button type="primary" @click="toadd({})">
+        <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
+      </a-button>
+    </div>
 
-    <a-button class='addbtn' type="primary" @click="toadd({})">
-      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
-    </a-button>
     <a-table :columns="tablecolumns" :data-source="tabledata" bordered size='small' :pagination="pagination" @change="handleTableChange">
       <div slot="emailConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</div>
       <div slot="edit" class="flexrow flexjc" slot-scope="childTotal,areaName">
         <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
-         <div class="item-line"></div>
+        <div class="item-line"></div>
         <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(areaName)">
           <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
         </a-popconfirm>

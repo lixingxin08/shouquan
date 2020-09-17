@@ -11,13 +11,15 @@
         <a-select-option value>全部</a-select-option>
         <a-select-option v-for="(item,index) in sel_data" :key="index" :value="item.comboBoxId">{{item.comboBoxName}}</a-select-option>
       </a-select>
-      <div class="btn_blue btn" @click="tosearch()">查询</div>
-      <div class="btn_gray" @click="clear()">清除</div>
+      <a-button type='primary' @click="tosearch()">查询</a-button>
+      <a-button style='margin-left: 20px;' @click="clear()">清除</a-button>
     </div>
     <div class="view-title-line"></div>
-    <a-button class='addbtn' type="primary" @click="toadd({})">
-      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
-    </a-button>
+   <div class=" flexrow" style="margin-bottom: 20px;">
+     <a-button type="primary" @click="toadd({})">
+       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
+     </a-button>
+   </div>
 
     <a-table :columns="tablecolumns" :data-source="tabledata" bordered size='small' :pagination="pagination" @change="handleTableChange">
       <div slot="smsConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</div>
