@@ -6,7 +6,7 @@
       <div class="flexrow flexac edit_item_brand">
         <div class="edit_item_brand_title3"><a style="color: #FF0000;">*</a>品牌名称:</div>
         <div class='edit_a_input_brand'>
-          <a-input v-model='typeName' :maxLength='50' placeholder="平台" />
+          <a-input v-model='typeName' :maxLength='50' placeholder="请输入品牌名称" />
         </div>
 
         <div class="edit_item_brand_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
@@ -14,7 +14,7 @@
       <div class="flexrow flexac edit_item_brand">
         <div class="edit_item_brand_title3"><a style="color: #FF0000;">*</a>品牌代码:</div>
         <div class='edit_a_input_brand'>
-          <a-input v-model='typeCode' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input v-model='typeCode' :maxLength='50' placeholder="请输入品牌代码" />
         </div>
 
         <div class="edit_item_brand_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
@@ -83,7 +83,7 @@
           this.typeName = ''
           this.typeCode = ''
           this.remark = ''
-		 this.num=0
+          this.num = 0
           this.selectedRowKeys = []
         }
       },
@@ -134,7 +134,7 @@
       },
       /* 获取设备类型*/
       async getBrandInfo() {
-        let param = {
+        let param = { 
           brandId: this.id
         }
         let res = await this.$http.post(this.$api.devicebrandsdetail, param);
@@ -142,8 +142,8 @@
 
           this.typeName = res.data.data.brandName
           this.typeCode = res.data.data.brandCode
-          this.remark = res.data.data.remark
-		  this.num=this.remark.length
+          this.remark = res.data.data.remark ? res.data.data.remark : ''
+          this.num = this.remark.length
           this.typeList = res.data.data.deviceTypeList
           if (this.typeList.length > 0) {
             this.selectedRowKeys = []

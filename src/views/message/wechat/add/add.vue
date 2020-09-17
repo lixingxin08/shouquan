@@ -33,8 +33,7 @@
           <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;"></a>令牌失效时间:</div>
           <!--   <a-input class='edit_a_input_wechat' v-model='wechat.expirationTime' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
             <div class="edit_item_wechat_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
-          <a-date-picker style='width: 667px;' format="YYYY-MM-DD HH:mm:ss"  :value='wechat.expirationTime'
-            @change="onChangeTime" />
+          <a-date-picker style='width: 667px;' format="YYYY-MM-DD HH:mm:ss" :value='wechat.expirationTime' @change="onChangeTime" />
         </div>
         <div class="flexrow flexac edit_item_wechat">
           <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;">*</a>微信账号类型:</div>
@@ -55,8 +54,8 @@
         </div>
 
       </div>
-      <a-table v-else style='margin-top: 20px;margin-bottom: 20px; ' :scroll="{ x: 820 }" :columns="addcolumns"
-        :data-source="msgList" :pagination='false' :bordered='true' size='small'>
+      <a-table v-else style='margin-top: 20px;margin-bottom: 20px; width: 820px;' :columns="addcolumns" :data-source="msgList"
+        :pagination='false' :bordered='true' size='small'>
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
         </template>
@@ -102,7 +101,7 @@
         msgList: [],
         wechat: {
           typeCode: '',
-          remark:''
+          remark: ''
         }, //事件详情
         id: null,
         num: 0 //描述长度
@@ -112,8 +111,6 @@
       this.id = this.$route.query.id
       if (this.id) { //编辑
         this.getWeChatInfo();
-      } else {
-        this.getWeChatMsgList()
       }
       this.getCombobox()
 
@@ -122,7 +119,7 @@
       moment,
 
       onChangeTime(date, dateString) {
-        this.wechat.expirationTime=dateString
+        this.wechat.expirationTime = dateString
       },
       disabledDateTime() {
         return {
@@ -141,7 +138,7 @@
       onChange(current) {
         if (current == 1) {
           if (!this.wechat.wechatConfigName) {
-            this.$message.success('请先填写微信账号别名')
+            this.$message.warning('请先填写微信账号别名')
             return
           }
           if (!this.wechat.wechatAppId) {
@@ -161,10 +158,15 @@
       },
       /* 提交事件*/
       async submit() {
+        if (this.checkMsgInputList()) {
+          this.$message.warning('消息服务序号不能为空')
+          return
+        }
         if (this.checkMsgList()) {
           this.$message.warning('消息服务序号不能有重复值')
           return
         }
+
         let param = {
           wechatConfigId: this.id,
           wechatConfigName: this.wechat.wechatConfigName,
@@ -202,10 +204,11 @@
       },
       async getWeChatMsgList() {
         let param = {
-          classCode: 'wechat_push_template',
+          classCode: this.wechat.typeCode,
         }
         let res = await this.$http.post(this.$api.dictionarycombobox, param)
         if (res.data.resultCode == 10000) {
+          this.msgList=[]
           res.data.data.forEach((item) => {
             this.msgList.push({
               serviceId: '',
@@ -228,6 +231,16 @@
         })
         return has
       },
+      checkMsgInputList() {
+
+        let has = false
+        this.msgList.forEach((item) => {
+          if (!item.serviceId) {
+            has = true
+          }
+        })
+        return has
+      },
       /* 修改数值*/
       handleChange(value, index) {
         const newData = [...this.msgList];
@@ -241,6 +254,7 @@
       handleSelectChange(e) {
         console.log(e)
         this.wechat.typeCode = e
+         this.getWeChatMsgList()
       },
       /* 获取业务类别*/
       async getCombobox() {

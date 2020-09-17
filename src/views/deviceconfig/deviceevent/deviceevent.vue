@@ -13,10 +13,11 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
       <div class="view-title-line"></div>
-    <a-button class='addbtn' type="primary" @click="editDevice({})">
-      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
+     <a-button  type="primary" class='table-add-btn' @click="editDevice({})">
+      <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
     </a-button>
-    <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
+
+    <a-table :scroll="{  y: 610 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
         {{(index+1)+((pagination.current-1)*pagination.pageSize)}}

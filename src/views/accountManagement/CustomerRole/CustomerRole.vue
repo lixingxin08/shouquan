@@ -10,10 +10,10 @@
     </div>
     <div class="view-title-line"></div>
 
-<div class="flexrow" style="margin-bottom: 20px;"> <a-button type="primary"  @click="edit({})">
+<a-button type="primary"  class='table-add-btn' @click="edit({})">
       <a-icon two-tone-color="#ffffff" type="plus" /> 新增
-    </a-button></div>
-    <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableList" bordered size="small" :pagination="pagination"
+    </a-button>
+    <a-table :scroll="{  y: 610 }" :columns="tableTitle" :data-source="tableList" bordered size="small" :pagination="pagination"
       @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
       {{(index+1)+((pagination.current-1)*pagination.pageSize)}}

@@ -106,9 +106,7 @@
       this.id = this.$route.query.id
       if (this.id) { //编辑
         this.getSmsInfo();
-      } else {
-        this.getSmsMsgList()
-      }
+      } 
       this.getCombobox()
 
     },
@@ -144,10 +142,15 @@
       },
       /* 提交事件*/
       async submit() {
+        if (this.checkMsgInputList()) {
+          this.$message.warning('消息服务序号不能为空')
+          return
+        }
         if(this.checkMsgList()){
            this.$message.warning('消息服务序号不能有重复值')
           return
         }
+	
         this.config.operatorId=JSON.parse(localStorage.getItem('usermsg')).accountId
         this.config.smsModelList=this.msgList
         let res = await this.$http.post(this.$api.smsform, this.config)
@@ -160,7 +163,16 @@
         }
       },
 
+    checkMsgInputList() {
 
+        let has = false
+        this.msgList.forEach((item) => {
+          if (!item.serviceId) {
+            has = true
+          }
+        })
+        return has
+      },
 
       /* 获取微信账号详情*/
       async getSmsInfo() {
@@ -175,7 +187,7 @@
       },
       async getSmsMsgList() {
         let param = {
-          classCode: 'sms_push_template',
+          classCode: this.config.typeCode,
         }
         let res = await this.$http.post(this.$api.dictionarycombobox, param)
         if(res.data.resultCode==10000){
@@ -215,6 +227,7 @@
       handleSelectChange(e) {
         console.log(e)
         this.config.typeCode = e
+        this.getSmsMsgList()
       },
       /* 获取业务类别*/
       async getCombobox() {
