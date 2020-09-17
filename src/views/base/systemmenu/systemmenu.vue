@@ -5,7 +5,7 @@
         :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata" v-if="showtree"></is-left>
     </div>
     <div class="flexcolumn" style="width: 100%;padding: 20px;">
-      <is-list ref="menulist"></is-list>
+      <is-list ref="menulist" @refreshtree='getmenutree'></is-list>
     </div>
   </div>
 </template>
@@ -32,13 +32,13 @@
       };
     },
     created() {
-      this.getdictionarytree();
+      this.getmenutree();
     },
     methods: {
 
 
-      //数据字典树接口
-      async getdictionarytree() {
+      //菜单树接口
+      async getmenutree() {
         this.showtree = false;
         let prame = {};
         let res = await this.$http.post(this.$api.menutree, prame);

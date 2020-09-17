@@ -83,7 +83,7 @@
           this.typeName = ''
           this.typeCode = ''
           this.remark = ''
-		 this.num=0
+          this.num = 0
           this.selectedRowKeys = []
         }
       },
@@ -142,8 +142,8 @@
 
           this.typeName = res.data.data.brandName
           this.typeCode = res.data.data.brandCode
-          this.remark = res.data.data.remark
-		  this.num=this.remark.length
+          this.remark = res.data.data.remark ? res.data.data.remark : ''
+          this.num = this.remark.length
           this.typeList = res.data.data.deviceTypeList
           if (this.typeList.length > 0) {
             this.selectedRowKeys = []

@@ -124,6 +124,7 @@
           this.getMenuData()
           this.isShowDelete = !this.isShowDelete
           this.$message.success(res.data.resultMsg)
+          this.$emit('refreshtree')
         } else {
           this.$message.error(res.data.resultMsg)
         }
