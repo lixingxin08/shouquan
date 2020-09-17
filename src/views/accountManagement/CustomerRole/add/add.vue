@@ -17,7 +17,8 @@
         <div class="flexcolumn selet_bg_zzx">
           <div class="flexrow  flexac">
             <div style="flex-shrink: 0;margin-right: 7px;width: 100px;text-align: end;font-size: 14px;">
-              服务子系统:
+              <div style="color: #333333;">  服务子系统:</div>
+            
             </div>
             <a-select :value="selectValue?selectValue:'全部'" class='selet_bg_zzx' @change="handleSelectChange">
               <a-select-option v-for='(item,index) in selectList' :key='index' :value="item.menuId">
