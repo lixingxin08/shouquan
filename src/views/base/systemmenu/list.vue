@@ -10,7 +10,7 @@
         <a-button @click='cleanKeyWord'>清除</a-button>
       </div>
     </div>
-    <a-button type="primary" style='width: 88px;height: 38px; margin-bottom: 20px;' @click="add">
+    <a-button type="primary"class='table-add-btn' @click="add">
       <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="menuList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">

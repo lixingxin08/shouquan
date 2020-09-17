@@ -155,7 +155,12 @@
 .col_blue {
   color: #1890FF;
 }
-
+.table-add-btn{
+  width: 88px;
+  height: 36px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
 .col_gray {
   color: #DCDCDC;
 }

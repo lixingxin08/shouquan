@@ -15,11 +15,11 @@
       <a-button style='margin-left: 20px;' @click="clear()">清除</a-button>
     </div>
     <div class="view-title-line"></div>
-    <div class=" flexrow" style="margin-bottom: 20px;">
-      <a-button type="primary" @click="toadd({})">
+
+      <a-button type="primary" class='table-add-btn' @click="toadd({})">
         <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
       </a-button>
-    </div>
+    
 
     <a-table :columns="tablecolumns" :data-source="tabledata" bordered size='small' :pagination="pagination" @change="handleTableChange">
       <div slot="emailConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</div>

@@ -8,7 +8,7 @@
 
       <div class="r_t_text" @click="showdialogwechat()">微信帐号类型:</div>
       <a-select show-search placeholder="全部"  style="width: 200px;margin-right:20px"
-        :filter-option="filterOption" v-model="runpageparam.statusCode"  @change="handleChange">
+        :filter-option="filterOption" v-model="runpageparam.typeCode"  @change="handleChange">
         <a-select-option value>全部</a-select-option>
         <a-select-option v-for="(item,index) in wetchatTypeList" :key="index" :value="item.comboBoxId">{{item.comboBoxName}}</a-select-option>
       </a-select>
@@ -16,11 +16,11 @@
     <a-button style='margin-left: 20px;' @click="clear()">清除</a-button>
     </div>
     <div class="view-title-line"></div>
-<div class=" flexrow" style="margin-bottom: 20px;">
-      <a-button type="primary" @click="toadd({})">
-        <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
+
+      <a-button class='table-add-btn' type="primary" @click="toadd({})">
+        <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
       </a-button>
-    </div>
+    
     <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination" size='small' @change="handleTableChange">
       <div slot="wechatConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</div>
       <div slot="edit" class="flexrow flexjc" slot-scope="childTotal,areaName">
@@ -115,7 +115,6 @@
         runpageparam: {
           typeCode: "",
           keyword: "",
-          statusCode:'',
           operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
           pageIndex: 1,
           pageSize: 10,
@@ -193,6 +192,7 @@
       clear() {
         this.runpageparam.keyword = "";
         this.runpageparam.statusCode = "";
+		this.runpageparam.typeCode=''
         // this.getareapage();
       },
 

@@ -13,9 +13,9 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
       <div class="view-title-line"></div>
-      <div class="flexrow" style="margin-bottom: 20px;"><a-button  type="primary" @click="editDevice({})">
+     <a-button  type="primary" class='table-add-btn' @click="editDevice({})">
       <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
-    </a-button></div>
+    </a-button>
 
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">

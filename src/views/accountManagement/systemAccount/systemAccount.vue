@@ -21,7 +21,7 @@
           <div class="view-title-line"></div>
 
 <div class="flexrow">
-          <a-button type="primary" style='margin-bottom:20px;' @click="toadd({})">
+          <a-button type="primary" class='table-add-btn' @click="toadd({})">
             <a-icon two-tone-color="#ffffff" type="plus" /> 新增
           </a-button>
           </div>

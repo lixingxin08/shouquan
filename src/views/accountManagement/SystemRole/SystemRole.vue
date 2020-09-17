@@ -9,7 +9,7 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div class="view-title-line"></div>
-    <div class="flexrow" style="margin-bottom: 20px;"> <a-button type="primary"  @click="edit({})">
+    <div class="flexrow" > <a-button type="primary" class='table-add-btn' @click="edit({})">
       <a-icon two-tone-color="#ffffff" type="plus" /> 新增
     </a-button></div>
 

@@ -14,11 +14,11 @@
     </div>
       <div class="view-title-line"></div>
    
-    <div class="flexrow" style="margin-bottom: 20px;">
-      <a-button type="primary"@click='edit({})'>
+
+      <a-button class='table-add-btn' type="primary"@click='edit({})'>
         <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
       </a-button>
-    </div>
+    
     <a-table  :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="warningList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
