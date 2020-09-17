@@ -1,6 +1,6 @@
 <template>
-  <div>
-     <is-delete-dialog v-if="isShowDelete" @confirm='confirm' @cancle='cancel'></is-delete-dialog>
+  <div class="content2">
+    <is-delete-dialog v-if="isShowDelete" @confirm='confirm' @cancle='cancel'></is-delete-dialog>
     <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
       <div class="flexrow flexac">
         <div class='title_tx'>菜单名称:</div>
@@ -9,8 +9,9 @@
         <a-button type="primary" class="title_btn" @click='getMenuData'>查询</a-button>
         <a-button @click='cleanKeyWord'>清除</a-button>
       </div>
-      <a-button type="primary" @click="add">新增</a-button>
     </div>
+    <a-button type="primary" style='width: 88px;height: 38px; margin-bottom: 20px;' @click="add">
+      <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="menuList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
@@ -27,14 +28,14 @@
 
 
           <a href="#" style='font-size: 12px;' @click="editDictionary(record)">编辑</a>
-            <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 10px;margin-right: 10px;"></div>
-          <a href="#" style='color: #FF0000;font-size: 12px;' @click='showDelete(record)'>删除</a>
+          <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 10px;margin-right: 10px;"></div>
+          <a href="#" v-if="record.childTotal<=0&&record.authTotal<=0" style='color: #FF0000;font-size: 12px;' @click='showDelete(record)'>删除</a>
 
-
+          <a href="#" v-else style='color: #CCCCCC;font-size: 12px;' @click='showDelete(record)'>删除</a>
         </div>
       </template>
     </a-table>
-   
+
   </div>
 </template>
 

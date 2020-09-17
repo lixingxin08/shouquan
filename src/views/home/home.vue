@@ -2,11 +2,9 @@
   <div id="home">
     <a-layout id="components-layout-demo-custom-trigger">
       <isnav :iscollapsed="collapsed"></isnav>
-      <a-layout>
-        <ishead></ishead>
-        <a-layout-content
-          :style="{  minHeight: '280px' ,minWidth:'1672px' ,margin: '20px 20px', background: '#fff',}"
-        >
+      <a-layout >
+        <ishead @tocollapsed="getcollapsed"></ishead>
+        <a-layout-content class='scroller '>
           <keep-alive :include="isinclude">
             <router-view v-if="isRouterShow"></router-view>
           </keep-alive>
@@ -70,7 +68,19 @@ export default {
 #components-layout-demo-custom-trigger .trigger:hover {
   color: #1890ff;
 }
-
+.scroller {
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  color: #fff;
+  height: 90vh;
+  height: 90vh;background-color: #FFFFFF;margin: 20px;
+  overflow: scroll;
+  min-Width:1672px;
+  margin: 20px 20px;
+}
+.scroller::-webkit-scrollbar{
+  display: none;
+}
 #components-layout-demo-custom-trigger .logo {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);

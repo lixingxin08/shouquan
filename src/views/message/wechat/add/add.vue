@@ -10,28 +10,31 @@
       <div v-if="current==0">
         <div class="flexrow flexac edit_item_wechat">
           <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;">*</a>微信账号别名:</div>
-          <a-input class='edit_a_input_wechat' v-model='wechat.wechatConfigName' placeholder="50字以内，支持中英文" />
+          <a-input class='edit_a_input_wechat' v-model='wechat.wechatConfigName' :maxLength='50' placeholder="50字以内，支持中英文" />
           <!-- <div class="edit_item_wechat_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_wechat">
           <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;">*</a>帐号应用标识:</div>
-          <a-input class='edit_a_input_wechat' v-model='wechat.wechatAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input class='edit_a_input_wechat' v-model='wechat.wechatAppId' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <!--     <div class="edit_item_wechat_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_wechat">
           <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;">*</a>帐号应用密钥:</div>
-          <a-input class='edit_a_input_wechat' v-model='wechat.wechatKey' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input class='edit_a_input_wechat' v-model='wechat.wechatKey' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <!--     <div class="edit_item_wechat_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_wechat" v-if="id">
           <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;"></a>接口通行令牌:</div>
-          <a-input class='edit_a_input_wechat' v-model='wechat.tokenCode' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-          <!--     <div class="edit_item_wechat_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+          <a-input class='edit_a_input_wechat' v-model='wechat.tokenCode' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <!-- <div class="edit_item_wechat_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+
         </div>
         <div class="flexrow flexac edit_item_wechat" v-if="id">
           <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;"></a>令牌失效时间:</div>
-          <a-input class='edit_a_input_wechat' v-model='wechat.expirationTime' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
-          <!--     <div class="edit_item_wechat_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+          <!--   <a-input class='edit_a_input_wechat' v-model='wechat.expirationTime' :maxLength='50' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+            <div class="edit_item_wechat_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
+          <a-date-picker style='width: 667px;' format="YYYY-MM-DD HH:mm:ss"  :value='wechat.expirationTime'
+            @change="onChangeTime" />
         </div>
         <div class="flexrow flexac edit_item_wechat">
           <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;">*</a>微信账号类型:</div>
@@ -75,6 +78,7 @@
 
 <script>
   import table from '../table.json'
+  import moment from 'moment';
   export default {
     data() {
       return {
@@ -114,6 +118,25 @@
 
     },
     methods: {
+      moment,
+
+      onChangeTime(date, dateString) {
+        this.wechat.expirationTime=dateString
+      },
+      disabledDateTime() {
+        return {
+          disabledHours: () => this.range(0, 24).splice(4, 20),
+          disabledMinutes: () => this.range(30, 60),
+          disabledSeconds: () => [55, 56],
+        };
+      },
+      range(start, end) {
+        const result = [];
+        for (let i = start; i < end; i++) {
+          result.push(i);
+        }
+        return result;
+      },
       onChange(current) {
         if (current == 1) {
           if (!this.wechat.wechatConfigName) {
@@ -155,8 +178,8 @@
         }
         let res = await this.$http.post(this.$api.wechatform, param)
         if (res.data.resultCode == 10000) {
-			if(!this.id)
-			this.$router.go(-1)
+          if (!this.id)
+            this.$router.go(-1)
           this.$message.success(res.data.resultMsg);
         } else {
           this.$message.error(res.data.resultMsg);

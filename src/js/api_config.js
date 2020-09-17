@@ -125,7 +125,7 @@ export default {
   //系统菜单权限API
   customertemplatedetail: `/auth/customer-template/detail`,
   customertemplateform: `/auth/customer-menu/form`,
-  customertemplatetree :`/auth/customer-menu/tree`,
+  customertemplatetree: `/auth/customer-menu/tree`,
 
   //区划授权API
   customerareaform: `/auth/customer-area/form`,
@@ -135,10 +135,10 @@ export default {
   customermodelform: `/auth/customer-model/form`,
   customermodellist: `/auth/customer-model/list`,
 
-     //警报授权API
-     customeralarmform:`/auth/customer-alarm/form`,
-     customeralarmtree:`/auth/customer-alarm/tree`,
-      
+  //警报授权API
+  customeralarmform: `/auth/customer-alarm/form`,
+  customeralarmtree: `/auth/customer-alarm/tree`,
+
 
 
   //客户账号授权API
@@ -148,14 +148,14 @@ export default {
 
 
   //微信消息授权API
-  customerwechatdetail:`/auth/customer-wechat/detail`,
-  customerwechatform:`/auth/customer-wechat/form`,
+  customerwechatdetail: `/auth/customer-wechat/detail`,
+  customerwechatform: `/auth/customer-wechat/form`,
   //邮箱消息授权AP
-  customeremaildetail:`/auth/customer-email/detail`,
-  customeremailform:`/auth/customer-email/form`,
+  customeremaildetail: `/auth/customer-email/detail`,
+  customeremailform: `/auth/customer-email/form`,
   //短信消息授权API
-  customersmsdetail:`/auth/customer-sms/detail`,
-  customersmsform:`/auth/customer-sms/form`,
+  customersmsdetail: `/auth/customer-sms/detail`,
+  customersmsform: `/auth/customer-sms/form`,
 
   //微信帐号基础信息API
   deleteByWechatAccountId: `/message/wechat/account/remove`, //微信帐号基础信息分页查询接口
@@ -181,9 +181,9 @@ export default {
   mycustomerlist: `/auth/customer-account/my-list`,
 
   //设备型号运行参数
-  parampage: `/config/parameter/page`,
-  paramremove: `/config/parameter/remove`,
-  paramform: `/config/parameter/form`,
+  parampage: `/device/ModelParameter/list`,
+  paramremove: `/device/ModelParameter/remove`,
+  paramform: `device/ModelParameter/form`,
 
   //警报事件
   alramlist: `/device/alarm/page`,
@@ -191,7 +191,9 @@ export default {
   alramdetail: `/device/alarm/detail`,
   alramform: `/device/alarm/form`,
   //属性值
-  propertyvaluedetail:'/propertyValue/detail',
-  propertyvalueform:'/propertyValue/form',
+  propertyvaluedetail: '/propertyValue/detail',
+  propertyvalueform: '/propertyValue/form',
 
+
+  devicetypebrandlistbyid: '/device/type/brandListByTypeId'
 }

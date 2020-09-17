@@ -86,7 +86,7 @@
   }
   .istree {
     text-align: left;
-    height: 100%;
+    height: 90vh;
     overflow: scroll;
   }
 

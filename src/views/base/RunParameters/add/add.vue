@@ -48,11 +48,11 @@
         <a-textarea
           class="edit_a_input"
           :rows="5"
-          :maxlength='500'
-          placeholder="格式不限制，500个字符以内，包含标点符号"
+          :maxlength='256'
+          placeholder="格式不限制，256个字符以内，包含标点符号"
           v-model="form.parameterValue"
         />
-      <div class="edit_number">{{parameterValuelen}}/500</div>
+      <div class="edit_number">{{parameterValuelen}}/256</div>
       </div>
     </div>
     <div class="flexrow flexac edit_item">
@@ -61,11 +61,11 @@
         <a-textarea
           class="edit_a_input"
           :rows="5"
-           :maxlength='500'
+           :maxlength='256'
           placeholder="格式不限制，256个字符以内，包含标点符号"
           v-model="form.description"
         />
-      <div class="edit_number">{{descriptionlen}}/500</div>
+      <div class="edit_number">{{descriptionlen}}/256</div>
       </div>
     </div>
     <div class="flexrow" style="margin-top: 30px;justify-item: flex-start;margin-left: 325px;">

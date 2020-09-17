@@ -3,27 +3,27 @@
     <div class="flexrow flexac" style="margin-bottom: 20px;">
       <div class='title_tx'>业务类别:</div>
       <div class="flexrow flexac flexsb title_item">
-        {{modelDetail.serviceTypeName}}
+        {{modelDetail.serviceTypeName?modelDetail.serviceTypeName:'无'}}
         <a-icon type="down" />
       </div>
       <div class='title_tx'>设备类型:</div>
       <div class="flexrow flexac flexsb title_item">
-        {{modelDetail.deviceTypeName}}
+        {{modelDetail.deviceTypeName?modelDetail.deviceTypeName:'无'}}
         <a-icon type="down" />
       </div>
       <div class='title_tx'>设备品牌:</div>
       <div class="flexrow flexac flexsb title_item">
-        {{modelDetail.brandName}}
+        {{modelDetail.brandName?modelDetail.brandName:'无'}}
         <a-icon type="down" />
       </div>
       <div class='title_tx'>型号名称:</div>
       <div class="flexrow flexac flexsb title_item">
-        {{modelDetail.modelName}}
+        {{modelDetail.modelName?modelDetail.modelName:'无'}}
         <a-icon type="down" />
       </div>
     </div>
 
-    <a-button type="primary" class="flexrow flexjc flexac addbtn2" @click="editParam({})">
+    <a-button type="primary" class="flexrow flexjc flexac addbtn2-param" @click="editParam({})">
       <a-icon two-tone-color="#ffffff" type="plus" /> 新增运行参数
     </a-button>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="paramList" bordered size="small"
@@ -42,7 +42,7 @@
       </template>
     </a-table>
 
-    <is-add v-show="isVis" ref='addparam' :param="paramItem" @callback='addCallBack'></is-add>
+    <is-add v-show="isVis" ref='addparam' @callback='addCallBack'></is-add>
   </div>
 </template>
 <script>
@@ -55,7 +55,6 @@
     data() {
       return {
         isVis: false,
-        paramItem: {},
         dictionaryColumns: tableTitleData.data.param,
         paramList: [], //参数列表
         id: '',
@@ -88,7 +87,8 @@
         }
         let res = await this.$http.post(this.$api.parampage, param);
         if (res.data.resultCode == 10000) {
-          this.paramList = res.data.data.list
+          if (res.data.data)
+            this.paramList = res.data.data
         }
       },
       /* 删除确定*/
@@ -106,10 +106,13 @@
       },
       /* 新增编辑弹框*/
       editParam(item) {
-
-        this.paramItem = item
+        if (item == {}) {
+          item.parameterType = ''
+        }
+        this.$refs.addparam.getCombobox()
+        this.$refs.addparam.setParam(item)
         this.isVis = true
-             this.$refs.addparam.getCombobox()
+
       },
       /* 添加编辑回调*/
       async addCallBack(param) {
@@ -148,13 +151,13 @@
     margin-right: 20px;
   }
 
-  .addbtn2 {
+  .addbtn2-param {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
     text-align: left;
     color: #ffffff;
-    width: 108px;
+    width: 128px;
     margin-bottom: 20px;
     height: 40px;
     background: #1890ff;

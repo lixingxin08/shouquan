@@ -1,9 +1,9 @@
 <template>
   <div class="administrativedivision flex_fs">
     <div class="isleft">
-    <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
-      v-if="showtree"></is-left>
-      </div>
+      <is-left :treedata="treedata" :defaultSelectedKeys="defaultSelectedKeys" :replaceFields="replaceFields"
+        :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata" v-if="showtree"></is-left>
+    </div>
     <div class="flexcolumn" style="width: 100%;padding: 20px;">
       <is-list ref="menulist"></is-list>
     </div>
@@ -27,6 +27,7 @@
           key: "id",
         },
         defaultExpandedKeys: [],
+        defaultSelectedKeys: [],
         data: "",
       };
     },
@@ -46,7 +47,13 @@
         }
         this.setdata();
         this.showtree = true;
-        this.getselectdata(this.treedata[0])
+        if (localStorage.getItem('systemmenuId')) {
+          this.getselectdata(JSON.parse(localStorage.getItem('systemmenuId')));
+          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('systemmenuId')).id);
+        } else {
+          this.getselectdata(this.treedata[0])
+          this.getselectdata(this.treedata[0].id)
+        }
       },
 
 
@@ -84,6 +91,7 @@
       getselectdata(val) {
         if (!val)
           return
+        localStorage.setItem('systemmenuId', JSON.stringify(val))
         this.isselectdata = val;
         this.$refs.menulist.setMenuItem(val)
       },

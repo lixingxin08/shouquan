@@ -140,6 +140,7 @@
         if (this.isAdd == 'true') { //如果是新增
           this.classCode = "";
           this.className = "";
+		  this.remark=''
           this.parentName = this.cacheData.className; //上级名称
           this.parentCode = this.cacheData.classCode; //上级代码
           this.grade = this.cacheData.grade + 1; //字典等级

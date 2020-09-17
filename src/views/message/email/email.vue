@@ -1,49 +1,41 @@
 <template>
   <div class="content2">
-      <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
-       
-          <div class="r_top flex_f">
-            <div class="r_t_text" @click="showdialog()">邮箱帐号别名:</div>
-            <a-input placeholder="请输入邮箱帐号别名" class="r_t_inp" v-model="runpageparam.keyword" @keydown.enter="tosearch()" />
 
-            <div class="r_t_text" @click="showdialog()">邮箱网关类型:</div>
-            <a-select show-search placeholder="全部" option-filter-prop="children" style="width: 200px;margin-right:20px"
-              :filter-option="filterOption" v-model="runpageparam.statusCode" @focus="handleFocus" @blur="handleBlur"
-              @change="handleChange">
-              <a-select-option value>全部</a-select-option>
-              <a-select-option v-for="(item,index) in wetchatTypeList" :key="index" :value="item.comboBoxId">{{item.comboBoxName}}</a-select-option>
-            </a-select>
-            <div class="btn_blue btn" @click="tosearch()">查询</div>
-            <div class="btn_gray" @click="clear()">清除</div>
-          </div>
-            <div class="view-title-line"></div>
-          <div class="btn_blue btn2" @click="toadd({})">新增</div>
+    <div class="r_top flex_f">
+      <div class="r_t_text" @click="showdialog()">邮箱帐号别名:</div>
+      <a-input placeholder="请输入邮箱帐号别名" class="r_t_inp" v-model="runpageparam.keyword" @keydown.enter="tosearch()" />
 
+      <div class="r_t_text" @click="showdialog()">邮箱网关类型:</div>
+      <a-select show-search placeholder="全部" option-filter-prop="children" style="width: 200px;margin-right:20px"
+        :filter-option="filterOption" v-model="runpageparam.statusCode" @change="handleChange">
+        <a-select-option value>全部</a-select-option>
+        <a-select-option v-for="(item,index) in wetchatTypeList" :key="index" :value="item.comboBoxId">{{item.comboBoxName}}</a-select-option>
+      </a-select>
+      <div class="btn_blue btn" @click="tosearch()">查询</div>
+      <div class="btn_gray" @click="clear()">清除</div>
+    </div>
+    <div class="view-title-line"></div>
 
-        <a-table  :columns="tablecolumns" :data-source="tabledata" bordered size='small' :pagination="pagination"
-          @change="handleTableChange">
-          <div slot="emailConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</div>
-          <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
-            <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
-            <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(record)">
-              <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
-            </a-popconfirm>
-          </div>
-        </a-table>
- 
+    <a-button class='addbtn' type="primary" @click="toadd({})">
+      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
+    </a-button>
+    <a-table :columns="tablecolumns" :data-source="tabledata" bordered size='small' :pagination="pagination" @change="handleTableChange">
+      <div slot="emailConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</div>
+      <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
+        <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
+        <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(areaName)">
+          <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
+        </a-popconfirm>
+      </div>
+    </a-table>
+
   </div>
 </template>
 <script>
-  import isDeleteDialog from "../../../components/delete_confir/delete.vue";
   export default {
-    components: {
-      isDeleteDialog,
-    },
+
     data() {
       return {
-        ModalText: "您确定要删除吗？",
-        visible: false,
-        tabletype: false,
 
         tablecolumns: [{
             width: 60,
@@ -120,7 +112,7 @@
             },
           },
         ],
-        tabledata: "",
+        tabledata: [],
         pagination: {
           total: 0,
           pageSize: 10, //每页中显示10条数据
@@ -131,20 +123,9 @@
           pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
           showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
-        issearchdata: "",
-        removeparam: {
-          emailConfigId: "",
-        },
-        istotal: {
-          type: 1,
-        },
-        wetchatTypeList: [{ //通信方式列表
-          comboBoxId: 'account_wechat_type',
-          comboBoxName: '公众号'
-        }, {
-          comboBoxId: 'wechat_account_small',
-          comboBoxName: '服务号'
-        }],
+
+        wetchatTypeList: [ //通信方式列表
+        ],
         runpageparam: {
           typeCode: "",
           keyword: "",
@@ -165,7 +146,6 @@
           classCode: "message_type_email",
         };
         let res = await this.$http.post(this.$api.dictionarycombobox, pram);
-        console.log(res, 12221);
         if (res.data.resultCode == "10000") {
           this.wetchatTypeList = res.data.data;
         } else {
@@ -175,7 +155,7 @@
 
       //列表接口
       async getpage() {
-        this.tabletype = false;
+        this.tabledata=[]
         this.runpageparam.pageIndex = this.pagination.current;
         this.runpageparam.pageSize = this.pagination.pageSize;
         let res = await this.$http.post(this.$api.emailAccountpage, this.runpageparam);
@@ -183,11 +163,9 @@
           this.tabledata = res.data.data.list;
           this.runpageparam.keyword = "";
           this.runpageparam.typeCode = "";
-          if (this.istotal.type == 1) {
+          if (this.pagination.current == 1) {
             this.pagination.total = res.data.data.length;
           }
-          this.istotal.type++;
-          this.tabletype = true;
         } else {
           this.$message.error(res.data.resultMsg);
         }
@@ -222,7 +200,6 @@
       tosearch() {
         this.pagination.current = 1;
         this.pagination.pageSize = 10;
-        this.istotal.type = 1;
         this.getpage();
       },
       //清除
@@ -231,22 +208,8 @@
         this.runpageparam.typeCode = "";
         // this.getareapage();
       },
-      //弹窗
-      showdialog(val) {
-        console.log(val, 221212);
-        this.removeparam.emailConfigId = val.emailConfigId;
-        this.visible = true;
-      },
-      cancel() {
-        this.visible = false;
-      },
-      confirm() {
-        this.getremove();
-      },
-      handleCancel(e) {
-        console.log("Clicked cancel button");
-        this.visible = false;
-      },
+
+
       //分页
       handleTableChange(pagination) {
         this.pagination.current = pagination.current;
@@ -259,12 +222,7 @@
         this.runpageparam.typeCode = value;
         console.log(this.runpageparam);
       },
-      handleBlur() {
-        console.log("blur");
-      },
-      handleFocus() {
-        console.log("focus");
-      },
+
       filterOption(input, option) {
         return (
           option.componentOptions.children[0].text
@@ -280,6 +238,21 @@
   .tree {
     text-align: left;
   }
+
+  .addbtn {
+    font-size: 12px;
+    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #ffffff;
+    width: 80px;
+    margin-bottom: 20px;
+    height: 36px;
+    background: #1890ff;
+    border: 1px solid #1890ff;
+    border-radius: 8px;
+  }
+
   .r_t_text {
     height: 16px;
     font-size: 12px;

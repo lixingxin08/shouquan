@@ -1,14 +1,13 @@
 <template>
   <div class="content2">
-  <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
 
           <div class="r_top flex_f">
             <div class="r_t_text" @click="showdialogsms()">短信帐号别名:</div>
-            <a-input placeholder="请输入短信帐号别名" class="r_t_inp" v-model="runpageparam.keyword" @keydown.enter="tosearch()" />
+            <a-input placeholder="请输入短信帐号别名"  class="r_t_inp" v-model="runpageparam.keyword" @keydown.enter="tosearch()" />
 
             <div class="r_t_text" @click="showdialogsms()">短信类型:</div>
             <a-select show-search placeholder="全部" option-filter-prop="children" style="width: 200px;margin-right:20px"
-              :filter-option="filterOption" v-model="runpageparam.typeCode" @focus="handleFocus" @blur="handleBlur"
+              :filter-option="filterOption" v-model="runpageparam.typeCode" 
               @change="handleChange">
               <a-select-option value>全部</a-select-option>
               <a-select-option v-for="(item,index) in sel_data" :key="index" :value="item.comboBoxId">{{item.comboBoxName}}</a-select-option>
@@ -17,45 +16,29 @@
             <div class="btn_gray" @click="clear()">清除</div>
           </div>
           <div class="view-title-line"></div>
-          <div class="btn_blue btn2" @click="toadd({})">新增</div>
-
+ <a-button class='addbtn' type="primary" @click="toadd({})">
+      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
+    </a-button>
 
         <a-table  :columns="tablecolumns" :data-source="tabledata"
           bordered size='small' :pagination="pagination" @change="handleTableChange">
           <div slot="smsConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</div>
           <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
             <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
-            <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(record)">
+            <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(areaName)">
               <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
             </a-popconfirm>
           </div>
         </a-table>
-  
+
   </div>
 </template>
 <script>
-  import isDeleteDialog from "../../../components/delete_confir/delete.vue";
   export default {
-    components: {
-      isDeleteDialog,
-    },
+
     data() {
       return {
-        ModalText: "您确定要删除吗？",
-        visible: false,
-        tabletype: false,
-        sel_data: [{
-            val: "启用",
-            id: 1
-          },
-          {
-            val: "备用",
-            id: 2
-          },
-          {
-            val: "关闭",
-            id: 0
-          },
+        sel_data: [
         ],
         tablecolumns: [{
             width: 60,
@@ -123,7 +106,7 @@
             },
           },
         ],
-        tabledata: "",
+        tabledata: [],
         pagination: {
           total: 0,
           pageSize: 10, //每页中显示10条数据
@@ -134,13 +117,7 @@
           pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
           showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
-        issearchdata: "",
-        removeparam: {
-          customerId: "",
-        },
-        istotal: {
-          type: 1,
-        },
+
         runpageparam: {
           typeCode: "",
           keyword: "",
@@ -171,7 +148,7 @@
 
       //列表接口
       async getpage() {
-        this.tabletype = false;
+        this.tabledata=[]
         this.runpageparam.pageIndex = this.pagination.current;
         this.runpageparam.pageSize = this.pagination.pageSize;
         let res = await this.$http.post(this.$api.smspage, this.runpageparam);
@@ -179,11 +156,9 @@
           this.tabledata = res.data.data.list;
           this.runpageparam.keyword = "";
           this.runpageparam.parameterCode = "";
-          if (this.istotal.type == 1) {
+          if (this.pagination.current == 1) {
             this.pagination.total = res.data.data.length;
           }
-          this.istotal.type++;
-          this.tabletype = true;
         } else {
           this.$message.error(res.data.resultMsg);
         }
@@ -200,14 +175,12 @@
         if (res.data.resultCode == "10000") {
           this.$message.success(res.data.resultMsg);
           this.getpage();
-          this.visible = false;
         } else {
           this.$message.error(res.data.resultMsg);
         }
       },
       toadd(id) {
 
-        console.log(id, 9899);
         this.$router.push({
           path: "/addsms",
           query: {
@@ -229,22 +202,8 @@
         this.runpageparam.typeCode = "";
         // this.getareapage();
       },
-      //弹窗
-      showdialogsms(val) {
-        console.log(val, 221212);
-        this.removeparam.smsConfigId = val.smsConfigId;
-        this.visible = true;
-      },
-      cancel() {
-        this.visible = false;
-      },
-      confirm() {
-        this.getremove();
-      },
-      handleCancel(e) {
-        console.log("Clicked cancel button");
-        this.visible = false;
-      },
+
+
       //分页
       handleTableChange(pagination) {
         this.pagination.current = pagination.current;
@@ -253,16 +212,10 @@
       },
 
       handleChange(value) {
-        console.log(`selected ${value}`);
         this.runpageparam.typeCode = value;
         console.log(this.runpageparam);
       },
-      handleBlur() {
-        console.log("blur");
-      },
-      handleFocus() {
-        console.log("focus");
-      },
+
       filterOption(input, option) {
         return (
           option.componentOptions.children[0].text
@@ -287,7 +240,19 @@
     color: #333333;
     margin-right: 10px;
   }
-
+  .addbtn {
+    font-size: 12px;
+    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #ffffff;
+    width: 80px;
+    margin-bottom: 20px;
+    height: 36px;
+    background: #1890ff;
+    border: 1px solid #1890ff;
+    border-radius: 8px;
+  }
   .r_t_inp {
     width: 200px;
     height: 36px;

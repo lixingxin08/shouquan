@@ -26,10 +26,10 @@
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>
           <div class="item-line"></div>
-          <a-popconfirm v-if='record.alarmTotal>0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
+          <a-popconfirm v-if='record.alarmTotal<=0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
-          <div v-else style="color: #999999;">
+          <div v-else style="color: #CCCCCC;font-size: 12px;">
             删除
           </div>
         </div>
@@ -105,7 +105,6 @@
           this.$message.success(res.data.resultMsg);
           this.getEvent()
         } else {
-
           this.$message.error(res.data.resultMsg);
         }
       },

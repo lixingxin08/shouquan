@@ -20,9 +20,10 @@
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>
           <div class="item-line"></div>
-          <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm(record)">
+          <a-popconfirm v-if='record.modelTotal<=0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
+          <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
         </div>
       </template>
     </a-table>
@@ -44,7 +45,7 @@
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
-           showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
+          showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
       }
     },
@@ -69,8 +70,8 @@
         let res = await this.$http.post(this.$api.devicebrandspage, param)
         if (res.data.resultCode == 10000) {
           this.brandList = res.data.data.list
-           if(this.pagination.current==1)
-          this.pagination.total = res.data.data.length
+          if (this.pagination.current == 1)
+            this.pagination.total = res.data.data.length
         } else {
           this.brandList = []
           this.$message.error(res.data.resultMsg);
