@@ -263,7 +263,6 @@ this.authList=this.cacheData.authList
           this.$message.warning('菜单名称不能为空');
           return
         }
-        this.imageUrl = 'dd'
         if (!this.imageUrl) {
           this.$message.warning('菜单图标不能为空');
           return

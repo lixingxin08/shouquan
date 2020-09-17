@@ -38,13 +38,11 @@
       </div>
       <a-select
         show-search
-        placeholder="全部"
         option-filter-prop="children"
         style="width: 667px;margin-right:20px;height:36px;border-radius: 8px;"
         v-model="form.statusCode"
         @change="handleChange"
       >
-        <a-select-option value>全部</a-select-option>
         <a-select-option
           v-for="(item,index) in statusCode"
           :key="index"
@@ -98,7 +96,7 @@ export default {
       form: {
         personId: "",
         realName: "",
-        gender: 1,
+        gender: 0,
         mobilePhone: "",
         statusCode: "",
         position: "",
@@ -113,8 +111,9 @@ export default {
       plainOptions: ["男", "女"],
       value1: "男",
       statusCode: [
-        { id: 1, val: "是" },
-        { id: 0, val: "否" },
+        { id: 1, val: "在岗" },
+        { id: 0, val: "休假" },
+        { id: 2, val: "离岗" },
       ],
     };
   },
@@ -143,7 +142,7 @@ export default {
     },
     //运行参数表单接口
     async getform() {
-      if (!this.verEmail(this.form.email)) {
+      if (!this.verEmail(this.form.email)&&this.form.email!=="") {
           this.form.email=""
         return this.$message.error("邮箱地址格式不正确");
       }
@@ -204,9 +203,9 @@ export default {
       //菜单类型选择
       console.log("radio1 checked", e.target.value);
       if (e.target.value == "男") {
-        this.form.gender = 1;
-      } else {
         this.form.gender = 0;
+      } else {
+        this.form.gender = 1;
       }
     },
   },

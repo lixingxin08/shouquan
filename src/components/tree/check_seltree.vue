@@ -70,9 +70,12 @@ export default {
       this.$emit("searchdata", value);
     },
     onCheck(checkedKeys, info) {
-      console.log("onCheck", checkedKeys, info);
+      console.log("onCheck", checkedKeys, info,info.halfCheckedKeys);
       this.checkedKeys=checkedKeys
-      this.$emit("checkedKeyslist", this.checkedKeys);
+      let aa=[...checkedKeys]
+        aa.push(...info.halfCheckedKeys)
+        console.log(aa,777888);
+      this.$emit("checkedKeyslist",aa);
     },
   },
 };

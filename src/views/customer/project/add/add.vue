@@ -28,7 +28,7 @@
           :rows="5"
           :maxlength="500"
           placeholder="500字以内，格式不限制"
-          v-model="form.contractDes"
+          v-model="form.description"
         />
            <div class="edit_number">{{contractDesklen}}/500</div>
       </div>
@@ -130,7 +130,7 @@ export default {
         leader: "",
         linkphone: "",
         remark: "",
-        contractDes:"",
+        description:"",
         operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       detailparam: {
@@ -156,7 +156,7 @@ export default {
       return this.form.remark.length;
     },
     contractDesklen() {
-      return this.form.contractDes.length;
+      return this.form.description.length;
     },
   },
   created() {
@@ -174,6 +174,7 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.form = res.data.data;
+        console.log(this.form,666655);
       } else {
         this.$message.error(res.data.resultMsg);
       }

@@ -128,8 +128,8 @@ export default {
       imageUrl: "",
       sel_data: [
         { val: "启用", id: 1 },
-        { val: "备用", id: 2 },
-        { val: "关闭", id: 0 },
+        { val: "备用", id: 0 },
+        { val: "锁定", id: 2 },
       ],
       form: {
         customerId: "",
@@ -151,21 +151,14 @@ export default {
     };
   },
   created() {
-    if (this.$route.query.type == "add") {
-      this.form.parentName = this.$route.query.name;
-      this.form.parentId = this.$route.query.id;
-      this.form.gradeno = this.$route.query.levelType;
-    }
-    if (this.$route.query.type == "edit") {
-      this.detailparam.customerId = this.$route.query.id;
+    this.detailparam.customerId=JSON.parse(localStorage.getItem('usermsg')).customerId
       this.getdetail();
-    }
   },
   methods: {
     //详情接口
     async getdetail() {
       let res = await this.$http.post(
-        this.$api.informationdetail,
+        this.$api.informationmydetail,
         this.detailparam
       );
       if (res.data.resultCode == "10000") {

@@ -191,14 +191,15 @@ export default {
         grade: "",
         parentId: "",
         remark: "",
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       };
+      this.ischeck=[...new Set(this.ischeck)]
       if (this.ischeck.length == 0) {
         return this.$message.error("请选择授权区域");
       }
       if (this.customerId == "") {
         return this.$message.error("请选择授权客户");
       }
+      
       for (let i = 0; i < this.ischeck.length; i++) {
         for (let j = 0; j < this.data.length; j++) {
           if (this.ischeck[i] == this.data[j].id) {

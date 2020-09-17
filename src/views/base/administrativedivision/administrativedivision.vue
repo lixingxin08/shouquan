@@ -13,7 +13,7 @@
         ></is-left>
       </div>
       <div class="right_box">
-        <div class="right">
+        <div class="right right4">
           <div class="r_top flex_f">
             <div class="r_t_text" @click="showdialogadmin()">区划名称</div>
             <a-input
@@ -29,6 +29,7 @@
           <div class="btn_blue btn2" @click="toadd('add')"> <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" />新增</div>
           <div class="table" v-if="tabletype">
             <a-table
+            :scroll="{  y: 610 }"
               :columns="tablecolumns"
               :data-source="tabledata"
               bordered
@@ -65,6 +66,7 @@ export default {
     isLeft,
     isDeleteDialog,
   },
+  inject:['reload'],
   data() {
     return {
       ModalText: "您确定要删除吗？",
@@ -202,7 +204,6 @@ export default {
     async getareatree() {
       this.showtree = false;
       let res = await this.$http.post(this.$api.areatree, this.areatreeprame);
-      console.log(res, 11);
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
       } else {
@@ -249,8 +250,7 @@ export default {
       let res = await this.$http.post(this.$api.arearemove, this.removeparam);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.getareapage();
-        this.visible = false;
+       this.reload()
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -316,6 +316,9 @@ export default {
         if (this.data[i].open == true) {
           this.defaultExpandedKeys.push(this.data[i].id);
         }
+        // if (this.data[i].levelType>=6) {
+          
+        // }
       }
       this.treedata = this.toTree(this.data);
       this.defaultSelectedKeys = [];
