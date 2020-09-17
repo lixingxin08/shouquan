@@ -181,9 +181,9 @@ export default {
   mycustomerlist: `/auth/customer-account/my-list`,
 
   //设备型号运行参数
-  parampage: `/config/parameter/page`,
-  paramremove: `/config/parameter/remove`,
-  paramform: `/config/parameter/form`,
+  parampage: `/device/ModelParameter/list`,
+  paramremove: `/device/ModelParameter/remove`,
+  paramform: `device/ModelParameter/form`,
 
   //警报事件
   alramlist: `/device/alarm/page`,

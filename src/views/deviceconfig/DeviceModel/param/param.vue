@@ -3,22 +3,22 @@
     <div class="flexrow flexac" style="margin-bottom: 20px;">
       <div class='title_tx'>业务类别:</div>
       <div class="flexrow flexac flexsb title_item">
-        {{modelDetail.serviceTypeName}}
+        {{modelDetail.serviceTypeName?modelDetail.serviceTypeName:'无'}}
         <a-icon type="down" />
       </div>
       <div class='title_tx'>设备类型:</div>
       <div class="flexrow flexac flexsb title_item">
-        {{modelDetail.deviceTypeName}}
+        {{modelDetail.deviceTypeName?modelDetail.deviceTypeName:'无'}}
         <a-icon type="down" />
       </div>
       <div class='title_tx'>设备品牌:</div>
       <div class="flexrow flexac flexsb title_item">
-        {{modelDetail.brandName}}
+        {{modelDetail.brandName?modelDetail.brandName:'无'}}
         <a-icon type="down" />
       </div>
       <div class='title_tx'>型号名称:</div>
       <div class="flexrow flexac flexsb title_item">
-        {{modelDetail.modelName}}
+        {{modelDetail.modelName?modelDetail.modelName:'无'}}
         <a-icon type="down" />
       </div>
     </div>
@@ -87,7 +87,8 @@
         }
         let res = await this.$http.post(this.$api.parampage, param);
         if (res.data.resultCode == 10000) {
-          this.paramList = res.data.data.list
+          if (res.data.data)
+            this.paramList = res.data.data
         }
       },
       /* 删除确定*/
@@ -105,10 +106,13 @@
       },
       /* 新增编辑弹框*/
       editParam(item) {
-
+        if (item == {}) {
+          item.parameterType = ''
+        }
+        this.$refs.addparam.getCombobox()
         this.$refs.addparam.setParam(item)
         this.isVis = true
-        this.$refs.addparam.getCombobox()
+
       },
       /* 添加编辑回调*/
       async addCallBack(param) {

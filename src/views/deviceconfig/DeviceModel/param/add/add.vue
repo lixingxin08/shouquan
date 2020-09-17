@@ -17,7 +17,7 @@
 
       <div class="flexrow flexac item-model">
         <div class="item-title-model"><span style="color: #FF0033;">*</span>参数类别：</div>
-        <a-select :value="param.paramType?param.paramType:'请选择参数类别'" class='select_item_param' @change="handleChange">
+        <a-select :value="param.parameterType?param.parameterType:'请选择参数类别'" class='select_item_param' @change="handleChange">
           <a-select-option v-for='(item,index) in paramList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
@@ -30,7 +30,7 @@
       <div class="flexrow flexac item-model">
         <div class="item-title-model">参数描述：</div>
 
-        <a-textarea v-model="param.description" :maxLenght="500" placeholder="请输入参数描述,500字以内" :auto-size="{ minRows: 3, maxRows: 5 }" />
+        <a-textarea v-model="param.description" :maxLength="255" placeholder="请输入参数描述,255字以内" :auto-size="{ minRows: 3, maxRows: 5 }" />
       </div>
       <div class="flexrow flexjc" style="margin-top: 40px;margin-bottom: 100px;">
         <a-button type='primary' @click='submit'>确定</a-button>
@@ -52,7 +52,7 @@
         param: {
           parameterName: '',
           parameterCode: '',
-          paramType: ''
+          parameterType: ''
         },
         paramList: [{}]
       }
@@ -60,7 +60,6 @@
 
     methods: {
       setParam(item) {
-        item.paramType = ''
         localStorage.setItem('modelparam', JSON.stringify(item))
         let item2 = JSON.parse(localStorage.getItem('modelparam'))
         this.param = item2
@@ -74,12 +73,12 @@
           this.$message.warning('参数代码不能为空');
           return
         }
-        if (!this.param.paramType) {
-          this.$message.warning('请选择参数类型');
+        if (!this.param.parameterType) {
+          this.$message.warning('请选择参数类别');
           return
         }
 
-        this.$emit('callback', param)
+        this.$emit('callback', this.param)
       },
       reset() {
         this.param = JSON.parse(localStorage.getItem('modelparam'))
@@ -88,7 +87,7 @@
         this.$emit('callback')
       },
       handleChange(e) {
-        this.param.paramType = e
+        this.param.parameterType = e
       },
       /* 获取业务类别*/
       async getCombobox() {

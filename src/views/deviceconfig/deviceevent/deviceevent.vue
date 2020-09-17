@@ -105,7 +105,6 @@
           this.$message.success(res.data.resultMsg);
           this.getEvent()
         } else {
-
           this.$message.error(res.data.resultMsg);
         }
       },

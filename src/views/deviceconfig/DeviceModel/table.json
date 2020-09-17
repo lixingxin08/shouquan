@@ -110,6 +110,13 @@
         "align": "center"
       },
       {
+        "title": "参数类别",
+        "dataIndex": "parameterTypeName",
+        "width": "12%",
+        "ellipsis": true,
+        "align": "center"
+      },
+      {
         "title": "参数数值",
         "dataIndex": "parameterValue",
         "width": "12%",

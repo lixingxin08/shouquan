@@ -318,7 +318,6 @@ export default {
         }
       }
       this.treedata = this.toTree(this.data);
-      console.log(this.treedata, 222222222);
       this.defaultSelectedKeys = [];
       this.defaultSelectedKeys.push(this.treedata[0].id);
       this.isselectdata.id = this.treedata[0].id;

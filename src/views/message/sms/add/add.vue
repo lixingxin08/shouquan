@@ -10,27 +10,27 @@
       <div v-if="current==0">
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信账号别名:</div>
-          <a-input class='edit_a_input_sms' v-model='config.smsConfigName' placeholder="50字以内，支持中英文" />
+          <a-input class='edit_a_input_sms' :maxLength='50' v-model='config.smsConfigName' placeholder="50字以内，支持中英文" />
           <!-- <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>帐号应用标识:</div>
-          <a-input class='edit_a_input_sms' v-model='config.smsAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input class='edit_a_input_sms'  :maxLength='50' v-model='config.smsAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>帐号应用密钥:</div>
-          <a-input class='edit_a_input_sms' v-model='config.smsKey' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input class='edit_a_input_sms':maxLength='50' v-model='config.smsKey' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_sms" >
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信签名:</div>
-          <a-input class='edit_a_input_sms' v-model='config.signName' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input class='edit_a_input_sms' :maxLength='50' v-model='config.signName' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_sms" >
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信价格:</div>
-          <a-input-number class='edit_a_input_sms' v-model='config.price' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input-number class='edit_a_input_sms' v-model='config.price'  />
           <div class="edit_item_sms_toast">分/条</div>
         </div>
         <div class="flexrow flexac edit_item_sms">

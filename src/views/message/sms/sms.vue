@@ -3,7 +3,7 @@
 
           <div class="r_top flex_f">
             <div class="r_t_text" @click="showdialogsms()">短信帐号别名:</div>
-            <a-input placeholder="请输入短信帐号别名" class="r_t_inp" v-model="runpageparam.keyword" @keydown.enter="tosearch()" />
+            <a-input placeholder="请输入短信帐号别名"  class="r_t_inp" v-model="runpageparam.keyword" @keydown.enter="tosearch()" />
 
             <div class="r_t_text" @click="showdialogsms()">短信类型:</div>
             <a-select show-search placeholder="全部" option-filter-prop="children" style="width: 200px;margin-right:20px"

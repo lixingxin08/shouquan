@@ -59,7 +59,8 @@
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">备注信息:</div>
       <div style="position: relative;">
-        <a-textarea class="edit_a_input" :rows="5" :maxLength='250' placeholder="500字以内，格式不限制" v-model="form.remark" />
+        <a-textarea class="edit_a_input" :rows="5" :maxLength='250' placeholder="250字以内，格式不限制" v-model="form.remark" />
+        <div class="edit_number_email ">{{form.remark.length}}/250</div>
       </div>
     </div>
     <div class="flexrow" style="margin-top: 30px;justify-item: flex-start;margin-left: 325px;">
@@ -127,12 +128,48 @@
       },
       //运行参数表单接口
       async getform() {
-        this.form.operatorId=JSON.parse(localStorage.getItem('usermsg')).accountId
+        if(!form.emailConfigName){
+          this.$message.warning('请输入邮箱别名')
+          return
+        }
+        if(!form.sender){
+          this.$message.warning('请输入邮箱')
+          return
+        }
+        if(!this.verEmail(form.sender)){
+          this.$message.warning('邮箱格式不正确')
+          return
+        }
+        if(!form.emailHost){
+          this.$message.warning('请输入邮箱服务地址')
+          return
+        }
+        if(!form.emailPort){
+          this.$message.warning('请输入邮箱服务端口')
+          return
+        }
+        if(!form.authType){
+          this.$message.warning('请勾选是否身份验证')
+          return
+        }
+        if(!form.sslType){
+          this.$message.warning('请勾选是否采用安全链接')
+          return
+        }
+        if(!form.debugType){
+          this.$message.warning('请勾选是否开启打印模式')
+          return
+        }
+        if(!form.typeCode){
+          this.$message.warning('请选择网关类型')
+          return
+        }
+        this.form.operatorId = JSON.parse(localStorage.getItem('usermsg')).accountId
         let res = await this.$http.post(this.$api.emailAccountform, this.form);
         if (res.data.resultCode == "10000") {
           this.$message.success(res.data.resultMsg);
-          if(!this.form.emailConfigId)
-          this.$router.go(-1)
+          if (!this.form.emailConfigId)
+            this.$router.go(-1)
         } else {
           this.$message.error(res.data.resultMsg);
         }
@@ -149,11 +186,11 @@
       reset() {
         if (this.form.emailConfigId) {
 
-           this.getdetail()
+          this.getdetail()
         } else {
-           this.form = {
-              
-           }
+          this.form = {
+            remark: ''
+          }
         }
       },
 
@@ -174,6 +211,14 @@
   };
 </script>
 <style>
+  .edit_number_email {
+    position: absolute;
+    right: 10px;
+    bottom: 3px;
+    font-size: 14px;
+    color: #999999;
+  }
+
   .edit_item_title {
     width: 315px;
     height: 100%;

@@ -1,11 +1,12 @@
 <template>
   <div class="administrativedivision flex_fs">
     <div class="isleft">
-    <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
-      v-if="showtree"></is-left>
-      </div>
+      <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultSelectedKeys="defaultSelectedKeys"
+        :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata" v-if="showtree"></is-left>
+    </div>
     <div class="flexcolumn" style="width: 100%;padding: 20px;">
-     <is-list v-show="isselectdata" ref="dictionarylist" @refreshtree='getdictionarytree'></is-list></div>
+      <is-list v-show="isselectdata" ref="dictionarylist" @refreshtree='getdictionarytree'></is-list>
+    </div>
   </div>
 </template>
 <script>
@@ -26,6 +27,7 @@
           key: "id",
         },
         defaultExpandedKeys: [],
+        defaultSelectedKeys: [],
         data: "",
       };
     },
@@ -40,8 +42,7 @@
       //数据字典树接口
       async getdictionarytree() {
         this.showtree = false;
-        let prame = {
-        };
+        let prame = {};
         let res = await this.$http.post(this.$api.dictionarytree, prame);
         if (res.data.resultCode == "10000") {
           this.data = res.data.data;
@@ -49,7 +50,12 @@
         this.setdata();
         this.showtree = true;
         console.log(this.treedata)
-        this.getselectdata(this.treedata[0])
+
+        if (localStorage.getItem('dictionaryId')) {
+          this.getselectdata(JSON.parse(localStorage.getItem('dictionaryId')));
+        } else {
+          this.getselectdata(this.treedata[0])
+        }
       },
 
 
@@ -82,11 +88,18 @@
           }
         }
         this.treedata = this.toTree(this.data);
+        this.defaultSelectedKeys = [];
+        if (localStorage.getItem('dictionaryId')) {
+          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('dictionaryId')).id);
+        } else {
+          this.defaultSelectedKeys.push(this.treedata[0].id);
+        }
       },
       getselectdata(val) {
+        localStorage.setItem('dictionaryId', JSON.stringify(val))
         this.isselectdata = val;
-        if(val)
-        console.log(val)
+        if (val)
+          console.log(val)
         this.$refs.dictionarylist.getDictionnaryInfo(val)
       },
     },
