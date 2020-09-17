@@ -19,7 +19,7 @@
         <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
       </a-button>
    
-    <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
+    <a-table :scroll="{  y: 610 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
         {{(index+1)+((pagination.current-1)*pagination.pageSize)}}

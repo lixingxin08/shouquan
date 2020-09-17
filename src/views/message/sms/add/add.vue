@@ -106,9 +106,7 @@
       this.id = this.$route.query.id
       if (this.id) { //编辑
         this.getSmsInfo();
-      } else {
-        this.getSmsMsgList()
-      }
+      } 
       this.getCombobox()
 
     },
@@ -189,7 +187,7 @@
       },
       async getSmsMsgList() {
         let param = {
-          classCode: 'sms_push_template',
+          classCode: this.config.typeCode,
         }
         let res = await this.$http.post(this.$api.dictionarycombobox, param)
         if(res.data.resultCode==10000){
@@ -229,6 +227,7 @@
       handleSelectChange(e) {
         console.log(e)
         this.config.typeCode = e
+        this.getSmsMsgList()
       },
       /* 获取业务类别*/
       async getCombobox() {

@@ -1,7 +1,7 @@
 <template>
   <div class="content2">
 
-    <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableList" bordered size="small" :pagination="false">
+    <a-table :scroll="{  y: 610 }" :columns="tableTitle" :data-source="tableList" bordered size="small" :pagination="false">
       <template slot="index" slot-scope="text, record,index">
         {{index+1}}
       </template>

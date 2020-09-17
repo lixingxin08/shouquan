@@ -26,7 +26,7 @@
     <a-button type="primary" class='table-add-btn' style='width: 138px;' @click="editParam({})">
       <a-icon two-tone-color="#ffffff" type="plus" /> 新增运行参数
     </a-button>
-    <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="paramList" bordered size="small"
+    <a-table :scroll="{  y: 610 }" :columns="dictionaryColumns" :data-source="paramList" bordered size="small"
       :pagination="false">
       <template slot="index" slot-scope="text, record,index">
         {{index+1}}

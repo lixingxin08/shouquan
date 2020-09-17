@@ -12,7 +12,7 @@
     </div>
     <a-button type="primary"class='table-add-btn' @click="add">
       <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
-    <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="menuList" bordered size="small"
+    <a-table :scroll="{  y: 610 }" :columns="dictionaryColumns" :data-source="menuList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
         {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
