@@ -134,7 +134,7 @@
       },
       /* 获取设备类型*/
       async getBrandInfo() {
-        let param = {
+        let param = { 
           brandId: this.id
         }
         let res = await this.$http.post(this.$api.devicebrandsdetail, param);

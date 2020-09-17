@@ -14,7 +14,7 @@
     </div>
       <div class="view-title-line"></div>
       <div class="flexrow" style="margin-bottom: 20px;"><a-button  type="primary" @click="editDevice({})">
-      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
+      <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
     </a-button></div>
 
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"

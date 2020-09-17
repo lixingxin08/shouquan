@@ -8,9 +8,12 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div class="view-title-line"></div>
-    <a-button class='addbtn' type="primary" @click="add">
-      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
-    </a-button>
+   
+    <div class="flexrow" style="margin-bottom: 20px;">
+      <a-button type="primary" @click="add">
+        <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
+      </a-button>
+    </div>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="brandList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">

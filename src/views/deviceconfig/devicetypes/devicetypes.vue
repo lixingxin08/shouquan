@@ -13,9 +13,12 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div class="view-title-line"></div>
-    <a-button class='addbtn' type="primary" @click="editDevice({})">
-      <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增
-    </a-button>
+    
+    <div class="flexrow" style="margin-bottom: 20px;">
+      <a-button type="primary" @click="editDevice({})">
+        <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
+      </a-button>
+    </div>
     <a-table :scroll="{  y: 700 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
@@ -164,17 +167,7 @@
   }
 
   .addbtn {
-    font-size: 12px;
-    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-    font-weight: 400;
-    text-align: left;
-    color: #ffffff;
-    width: 80px;
     margin-bottom: 20px;
-    height: 36px;
-    background: #1890ff;
-    border: 1px solid #1890ff;
-    border-radius: 8px;
   }
 
   .item-line {

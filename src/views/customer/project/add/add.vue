@@ -5,73 +5,40 @@
         <span class="col_red">*</span>项目名称:
       </div>
       <div>
-        <a-input
-          class="edit_a_input"
-          :maxLength="50"
-          v-model="form.projectName"
-          placeholder="请输入项目名称"
-        />
+        <a-input class="edit_a_input" :maxLength="50" v-model="form.projectName" placeholder="请输入项目名称" />
       </div>
       <div class="edit_item_toast">注:50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">合同编号:</div>
-      <a-input class="edit_a_input" v-model="form.contractNo" placeholder="请输入合同编号" />
+      <a-input class="edit_a_input" v-model="form.contractNo" :maxLength="50" placeholder="请输入合同编号" />
       <div class="edit_item_toast">注:50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>
     </div>
 
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">合同描述:</div>
       <div style="position: relative;">
-        <a-textarea
-          class="edit_a_input"
-          :rows="5"
-          :maxlength="500"
-          placeholder="500字以内，格式不限制"
-          v-model="form.contractDes"
-        />
-           <div class="edit_number">{{contractDesklen}}/500</div>
+        <a-textarea class="edit_a_input" :rows="5" :maxlength="255" placeholder="255字以内，格式不限制" v-model="form.contractDes" />
+        <div class="edit_number">{{contractDesklen}}/255</div>
       </div>
-   
+
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">合同期始:</div>
-      <a-date-picker
-        @change="onChange"
-        v-model="form.startDate "
-        placeholder="请选择日期"
-        format="YYYY-MM-DD"
-        class="edit_a_input"
-      />
+      <a-date-picker @change="onChange" v-model="form.startDate " placeholder="请选择日期" format="YYYY-MM-DD" class="edit_a_input" />
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">合同期止:</div>
-      <a-date-picker
-        @change="onChange1"
-        format="YYYY-MM-DD"
-        v-model="form.endDate "
-        placeholder="请选择日期"
-        class="edit_a_input"
-      />
+      <a-date-picker @change="onChange1" format="YYYY-MM-DD" v-model="form.endDate " placeholder="请选择日期" class="edit_a_input" />
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
         <span class="col_red">*</span>项目状态:
       </div>
-      <a-select
-        show-search
-        placeholder="全部"
-        option-filter-prop="children"
-        style="width: 667px;margin-right:20px;height:36px;border-radius: 8px;"
-        v-model="form.statusCode"
-        @change="handleChange"
-      >
+      <a-select show-search placeholder="全部" option-filter-prop="children" style="width: 667px;margin-right:20px;height:36px;border-radius: 8px;"
+        v-model="form.statusCode" @change="handleChange">
         <a-select-option value>全部</a-select-option>
-        <a-select-option
-          v-for="(item,index) in statusCode"
-          :key="index"
-          :value="item.id"
-        >{{item.val}}</a-select-option>
+        <a-select-option v-for="(item,index) in statusCode" :key="index" :value="item.id">{{item.val}}</a-select-option>
       </a-select>
     </div>
     <div class="flexrow flexac edit_item">
@@ -83,26 +50,20 @@
 
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">项目经理:</div>
-      <a-input class="edit_a_input" placeholder="请输项目经理名称" v-model="form.leader" />
+      <a-input class="edit_a_input" placeholder="请输项目经理名称" :maxLength="16" v-model="form.leader" />
       <div class="edit_item_toast">注:2-16个字，支持中英文</div>
     </div>
 
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">联系手机:</div>
-      <a-input class="edit_a_input" placeholder="请输入11位数字手机号" v-model="form.linkphone" />
+      <a-input class="edit_a_input" placeholder="请输入11位数字手机号" :maxLength="11" v-model="form.linkphone" />
     </div>
 
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">备注信息:</div>
       <div style="position: relative;">
-        <a-textarea
-          class="edit_a_input"
-          :rows="5"
-          :maxlength="500"
-          placeholder="500字以内，格式不限制"
-          v-model="form.remark"
-        />
-        <div class="edit_number">{{remarklen}}/500</div>
+        <a-textarea class="edit_a_input" :rows="5" :maxlength="255" placeholder="255字以内，格式不限制" v-model="form.remark" />
+        <div class="edit_number">{{remarklen}}/255</div>
       </div>
     </div>
     <div class="flexrow" style="margin-top: 30px;justify-item: flex-start;margin-left: 325px;">
@@ -113,229 +74,243 @@
 </template>
 
 <script>
-export default {
-  inject: ["reload"],
-  data() {
-    return {
-      sel_data: "",
-      form: {
-        projectId: "",
-        projectName: "",
-        contractNo: "",
-        description: "",
-        startDate: "",
-        endDate: "",
-        statusCode: "",
-        defaultChecked: 0,
-        leader: "",
-        linkphone: "",
-        remark: "",
-        contractDes:"",
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
+  export default {
+    inject: ["reload"],
+    data() {
+      return {
+        sel_data: "",
+        form: {
+          projectId: "",
+          projectName: "",
+          contractNo: "",
+          description: "",
+          startDate: "",
+          endDate: "",
+          statusCode: "",
+          defaultChecked: 0,
+          leader: "",
+          linkphone: "",
+          remark: "",
+          contractDes: "",
+          operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
+        },
+        detailparam: {
+          projectId: "",
+        },
+        plainOptions: ["男", "女"],
+        value1: "男",
+        statusCode: [{
+            id: 1,
+            val: "启用"
+          },
+          {
+            id: 0,
+            val: "备用"
+          },
+        ],
+      };
+    },
+    computed: {
+      isdefaultChecked() {
+        if (this.form.defaultChecked == 0) {
+          return false;
+        } else {
+          return true;
+        }
       },
-      detailparam: {
-        projectId: "",
+      remarklen() {
+        return this.form.remark.length;
       },
-      plainOptions: ["男", "女"],
-      value1: "男",
-      statusCode: [
-        { id: 1, val: "是" },
-        { id: 0, val: "否" },
-      ],
-    };
-  },
-  computed: {
-    isdefaultChecked() {
-      if (this.form.defaultChecked == 0) {
-        return false;
-      } else {
-        return true;
+      contractDesklen() {
+        if (!this.form.contractDes)
+          return 0
+        return this.form.contractDes.length;
+      },
+    },
+    created() {
+      if (this.$route.query.type == "edit") {
+        this.detailparam.projectId = this.$route.query.id;
+        this.getdetail();
       }
     },
-    remarklen() {
-      return this.form.remark.length;
-    },
-    contractDesklen() {
-      return this.form.contractDes.length;
-    },
-  },
-  created() {
-    if (this.$route.query.type == "edit") {
-      this.detailparam.projectId = this.$route.query.id;
-      this.getdetail();
-    }
-  },
-  methods: {
-    //详情接口
-    async getdetail() {
-      let res = await this.$http.post(
-        this.$api.projectdetail,
-        this.detailparam
-      );
-      if (res.data.resultCode == "10000") {
-        this.form = res.data.data;
-      } else {
-        this.$message.error(res.data.resultMsg);
-      }
-      console.log(res, 8888);
-    },
-    //运行参数表单接口
-    async getform() {
-      if (this.form.projectName == "") {
-        return this.$message.error("请输入项目名称");
-      }
-      if (this.form.statusCode == "") {
-        return this.$message.error("请选择项目状态");
-      }
-      if (!this.vify_cn16(this.form.leader)) {
-        this.form.leader = "";
-        return this.$message.error("项目经理格式不正确");
-      }
-      if (!this.vify_cn3(this.form.projectName)) {
-        this.form.projectName = "";
-        return this.$message.error("项目名称格式不正确");
-      }
-      if (!this.vify_cn3(this.form.contractNo)) {
-        this.form.contractNo = "";
-        return this.$message.error("合同编号格式不正确");
-      }
-      if (!this.verPhone(this.form.linkphone)) {
-        this.form.linkphone = "";
-        return this.$message.error("联系手机格式不正确");
-      }
-      this.form.operatorId = 1;
-      if (
-        new Date(this.form.startDate).getTime() >
-        new Date(this.form.endDate).getTime()
-      ) {
-        let a = this.form.startDate;
-        this.form.startDate = this.form.endDate;
-        this.form.endDate = a;
-      }
-      let res = await this.$http.post(this.$api.projectform, this.form);
-      if (res.data.resultCode == "10000") {
-        this.$message.success(res.data.resultMsg);
-        this.$router.go(-1);
-      } else {
-        this.$message.error(res.data.resultMsg);
-      }
-    },
-    reset() {
-      this.reload();
-    },
+    methods: {
+      //详情接口
+      async getdetail() {
+        let res = await this.$http.post(
+          this.$api.projectdetail,
+          this.detailparam
+        );
+        if (res.data.resultCode == "10000") {
+          this.form = res.data.data;
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
+        console.log(res, 8888);
+      },
+      //运行参数表单接口
+      async getform() {
+        if (this.form.projectName == "") {
+          return this.$message.error("请输入项目名称");
+        }
+        if (this.form.statusCode == "") {
+          return this.$message.error("请选择项目状态");
+        }
+        if (this.form.leader && !this.vify_cn16(this.form.leader)) {
+          this.form.leader = "";
+          return this.$message.error("项目经理格式不正确");
+        }
+        if (!this.vify_cn3(this.form.projectName)) {
+          this.form.projectName = "";
+          return this.$message.error("项目名称格式不正确");
+        }
+        if (!this.vify_cn3(this.form.contractNo)) {
+          this.form.contractNo = "";
+          return this.$message.error("合同编号格式不正确");
+        }
+        if (this.form.linkphone && !this.verPhone(this.form.linkphone)) {
+          this.form.linkphone = "";
+          return this.$message.error("联系手机格式不正确");
+        }
+        this.form.operatorId = 1;
+        if (
+          new Date(this.form.startDate).getTime() >
+          new Date(this.form.endDate).getTime()
+        ) {
+          let a = this.form.startDate;
+          this.form.startDate = this.form.endDate;
+          this.form.endDate = a;
+        }
+        let res = await this.$http.post(this.$api.projectform, this.form);
+        if (res.data.resultCode == "10000") {
+          this.$message.success(res.data.resultMsg);
+          this.$router.go(-1);
+        } else {
+          this.$message.error(res.data.resultMsg);
+        }
+      },
+      reset() {
+        this.reload();
+      },
 
-    handleChange(value, key) {
-      console.log(this.form.typeCode, 88);
-    },
+      handleChange(value, key) {
+        console.log(this.form.typeCode, 88);
+      },
 
-    onChange(date, dateString) {
-      this.form.startDate = dateString;
+      onChange(date, dateString) {
+        this.form.startDate = dateString;
+      },
+      onChange1(date, dateString) {
+        this.form.endDate = dateString;
+      },
+      onChange2(checked) {
+        console.log(`a-switch to ${checked}`);
+        if (checked) {
+          this.form.defaultChecked = 1;
+        } else {
+          this.form.defaultChecked = 0;
+        }
+      },
     },
-    onChange1(date, dateString) {
-      this.form.endDate = dateString;
-    },
-    onChange2(checked) {
-      console.log(`a-switch to ${checked}`);
-      if (checked) {
-        this.form.defaultChecked = 1;
-      } else {
-        this.form.defaultChecked = 0;
-      }
-    },
-  },
-};
+  };
 </script>
 <style>
-.edit_item_title {
-  width: 315px;
-  height: 100%;
-  text-align: right;
-  font-size: 14px;
-  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-  font-weight: 400;
-  margin-right: 10px;
-  text-align: right;
-  color: #000000;
-  flex-shrink: 0;
-}
+  .edit_item_title {
+    width: 315px;
+    height: 100%;
+    text-align: right;
+    font-size: 14px;
+    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+    font-weight: 400;
+    margin-right: 10px;
+    text-align: right;
+    color: #000000;
+    flex-shrink: 0;
+  }
 
-.edit_item {
-  margin-top: 24px;
-}
+  .edit_item {
+    margin-top: 24px;
+  }
 
-.edit_item_toast {
-  font-size: 12px;
-  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-  font-weight: 400;
-  text-align: left;
-  color: #999999;
-  margin-left: 20px;
-}
+  .edit_item_toast {
+    font-size: 12px;
+    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #999999;
+    margin-left: 20px;
+  }
 
-.edit_a_input {
-  width: 667px;
-  height: 32px;
-}
+  .edit_a_input {
+    width: 667px;
+    height: 32px;
+  }
 
-.edit_number {
-  position: absolute;
-  right: 10px;
-  bottom: 3px;
-  font-size: 14px;
-  color: #999999;
-}
-.mapbtn {
-  width: 100px;
-  color: #fff;
-  text-align: center;
-}
+  .edit_number {
+    position: absolute;
+    right: 10px;
+    bottom: 3px;
+    font-size: 14px;
+    color: #999999;
+  }
 
-.dialogaddproj {
-  width: 920px;
-  height: 810px;
-  position: relative;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 1px solid #000;
-  border-radius: 8px;
-  background-color: #fff;
-  z-index: 2;
-}
-.dialogaddproj_t {
-  width: 920px;
-  height: 72px;
-  background-color: #1890ff;
-  color: #fff;
-  font-size: 24px;
-  padding: 0 40px;
-}
-.dialogaddproj_c {
-  width: 920px;
-  height: 554px;
-  font-size: 20px;
-  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-  font-weight: 400;
-  text-align: center;
-  color: #333333;
-  z-index: 3;
-  padding: 0 40px;
-}
-.dialogaddproj_c_t {
-  height: 32px;
-  margin-top: 30px;
-  margin-bottom: 20px;
-}
-.dialogaddproj_inp {
-  width: 744px;
-  height: 32px;
-  border: 1px solid #dcdcdc;
-  border-radius: 8px;
-}
-.map {
-  width: 840px;
-  height: 472px;
-}
-.dialogaddproj_f {
-  margin-top: 40px;
-}
+  .mapbtn {
+    width: 100px;
+    color: #fff;
+    text-align: center;
+  }
+
+  .dialogaddproj {
+    width: 920px;
+    height: 810px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #000;
+    border-radius: 8px;
+    background-color: #fff;
+    z-index: 2;
+  }
+
+  .dialogaddproj_t {
+    width: 920px;
+    height: 72px;
+    background-color: #1890ff;
+    color: #fff;
+    font-size: 24px;
+    padding: 0 40px;
+  }
+
+  .dialogaddproj_c {
+    width: 920px;
+    height: 554px;
+    font-size: 20px;
+    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+    font-weight: 400;
+    text-align: center;
+    color: #333333;
+    z-index: 3;
+    padding: 0 40px;
+  }
+
+  .dialogaddproj_c_t {
+    height: 32px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .dialogaddproj_inp {
+    width: 744px;
+    height: 32px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+  }
+
+  .map {
+    width: 840px;
+    height: 472px;
+  }
+
+  .dialogaddproj_f {
+    margin-top: 40px;
+  }
 </style>
