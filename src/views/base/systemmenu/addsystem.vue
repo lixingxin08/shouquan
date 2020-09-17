@@ -185,8 +185,8 @@
       setShowData() { //设置数据
         this.menuName = this.cacheData.menuName
         this.remark = this.cacheData.remark
-        this.imageUrl=this.cacheData.menuIcon
-this.authList=this.cacheData.authList
+        this.imageUrl = this.cacheData.menuIcon
+        this.authList = this.cacheData.authList
         if (this.isAdd == 'true') {
           this.menuName = ''
           this.remark = ''
@@ -205,7 +205,7 @@ this.authList=this.cacheData.authList
         }
         if (info.file.status === "done") {
           // Get this url from response in real world.
-                this.imageUrl = info.file.response.data;
+          this.imageUrl = info.file.response.data;
           this.loading = false;
 
         }
@@ -265,7 +265,7 @@ this.authList=this.cacheData.authList
           this.$message.warning('菜单名称不能为空');
           return
         }
-     
+
         if (!this.imageUrl) {
           this.$message.warning('菜单图标不能为空');
           return
@@ -274,7 +274,7 @@ this.authList=this.cacheData.authList
           this.$message.warning('鉴权接口不能为空');
           return
         }
-        if (!this.menuType && (this.grade-1) == 3) {
+        if (!this.menuType && (this.grade - 1) == 3) {
           this.$message.warning('请选择菜单类型');
           return
         }
