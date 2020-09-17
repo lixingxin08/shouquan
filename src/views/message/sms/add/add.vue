@@ -144,10 +144,15 @@
       },
       /* 提交事件*/
       async submit() {
+        if (this.checkMsgInputList()) {
+          this.$message.warning('消息服务序号不能为空')
+          return
+        }
         if(this.checkMsgList()){
            this.$message.warning('消息服务序号不能有重复值')
           return
         }
+	
         this.config.operatorId=JSON.parse(localStorage.getItem('usermsg')).accountId
         this.config.smsModelList=this.msgList
         let res = await this.$http.post(this.$api.smsform, this.config)
@@ -160,7 +165,16 @@
         }
       },
 
+    checkMsgInputList() {
 
+        let has = false
+        this.msgList.forEach((item) => {
+          if (!item.serviceId) {
+            has = true
+          }
+        })
+        return has
+      },
 
       /* 获取微信账号详情*/
       async getSmsInfo() {
