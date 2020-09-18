@@ -126,7 +126,7 @@
       },
       {
         "title": "参数描述",
-        "dataIndex": "description",
+        "dataIndex": "remark",
         "width": "35%",
         "ellipsis": true,
         "align": "center"
