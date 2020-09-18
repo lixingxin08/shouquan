@@ -40,11 +40,11 @@
         <a-textarea
           class="edit_a_input"
           :rows="5"
-          :maxlength="500"
-          placeholder="500字以内，格式不限制"
+          :maxLength="255"
+          placeholder="255字以内，格式不限制"
           v-model="form.remark"
         />
-        <div class="edit_number">{{remarklen}}/500</div>
+        <div class="edit_number">{{remarklen}}/255</div>
       </div>
     </div>
     <div class="flexrow flexac edit_item">
@@ -95,8 +95,9 @@
 </template>
 
 <script>
-import isLeft from "../../../../components/tree/seltree.vue";
+import isLeft from "../../../../components/tree/check_seltree.vue";
 export default {
+  name:'addtemplate',
   components: {
     isLeft,
   },
@@ -126,7 +127,8 @@ export default {
       showtree: false,
       statusCode: [
         { id: 1, val: "启用" },
-        { id: "0", val: "关闭" },
+        { id: 0, val: "备用" },
+        { id: 2, val: "停用" },
       ],
       islist: [],
       treeprame: {
@@ -147,10 +149,13 @@ export default {
     },
   },
   created() {
+     this.treeprame.templateId=''
     if (this.$route.query.type == "edit") {
       this.detailparam.templateId = this.$route.query.id;
+      this.treeprame.templateId = this.$route.query.id; 
       this.getdetail();
-    } else {
+      this.gettree();
+    } else {     
       this.gettree();
     }
   },
@@ -178,12 +183,15 @@ export default {
       if (res.data.resultCode == "10000") {
         this.form = res.data.data;
         this.data = this.form.menuTree;
-        this.setdata();
-        this.showtree = true;
+        if (this.data!==undefined) {
+           this.setdata();
+             this.showtree = true;
+        }
+       
+      
       } else {
         return this.$message.error(res.data.resultMsg);
       }
-      console.log(res, 8888);
     },
     //表单接口
     async getform() {

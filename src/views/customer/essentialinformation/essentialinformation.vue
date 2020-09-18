@@ -29,7 +29,7 @@
           list-type="picture-card"
           class="avatar-uploader"
           :show-upload-list="false"
-          action="http://192.168.3.101:80/upload"
+          :action="postimgurl"
           :before-upload="beforeUpload"
           :headers="istoken"
           @change="handleChange"
@@ -107,6 +107,8 @@
 </template>
 
 <script>
+import {postimgurl} from '../../../js/url'
+
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -131,6 +133,7 @@ export default {
         { val: "备用", id: 0 },
         { val: "锁定", id: 2 },
       ],
+      postimgurl,
       form: {
         customerId: "",
         customerName: "",
@@ -167,7 +170,6 @@ export default {
       } else {
         this.$message.error(res.data.resultMsg);
       }
-      console.log(res, 8888);
     },
     //表单接口
     async getform() {

@@ -3,7 +3,7 @@
       <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
     <div class="flex_fs">
       <div>
-        <div class="right">
+        <div class="right right2">
           <div class="r_top flex_f">
             <div class="r_t_text">模板名称:</div>
             <a-input
@@ -15,6 +15,7 @@
             <div class="btn_blue btn" @click="tosearch()">查询</div>
             <div class="btn_gray" @click="clear()">清除</div>
           </div>
+          <div class="isline"></div>
           <div class="btn_blue btn2" @click="toadd('add')"> <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" />新增</div>
           <div class="table" v-if="tabletype">
             <a-table
@@ -30,8 +31,8 @@
               >{{(index+1)+((pagination.current-1)*10)}}</template>
              <div slot="statusCode" class="flex_a" slot-scope="statusCode">
                 <div v-if="statusCode==1">启用</div>
-                <div v-if="statusCode==2">备用</div>
-                <div v-if="statusCode==0">关闭</div>
+                <div v-if="statusCode==0">备用</div>
+                <div v-if="statusCode==2">停用</div>
               </div>
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>

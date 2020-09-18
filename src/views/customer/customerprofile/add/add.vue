@@ -29,7 +29,7 @@
           list-type="picture-card"
           class="avatar-uploader"
           :show-upload-list="false"
-          action="http://192.168.3.101:80/upload"
+          :action="postimgurl"
           :before-upload="beforeUpload"
           @change="handleChange"
         >
@@ -50,8 +50,8 @@
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">公司电话:</div>
-      <a-input class="edit_a_input" :maxLength="20" v-model="form.telephone" placeholder="请输入公司电话" />
-      <div class="edit_item_toast">注:请输入公司座机号，20字以内</div>
+      <a-input class="edit_a_input" :maxLength="16" v-model="form.telephone" placeholder="请输入公司电话" />
+      <div class="edit_item_toast">注:请输入公司座机号，16字以内</div>
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">联系人姓名:</div>
@@ -81,7 +81,6 @@
         :headers="istoken"
         @change="handleChange2"
       >
-        <a-select-option value>全部</a-select-option>
         <a-select-option v-for="(item,index) in sel_data" :key="index" :value="item.id">{{item.val}}</a-select-option>
       </a-select>
     </div>
@@ -107,6 +106,7 @@
 </template>
 
 <script>
+import {postimgurl} from '../../../../js/url'
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -121,6 +121,7 @@ export default {
   },
   data() {
     return {
+      postimgurl,
       istoken: {
         token: JSON.parse(localStorage.getItem("usermsg")).token || "",
       },
@@ -129,7 +130,7 @@ export default {
       sel_data: [
         { val: "启用", id: 1 },
         { val: "备用", id: 2 },
-        { val: "关闭", id: 0 },
+        { val: "锁定", id: 0 },
       ],
       form: {
         customerId: "",
@@ -174,7 +175,6 @@ export default {
       } else {
         this.$message.error(res.data.resultMsg);
       }
-      console.log(res, 8888);
     },
     //表单接口
     async getform() {

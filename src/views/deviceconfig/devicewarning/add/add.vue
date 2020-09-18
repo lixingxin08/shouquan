@@ -55,7 +55,7 @@
           list-type="picture-card"
           class="avatar-uploader"
           :show-upload-list="false"
-          action="http://192.168.3.101:80/upload"
+        :action="postimgurl"
           :before-upload="beforeUpload"
           @change="handleChange"
         >
@@ -88,7 +88,7 @@
 
 <script>
   import tableTitleData from "../table.json";
-
+import {postimgurl} from '../../../../js/url'
   function getBase64(img, callback) {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
@@ -99,6 +99,7 @@
     data() {
 
       return {
+        postimgurl,
         selectedRowKeys: [], //选择转警事件
         gradeList: [{ //警报等级
             comboBoxId: 1,

@@ -7,7 +7,8 @@
         :data-source="tabledata"
         bordered
         :pagination="pagination"
-        :customRow="rowClick"
+        :customRow="customRow"
+        rowKey="index"
       >
         <template
           slot="index"
@@ -55,6 +56,7 @@
 </template>
 <script>
 import isLeft from "../../../components/tree/check_seltree.vue";
+import LogManagementVue from "../../LogManagement/LogManagement.vue";
 export default {
   inject: ["reload"],
   components: {
@@ -94,7 +96,13 @@ export default {
           },
         },
       ],
-      tabledata: [],
+      tabledata: [
+        {
+          customerId: "sss",
+          shortName: "fff",
+          statusCode: 1,
+        },
+      ],
       issearchdata: "",
       treedata: "",
       filterdata: [],
@@ -116,7 +124,7 @@ export default {
         pageSize: 10000, //每页中显示10条数据
         current: 1,
         page: 1,
-        hideOnSinglePage:true
+        hideOnSinglePage: true,
       },
       runpageparam: {
         statusCode: "",
@@ -136,24 +144,11 @@ export default {
         operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
         customerId: "",
       },
-
       customerId: "",
-      rowClick: (record) => ({
-        // 事件
-        on: {
-          click: () => {
-            // 点击改行时要做的事情
-            // ......
-
-            this.customerId = record.customerId;
-            console.log(record, "record", this.customerId);
-          },
-        },
-      }),
     };
   },
   created() {
-    this.getlist();
+    // this.getlist();
     this.gettree();
   },
   computed: {
@@ -162,6 +157,22 @@ export default {
     },
   },
   methods: {
+    customRow(record, index) {
+      return {
+        style: {
+          // 行背景色
+          "background-color":
+            record.customerId == this.customerId ? "#e6f7ff" : "",
+        },
+        on: {
+          // 鼠标单击行
+          click: (event) => {
+            this.customerId = record.customerId;
+            console.log(record, "record", index);
+          },
+        },
+      };
+    },
     async getlist() {
       this.tabletype = false;
       let res = await this.$http.post(
@@ -184,6 +195,7 @@ export default {
       }
     },
     async getform() {
+      this.form=[]
       let aa = {
         customerId: "",
         areaId: "",
@@ -192,18 +204,20 @@ export default {
         parentId: "",
         remark: "",
       };
-      this.ischeck=[...new Set(this.ischeck)]
+      this.ischeck = [...new Set(this.ischeck)];
       if (this.ischeck.length == 0) {
         return this.$message.error("请选择授权区域");
       }
       if (this.customerId == "") {
         return this.$message.error("请选择授权客户");
       }
-      
-      for (let i = 0; i < this.ischeck.length; i++) {
-        for (let j = 0; j < this.data.length; j++) {
+      for (let k = 0; k < this.ischeck.length; k++) {
+      this.form.push(aa);
+      }
+      for (let j = 0; j < this.data.length; j++) {
+        for (let i = 0; i < this.ischeck.length; i++) {
           if (this.ischeck[i] == this.data[j].id) {
-            this.form.push(aa);
+ 
             this.form[i].customerId = this.customerId;
             this.form[i].areaId = this.data[j].id;
             this.form[i].areaName = this.data[j].name;
@@ -213,6 +227,7 @@ export default {
           }
         }
       }
+
       let res = await this.$http.post(this.$api.customerareaform, this.form);
       if (res.data.resultCode == "10000") {
         this.$message.error("授权成功");
@@ -291,7 +306,6 @@ export default {
           _that.setfilltertree(datas[i].children);
         }
       }
-      console.log(this.filtersdata, 111111);
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {

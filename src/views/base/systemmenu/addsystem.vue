@@ -38,7 +38,7 @@
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>菜单图标:</div>
         <div class="isupload">
-          <a-upload name="file" list-type="picture-card" class="avatar-uploader" :show-upload-list="false" action="http://192.168.3.101:80/upload"
+          <a-upload name="file" list-type="picture-card" class="avatar-uploader" :show-upload-list="false" :action="postimgurl"
             :before-upload="beforeUpload" @change="handleChangeImage">
             <img v-if="imageUrl" :src="imageUrl" alt="file" />
             <div v-else>
@@ -94,7 +94,7 @@
 <script>
   import tableTitleData from "./table.json";
   import isAdd from './adddialog.vue'
-
+import {postimgurl} from '../../../js/url'
   function getBase64(img, callback) {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
@@ -107,6 +107,7 @@
     inject: ['reload'],
     data() {
       return {
+        postimgurl,
         dictionaryColumns: tableTitleData.data.adddictionaryColumns,
         menuValue: '页签', //菜单类型
         menuName: '', //菜单名称
