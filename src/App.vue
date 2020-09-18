@@ -35,7 +35,7 @@ import DevicePixelRatio from './utils/device.js';
     mounted() {
       if (window.location.host.indexOf("localhost") >= 0) {//本地测试
         let usermsg = {
-          accountId: "23tg43qrfdrr4wrtggrtr434tr4tt4rtrt43tt"
+          accountId: "21232f297a57a5a743894a0e4a801fc22"
         }
         localStorage.setItem('usermsg', JSON.stringify(usermsg))
       } else {

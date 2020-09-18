@@ -78,12 +78,11 @@
         this.getTableData()
       },
       async getTableData() {
-        //menuId: this.parentItem.id,
-        console.log(this.timeValue[0])
-        console.log(this.timeValue[1])
+        //,
         let param = {
           actionName: this.keyword,
           pageSize: this.pagination.pageSize,
+          menuId: this.parentItem.id,
           startTime: this.timeValue[0] ? this.timeValue[0].toString().replace(new RegExp('/', 'gm'), '-') : '',
           endTime: this.timeValue[1] ? this.timeValue[1].toString().replace(new RegExp('/', 'gm'), '-') : '',
           pageIndex: this.pagination.current

@@ -57,7 +57,7 @@
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
         </template>
-
+ <div slot='serviceIdTitle'> <span style="color: #FF0033;">*</span>服务序号</div>
         <template slot="serviceId" slot-scope="text, record, index">
           <a-input style="margin: -5px 0;border: 0px;" v-model='text' @change="e => handleChange(e.target.value,index)"></a-input>
         </template>
@@ -129,7 +129,7 @@
             this.$message.warning('请先填写短信签名')
             return
           }
-		  if (this.vify_cn(this.config.signName)) {
+		  if (!this.vify_cn(this.config.signName)) {
 		    this.$message.warning('短信签名格式错误')
 		    return
 		  }

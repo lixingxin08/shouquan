@@ -6,7 +6,10 @@
       </div>
       <div class="r_top flex_f" style="padding: 20px;">
         <div class="r_t_text">人员姓名/手机号码:</div>
-        <a-input placeholder="请输入人员姓名/手机号码" class="r_t_inp" v-model="pageparam.keyword" @keydown.enter="tosearch()" />
+        <div style="width: 200px;">
+                  <a-input placeholder="请输入人员姓名/手机号码" class="r_t_inp" v-model="pageparam.keyword" @keydown.enter="tosearch()" />
+        </div>
+
         <div class="r_t_text">人员状态:</div>
         <a-select show-search placeholder="全部" option-filter-prop="children" style="width: 200px;margin-right:20px;height:36px;border-radius: 8px;"
           v-model="pageparam.statusCode" @change="handleChange">
@@ -17,8 +20,9 @@
         <div class="btn_gray" @click="clear()">清除</div>
       </div>
       <div v-if="tabledata.length>0" class="table">
-        <a-table style='margin: 20px;' :scroll="{ x: 700 }" :columns="tablecolumns" :data-source="tabledata" bordered
+        <a-table style='margin: 20px; width: 800px;'  :columns="tablecolumns" :data-source="tabledata" bordered
           :pagination="pagination" @change="handleTableChange" size='small'>
+           <template slot="departmentId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</template>
           <div slot="gender" class="flex_a" slot-scope="gender">
             <div v-if="gender==0">男</div>
             <div v-else>女</div>
@@ -71,9 +75,12 @@
         tablecolumns: [{//表格table title
             align: "center",
             title: "序号",
-            width: 10,
+            width: 5,
             dataIndex: "departmentId",
             ellipsis: true,
+            scopedSlots: {
+              customRender: "departmentId",
+            },
           },
           {
             align: "center",
@@ -146,7 +153,7 @@
         let res = await this.$http.post(this.$api.personpage, prame);
         if (res.data.resultCode == "10000") {
           res.data.data.list.forEach((item) => {
-            if (item.existsFlag == 0)
+           // if (item.existsFlag == 0)
               this.tabledata.push(item)
           })
           if(this.pagination.current==1)
@@ -209,7 +216,7 @@
     font-weight: 400;
     text-align: left;
     color: #333333;
-
+flex-shrink: 0;
     margin-right: 10px;
   }
 

@@ -66,17 +66,16 @@
         "dataIndex": "remark",
         "width": "20%",
         "align": "center",
-        "className": "topic-info",
-        "scopedSlots": {
-          "customRender": "remark"
-        }
+        "className": "topic-info"
+
       },
       {
-        "title": "消息服务序号",
+        
         "dataIndex": "serviceId",
         "width": "20%",
         "align": "center",
         "scopedSlots": {
+        "title": "serviceIdTitle",
           "customRender": "serviceId"
         }
       }

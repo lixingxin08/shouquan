@@ -9,6 +9,7 @@
         @select="onSelect"
         :tree-data="treedata"
         :replaceFields="replaceFields"
+         :default-selected-keys='defaultSelectedKeys'
         :default-expanded-keys="defaultExpandedKeys"
       >
         <a-icon slot="icon" type="carry-out" />
@@ -45,7 +46,7 @@ export default {
 </script>
 <style scoped>
 #search {
-  width: 100%;
+  width: 350px;
   height: 100%;
   min-height: 909px;
   padding: 20px;
