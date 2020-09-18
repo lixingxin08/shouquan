@@ -18,8 +18,6 @@
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">合同描述:</div>
       <div style="position: relative;">
-        <a-textarea class="edit_a_input" :rows="5" :maxlength="250" placeholder="250字以内，格式不限制" v-model="form.contractDes" />
-        <div class="edit_number">{{contractDesklen}}/250</div>
       </div>
 
     </div>
@@ -74,49 +72,25 @@
 </template>
 
 <script>
-  export default {
-    inject: ["reload"],
-    data() {
-      return {
-        sel_data: "",
-        form: {
-          projectId: "",
-          projectName: "",
-          contractNo: "",
-          description: "",
-          startDate: "",
-          endDate: "",
-          statusCode: "",
-          defaultChecked: 0,
-          leader: "",
-          linkphone: "",
-          remark: "",
-          contractDes: "",
-          operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
-        },
-        detailparam: {
-          projectId: "",
-        },
-        plainOptions: ["男", "女"],
-        value1: "男",
-        statusCode: [{
-            id: 1,
-            val: "启用"
-          },
-          {
-            id: 0,
-            val: "备用"
-          },
-        ],
-      };
-    },
-    computed: {
-      isdefaultChecked() {
-        if (this.form.defaultChecked == 0) {
-          return false;
-        } else {
-          return true;
-        }
+export default {
+  inject: ["reload"],
+  data() {
+    return {
+      sel_data: "",
+      form: {
+        projectId: "",
+        projectName: "",
+        contractNo: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+        statusCode: "",
+        defaultChecked: 0,
+        leader: "",
+        linkphone: "",
+        remark: "",
+        description:"",
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       remarklen() {
         return this.form.remark.length;
@@ -126,11 +100,47 @@
           return 0
         return this.form.contractDes.length;
       },
+      plainOptions: ["男", "女"],
+      value1: "男",
+      statusCode: [
+        { id: 1, val: "是" },
+        { id: 0, val: "否" },
+      ],
+    };
+  },
+  computed: {
+    isdefaultChecked() {
+      if (this.form.defaultChecked == 0) {
+        return false;
+      } else {
+        return true;
+      }
     },
-    created() {
-      if (this.$route.query.type == "edit") {
-        this.detailparam.projectId = this.$route.query.id;
-        this.getdetail();
+    remarklen() {
+      return this.form.remark.length;
+    },
+    contractDesklen() {
+      return this.form.description.length;
+    },
+  },
+  created() {
+    if (this.$route.query.type == "edit") {
+      this.detailparam.projectId = this.$route.query.id;
+      this.getdetail();
+    }
+  },
+  methods: {
+    //详情接口
+    async getdetail() {
+      let res = await this.$http.post(
+        this.$api.projectdetail,
+        this.detailparam
+      );
+      if (res.data.resultCode == "10000") {
+        this.form = res.data.data;
+        console.log(this.form,666655);
+      } else {
+        this.$message.error(res.data.resultMsg);
       }
     },
     methods: {
@@ -211,6 +221,7 @@
         }
       },
     },
+    }
   };
 </script>
 <style>

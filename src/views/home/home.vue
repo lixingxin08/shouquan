@@ -28,7 +28,7 @@ export default {
     return {
       collapsed: false,
       searchdata: "",
-      isinclude: "header,nav,administrativedivision,dpartmentManagement,personnelManagement",
+      isinclude: "header,nav",
       isRouterShow: true,
     };
   },
@@ -74,7 +74,6 @@ export default {
   color: #fff;
   height: 90vh;
   height: 90vh;background-color: #FFFFFF;margin: 20px;
-  overflow: scroll;
   min-Width:1672px;
   margin: 20px 20px;
 }

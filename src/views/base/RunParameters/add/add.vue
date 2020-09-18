@@ -128,7 +128,7 @@ export default {
       if (this.form.parameterName == "") {
         return this.$message.error("请输入参数名称");
       }
-      if (this.vify_cn3(this.form.parameterName)) {
+      if (!this.vify_cn3(this.form.parameterName)) {
         this.form.parameterName = ""
         return this.$message.error("参数名称格式不正确");
       }
@@ -136,7 +136,7 @@ export default {
       if (this.form.parameterValue == "") {
         return this.$message.error("请输入参数数值");
       }
-       if (this.vify_cn3(this.form.parameterCode)) {
+       if (!this.vify_cn3(this.form.parameterCode)) {
         this.form.parameterCode = ""
         return this.$message.error("参数代码格式不正确");
       }

@@ -41,7 +41,7 @@
           :rows="5"
           :maxlength="500"
           placeholder="500字以内，格式不限制"
-          v-model="form.contractDes"
+          v-model="form.description"
         />
         <div class="edit_number">{{contractDesklen}}/500</div>
       </div>
@@ -188,7 +188,7 @@ export default {
       return this.form.remark.length;
     },
     contractDesklen() {
-      return this.form.contractDes.length;
+      return this.form.description.length;
     },
   },
   created() {
@@ -248,10 +248,10 @@ export default {
       this.form.endDate = dateString;
     },
     onChange3(date, dateString) {
-      this.form.endDate = dateString;
+      this.form.onlineDate = dateString;
     },
     onChange4(date, dateString) {
-      this.form.endDate = dateString;
+      this.form.acceptanceDate = dateString;
     },
     onChange2(checked) {
       console.log(`a-switch to ${checked}`);

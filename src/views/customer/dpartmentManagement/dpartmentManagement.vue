@@ -28,6 +28,7 @@
           <div class="btn_blue btn2" @click="toadd('add')"> <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" />新增</div>
           <div class="table" v-if="tabletype">
             <a-table
+              :scroll="{  y: 610 }"
               :columns="tablecolumns"
               :data-source="tabledata"
               bordered
@@ -64,6 +65,7 @@ export default {
     isLeft,
     isDeleteDialog,
   },
+  inject:['reload'],
   data() {
     return {
       ModalText: "您确定要删除吗？",
@@ -210,8 +212,7 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.getpage();
-        this.visible = false;
+        this.reload()
       } else {
         this.$message.error(res.data.resultMsg);
       }

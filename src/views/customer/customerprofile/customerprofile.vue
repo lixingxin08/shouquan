@@ -1,9 +1,8 @@
 <template>
   <div class="administrativedivision">
       <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
-    <div class="flex_fs">
-      <div>
-        <div class="right">
+    <div class="flex_fs custor_box">
+        <div class="right2">
           <div class="r_top flex_f">
             <div class="r_t_text" @click="showdialogcumfile()">客户名称:</div>
             <a-input
@@ -39,6 +38,7 @@
           <div class="btn_blue btn2" @click="toadd('add')"> <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" />新增</div>
           <div class="table" v-if="tabletype">
             <a-table
+              :scroll="{  y: 610 }"
               :columns="tablecolumns"
               :data-source="tabledata"
               bordered
@@ -51,8 +51,8 @@
               >{{(index+1)+((pagination.current-1)*10)}}</template>
               <div slot="statusCode" class="flex_a" slot-scope="statusCode">
                 <div v-if="statusCode==1">启用</div>
-                <div v-if="statusCode==0">备用</div>
-                <div v-if="statusCode==2">关闭</div>
+                <div v-if="statusCode==2">备用</div>
+                <div v-if="statusCode==0">锁定</div>
               </div>
               <div slot="Integer" class="flex_a" slot-scope="Integer">
                 <div v-if="Integer==1">是</div>
@@ -73,7 +73,6 @@
           </div>
         </div>
       </div>
-    </div>
   
   </div>
 </template>
@@ -88,7 +87,7 @@ export default {
       ModalText: "您确定要删除吗？",
       visible: false,
       tabletype: false,
-      sel_data: [{val:"启用",id:1},{val:"备用",id:2},{val:"关闭",id:0},],
+      sel_data: [{val:"启用",id:1},{val:"备用",id:2},{val:"锁定",id:0},],
       tablecolumns: [
         {
           width: 208,
@@ -323,7 +322,9 @@ export default {
   text-align: left;
 }
 
-
+.custor_box{
+  width: 1672px;
+}
 
 .r_t_text {
   height: 16px;

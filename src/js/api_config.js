@@ -41,6 +41,7 @@ export default {
   informationdetail: `/customer/information/detail`,
   informationform: `/customer/information/form`,
   informationpage: `/customer/information/page`,
+  informationmydetail  :`/customer/information/my-detail`,
 
   //客户部门信息表API
   departmentdeleteByDepartmentId: `/customer/department/remove`,

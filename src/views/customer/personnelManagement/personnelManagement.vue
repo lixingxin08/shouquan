@@ -44,6 +44,7 @@
           <div class="btn_blue btn2" @click="toadd('add')"> <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" />新增</div>
           <div class="table" v-if="tabletype">
             <a-table
+              :scroll="{  y: 610 }"
               :columns="tablecolumns"
               :data-source="tabledata"
               bordered
@@ -55,7 +56,7 @@
                 slot-scope="text, record,index"
               >{{(index+1)+((pagination.current-1)*10)}}</template>
               <div slot="gender" class="flex_a" slot-scope="gender">
-                <div v-if="gender==1">男</div>
+                <div v-if="gender==0">男</div>
                 <div v-else>女</div>
               </div>
               <div slot="statusCode" class="flex_a" slot-scope="statusCode">
@@ -91,6 +92,7 @@ export default {
     isLeft,
     isDeleteDialog,
   },
+  inject:['reload'],
   data() {
     return {
       ModalText: "您确定要删除吗？",
@@ -276,8 +278,7 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.getpersonpage();
-        this.visible = false;
+       this.reload()
       } else {
         this.$message.error(res.data.resultMsg);
       }
@@ -377,7 +378,6 @@ export default {
       this.istotal.type = 1;
       this.pagination.page = 1;
       this.pagination.pageSize = 10;
-      this.isselectdata.id = "";
       this.getpersonpage();
     },
     //清除

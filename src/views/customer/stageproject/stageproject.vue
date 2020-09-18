@@ -50,6 +50,7 @@ export default {
   components: {
     isDeleteDialog,
   },
+  inject:['reload'],
   data() {
     return {
       ModalText: "您确定要删除吗？",
@@ -144,8 +145,7 @@ export default {
         showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
       },
       removeparam: {
-        areaName: "",
-        areaId: "",
+        phaseId: "",
       },
       istotal: {
         type: 1,
@@ -185,11 +185,10 @@ export default {
     },
     //行政区划删除接口
     async getarearemove() {
-      let res = await this.$http.post(this.$api.arearemove, this.removeparam);
+      let res = await this.$http.post(this.$api.deleteByProjectPhaseId, this.removeparam);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.getareaform();
-        this.visible = false;
+       this.reload()
       } else {
         this.$message.error(res.data.resultMsg);
       }
@@ -221,8 +220,7 @@ export default {
     //弹窗
     showdialogstage(val) {
       console.log(val, 221212);
-      this.removeparam.areaName = val.areaName;
-      this.removeparam.areaId = val.areaId;
+      this.removeparam.phaseId = val.phaseId;
       this.visible = true;
     },
     cancel() {

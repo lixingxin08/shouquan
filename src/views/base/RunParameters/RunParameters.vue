@@ -38,6 +38,7 @@
           <div class="btn_blue btn2" @click="toadd('add')"> <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增</div>
           <div class="table" v-if="tabletype">
             <a-table
+              :scroll="{  y: 610 }"
               :columns="tablecolumns"
               :data-source="tabledata"
               bordered

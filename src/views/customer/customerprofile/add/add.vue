@@ -50,7 +50,7 @@
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">公司电话:</div>
-      <a-input class="edit_a_input" v-model="form.telephone" placeholder="请输入公司电话" />
+      <a-input class="edit_a_input" :maxLength="20" v-model="form.telephone" placeholder="请输入公司电话" />
       <div class="edit_item_toast">注:请输入公司座机号，20字以内</div>
     </div>
     <div class="flexrow flexac edit_item">
@@ -199,15 +199,15 @@ export default {
       if (this.form.statusCode == "") {
         return this.$message.error("请选择客户状态");
       }
-      if (!this.vify_cn(this.form.linkman)) {
+      if (!this.vify_cn(this.form.linkman)&&this.form.linkman!=="") {
         this.form.linkman = "";
         return this.$message.error("联系人姓名格式不正确");
       }
-      if (!this.verPhone(this.form.linkphone)) {
+      if (!this.verPhone(this.form.linkphone)&&this.form.linkphone!=="") {
         this.form.linkphone = "";
         return this.$message.error("联系人手机号码格式不正确");
       }
-      if (!this.vify_cn(this.form.position)) {
+      if (!this.vify_cn(this.form.position)&&this.form.position!=="") {
         this.form.position = "";
         return this.$message.error("联系人职务格式不正确");
       }
