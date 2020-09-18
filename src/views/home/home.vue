@@ -28,7 +28,7 @@ export default {
     return {
       collapsed: false,
       searchdata: "",
-      isinclude: "nav,addtemplate",
+      isinclude: "nav,addtemplate,administrativedivision",
       isRouterShow: true,
     };
   },
@@ -40,14 +40,22 @@ export default {
     getcollapsed(val) {
       this.collapsed = val;
     },
-
     async reload() {
       this.isRouterShow = false;
-      await this.$nextTick();
       this.isRouterShow = true;
     },
   },
   created() {},
+  watch: {
+    '$route':function(to,from){
+      console.log(from.path.search('/add'))
+      if(from.path.search('/add')==0&&from.name==to.name&&from.path!==to.path){
+        console.log(555444);
+        this.reload()
+      }
+
+    }
+  },
 };
 </script>
 <style>

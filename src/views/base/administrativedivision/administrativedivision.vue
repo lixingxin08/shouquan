@@ -103,6 +103,7 @@ export default {
           ellipsis: true,
           scopedSlots: {
             customRender: "index",
+            title:"istitle"
           },
         },
         {
@@ -357,7 +358,6 @@ export default {
       this.isselectdata.name = val.name;
       this.isselectdata.pid = val.pid;
       this.isselectdata.levelType = val.levelType;
-
       this.istotal.type = 1;
       this.inp_data = "";
       this.getareapage();

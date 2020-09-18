@@ -169,9 +169,9 @@ export default {
       tabletype2: false,
       tablecolumns2: [
         {
-          width: 58,
+          width: 38,
           align: "center",
-          title: "型号序号",
+          title: "序号",
           dataIndex: "modelId",
           key: "modelId",
           ellipsis: true,

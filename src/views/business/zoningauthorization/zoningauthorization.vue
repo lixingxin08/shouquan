@@ -96,13 +96,7 @@ export default {
           },
         },
       ],
-      tabledata: [
-        {
-          customerId: "sss",
-          shortName: "fff",
-          statusCode: 1,
-        },
-      ],
+      tabledata: [],
       issearchdata: "",
       treedata: "",
       filterdata: [],
