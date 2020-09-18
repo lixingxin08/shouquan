@@ -80,6 +80,9 @@
       },
       /* 获取类型列表*/
       async getEvent() {
+        this.deviceList = []
+       if(this.pagination.current==1)
+       this.pagination.total = 0
         let param = {
           pageSize: this.pagination.pageSize,
           pageIndex: this.pagination.current,

@@ -3,20 +3,18 @@
     <div class="flexrow flexac">
       <div class='title_tx'>角色名称:</div>
       <a-input style='width: 200px;' v-model='keyword' placeholder="请输入角色名称" />
-
-
       <a-button type="primary" class="title_btn" @click='getTableData'>查询</a-button>
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div class="view-title-line"></div>
 
-<a-button type="primary"  class='table-add-btn' @click="edit({})">
+    <a-button type="primary" class='table-add-btn' @click="edit({})">
       <a-icon two-tone-color="#ffffff" type="plus" /> 新增
     </a-button>
     <a-table :scroll="{  y: 610 }" :columns="tableTitle" :data-source="tableList" bordered size="small" :pagination="pagination"
-      @change="handleTableChange">
+      @change="handleTableChange" >
       <template slot="index" slot-scope="text, record,index">
-      {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
+        {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
       </template>
 
       <template slot="operation" slot-scope="text, record">
@@ -38,21 +36,21 @@
     data() {
       return {
         keyword: '', //搜索条件
-        tableTitle: tableTitleData.data.tableTitle,//角色table标题
+        tableTitle: tableTitleData.data.tableTitle, //角色table标题
         tableList: [], //角色列表
-        pagination: {//分页设置
-          total: 0,//分页的条数
-          size: "default",//分页显示的大小
-          current: 1,//选择页
+        pagination: { //分页设置
+          total: 0, //分页的条数
+          size: "default", //分页显示的大小
+          current: 1, //选择页
           pageSize: 20, // 默认每页显示数量
           showSizeChanger: true, // 显示可改变每页数量
           pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
           showQuickJumper: true,
-           showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
+          showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
       }
     },
-    created() {//获取角色数据
+    created() { //获取角色数据
       this.getTableData()
     },
     methods: {
@@ -65,16 +63,19 @@
       },
       /* 获取角色 */
       async getTableData() {
+        if (this.pagination.current == 1)
+          this.pagination.total = 0
+        this.tableList = []
         let param = {
-          pageIndex: this.pagination.current,//选择页
-          pageSize: this.pagination.pageSize,//当前页
+          pageIndex: this.pagination.current, //选择页
+          pageSize: this.pagination.pageSize, //当前页
           keyword: this.keyword //搜索条件
         }
         let res = await this.$http.post(this.$api.rolesystempage, param)
         if (res.data.resultCode == 10000) {
           this.tableList = res.data.data.list
-           if(this.pagination.current==1)
-          this.pagination.total = res.data.data.length
+          if (this.pagination.current == 1)
+            this.pagination.total = res.data.data.length
         } else {
           this.tableList = []
           this.$message.error(res.data.resultMsg);
@@ -98,7 +99,6 @@
         this.keyword = ''
         this.getTableData()
       },
-
 
       /* 新增、編輯*/
       edit(item) {
@@ -141,6 +141,10 @@
     background: #1890ff;
     border: 1px solid #1890ff;
     border-radius: 8px;
+  }
+
+  .clickRowStyl {
+    background-color: #1890ff
   }
 
   .item-line {

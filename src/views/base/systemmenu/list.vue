@@ -86,7 +86,9 @@
         this.getMenuData()
       },
       async getMenuData() { //获取菜单数据
-        this.pagination.total = 0;
+       if(this.pagination.current==1)
+       this.pagination.total = 0
+        this.menuList =[]
         let param = {
           keyword: this.keyword,
           parentId: this.parentItem.id,
@@ -94,7 +96,6 @@
           pageIndex: this.pageIndex
         };
         let res = await this.$http.post(this.$api.menupage, param);
-        console.log(res)
         if (res.data.resultCode == "10000") {
 
           this.menuList = res.data.data.list;

@@ -7,25 +7,25 @@
       <a-input placeholder="请输入微信帐号别名" class="r_t_inp" v-model="runpageparam.keyword" @keydown.enter="tosearch()" />
 
       <div class="r_t_text" @click="showdialogwechat()">微信帐号类型:</div>
-      <a-select show-search placeholder="全部"  style="width: 200px;margin-right:20px"
-        :filter-option="filterOption" v-model="runpageparam.typeCode"  @change="handleChange">
+      <a-select show-search placeholder="全部" style="width: 200px;margin-right:20px" :filter-option="filterOption"
+        v-model="runpageparam.typeCode" @change="handleChange">
         <a-select-option value>全部</a-select-option>
         <a-select-option v-for="(item,index) in wetchatTypeList" :key="index" :value="item.comboBoxId">{{item.comboBoxName}}</a-select-option>
       </a-select>
-    <a-button type='primary' @click="tosearch()">查询</a-button>
-    <a-button style='margin-left: 20px;' @click="clear()">清除</a-button>
+      <a-button type='primary' @click="tosearch()">查询</a-button>
+      <a-button style='margin-left: 20px;' @click="clear()">清除</a-button>
     </div>
     <div class="view-title-line"></div>
 
-      <a-button class='table-add-btn' type="primary" @click="toadd({})">
-        <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
-      </a-button>
-    
+    <a-button class='table-add-btn' type="primary" @click="toadd({})">
+      <a-icon two-tone-color="#ffffff" type="plus" /> 新增
+    </a-button>
+
     <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination" size='small' @change="handleTableChange">
       <div slot="wechatConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</div>
       <div slot="edit" class="flexrow flexjc" slot-scope="childTotal,areaName">
         <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
-         <div class="item-line"></div>
+        <div class="item-line"></div>
         <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(areaName)">
           <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
         </a-popconfirm>
@@ -93,7 +93,7 @@
             },
           },
         ],
-        tabledata:[],
+        tabledata: [],
         pagination: {
           total: 0,
           pageSize: 10, //每页中显示10条数据
@@ -142,17 +142,20 @@
 
       //列表接口
       async getpage() {
+        if (this.pagination.current == 1)
+          this.pagination.total = 0
+        this.tabledata = []
         this.runpageparam.pageIndex = this.pagination.current;
         this.runpageparam.pageSize = this.pagination.pageSize;
         let res = await this.$http.post(this.$api.wechatpage, this.runpageparam);
         if (res.data.resultCode == "10000") {
-          if(res.data.data){
-          this.tabledata = res.data.data.list;
-          this.runpageparam.keyword = "";
-          this.runpageparam.parameterCode = "";
-          if(this.pagination.current==1)
-            this.pagination.total = res.data.data.length;
-}
+          if (res.data.data) {
+            this.tabledata = res.data.data.list;
+            this.runpageparam.keyword = "";
+            this.runpageparam.parameterCode = "";
+            if (this.pagination.current == 1)
+              this.pagination.total = res.data.data.length;
+          }
         } else {
           this.$message.error(res.data.resultMsg);
         }
@@ -192,7 +195,7 @@
       clear() {
         this.runpageparam.keyword = "";
         this.runpageparam.statusCode = "";
-		this.runpageparam.typeCode=''
+        this.runpageparam.typeCode = ''
         // this.getareapage();
       },
 
@@ -243,7 +246,8 @@
     box-sizing: border-box;
     margin-right: 20px;
   }
- .addbtn {
+
+  .addbtn {
     font-size: 12px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
@@ -256,6 +260,7 @@
     border: 1px solid #1890ff;
     border-radius: 8px;
   }
+
   .r_t_inp:focus {
     border: 1px solid #1890ff;
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="content2">
-    <div class='flexrow flexac flexsb' >
+    <div class='flexrow flexac flexsb'>
       <div class="flexrow flexac">
         <div class='title_tx'>字典名称:</div>
         <a-input placeholder="请输入字典名称" v-model="dicName" />
@@ -9,7 +9,7 @@
       </div>
 
     </div>
-	   <div class="view-title-line"></div>
+    <div class="view-title-line"></div>
     <a-button type="primary" class='table-add-btn' @click="add">
       <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
     <a-table :scroll="{  y: 610 }" :columns="dictionaryColumns" :data-source="dictonaryList" bordered size="small"
@@ -76,7 +76,9 @@
         this.getDictionnaryData()
       },
       async getDictionnaryData() {
-
+        this.dictonaryList = []
+     if(this.pagination.current==1)
+     this.pagination.total = 0
         let param = {
           keyword: this.dicName,
           parentId: this.parentItem.id,

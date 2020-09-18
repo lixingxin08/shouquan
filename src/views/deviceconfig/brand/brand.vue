@@ -8,12 +8,12 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div class="view-title-line"></div>
-   
-  
+
+
       <a-button class='table-add-btn' type="primary" @click="add">
         <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
       </a-button>
-   
+
     <a-table :scroll="{  y: 610 }" :columns="dictionaryColumns" :data-source="brandList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
@@ -65,6 +65,9 @@
       },
       /* 获取品牌列表数据*/
       async getBrandData() {
+         this.brandList=[]
+       if(this.pagination.current==1)
+       this.pagination.total = 0
         let param = {
           keyword: this.keyword,
           pageIndex: this.pagination.current,

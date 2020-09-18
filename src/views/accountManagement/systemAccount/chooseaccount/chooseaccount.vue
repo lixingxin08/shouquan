@@ -133,6 +133,9 @@
       /* 获取人员数据列表*/
       async getpersonpage() {
         this.tabletype = false;
+        if(this.pagination.current==1)
+          this.pagination.total =0
+           this.tabledata = []
         let prame = {
           departmentId: this.selectId,
           keyword: this.pageparam.keyword,
@@ -142,14 +145,13 @@
         };
         let res = await this.$http.post(this.$api.personpage, prame);
         if (res.data.resultCode == "10000") {
-          this.tabledata = []
           res.data.data.list.forEach((item) => {
             if (item.existsFlag == 0)
               this.tabledata.push(item)
           })
           if(this.pagination.current==1)
             this.pagination.total = res.data.data.length;
-          
+
           this.istotal.type++;
           this.tabletype = true;
         } else {

@@ -2,6 +2,7 @@
 node_modules/
 /dist/
 /shouquan/
+/shouquan.rar/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

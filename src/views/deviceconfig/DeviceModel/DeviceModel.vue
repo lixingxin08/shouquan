@@ -106,6 +106,9 @@
       },
       /* 获取设备类型 */
       async getDeviceData() {
+        if(this.pagination.current==1)
+        this.pagination.total = 0
+          this.deviceList=[]
         let param = {
           pageIndex: this.pagination.current,
           pageSize: this.pagination.pageSize,

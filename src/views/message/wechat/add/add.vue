@@ -36,8 +36,8 @@
           <a-date-picker style='width: 667px;' format="YYYY-MM-DD HH:mm:ss" :value='wechat.expirationTime' @change="onChangeTime" />
         </div>
         <div class="flexrow flexac edit_item_wechat">
-          <div class="edit_item_wechat_title2_wechat"><a style="color: #FF0000;">*</a>微信账号类型:</div>
-          <a-select :value="wechat.typeCode?wechat.typeCode:'请选择微信账号类型'" style="width: 667px;" @change="handleSelectChange">
+          <div class="edit_item_wechat_title2_wechat" style="margin-left: -13px;"><a style="color: #FF0000;">*</a>微信账号类型:</div>
+          <a-select :value="wechat.typeCode?wechat.typeCode:'请选择微信账号类型'" style="width: 680px;" @change="handleSelectChange">
             <a-select-option v-for='(item,index) in wetchatTypeList' :key='index' :value="item.comboBoxId">
               {{item.comboBoxName}}
             </a-select-option>
@@ -45,9 +45,9 @@
           <!--  <div class="edit_item_wechat_toast">注：数字字典</div> -->
         </div>
         <div class="flexrow flexac edit_item_wechat">
-          <div class="edit_item_wechat_title2_wechat">备注信息:</div>
+          <div class="edit_item_wechat_title2_wechat" style="margin-left: -13px;">备注信息:</div>
           <div style="position: relative;">
-            <a-textarea class='edit_a_input_wechat' :rows="5" :maxLength='250' v-model='wechat.remark' placeholder="请输入描述"
+            <a-textarea class='edit_a_input_wechat' style='width: 680px;' :rows="5" :maxLength='250' v-model='wechat.remark' placeholder="请输入描述"
               @change="onChangeConfig" />
             <div class="edit_number_wechat">{{wechat.remark.length}}/250</div>
           </div>
@@ -139,6 +139,10 @@
         if (current == 1) {
           if (!this.wechat.wechatConfigName) {
             this.$message.warning('请先填写微信账号别名')
+            return
+          }
+          if(!this.vify_cn(this.wechat.wechatConfigName)){
+            this.$message.warning('请先填写微信账号别名格式不对')
             return
           }
           if (!this.wechat.wechatAppId) {

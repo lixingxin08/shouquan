@@ -67,6 +67,9 @@
       },
       /* 获取设备类型 */
       async getTableData() {
+        f (this.pagination.current == 1)
+          this.pagination.total=0
+           this.tableList = []
         let param = {
           pageIndex: this.pageIndex,
           pageSize: this.pageSize,
