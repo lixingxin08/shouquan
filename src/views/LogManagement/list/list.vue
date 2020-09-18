@@ -79,6 +79,9 @@
       },
       async getTableData() {
         //,
+        this.tableList =[]
+        if (this.pagination.current == 1)
+          this.pagination.total =0;
         let param = {
           actionName: this.keyword,
           pageSize: this.pagination.pageSize,
@@ -97,6 +100,7 @@
           }
         } else {
           this.tableList = []
+          this.pagination.total=0
         }
       },
 
