@@ -2,9 +2,9 @@ import axios from 'axios'
 // import { domain } from './api_config'
 // axios.defaults.baseURL = '';
 //解决跨域
-
+import router from '../router/index'
 axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'action/' : '/api';
-// axios.defaults.baseURL = process.env.NODE_ENV === 'production' ?'http://192.168.3.83:8092/authorization':'/api';
+
 
 // axios.defaults.baseURL = '8088/haiot-auth';
 axios.defaults.withCredentials = true;
@@ -35,24 +35,27 @@ axios.interceptors.response.use(
             let aa = JSON.parse(localStorage.getItem('usermsg'))
             aa.token = response.headers.token
             // localStorage.removeitem('usermsg')
+            console.log(response,"isresponse.code");
+            console.log(response.data.code,"isresponse.code");
+            // console.log(JSON.parse(response.data).code,"isresponse.code");
             localStorage.setItem('usermsg', JSON.stringify(aa))
-        if (response.code == "20100") {
+        if (response.data.code == "20100") {
             message.error("令牌错误，请重新登录")
             window.location.href= bb[0]
         }
-        if (response.code == "20101") {
+        if (response.data.code == "20101") {
             message.error("未登录，请先登录")
             window.location.href= bb[0]
         }
-        if (response.code == "20102") {
+        if (response.data.code == "20102") {
             message.error("你的账号已在其他地方登录，请重新登录")
             window.location.href= bb[0]
         }
-        if (response.code == "20103") {
+        if (response.data.code == "20103") {
             message.error("登录已过期，请重新登录！")
             window.location.href= bb[0]
         }
-        if (response.code == "20104") {
+        if (response.data.code == "20104") {
             message.error("登录已失效，请重新登录！")
             window.location.href= bb[0]
         }
@@ -60,38 +63,40 @@ axios.interceptors.response.use(
     },
     error => {
         if (error.response) {
+            console.log(error,'errorerrorerrorerror');
+            console.log(error.response,'errorerrorerrorerror');
             switch (error.response.status) {
                 case 404:
                     router.replace({
-                        path: 'error404',
+                        path: '/error404',
                         query: {
                             redirect: router.currentRoute.fullPath
                         }
                     })
                 case 504:
                     router.replace({
-                        path: 'error504',
+                        path: '/error504',
                         query: {
                             redirect: router.currentRoute.fullPath
                         }
                     })
                 case 500:
                     router.replace({
-                        path: 'error500',
+                        path: '/error500',
                         query: {
                             redirect: router.currentRoute.fullPath
                         }
                     })
                 case 504:
                     router.replace({
-                        path: 'error504',
+                        path: '/error504',
                         query: {
                             redirect: router.currentRoute.fullPath
                         }
                     })
                 case 403:
                     router.replace({
-                        path: 'error403',
+                        path: '/error403',
                         query: {
                             redirect: router.currentRoute.fullPath
                         }

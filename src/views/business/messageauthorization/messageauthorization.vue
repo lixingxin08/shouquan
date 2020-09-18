@@ -6,10 +6,11 @@
         :columns="tablecolumns"
         :data-source="tabledata"
         bordered
-       :pagination="pagination"
-        :customRow="rowClick"
+        :pagination="pagination"
+        :customRow="customRow"
+        rowKey="index"
       >
-       <template
+        <template
           slot="index"
           slot-scope="text, record,index"
         >{{(index+1)+((pagination.current-1)*10)}}</template>
@@ -32,10 +33,10 @@
           :data-source="tabledata2"
           :row-selection="{ selectedRowKeys: selectedRowKeys2, onChange: onSelectChange,type:'radio' }"
           bordered
-         :pagination="pagination2"
+          :pagination="pagination2"
           v-if="tabletype"
         ></a-table>
-         <template
+        <template
           slot="index2"
           slot-scope="text, record,index"
         >{{(index+1)+((pagination2.current-1)*10)}}</template>
@@ -48,7 +49,7 @@
           bordered
           :pagination="pagination3"
         ></a-table>
-         <template
+        <template
           slot="index3"
           slot-scope="text, record,index"
         >{{(index+1)+((pagination3.current-1)*10)}}</template>
@@ -59,9 +60,9 @@
           :data-source="tabledata4"
           :row-selection="{ selectedRowKeys: selectedRowKeys4, onChange: onSelectChange2,type:'radio' }"
           bordered
-           :pagination="pagination4"
+          :pagination="pagination4"
         ></a-table>
-         <template
+        <template
           slot="index4"
           slot-scope="text, record,index"
         >{{(index+1)+((pagination4.current-1)*10)}}</template>
@@ -91,26 +92,6 @@ export default {
   },
   data() {
     return {
-      rowClick: (record) => ({
-        // 事件
-        on: {
-          click: () => {
-            // 点击改行时要做的事情
-            // ......
-            console.log(record, "record");
-            this.listparam.customerId = record.customerId;
-            if (this.listtype == "wechat") {
-              this.getwechatlist();
-            }
-            if (this.listtype == "sms") {
-              this.getsmslist();
-            }
-            if (this.listtype == "email") {
-              this.getemaillist();
-            }
-          },
-        },
-      }),
       tablecolumns: [
         {
           width: 58,
@@ -119,7 +100,7 @@ export default {
           dataIndex: "customerId",
           key: "customerId",
           ellipsis: true,
-           scopedSlots: {
+          scopedSlots: {
             customRender: "index",
           },
         },
@@ -144,12 +125,12 @@ export default {
         },
       ],
       tabledata: [],
-       pagination: {
+      pagination: {
         total: 0,
         pageSize: 10000, //每页中显示10条数据
         current: 1,
         page: 1,
-        hideOnSinglePage:true
+        hideOnSinglePage: true,
       },
       tablecolumns2: [
         {
@@ -159,7 +140,7 @@ export default {
           dataIndex: "wechatConfigId",
           key: "wechatConfigId",
           ellipsis: true,
-              scopedSlots: {
+          scopedSlots: {
             customRender: "index2",
           },
         },
@@ -181,7 +162,7 @@ export default {
           dataIndex: "smsConfigId",
           key: "smsConfigId",
           ellipsis: true,
-              scopedSlots: {
+          scopedSlots: {
             customRender: "index3",
           },
         },
@@ -203,7 +184,7 @@ export default {
           dataIndex: "emailConfigId",
           key: "emailConfigId",
           ellipsis: true,
-              scopedSlots: {
+          scopedSlots: {
             customRender: "index4",
           },
         },
@@ -236,26 +217,26 @@ export default {
         remark: "",
         operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
-          pagination2: {
+      pagination2: {
         total: 0,
         pageSize: 10000, //每页中显示10条数据
         current: 1,
         page: 1,
-        hideOnSinglePage:true
+        hideOnSinglePage: true,
       },
-          pagination3: {
+      pagination3: {
         total: 0,
         pageSize: 10000, //每页中显示10条数据
         current: 1,
         page: 1,
-        hideOnSinglePage:true
+        hideOnSinglePage: true,
       },
-          pagination4: {
+      pagination4: {
         total: 0,
         pageSize: 10000, //每页中显示10条数据
         current: 1,
         page: 1,
-        hideOnSinglePage:true
+        hideOnSinglePage: true,
       },
     };
   },
@@ -264,15 +245,39 @@ export default {
     this.getwechatlist();
   },
   computed: {
-        remarklen() {
+    remarklen() {
       return this.form.remark.length;
     },
     hasSelected() {
       return this.selectedRowKeys.length > 0;
     },
-
   },
   methods: {
+    customRow(record, index) {
+      return {
+        style: {
+          // 行背景色
+          "background-color":
+            record.customerId == this.listparam.customerId ? "#e6f7ff" : "",
+        },
+        on: {
+          // 鼠标单击行
+          click: (event) => {
+            this.listparam.customerId = record.customerId;
+            if (this.listtype == "wechat") {
+              this.getwechatlist();
+            }
+            if (this.listtype == "sms") {
+              this.getsmslist();
+            }
+            if (this.listtype == "email") {
+              this.getemaillist();
+            }
+            console.log(record, "record", index);
+          },
+        },
+      };
+    },
     async getlist() {
       let res = await this.$http.post(
         this.$api.customeraccountmylist,

@@ -54,7 +54,6 @@ export default {
           );
         },
         onSelect: (record, selected, selectedRows) => {
-          console.log(record, selected, selectedRows,88888);
            this.form.customerIdList=[]
          for (let i = 0; i < selectedRows.length; i++) {
             this.form.customerIdList.push(selectedRows[i].customerId)

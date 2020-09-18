@@ -31,11 +31,11 @@
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">合同期始:</div>
-      <a-date-picker @change="onChange" v-model="form.startDate " placeholder="请选择日期" format="YYYY-MM-DD" class="edit_a_input" />
+      <a-date-picker @change="onChange()" v-model="form.startDate " placeholder="请选择日期" format="YYYY-MM-DD" class="edit_a_input" />
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">合同期止:</div>
-      <a-date-picker @change="onChange1" format="YYYY-MM-DD" v-model="form.endDate " placeholder="请选择日期" class="edit_a_input" />
+      <a-date-picker @change="onChange1()" format="YYYY-MM-DD" v-model="form.endDate " placeholder="请选择日期" class="edit_a_input" />
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
@@ -43,7 +43,6 @@
       </div>
       <a-select show-search placeholder="全部" option-filter-prop="children" style="width: 667px;margin-right:20px;height:36px;border-radius: 8px;"
         v-model="form.statusCode" @change="handleChange">
-        <a-select-option value>全部</a-select-option>
         <a-select-option v-for="(item,index) in statusCode" :key="index" :value="item.id">{{item.val}}</a-select-option>
       </a-select>
     </div>
@@ -51,7 +50,7 @@
       <div class="edit_item_title">
         <span class="col_red">*</span>默认标识:
       </div>
-      <a-switch @change="onChange2" v-model="isdefaultChecked" />
+      <a-switch @change="onChange2" v-model="switchtype" />
     </div>
 
     <div class="flexrow flexac edit_item">
@@ -92,7 +91,7 @@ export default {
         description: "",
         startDate: "",
         endDate: "",
-        statusCode: "",
+        statusCode: 0,
         defaultChecked: 0,
         leader: "",
         linkphone: "",
@@ -100,14 +99,10 @@ export default {
         description:"",
         operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
-      remarklen() {
-        return this.form.remark.length;
+      detailparam:{
+        projectId:''
       },
-      contractDesklen() {
-        if (!this.form.contractDes)
-          return 0
-        return this.form.contractDes.length;
-      },
+      switchtype:false,
       plainOptions: ["男", "女"],
       value1: "男",
       statusCode: [
@@ -117,13 +112,6 @@ export default {
     };
   },
   computed: {
-    isdefaultChecked() {
-      if (this.form.defaultChecked == 0) {
-        return false;
-      } else {
-        return true;
-      }
-    },
     remarklen() {
       return this.form.remark.length;
     },
@@ -138,20 +126,6 @@ export default {
     }
   },
   methods: {
-    //详情接口
-    async getdetail() {
-      let res = await this.$http.post(
-        this.$api.projectdetail,
-        this.detailparam
-      );
-      if (res.data.resultCode == "10000") {
-        this.form = res.data.data;
-        console.log(this.form,666655);
-      } else {
-        this.$message.error(res.data.resultMsg);
-      }
-    },
-    methods: {
       //详情接口
       async getdetail() {
         let res = await this.$http.post(
@@ -160,10 +134,14 @@ export default {
         );
         if (res.data.resultCode == "10000") {
           this.form = res.data.data;
+          if (this.form.defaultChecked==0) {
+            this.switchtype=false
+          }else{
+             this.switchtype=true
+          }
         } else {
           this.$message.error(res.data.resultMsg);
         }
-        console.log(res, 8888);
       },
       //运行参数表单接口
       async getform() {
@@ -173,7 +151,7 @@ export default {
         if (this.form.statusCode == "") {
           return this.$message.error("请选择项目状态");
         }
-        if (this.form.leader && !this.vify_cn16(this.form.leader)) {
+        if (this.form.leader!=="" && !this.vify_cn16(this.form.leader)) {
           this.form.leader = "";
           return this.$message.error("项目经理格式不正确");
         }
@@ -181,11 +159,11 @@ export default {
           this.form.projectName = "";
           return this.$message.error("项目名称格式不正确");
         }
-        if (!this.vify_cn3(this.form.contractNo)) {
+        if (!this.vify_cn3(this.form.contractNo)&&this.form.contractNo!=="") {
           this.form.contractNo = "";
           return this.$message.error("合同编号格式不正确");
         }
-        if (this.form.linkphone && !this.verPhone(this.form.linkphone)) {
+        if (this.form.linkphone!=="" && !this.verPhone(this.form.linkphone)) {
           this.form.linkphone = "";
           return this.$message.error("联系手机格式不正确");
         }
@@ -222,12 +200,11 @@ export default {
       },
       onChange2(checked) {
         console.log(`a-switch to ${checked}`);
-        if (checked) {
+        if (checked==true) {
           this.form.defaultChecked = 1;
         } else {
           this.form.defaultChecked = 0;
         }
-      },
     },
     }
   };

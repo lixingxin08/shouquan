@@ -1,5 +1,5 @@
 <template>
-  <div class="administrativedivision">
+  <div class="administrativedivision iscusto">
       <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
     <div class="flex_fs custor_box">
         <div class="right2">
@@ -325,7 +325,9 @@ export default {
 .custor_box{
   width: 1672px;
 }
-
+.iscusto{
+  padding-left: 20px;
+}
 .r_t_text {
   height: 16px;
   font-size: 12px;

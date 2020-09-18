@@ -220,7 +220,7 @@ export default {
       let res = await this.$http.post(this.$api.runremove,prame);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.getareaform();
+        this.getrunpage();
         this.visible = false;
       } else {
         this.$message.error(res.data.resultMsg);
@@ -236,7 +236,6 @@ export default {
           },
         });
       } else {
-        console.log(id,9899);
         this.$router.push({
           path: "/addRunParameters",
           query: {

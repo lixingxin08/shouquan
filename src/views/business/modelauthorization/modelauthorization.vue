@@ -7,7 +7,8 @@
         :data-source="tabledata"
         bordered
         :pagination="pagination"
-        :customRow="rowClick"
+        :customRow="customRow"
+         rowKey="index"
       >
         <template
           slot="index"
@@ -236,19 +237,6 @@ export default {
         remark: "",
         operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
-      rowClick: (record) => ({
-        // 事件
-        on: {
-          click: () => {
-            // 点击改行时要做的事情
-            // ......
-
-            this.modellistparam.customerId = record.customerId;
-            this.getmodellist();
-            console.log(record, "record", this.customerId);
-          },
-        },
-      }),
     };
   },
   created() {
@@ -256,6 +244,21 @@ export default {
     this.getareatree();
   },
   methods: {
+    customRow(record, index) {
+        return {
+          style: {
+            // 行背景色
+            'background-color': record.customerId==this.modellistparam.customerId ? "#e6f7ff" : ''
+          },
+          on: {
+            // 鼠标单击行
+            click: event => {
+                   this.modellistparam.customerId = record.customerId;
+            console.log(record, "record", index);
+            },
+          },
+        }
+      },
     async getlist() {
       this.tabletype = false;
       let res = await this.$http.post(
@@ -298,7 +301,6 @@ export default {
         this.treemodelparam
       );
       if (res.data.resultCode == "10000") {
-        console.log(res.data.data, 7778888);
         this.treemodeldata = res.data.data;
         this.tabletype2 = true;
       } else {

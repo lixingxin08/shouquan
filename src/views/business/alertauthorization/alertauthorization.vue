@@ -8,7 +8,7 @@
         bordered
         
         :pagination="pagination"
-        :customRow="rowClick"
+        :customRow="customRow"
       >
         <template
           slot="index"
@@ -63,18 +63,6 @@ export default {
   },
   data() {
     return {
-      rowClick: (record) => ({
-        // 事件
-        on: {
-          click: () => {
-            // 点击改行时要做的事情
-            // ......
-            console.log(record, "record");
-            this.treeprame.customerId = record.customerId;
-            this.gettree();
-          },
-        },
-      }),
       tablecolumns: [
         {
           width: 58,
@@ -143,6 +131,22 @@ export default {
     this.getlist();
   },
   methods: {
+    customRow(record, index) {
+        return {
+          style: {
+            // 行背景色
+            'background-color': record.customerId==this.treeprame.customerId ? "#e6f7ff" : ''
+          },
+          on: {
+            // 鼠标单击行
+            click: event => {
+                   this.treeprame.customerId = record.customerId;
+                     this.gettree();
+            console.log(record, "record", index);
+            },
+          },
+        }
+      },
     async getlist() {
       this.tabletype = false;
       let res = await this.$http.post(

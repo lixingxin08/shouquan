@@ -145,7 +145,6 @@ export default {
       } else {
         this.$message.error(res.data.resultMsg);
       }
-      console.log(res, 8888);
     },
     //行政区划表单接口
     async getareaform() {

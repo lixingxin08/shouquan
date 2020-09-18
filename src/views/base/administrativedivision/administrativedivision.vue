@@ -1,72 +1,74 @@
 <template>
-    <div class="administrativedivision flex_fs">
-        <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
-      <div class="isleft">
-        <is-left
-          :treedata="treedata"
-          :replaceFields="replaceFields"
-          :defaultExpandedKeys="defaultExpandedKeys"
-          :defaultSelectedKeys="defaultSelectedKeys"
-          @selectdata="getselectdata"
-          @searchdata="getsearchdata"
-          v-if="showtree"
-        ></is-left>
-      </div>
-      <div class="right_box">
-        <div class="right right4">
-          <div class="r_top flex_f">
-            <div class="r_t_text" @click="showdialogadmin()">区划名称</div>
-            <a-input
-              placeholder="请输入区划名称"
-              class="r_t_inp"
-              v-model="inp_data"
-              @keydown.enter="tosearch()"
-            />
-            <div class="btn_blue btn" @click="tosearch()">查询</div>
-            <div class="btn_gray" @click="clear()">清除</div>
-          </div>
-          <div class="isline"></div>
-          <div class="btn_blue btn2" @click="toadd('add')"> <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" />新增</div>
-          <div class="table" v-if="tabletype">
-            <a-table
+  <div class="administrativedivision flex_fs">
+    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <div class="isleft">
+      <is-left
+        :treedata="treedata"
+        :replaceFields="replaceFields"
+        :defaultExpandedKeys="defaultExpandedKeys"
+        :defaultSelectedKeys="defaultSelectedKeys"
+        @selectdata="getselectdata"
+        @searchdata="getsearchdata"
+        v-if="showtree"
+      ></is-left>
+    </div>
+    <div class="right_box">
+      <div class="right right4">
+        <div class="r_top flex_f">
+          <div class="r_t_text" @click="showdialogadmin()">区划名称</div>
+          <a-input
+            placeholder="请输入区划名称"
+            class="r_t_inp"
+            v-model="inp_data"
+            @keydown.enter="tosearch()"
+          />
+          <div class="btn_blue btn" @click="tosearch()">查询</div>
+          <div class="btn_gray" @click="clear()">清除</div>
+        </div>
+        <div class="isline"></div>
+        <div class="btn_blue btn2" @click="toadd('add')">
+          <a-icon two-tone-color="#ffffff" style="margin-right: 5px;" type="plus" />新增
+        </div>
+        <div class="table" v-if="tabletype">
+          <a-table
             :scroll="{  y: 610 }"
-              :columns="tablecolumns"
-              :data-source="tabledata"
-              bordered
-              :pagination="pagination"
-              @change="handleTableChange"
-            >
-              <template
-                slot="index"
-                slot-scope="text, record,index"
-              >{{(index+1)+((pagination.current-1)*10)}}</template>
-              <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
-                <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
-                <div
-                  class="col_red ispointer"
-                  v-if="childTotal==0"
-                  @click="showdialogadmin(areaName)"
-                >
-                  <span>删除</span>
-                </div>
-                <div class="col_gray ispointer" v-if="childTotal!==0">删除</div>
+            :columns="tablecolumns"
+            :data-source="tabledata"
+            bordered
+            :pagination="pagination"
+            @change="handleTableChange"
+          >
+            <template
+              slot="index"
+              slot-scope="text, record,index"
+            >{{(index+1)+((pagination.current-1)*10)}}</template>
+            <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
+              <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
+              <div
+                class="col_red ispointer"
+                v-if="childTotal==0"
+                @click="showdialogadmin(areaName)"
+              >
+                <span>删除</span>
               </div>
-            </a-table>
-          </div>
+              <div class="col_gray ispointer" v-if="childTotal!==0">删除</div>
+            </div>
+          </a-table>
         </div>
       </div>
+    </div>
   </div>
 </template>
 <script>
 import isLeft from "../../../components/tree/tree.vue";
 import isDeleteDialog from "../../../components/delete_confir/delete.vue";
 export default {
-  name:"administrativedivision",
+  name: "administrativedivision",
   components: {
     isLeft,
     isDeleteDialog,
   },
-  inject:['reload'],
+  inject: ["reload"],
   data() {
     return {
       ModalText: "您确定要删除吗？",
@@ -163,13 +165,12 @@ export default {
         total: 0,
         pageSize: 10, //每页中显示10条数据
         showSizeChanger: true,
-        showQuickJumper:true,
+        showQuickJumper: true,
         current: 1,
         page: 1,
         size: "default",
         pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
         showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
-
       },
       issearchdata: "",
       filterdata: [],
@@ -214,7 +215,6 @@ export default {
       this.isselectdata.id = this.treedata[0].pid;
       this.getareapage();
     },
-
     //行政区划分页列表接口
     async getareapage() {
       this.tabletype = false;
@@ -238,19 +238,18 @@ export default {
         this.istotal.type++;
         this.tabletype = true;
       } else {
-          this.tabletype = true;
-        this.tabledata =""
-       
+        this.tabletype = true;
+        this.tabledata = "";
+
         return this.$message.error(res.data.resultMsg);
       }
-      
     },
     //行政区划删除接口
     async getarearemove() {
       let res = await this.$http.post(this.$api.arearemove, this.removeparam);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-       this.reload()
+        this.reload();
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -258,8 +257,8 @@ export default {
     toadd(val, id) {
       console.log(this.isselectdata, 898989);
       if (val == "add") {
-        if (this.isselectdata.levelType>=6) {
-          return  this.$message.error("只能新增区划等级5级及5级以下的区域")
+        if (this.isselectdata.levelType >= 6) {
+          return this.$message.error("只能新增区划等级5级及5级以下的区域");
         }
         if (this.isselectdata.id == "") {
           this.isselectdata.id = this.treedata[0].id;
@@ -283,12 +282,11 @@ export default {
             id: id.areaId,
             name: id.name,
             levelType: id.levelType,
-            pid: id.pid,                
+            pid: id.pid,
           },
         });
       }
     },
-
     toTree(data) {
       let result = [];
       if (!Array.isArray(data)) {
@@ -316,9 +314,9 @@ export default {
         if (this.data[i].open == true) {
           this.defaultExpandedKeys.push(this.data[i].id);
         }
-        // if (this.data[i].levelType>=6) {
-          
-        // }
+        if (this.data[i].levelType >= 6) {
+          this.data[i].disabled = true;
+        }
       }
       this.treedata = this.toTree(this.data);
       this.defaultSelectedKeys = [];
@@ -409,8 +407,6 @@ export default {
 };
 </script>
 <style scoped>
-
-
 .tree {
   text-align: left;
 }

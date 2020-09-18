@@ -10,49 +10,63 @@
     </a-breadcrumb>
     <a-breadcrumb class="bread">
       <a-breadcrumb-item>
-         <div class="flex_f">
-           <div class="head_r"></div>
-           <div class="head_r" @click="backhome()">
-             返回首页
-           </div>
-           <div class="head_r head_r_last"><img src="../../assets/nav_img/user.png" alt="" class="head_r_img">{{user.realName}}</div>
-         </div>
+        <div class="flex_f" v-if="!addtype">
+          <div class="head_r"></div>
+          <div class="head_r" @click="backhome()">返回首页</div>
+          <div class="head_r head_r_last">
+            <img src="../../assets/nav_img/user.png" alt class="head_r_img" />
+            {{user.realName}}
+          </div>
+        </div>
+        <div class="flex_f" v-if="addtype">
+          <div class="ok_btn head_btn" @click="backlast()">返回</div>
+        </div>
       </a-breadcrumb-item>
     </a-breadcrumb>
   </a-layout-header>
 </template>
 <script>
 export default {
-  name:"isheader",
+  name: "isheader",
   data() {
     return {
       iscollapsed: false,
       title: [],
-      user:""
+      user: "",
+      addtype: false,
     };
   },
   methods: {
+    backlast() {
+      this.$router.go(-1);
+    },
     changecollapsed() {
       this.iscollapsed = !this.iscollapsed;
       this.$emit("tocollapsed", this.iscollapsed);
     },
-    backhome(){
-    let aa= window.location.href.split('/#')
-      let bb=aa[0].split('/authorization')
-        window.location.href= bb[0]+'/#/home'
+    backhome() {
+      let aa = window.location.href.split("/#");
+      let bb = aa[0].split("/authorization");
+      window.location.href = bb[0] + "/#/home";
     },
-    gettitle(){
-       this.$route.matched.forEach((item) => {
+    gettitle() {
+      this.$route.matched.forEach((item) => {
         this.title.push(item.meta.title);
       });
-    }
+    },
   },
   created() {
-    this.user=JSON.parse(localStorage.getItem('usermsg'))
-    this.gettitle()
+    this.user = JSON.parse(localStorage.getItem("usermsg"));
+    this.gettitle();
   },
   watch: {
-    $route: function (val) {
+    $route: function (val,oldval) {
+      console.log(val,oldval,112);
+      if (val.path.search("/add")==0) {
+        this.addtype = true;
+      }else{
+         this.addtype = false;
+      }
       let list = new Array();
       val.matched.forEach((item) => {
         list.push(item.meta.title);
@@ -77,18 +91,22 @@ export default {
 .color2 {
   color: #999;
 }
-.head_r{
+.head_r {
   margin-right: 20px;
   cursor: pointer;
 }
-.head_r_img{
+.head_r_img {
   width: 32px;
   height: 32px;
   vertical-align: middle;
   border-radius: 50%;
   margin-right: 10px;
 }
-.head_r_last{
+.head_r_last {
   margin-right: 40px;
+}
+.head_btn{
+  margin-right: 80px;
+  margin-top: 19px;
 }
 </style>

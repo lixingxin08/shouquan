@@ -71,7 +71,7 @@
             list-type="picture-card"
             class="avatar-uploader"
             :show-upload-list="false"
-            action="http://192.168.3.101:80/upload"
+           :action="postimgurl"
             :before-upload="beforeUpload"
             @change="handleChange"
           >
@@ -106,7 +106,7 @@
 
 <script>
   import tableTitleData from "../table.json";
-
+import {postimgurl} from '../../../../js/url'
 
   function getBase64(img, callback) {
     const reader = new FileReader();
@@ -118,6 +118,7 @@
     data() {
 
       return {
+        postimgurl,
         dictionaryColumns: tableTitleData.data.add,
         selectedRowKeys: [],
         brandList: [], //设备品牌

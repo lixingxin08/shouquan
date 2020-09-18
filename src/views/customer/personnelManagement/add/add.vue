@@ -138,7 +138,6 @@ export default {
       } else {
         this.$message.error(res.data.resultMsg);
       }
-      console.log(res, 8888);
     },
     //运行参数表单接口
     async getform() {

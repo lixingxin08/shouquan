@@ -7,7 +7,8 @@
         :data-source="tabledata"
         bordered
         :pagination="false"
-        :customRow="rowClick2"
+        :customRow="customRow"
+        rowKey="index"
       >
         <div slot="statusCode" class="flex_a" slot-scope="statusCode">
           <div v-if="statusCode==1">启用</div>
@@ -34,43 +35,43 @@
           <div class="flex_f templatetree_sel">
             <span>服务子系统：</span>
             <div>
-                <a-select
-                  show-search
-                  placeholder="全部"
-                  option-filter-prop="children"
-                  style="width:200px;margin-right:20px;height:36px;border-radius: 8px;"
-                  @change="handleChange2"
-                  v-if="showtree"
-                >
-                  <a-select-option value="all">全部</a-select-option>
-                  <a-select-option
-                    v-for="(item,index) in oldtreedata"
-                    :key="index"
-                    :value="item.id"
-                  >{{item.name}}</a-select-option>
-                </a-select>
+              <a-select
+                show-search
+                placeholder="全部"
+                option-filter-prop="children"
+                style="width:200px;margin-right:20px;height:36px;border-radius: 8px;"
+                @change="handleChange2"
+                v-if="showtree"
+              >
+                <a-select-option value="all">全部</a-select-option>
+                <a-select-option
+                  v-for="(item,index) in oldtreedata"
+                  :key="index"
+                  :value="item.id"
+                >{{item.name}}</a-select-option>
+              </a-select>
             </div>
           </div>
           <div class="tree_box_i_rtree">
             <div class="istree_box2">
-          <is-left
-            ref="select"
-            :treedata="treedata"
-            :replaceFields="replaceFields"
-            :defaultExpandedKeys="defaultExpandedKeys"
-            @checkedKeys="getcheckedKeys"
-            :checkedKeys="checkedKeys"
-            v-if="showtree"
-          ></is-left>
-          </div>
+              <is-left
+                ref="select"
+                :treedata="treedata"
+                :replaceFields="replaceFields"
+                :defaultExpandedKeys="defaultExpandedKeys"
+                @checkedKeys="getcheckedKeys"
+                :checkedKeys="checkedKeys"
+                v-if="showtree"
+              ></is-left>
+            </div>
           </div>
         </div>
       </div>
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
-          <a-textarea    :maxlength="500" v-model="form.remark" :rows="5" />
-            <div class="remarknum">{{remarklen}}/500</div>
+          <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
+          <div class="remarknum">{{remarklen}}/500</div>
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
@@ -89,7 +90,7 @@ export default {
   components: {
     isLeft,
   },
-    computed: {
+  computed: {
     remarklen() {
       return this.form.remark.length;
     },
@@ -163,14 +164,14 @@ export default {
       data: "",
       showtree: false,
       listparam: {
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
         customerId: "",
       },
       pagination: {
         total: 0,
         pageSize: 10, //每页中显示10条数据
         showSizeChanger: true,
-        showQuickJumper:true,
+        showQuickJumper: true,
         current: 1,
         page: 1,
         pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
@@ -204,18 +205,6 @@ export default {
           },
         },
       }),
-      rowClick2: (record) => ({
-        // 事件
-        on: {
-          click: () => {
-            // 点击改行时要做的事情
-            // ......
-
-            this.form.customerId = record.customerId;
-            console.log(this.form.customerId, "record");
-          },
-        },
-      }),
     };
   },
   created() {
@@ -224,6 +213,22 @@ export default {
     console.log(localStorage.getItem("user"), 111);
   },
   methods: {
+    customRow(record, index) {
+      return {
+        style: {
+          // 行背景色
+          "background-color":
+            record.customerId == this.form.customerId ? "#e6f7ff" : "",
+        },
+        on: {
+          // 鼠标单击行
+          click: (event) => {
+            this.form.customerId = record.customerId;
+            console.log(record, "record", index);
+          },
+        },
+      };
+    },
     async gettree() {
       this.showtree = false;
       let res = await this.$http.post(this.$api.templatetree, this.treeprame);
@@ -270,6 +275,7 @@ export default {
       } else {
         return this.$message.error(res.data.resultMsg);
       }
+      this.tabletype2 = true;
     },
     async getform() {
       this.form.operatorId = 1;
@@ -442,6 +448,7 @@ export default {
 }
 .tree_box_i_r {
   width: 896px;
+  color: #333;
 }
 .templatetree_sel {
   width: 100%;
@@ -458,12 +465,12 @@ export default {
   border: 1px solid #dcdcdc;
   border-top: none;
 }
-.istree_box2{
+.istree_box2 {
   width: 50%;
   margin: 0 auto;
   overflow: scroll;
 }
-.istree_box2::-webkit-scrollbar{
+.istree_box2::-webkit-scrollbar {
   display: none;
 }
 .r_b_title {
