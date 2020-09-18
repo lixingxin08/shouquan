@@ -85,6 +85,9 @@
       },
       /* 获取警报列表事件*/
       async getWariningData() {
+         this.warningList=[]
+         if(this.pagination.current==1)
+         this.pagination.total = 0
         let param = {
           keyword: this.keyword,
           alarmType: this.warningSelect,

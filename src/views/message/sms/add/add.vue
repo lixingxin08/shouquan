@@ -25,7 +25,7 @@
         </div>
         <div class="flexrow flexac edit_item_sms" >
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信签名:</div>
-          <a-input class='edit_a_input_sms'  style='width: 667px;' :maxLength='50' v-model='config.signName' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input class='edit_a_input_sms'  style='width: 667px;' :maxLength='50' v-model='config.signName' placeholder="50字以内，支持中英文" />
           <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_sms" >
@@ -129,6 +129,10 @@
             this.$message.warning('请先填写短信签名')
             return
           }
+		  if (this.vify_cn(this.config.signName)) {
+		    this.$message.warning('短信签名格式错误')
+		    return
+		  }
           if (!this.config.price) {
             this.$message.warning('请先填写短信价格')
             return

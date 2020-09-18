@@ -208,6 +208,9 @@
       /* 获取人员 分页接口 */
       async getpersonpage() {
         this.tabletype = false;
+        (this.pagination.current == 1)
+          this.pagination.total =0
+           this.tabledata=[]
         let prame = {
           customerId: this.isselectdata.id, //菜单id
           keyword: this.pageparam.keyword, //搜索条件

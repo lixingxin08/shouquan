@@ -84,6 +84,9 @@
       },
       /* 获取设备类型list*/
       async getDeviceData() {
+        this.deviceList=[]
+        if(this.pagination.current==1)
+        this.pagination.total = 0
         let param = {
           keyword: this.keyword,
           serviceType: this.serviceType,

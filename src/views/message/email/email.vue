@@ -159,6 +159,8 @@
       //列表接口
       async getpage() {
         this.tabledata = []
+        if(this.pagination.current==1)
+        this.pagination.total = 0
         this.runpageparam.pageIndex = this.pagination.current;
         this.runpageparam.pageSize = this.pagination.pageSize;
         let res = await this.$http.post(this.$api.emailAccountpage, this.runpageparam);
@@ -172,6 +174,7 @@
             }
           }
         } else {
+          this.tabledata=[]
           this.$message.error(res.data.resultMsg);
         }
       },
