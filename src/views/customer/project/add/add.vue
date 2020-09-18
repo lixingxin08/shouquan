@@ -18,8 +18,8 @@
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">合同描述:</div>
       <div style="position: relative;">
-        <a-textarea class="edit_a_input" :rows="5" :maxlength="255" placeholder="255字以内，格式不限制" v-model="form.contractDes" />
-        <div class="edit_number">{{contractDesklen}}/255</div>
+        <a-textarea class="edit_a_input" :rows="5" :maxlength="250" placeholder="250字以内，格式不限制" v-model="form.contractDes" />
+        <div class="edit_number">{{contractDesklen}}/250</div>
       </div>
 
     </div>
@@ -62,8 +62,8 @@
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">备注信息:</div>
       <div style="position: relative;">
-        <a-textarea class="edit_a_input" :rows="5" :maxlength="255" placeholder="255字以内，格式不限制" v-model="form.remark" />
-        <div class="edit_number">{{remarklen}}/255</div>
+        <a-textarea class="edit_a_input" :rows="5" :maxlength="250" placeholder="250字以内，格式不限制" v-model="form.remark" />
+        <div class="edit_number">{{remarklen}}/250</div>
       </div>
     </div>
     <div class="flexrow" style="margin-top: 30px;justify-item: flex-start;margin-left: 325px;">

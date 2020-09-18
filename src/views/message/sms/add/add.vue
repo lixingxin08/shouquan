@@ -7,31 +7,31 @@
       <a-steps :current="current" type="navigation" @change="onChange">
         <a-step v-for="item in steps" :key="item.status" :title="item.title" />
       </a-steps>
-      <div v-if="current==0">
+      <div v-if="current==0" class="flexcolumn flexjc" style="width: 100%;">
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信账号别名:</div>
-          <a-input class='edit_a_input_sms' :maxLength='50' v-model='config.smsConfigName' placeholder="50字以内，支持中英文" />
+          <a-input class='edit_a_input_sms' style='width: 667px;' :maxLength='50' v-model='config.smsConfigName' placeholder="50字以内，支持中英文" />
           <!-- <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>帐号应用标识:</div>
-          <a-input class='edit_a_input_sms'  :maxLength='50' v-model='config.smsAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input class='edit_a_input_sms'style='width: 667px;'   :maxLength='50' v-model='config.smsAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>帐号应用密钥:</div>
-          <a-input class='edit_a_input_sms':maxLength='50' v-model='config.smsKey' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input class='edit_a_input_sms' style='width: 667px;' :maxLength='50' v-model='config.smsKey' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_sms" >
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信签名:</div>
-          <a-input class='edit_a_input_sms' :maxLength='50' v-model='config.signName' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input class='edit_a_input_sms'  style='width: 667px;' :maxLength='50' v-model='config.signName' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_sms" >
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信价格:</div>
-          <a-input-number class='edit_a_input_sms' v-model='config.price'  />
-          <div class="edit_item_sms_toast">分/条</div>
+          <a-input-number  style='width: 667px;' v-model='config.price'  />
+
         </div>
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>网关类型:</div>
@@ -45,7 +45,7 @@
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms">备注信息:</div>
           <div style="position: relative;">
-            <a-textarea class='edit_a_input_sms' :rows="5" :maxLength='250' v-model='config.remark' placeholder="请输入描述"
+            <a-textarea  style='width: 667px;' :rows="5" :maxLength='250' v-model='config.remark' placeholder="请输入描述"
               @change="onChangeConfig" />
             <div class="edit_number_sms">{{config.remark.length}}/250</div>
           </div>
@@ -106,7 +106,7 @@
       this.id = this.$route.query.id
       if (this.id) { //编辑
         this.getSmsInfo();
-      } 
+      }
       this.getCombobox()
 
     },
@@ -150,7 +150,7 @@
            this.$message.warning('消息服务序号不能有重复值')
           return
         }
-	
+
         this.config.operatorId=JSON.parse(localStorage.getItem('usermsg')).accountId
         this.config.smsModelList=this.msgList
         let res = await this.$http.post(this.$api.smsform, this.config)
@@ -268,6 +268,7 @@
 
   .edit_item_sms {
     margin: 0 auto;
+
     margin-top: 24px;
   }
 
@@ -276,6 +277,7 @@
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
     text-align: left;
+    flex-shrink: 0;
     color: #999999;
     margin-left: 20px;
   }
