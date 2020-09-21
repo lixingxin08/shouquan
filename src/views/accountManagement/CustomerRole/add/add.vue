@@ -26,9 +26,10 @@
               </a-select-option>
             </a-select>
           </div>
-          <div class="tree_box_zzx">
-            <is-left :treedata="treedata" :replaceFields="replaceFields" :checkedKeys="defaultExpandedKeys"
-              @checkedKeys="getcheckedKeys" v-if="showtree"></is-left>
+          <div class="tree_box_zzx">  :defaultExpandedKeys="defaultExpandedKeys"
+     
+            <is-left :treedata="treedata"  @selectdata="getselectdata"   :selectable="true" :replaceFields="replaceFields" :defaultcheckedKeys="defaultExpandedKeys"
+              @checkedKeyslist="checkedKeyslist" v-if="showtree"></is-left>
           </div>
         </div>
       </div>
@@ -41,7 +42,7 @@
 </template>
 
 <script>
-  import isLeft from "../../../../components/tree/seltree.vue";
+  import isLeft from "../../../../components/tree/check_seltree.vue";
   export default {
     components: {
       isLeft,
@@ -60,6 +61,7 @@
           title: "name",
           key: "id",
         },
+        cdata:'',
         defaultExpandedKeys: [],
         data: "",
         showtree: false,
@@ -152,6 +154,7 @@
         let res = await this.$http.post(this.$api.rolesystemroletreelist, param);
         if (res.data.resultCode == "10000") {
           this.data = res.data.data;
+          this.cdata=res.data.data
         } else {
           this.$message.error(res.data.resultMsg);
         }
@@ -172,7 +175,7 @@
           map[item.id] = item;
         });
         data.forEach((item) => {
-          let parent = map[item.pid];
+          let parent = map[item.pId];
           if (parent) {
             (parent.children || (parent.children = [])).push(item);
           } else {
@@ -188,7 +191,6 @@
           }
         }
         this.treedata = this.toTree(this.data);
-        console.log(this.defaultExpandedKeys)
       },
       //获取树搜索数据
       getsearchdata(val) {
@@ -200,6 +202,9 @@
 
         this.filterdata = [];
         this.setfilltertree(this.treedata, this.issearchdata);
+      },
+      getselectdataData(){
+        this
       },
       //过滤树搜索数据
       setfilltertree(datas, filtersdata) {
@@ -222,9 +227,9 @@
         this.isselectdata.pid = val.pid;
         this.istotal.type = 1;
       },
-      getcheckedKeys(val) {
-        console.log('----------',val);
+      checkedKeyslist(val) {
         this.defaultExpandedKeys = val
+
       },
     },
   }
