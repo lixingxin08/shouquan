@@ -14,9 +14,9 @@
         </a-menu-item>
       </a-sub-menu>-->
       <template v-for="item in menudata">
-        <a-menu-item v-if="!item.children" :key="item.name">
+        <a-menu-item v-if="!item.children" :key="item.menuName">
           <router-link :to="{path:item.linkURL}">
-            <span>{{item.name}}</span>
+            <span>{{item.menuName}}</span>
           </router-link>
         </a-menu-item>
         <sub-menu v-else :key="item.id" :menu-info="item"></sub-menu>
@@ -28,17 +28,17 @@
 import { Menu } from "ant-design-vue";
 const SubMenu = {
   template: `
-        <a-sub-menu :key="menuInfo.name" v-bind="$props" v-on="$listeners">
+        <a-sub-menu :key="menuInfo.menuName" v-bind="$props" v-on="$listeners">
           <span slot="title">
-           <img style='width: 14px;height: 14px;margin-right:5px ' :src="menuInfo.menuIcon" alt /><span>{{ menuInfo.name }}</span>
+           <img style='width: 14px;height: 14px;margin-right:5px ' :src="menuInfo.menuIcon" alt /><span>{{ menuInfo.menuName }}</span>
           </span>
           <template v-for="item in menuInfo.children">
-            <a-menu-item v-if="!item.children" :key="item.name" >
+            <a-menu-item v-if="!item.children" :key="item.menuName" >
            <router-link :to="item.linkURL">
-                    <span>{{item.name}}</span>
+                    <span>{{item.menuName}}</span>
                   </router-link>
             </a-menu-item>
-            <sub-menu v-else :key="item.name" :menu-info="item" />
+            <sub-menu v-else :key="item.menuName" :menu-info="item" />
           </template>
         </a-sub-menu>
       `,
@@ -75,60 +75,53 @@ export default {
       // this.$router.push(url)
     },
     async getMenuList() {
-      let json = [
-        {
-          id: "1",
-          name: "基础配置",
-          linkURL: "/administrativedivision",
-          levelType: "1",
-          menuIcon:
-            "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1147359824,2556928922&fm=26&gp=0.jpg",
-          parentId: "",
-        },
-        {
-          id: "1-1",
-          name: "行政区划",
-          levelType: "2",
-          linkURL: "/administrativedivision",
-          parentId: "1",
-        },
-        {
-          id: "1-2",
-          name: "数字字典",
-          levelType: "2",
-          linkURL: "/dictionary",
-          parentId: "1",
-        },
-        {
-          id: "1-3",
-          name: "运行参数",
-          levelType: "2",
-          linkURL: "/RunParameters",
-          parentId: "1",
-        },
-        {
-          id: "4",
-          name: "设备配置",
-          levelType: "1",
-          parentId: "",
-          linkURL: "/dictionary",
-        },
-        {
-          id: "5",
-          name: "日志管理",
-          levelType: "1",
-          parentId: "",
-          linkURL: "/dictionary",
-        },
-      ];
-      json=JSON.parse(localStorage.getItem('usermsg')).navlist
-      localStorage.setItem("menuList", JSON.stringify(json));
-      if (localStorage.getItem("menuList")) {
-        this.menudata = this.toTree(
-          JSON.parse(localStorage.getItem("menuList"))
-        );
-      }
-      console.log(this.menudata);
+      // let json = [
+      //   {
+      //     id: "1",
+      //     name: "基础配置",
+      //     linkURL: "/administrativedivision",
+      //     levelType: "1",
+      //     menuIcon:
+      //       "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1147359824,2556928922&fm=26&gp=0.jpg",
+      //     parentId: "",
+      //   },
+      //   {
+      //     id: "1-1",
+      //     name: "行政区划",
+      //     levelType: "2",
+      //     linkURL: "/administrativedivision",
+      //     parentId: "1",
+      //   },
+      //   {
+      //     id: "1-2",
+      //     name: "数字字典",
+      //     levelType: "2",
+      //     linkURL: "/dictionary",
+      //     parentId: "1",
+      //   },
+      //   {
+      //     id: "1-3",
+      //     name: "运行参数",
+      //     levelType: "2",
+      //     linkURL: "/RunParameters",
+      //     parentId: "1",
+      //   },
+      //   {
+      //     id: "4",
+      //     name: "设备配置",
+      //     levelType: "1",
+      //     parentId: "",
+      //     linkURL: "/dictionary",
+      //   },
+      //   {
+      //     id: "5",
+      //     name: "日志管理",
+      //     levelType: "1",
+      //     parentId: "",
+      //     linkURL: "/dictionary",
+      //   },
+      // ];
+   this.menudata=JSON.parse(localStorage.getItem('usermsg')).navlist
     },
     toTree(data) {
       let result = [];
@@ -140,7 +133,7 @@ export default {
       });
       let map = {};
       data.forEach((item) => {
-        map[item.id] = item;
+        map[item.menuId] = item;
       });
       data.forEach((item) => {
         let parent = map[item.parentId];
