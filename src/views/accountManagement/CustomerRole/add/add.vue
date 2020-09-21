@@ -27,8 +27,8 @@
             </a-select>
           </div>
           <div class="tree_box_zzx">  :defaultExpandedKeys="defaultExpandedKeys"
-     
-            <is-left :treedata="treedata"  @selectdata="getselectdata"   :selectable="true" :replaceFields="replaceFields" :defaultcheckedKeys="defaultExpandedKeys"
+
+            <is-left :treedata="treedata"  @selectdata="getselectdata"   :selectable="true" :replaceFields="replaceFields" :checkedKeys="defaultExpandedKeys"
               @checkedKeyslist="checkedKeyslist" v-if="showtree"></is-left>
           </div>
         </div>

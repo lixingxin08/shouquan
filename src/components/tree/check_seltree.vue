@@ -9,7 +9,7 @@
         :checkable="checkable"
         :tree-data="treedata"
         :replaceFields="replaceFields"
-        :checked-keys="checkedKeys"
+        :defaultCheckedKeys="checkedKeys"
         :selectable='false'
         :default-expanded-keys="defaultExpandedKeys"
         @check="onCheck"
@@ -43,7 +43,7 @@ export default {
   created() {},
   methods: {
     onSelect(selectedKeys, selectedNodes) {
-    
+
       if (this.checkedKeys.includes(selectedKeys[0])) {
         for (let i = 0; i < this.checkedKeys.length; i++) {
           if (this.checkedKeys[i] == selectedKeys[0]) {
@@ -71,7 +71,7 @@ export default {
     },
     onCheck(checkedKeys, info) {
       console.log("onCheck", checkedKeys, info,info.halfCheckedKeys);
-      this.checkedKeys=checkedKeys
+      //this.checkedKeys=checkedKeys
       let aa=[...checkedKeys]
         aa.push(...info.halfCheckedKeys)
         console.log(aa,777888);
