@@ -150,9 +150,17 @@
     methods: {
       /* 选择人员后callback 数据*/
       confirm(config) {
-        this.config = config
-        this.config.personStatus = config.statusCode //因为人员状态的key 和账号状态的key 一样 从新赋值
-        this.isShow = false
+       let userName = this.config.userName
+         let cipher = this.config.cipher
+        let statusCode= this.config.statusCode
+        let remark=this.config.remark
+         this.config = config
+         this.config.personStatus = config.statusCode //因为人员状态的key 和账号状态的key 一样 从新赋值
+         this.config.userName = userName
+         this.config.cipher = cipher
+       this.config.statusCode = statusCode
+         this.config.remark = remark
+         this.isShow = false
       },
       /* 保存*/
       async submit() {
@@ -188,6 +196,9 @@
         }
         this.config.operatorId = JSON.parse(localStorage.getItem('usermsg')).accountId //操作者id
         this.config.roleList = this.getRolesId() //获取分配的角色id
+        if (this.accountid) {
+          this.config.accountId = this.accountid
+        }
         let res = await this.$http.post(this.$api.accountinfoform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
