@@ -80,6 +80,7 @@
       },
       /* 获取参数数据*/
       async getParamData() {
+		  this.paramList=[]
         let param = {
           pageIndex: 1,
           pageSize: 200,

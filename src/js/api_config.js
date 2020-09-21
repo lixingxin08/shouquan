@@ -197,5 +197,8 @@ export default {
   propertyvalueform: '/propertyValue/form',
 
 
-  devicetypebrandlistbyid: '/device/type/brandListByTypeId'
+  devicetypebrandlistbyid: '/device/type/brandListByTypeId',
+
+
+
 }

@@ -5,7 +5,9 @@ import './css/style.css'
 import Vue from 'vue'
 import App from './App'
 import './config/rem.js'
+import store from './store'
 import router from './router'
+
 Vue.config.productionTip = true
 import axios from './js/axios_config.js';
 import api from './js/api_config.js';
@@ -132,6 +134,7 @@ Vue.prototype.verPhone = function (str) {
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

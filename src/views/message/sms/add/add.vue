@@ -10,12 +10,13 @@
       <div v-if="current==0" class="flexcolumn flexjc" style="width: 100%;">
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信账号别名:</div>
-          <a-input class='edit_a_input_sms' style='width: 667px;' :maxLength='50' v-model='config.smsConfigName' placeholder="50字以内，支持中英文" />
+          <a-input class='edit_a_input_sms' style='width: 667px;' :maxLength='50' v-model='config.smsConfigName'
+            placeholder="50字以内，支持中英文" />
           <!-- <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>帐号应用标识:</div>
-          <a-input class='edit_a_input_sms'style='width: 667px;'   :maxLength='50' v-model='config.smsAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
+          <a-input class='edit_a_input_sms' style='width: 667px;' :maxLength='50' v-model='config.smsAppId' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_sms">
@@ -23,14 +24,14 @@
           <a-input class='edit_a_input_sms' style='width: 667px;' :maxLength='50' v-model='config.smsKey' placeholder="50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号" />
           <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
-        <div class="flexrow flexac edit_item_sms" >
+        <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信签名:</div>
-          <a-input class='edit_a_input_sms'  style='width: 667px;' :maxLength='50' v-model='config.signName' placeholder="50字以内，支持中英文" />
+          <a-input class='edit_a_input_sms' style='width: 667px;' :maxLength='50' v-model='config.signName' placeholder="50字以内，支持中英文" />
           <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
-        <div class="flexrow flexac edit_item_sms" >
+        <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信价格:</div>
-          <a-input-number  style='width: 667px;' v-model='config.price'  />
+          <a-input-number style='width: 667px;' v-model='config.price' />
 
         </div>
         <div class="flexrow flexac edit_item_sms">
@@ -45,19 +46,19 @@
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms">备注信息:</div>
           <div style="position: relative;">
-            <a-textarea  style='width: 667px;' :rows="5" :maxLength='250' v-model='config.remark' placeholder="请输入描述"
+            <a-textarea style='width: 667px;' :rows="5" :maxLength='250' v-model='config.remark' placeholder="请输入描述"
               @change="onChangeConfig" />
             <div class="edit_number_sms">{{config.remark.length}}/250</div>
           </div>
         </div>
 
       </div>
-      <a-table v-else style='margin-top: 20px;margin-bottom: 20px;width: 820px; '  :columns="addcolumns"
-        :data-source="msgList" :pagination='false' :bordered='true' size='small'>
+      <a-table v-else style='margin-top: 20px;margin-bottom: 20px;width: 820px; ' :columns="addcolumns" :data-source="msgList"
+        :pagination='false' :bordered='true' size='small'>
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
         </template>
- <div slot='serviceIdTitle'> <span style="color: #FF0033;">*</span>服务序号</div>
+        <div slot='serviceIdTitle'> <span style="color: #FF0033;">*</span>服务序号</div>
         <template slot="serviceId" slot-scope="text, record, index">
           <a-input style="margin: -5px 0;border: 0px;" v-model='text' @change="e => handleChange(e.target.value,index)"></a-input>
         </template>
@@ -94,9 +95,9 @@
         smsTypeList: [],
         addcolumns: table.data.adddColumns,
         msgList: [],
-        config:{
-          typeCode:0,
-		  remark:''
+        config: {
+          typeCode: 0,
+          remark: ''
         },
         id: null,
         num: 0 //描述长度
@@ -129,10 +130,10 @@
             this.$message.warning('请先填写短信签名')
             return
           }
-		  if (!this.vify_cn(this.config.signName)) {
-		    this.$message.warning('短信签名格式错误')
-		    return
-		  }
+          if (!this.vify_cn(this.config.signName)) {
+            this.$message.warning('短信签名格式错误')
+            return
+          }
           if (!this.config.price) {
             this.$message.warning('请先填写短信价格')
             return
@@ -150,24 +151,24 @@
           this.$message.warning('消息服务序号不能为空')
           return
         }
-        if(this.checkMsgList()){
-           this.$message.warning('消息服务序号不能有重复值')
+        if (this.checkMsgList()) {
+          this.$message.warning('消息服务序号不能有重复值')
           return
         }
 
-        this.config.operatorId=JSON.parse(localStorage.getItem('usermsg')).accountId
-        this.config.smsModelList=this.msgList
+        this.config.operatorId = JSON.parse(localStorage.getItem('usermsg')).accountId
+        this.config.smsModelList = this.msgList
         let res = await this.$http.post(this.$api.smsform, this.config)
         if (res.data.resultCode == 10000) {
-          if(!this.id)
-          this.$router.go(-1)
+          if (!this.id)
+            this.$router.go(-1)
           this.$message.success(res.data.resultMsg);
         } else {
           this.$message.error(res.data.resultMsg);
         }
       },
 
-    checkMsgInputList() {
+      checkMsgInputList() {
 
         let has = false
         this.msgList.forEach((item) => {
@@ -184,35 +185,39 @@
           smsConfigId: this.id,
         }
         let res = await this.$http.post(this.$api.smsdetail, param)
-        if(res.data.resultCode==10000){
-         this.config=res.data.data
-         this.msgList=res.data.data.smsModelList
-        }else{}
+        if (res.data.resultCode == 10000) {
+          this.config = res.data.data
+          this.msgList = res.data.data.smsModelList
+        } else {}
       },
       async getSmsMsgList() {
         let param = {
           classCode: this.config.typeCode,
         }
         let res = await this.$http.post(this.$api.dictionarycombobox, param)
-        if(res.data.resultCode==10000){
-          res.data.data.forEach((item)=>{
-              this.msgList.push({
-              serviceId:'',
-              modelCode:item.comboBoxId,
-              remark:item.comboBoxName
+        if (res.data.resultCode == 10000) {
+          res.data.data.forEach((item) => {
+            this.msgList.push({
+              serviceId: '',
+              modelCode: item.comboBoxId,
+              remark: item.comboBoxName
             })
           })
+        }else{
+          this.config = {
+            remark: ''
+          }
         }
       },
 
-      checkMsgList(){
-        let list=[]
-        let has=false
-        this.msgList.forEach((item)=>{
-          if(list.indexOf(item.serviceId)>=0){
-            has=true
+      checkMsgList() {
+        let list = []
+        let has = false
+        this.msgList.forEach((item) => {
+          if (list.indexOf(item.serviceId) >= 0) {
+            has = true
 
-          }else{
+          } else {
             list.push(item.serviceId)
           }
         })
@@ -245,11 +250,13 @@
       },
       /* 重置*/
       reset() {
-        this.current=0
+        this.current = 0
         if (this.id) {
-          this.getWeChatInfo()
+          this.getSmsInfo()
         } else {
-          this.config = {}
+          this.config = {
+            remark: ''
+          }
         }
       },
       /* 描述字符长度*/
@@ -307,6 +314,10 @@
     float: left;
     width: 200px;
     margin-right: 8px;
+  }
+
+  .topic-info {
+    background-color: #F5F5F5;
   }
 
   .upload-list-inline>>>.ant-upload-animate-enter {

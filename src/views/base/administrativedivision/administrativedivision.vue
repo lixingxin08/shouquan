@@ -68,7 +68,6 @@ export default {
     isLeft,
     isDeleteDialog,
   },
-  inject: ["reload"],
   data() {
     return {
       ModalText: "您确定要删除吗？",
@@ -257,7 +256,7 @@ export default {
       let res = await this.$http.post(this.$api.arearemove, this.removeparam);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.reload();
+            this.getareatree();
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -405,7 +404,6 @@ export default {
     },
     confirm() {
       this.visible = false;
-      this.getareatree();
       this.getarearemove();
     },
     //分页
