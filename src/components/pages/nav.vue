@@ -121,7 +121,7 @@ export default {
       //     linkURL: "/dictionary",
       //   },
       // ];
-   this.menudata=JSON.parse(localStorage.getItem('usermsg')).navlist
+   this.menudata=this.toTree(JSON.parse(localStorage.getItem('usermsg')).navlist)
     },
     toTree(data) {
       let result = [];

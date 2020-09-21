@@ -174,7 +174,7 @@
           map[item.id] = item;
         });
         data.forEach((item) => {
-          let parent = map[item.pId];
+          let parent = map[item.pid];
           if (parent) {
             (parent.children || (parent.children = [])).push(item);
           } else {
