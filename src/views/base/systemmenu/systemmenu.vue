@@ -84,7 +84,7 @@
         for (let i = 0; i < this.data.length; i++) {
           if (this.data[i].open == true) {
             this.defaultExpandedKeys.push(this.data[i].id);
-            if (this.data[i].levelType >= 3) {
+            if (this.data[i].levelType >= 4) {
               this.data[i].disabled = true;
             }
           }
