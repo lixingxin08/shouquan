@@ -223,7 +223,7 @@
           this.tabletype = true;
         } else {
           this.tabletype = false;
-          this.$message.success(res.data.resultMsg);
+          this.$message.error(res.data.resultMsg);
         }
       },
       //删除接口

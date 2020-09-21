@@ -26,9 +26,10 @@
               </a-select-option>
             </a-select>
           </div>
-          <div class="tree_box_zzx">
-            <is-left :treedata="treedata" :replaceFields="replaceFields" :checkedKeys="defaultExpandedKeys"
-              @checkedKeys="getcheckedKeys" v-if="showtree"></is-left>
+          <div class="tree_box_zzx">  :defaultExpandedKeys="defaultExpandedKeys"
+
+            <is-left :treedata="treedata"  @selectdata="getselectdata"   :selectable="true" :replaceFields="replaceFields" :checkedKeys="defaultExpandedKeys"
+              @checkedKeyslist="checkedKeyslist" v-if="showtree"></is-left>
           </div>
         </div>
       </div>
@@ -41,7 +42,7 @@
 </template>
 
 <script>
-  import isLeft from "../../../../components/tree/seltree.vue";
+  import isLeft from "../../../../components/tree/check_seltree.vue";
   export default {
     components: {
       isLeft,
@@ -145,6 +146,7 @@
 	  /* 获取角色roles List*/
       async gettree() {
         this.showtree = false;
+		 this.data=[]
         let param = {
           systemId: this.selectValue ? this.selectValue.substring(0, 3) : '',
           roleId: this.id
@@ -172,7 +174,7 @@
           map[item.id] = item;
         });
         data.forEach((item) => {
-          let parent = map[item.pid];
+          let parent = map[item.pId];
           if (parent) {
             (parent.children || (parent.children = [])).push(item);
           } else {
@@ -188,7 +190,6 @@
           }
         }
         this.treedata = this.toTree(this.data);
-        console.log(this.defaultExpandedKeys)
       },
       //获取树搜索数据
       getsearchdata(val) {
@@ -201,6 +202,7 @@
         this.filterdata = [];
         this.setfilltertree(this.treedata, this.issearchdata);
       },
+   
       //过滤树搜索数据
       setfilltertree(datas, filtersdata) {
         let _that = this;
@@ -222,9 +224,9 @@
         this.isselectdata.pid = val.pid;
         this.istotal.type = 1;
       },
-      getcheckedKeys(val) {
-        console.log('----------',val);
+      checkedKeyslist(val) {
         this.defaultExpandedKeys = val
+
       },
     },
   }

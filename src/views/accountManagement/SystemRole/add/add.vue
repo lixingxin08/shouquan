@@ -9,25 +9,27 @@
       </div>
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title1_zzx">角色描述:</div>
-        <a-input class='edit_a_input_zzx' v-model='config.remark' :maxLength='250' placeholder="250字以内，格式不限制" />
+        <a-input class='edit_a_input_zzx' :maxLength='250' v-model='config.remark' placeholder="250字以内，格式不限制" />
       </div>
       <div class="flexrow flexac edit_item_zzx" style="align-items: flex-start;">
 
         <div class="edit_item_zzx_title1_zzx"><a style="color: #FF0000;">*</a>角色权限配置:</div>
         <div class="flexcolumn selet_bg_zzx">
           <div class="flexrow  flexac">
-            <div style="flex-shrink: 0;margin-right: 7px;width: 100px;text-align: end;font-size: 14px;color: #333333;">
-                <div style="color: #333333;">  服务子系统:</div>
+            <div style="flex-shrink: 0;margin-right: 7px;width: 100px;text-align: end;font-size: 14px;">
+              <div style="color: #333333;">  服务子系统:</div>
+
             </div>
-            <a-select :value="selectValue?selectValue:'全部'" class='select_item_zzx' @change="handleSelectChange">
+            <a-select :value="selectValue?selectValue:'全部'" class='selet_bg_zzx' @change="handleSelectChange">
               <a-select-option v-for='(item,index) in selectList' :key='index' :value="item.menuId">
                 {{item.menuName}}
               </a-select-option>
             </a-select>
           </div>
-          <div class="tree_box">
-            <is-left :treedata="treedata" :replaceFields="replaceFields" :checkedKeys="defaultExpandedKeys"
-              @checkedKeys="getcheckedKeys" v-if="showtree"></is-left>
+          <div class="tree_box_zzx">  :defaultExpandedKeys="defaultExpandedKeys"
+
+            <is-left :treedata="treedata"  @selectdata="getselectdata"   :selectable="true" :replaceFields="replaceFields" :checkedKeys="defaultExpandedKeys"
+              @checkedKeyslist="checkedKeyslist" v-if="showtree"></is-left>
           </div>
         </div>
       </div>
@@ -40,7 +42,7 @@
 </template>
 
 <script>
-  import isLeft from "../../../../components/tree/seltree.vue";
+  import isLeft from "../../../../components/tree/check_seltree.vue";
   export default {
     components: {
       isLeft,
@@ -77,7 +79,6 @@
     methods: {
       /* 提交事件*/
       async submit() {
-        
         if (!this.config.roleName) {
           this.$message.warning('角色名称不能为空')
           return
@@ -145,6 +146,7 @@
 	  /* 获取角色roles List*/
       async gettree() {
         this.showtree = false;
+        this.data=[]
         let param = {
           systemId: this.selectValue ? this.selectValue.substring(0, 3) : '',
           roleId: this.id
@@ -172,7 +174,7 @@
           map[item.id] = item;
         });
         data.forEach((item) => {
-          let parent = map[item.pid];
+          let parent = map[item.pId];
           if (parent) {
             (parent.children || (parent.children = [])).push(item);
           } else {
@@ -188,7 +190,6 @@
           }
         }
         this.treedata = this.toTree(this.data);
-        console.log(this.defaultExpandedKeys)
       },
       //获取树搜索数据
       getsearchdata(val) {
@@ -201,6 +202,7 @@
         this.filterdata = [];
         this.setfilltertree(this.treedata, this.issearchdata);
       },
+     
       //过滤树搜索数据
       setfilltertree(datas, filtersdata) {
         let _that = this;
@@ -222,9 +224,9 @@
         this.isselectdata.pid = val.pid;
         this.istotal.type = 1;
       },
-      getcheckedKeys(val) {
-        console.log('----------',val);
+      checkedKeyslist(val) {
         this.defaultExpandedKeys = val
+
       },
     },
   }
@@ -248,13 +250,13 @@
     margin-top: 24px;
   }
 
-  .selet_bg_zzx{
+  .selet_bg_zzx {
     padding: 10px;
     width: 667px;
     border: 1px solid #dcdcdc;
   }
 
-  .select_item_zzx {
+  .selet_bg_zzx {
     width: 667px;
   }
 
@@ -276,8 +278,7 @@
     padding-left: 10px;
   }
 
-  .tree_box {
-
+  .tree_box_zzx {
     width: 600px;
     margin: 0 auto;
     background-color: #FFFFFF;
