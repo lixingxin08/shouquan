@@ -113,7 +113,8 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 }
 export default {
-  inject: ["reload"],
+  name:'addcustomerprofile',
+  inject: ['reload'],
   computed: {
     remarklen() {
       return this.form.remark.length;
@@ -221,6 +222,7 @@ export default {
       }
     },
     reset() {
+      console.log(1111);
       this.reload();
     },
     handleChange(info) {

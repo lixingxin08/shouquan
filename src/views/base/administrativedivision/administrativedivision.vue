@@ -103,7 +103,7 @@ export default {
           ellipsis: true,
           scopedSlots: {
             customRender: "index",
-            title:"istitle"
+            title: "istitle",
           },
         },
         {
@@ -213,7 +213,14 @@ export default {
       }
       this.setdata();
       console.log(this.treedata, 66666);
-      this.isselectdata.id = this.treedata[0].pid;
+
+      if (localStorage.getItem("administrativedivisionId")) {
+        this.isselectdata.id = JSON.parse(
+          localStorage.getItem("administrativedivisionId")
+        );
+      } else {
+        this.isselectdata.id = this.treedata[0].pid;
+      }
       this.getareapage();
     },
     //行政区划分页列表接口
@@ -317,11 +324,17 @@ export default {
         }
         if (this.data[i].levelType >= 6) {
           this.data[i].disabled = true;
+          this.data.splice(i, 1);
         }
       }
       this.treedata = this.toTree(this.data);
       this.defaultSelectedKeys = [];
-      this.defaultSelectedKeys.push(this.treedata[0].id);
+  
+      if (localStorage.getItem("administrativedivisionId")) {
+         this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem("administrativedivisionId")));
+      } else {
+           this.defaultSelectedKeys.push(this.treedata[0].id);
+      }
       this.isselectdata.id = this.treedata[0].id;
       this.isselectdata.name = this.treedata[0].name;
       this.isselectdata.pid = this.treedata[0].pid;
@@ -354,12 +367,14 @@ export default {
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
+      console.log(val, 2222);
       this.isselectdata.id = val.id;
       this.isselectdata.name = val.name;
       this.isselectdata.pid = val.pid;
       this.isselectdata.levelType = val.levelType;
       this.istotal.type = 1;
       this.inp_data = "";
+      localStorage.setItem("administrativedivisionId", JSON.stringify(val.id));
       this.getareapage();
     },
     //查询
@@ -391,16 +406,11 @@ export default {
       this.getareatree();
       this.getarearemove();
     },
-    handleCancel(e) {
-      console.log("Clicked cancel button");
-      this.visible = false;
-    },
     //分页
     handleTableChange(pagination) {
       this.pagination.page = pagination.current;
       this.pagination.current = pagination.current;
       this.pagination.pageSize = pagination.pageSize;
-      console.log(4444);
       this.getareapage();
     },
   },
