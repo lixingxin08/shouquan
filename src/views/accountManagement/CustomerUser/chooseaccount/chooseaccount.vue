@@ -87,7 +87,7 @@
           },
           {
             align: "center",
-            title: "姓名",
+            title: "性别",
             width: 10,
             dataIndex: "gender",
             ellipsis: true,
