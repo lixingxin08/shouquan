@@ -47,8 +47,8 @@
         <div class="flexrow flexac edit_item_wechat">
           <div class="edit_item_wechat_title2_wechat" style="margin-left: -13px;">备注信息:</div>
           <div style="position: relative;">
-            <a-textarea class='edit_a_input_wechat' style='width: 680px;' :rows="5" :maxLength='250' v-model='wechat.remark' placeholder="请输入描述"
-              @change="onChangeConfig" />
+            <a-textarea class='edit_a_input_wechat' style='width: 680px;' :rows="5" :maxLength='250' v-model='wechat.remark'
+              placeholder="请输入描述" @change="onChangeConfig" />
             <div class="edit_number_wechat">{{wechat.remark.length}}/250</div>
           </div>
         </div>
@@ -59,7 +59,7 @@
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
         </template>
-
+        <div slot='serviceIdTitle'> <span style="color: #FF0033;">*</span>服务序号</div>
 
         <a-input slot="serviceId" slot-scope="text, record, index" style="margin: -5px 0;border: 0px;" v-model='text'
           @change="e => handleChange(e.target.value,index)"></a-input>
@@ -141,7 +141,7 @@
             this.$message.warning('请先填写微信账号别名')
             return
           }
-          if(!this.vify_cn(this.wechat.wechatConfigName)){
+          if (!this.vify_cn(this.wechat.wechatConfigName)) {
             this.$message.warning('请先填写微信账号别名格式不对')
             return
           }
@@ -212,7 +212,7 @@
         }
         let res = await this.$http.post(this.$api.dictionarycombobox, param)
         if (res.data.resultCode == 10000) {
-          this.msgList=[]
+          this.msgList = []
           res.data.data.forEach((item) => {
             this.msgList.push({
               serviceId: '',
@@ -258,7 +258,7 @@
       handleSelectChange(e) {
         console.log(e)
         this.wechat.typeCode = e
-         this.getWeChatMsgList()
+        this.getWeChatMsgList()
       },
       /* 获取业务类别*/
       async getCombobox() {

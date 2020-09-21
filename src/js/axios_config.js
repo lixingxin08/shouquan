@@ -30,6 +30,7 @@ axios.interceptors.request.use(
 )
 let aa= window.location.href.split('/#')
 let bb=aa[0].split('/authorization')
+console.log(bb,'isurl');
 axios.interceptors.response.use(
     response => {
             let aa = JSON.parse(localStorage.getItem('usermsg'))
@@ -56,6 +57,10 @@ axios.interceptors.response.use(
             window.location.href= bb[0]
         }
         if (response.data.code == "20104") {
+            message.error("登录已失效，请重新登录！")
+            window.location.href= bb[0]
+        }
+        if (response.data.code == "20105") {
             message.error("登录已失效，请重新登录！")
             window.location.href= bb[0]
         }

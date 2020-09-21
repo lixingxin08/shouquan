@@ -216,6 +216,7 @@
           keyword: this.pageparam.keyword, //搜索条件
           statusCode: this.pageparam.statusCode, //人员状态
           pageIndex: this.pagination.page, //页数
+          adminFlag : 0, 
           pageSize: this.pagination.pageSize, //页数大小
         };
         let res = await this.$http.post(this.$api.accountinfopage, prame);

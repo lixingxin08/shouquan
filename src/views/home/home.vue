@@ -28,7 +28,7 @@ export default {
     return {
       collapsed: false,
       searchdata: "",
-      isinclude: "nav,addtemplate,administrativedivision",
+      isinclude: "nav,administrativedivision",
       isRouterShow: true,
     };
   },
@@ -46,16 +46,6 @@ export default {
     },
   },
   created() {},
-  watch: {
-    '$route':function(to,from){
-      console.log(from.path.search('/add'))
-      if(from.path.search('/add')==0&&from.name==to.name&&from.path!==to.path){
-        console.log(555444);
-        this.reload()
-      }
-
-    }
-  },
 };
 </script>
 <style>

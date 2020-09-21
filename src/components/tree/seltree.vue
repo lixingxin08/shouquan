@@ -29,6 +29,7 @@
       },
       replaceFields: Object, //替换属性
       defaultExpandedKeys: Array, //默认展开
+        defaultSelectedKeys:Array,
       checkedKeys: {
         type: Array,
         default:()=>[]

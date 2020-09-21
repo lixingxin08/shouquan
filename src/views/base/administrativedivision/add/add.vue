@@ -1,5 +1,5 @@
 <template>
-  <div class="isedit">
+  <div class="isedit isaddadministrativedivision">
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">上级区域:</div>
       <a-input class="edit_a_input" v-model="form.parentName" disabled />
@@ -286,6 +286,11 @@ export default {
 };
 </script>
 <style>
+.isaddadministrativedivision{
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
 .edit_item_title {
   width: 315px;
   text-align: right;
@@ -333,8 +338,8 @@ export default {
 
 .dialogadminadd {
   width: 920px;
-  height: 810px;
-  position: relative;
+  height: 820px;
+  position: absolute;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 8px;

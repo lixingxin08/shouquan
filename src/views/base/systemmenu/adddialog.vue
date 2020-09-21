@@ -8,12 +8,12 @@
       <div class="flexrow flex_f item_menu" style="margin-top: 20px;">
         <a style="color: #FF0033;">*</a>
         <div class="item-title_menu">接口名称：</div>
-        <a-input v-model='item.actionName'></a-input>
+        <a-input v-model='item.actionName' :maxLength='250'></a-input>
       </div>
       <div class="flexrow flex_f item_menu">
         <a style="color: #FF0033;">*</a>
         <div class="item-title_menu">URL地址：</div>
-        <a-input v-model='item.linkURL'></a-input>
+        <a-input v-model='item.linkURL' :maxLength='250'></a-input>
       </div>
       <div class="flexrow flex_f item_menu">
         <a style="color: #FFFFFF;">*</a>

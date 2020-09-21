@@ -72,11 +72,10 @@
         }
       },
       {
-        "title": "消息服务序号",
         "dataIndex": "serviceId",
         "width": "20%",
         "align": "center",
-        "scopedSlots": {
+        "scopedSlots": {"title":"serviceIdTitle",
           "customRender": "serviceId"
         }
       }

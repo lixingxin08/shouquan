@@ -262,7 +262,7 @@ export default {
     async getlist() {
       this.tabletype = false;
       let res = await this.$http.post(
-        this.$api.customeraccountmylist,
+        this.$api.customerinformationlist,
         this.listparam
       );
       if (res.data.resultCode == "10000") {
