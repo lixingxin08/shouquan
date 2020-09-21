@@ -146,6 +146,7 @@ export default {
   customeraccountform: `/auth/customer-account/form`,
   customeraccountlist: `/auth/customer-account/list`,
   customeraccountmylist: `/auth/customer-account/my-list`,
+  customerinformationlist: `/auth/customer/information/list`,
 
 
   //微信消息授权API
@@ -196,5 +197,8 @@ export default {
   propertyvalueform: '/propertyValue/form',
 
 
-  devicetypebrandlistbyid: '/device/type/brandListByTypeId'
+  devicetypebrandlistbyid: '/device/type/brandListByTypeId',
+
+
+
 }

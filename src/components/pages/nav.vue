@@ -1,9 +1,9 @@
 <template>
   <a-layout-sider v-model="iscollapsed" :trigger="null" collapsible collapsedWidth="0">
     <div class="logo_box flex_a">
-      <img class="logo_img" src="../../assets/nav_img/logo@2x.png" alt />
+      <img class="logo_img" src="../../assets/nav_img/logo@2x.png"  alt />
     </div>
-    <a-menu theme="dark" mode="inline" :defaultSelectedKeys="[$route.name]" :selectedKeys="[$route.name]">
+    <a-menu theme="dark" mode="inline"     >
       <!--  <a-sub-menu v-if='menudata' v-for='(item,index) in menudata' :key='index'>
         <div slot="title" class="flex_F">
           <img class="nav_icon" src="../../assets/nav_img/icon_z_jichu@2x.png" alt />
@@ -14,11 +14,12 @@
         </a-menu-item>
       </a-sub-menu> -->
       <template v-for="item in menudata">
-        <a-menu-item v-if="!item.children" :key="item.key">
-          <a-icon type="pie-chart" />
-          <span>{{ item.title }}</span>
+        <a-menu-item v-if="!item.children" :key="item.name">
+          <router-link :to='{path:item.linkURL}'>
+            <span>{{item.name}}</span>
+          </router-link>
         </a-menu-item>
-        <sub-menu v-else :key="item.key" :menu-info="item" />
+        <sub-menu v-else :key="item.id" :menu-info="item" ></sub-menu>
       </template>
     </a-menu>
   </a-layout-sider>
@@ -29,16 +30,17 @@
   } from 'ant-design-vue';
   const SubMenu = {
     template: `
-        <a-sub-menu :key="menuInfo.key" v-bind="$props" v-on="$listeners">
+        <a-sub-menu :key="menuInfo.name" v-bind="$props" v-on="$listeners">
           <span slot="title">
-            <a-icon type="mail" /><span>{{ menuInfo.title }}</span>
+           <img style='width: 14px;height: 14px;' :src="menuInfo.menuIcon" alt /><span>{{ menuInfo.name }}</span>
           </span>
           <template v-for="item in menuInfo.children">
-            <a-menu-item v-if="!item.children" :key="item.key">
-              <a-icon type="pie-chart" />
-              <span>{{ item.title }}</span>
+            <a-menu-item v-if="!item.children" :key="item.name" >
+           <router-link :to="item.linkURL">
+                    <span>{{item.name}}</span>
+                  </router-link>
             </a-menu-item>
-            <sub-menu v-else :key="item.key" :menu-info="item" />
+            <sub-menu v-else :key="item.name" :menu-info="item" />
           </template>
         </a-sub-menu>
       `,
@@ -47,7 +49,6 @@
     isSubMenu: true,
     props: {
       ...Menu.SubMenu.props,
-      // Cannot overlap with properties within Menu.SubMenu.props
       menuInfo: {
         type: Object,
         default: () => ({}),
@@ -72,13 +73,51 @@
     methods: {
 
       gotoUrl(url) {
-        this.$store.commit('setNavValue', value);
-        this.$router.push(url)
+        console.log('-')
+        // this.$store.commit('setNavValue', value);
+        // this.$router.push(url)
       },
       async getMenuList() {
+        // let json = [{
+        //     id: '1',
+        //     name: '基础配置',
+        //linkURl: '/administrativedivision',
+        //     levelType: '1',
+        //     img: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1147359824,2556928922&fm=26&gp=0.jpg',
+        //     pid: ''
+        //   },
+        //   {
+        //     id: '2',
+        //     name: '行政区划',
+        //     levelType: '2',
+        //     linkURl: '/administrativedivision',
+        //     pid: '1'
+        //   },
+        //   {
+        //     id: '3',
+        //     name: '数字字典',
+        //     levelType: '2',
+        //     linkURl: '/dictionary',
+        //     pid: '1'
+        //   }, {
+        //     id: '4',
+        //     name: '设备配置',
+        //     levelType: '1',
+        //     pid: '',
+        //     linkURl: '/dictionary',
+        //   }, {
+        //     id: '5',
+        //     name: '日志管理',
+        //     levelType: '1',
+        //     pid: '',
+        //     linkURl: '/dictionary',
+        //   },
+        // ]
+        // localStorage.setItem('menuList', JSON.stringify(json))
         if (localStorage.getItem("menuList")) {
           this.menudata = this.toTree(JSON.parse(localStorage.getItem('menuList')))
         }
+        console.log(this.menudata)
       },
       toTree(data) {
         let result = [];
@@ -103,70 +142,7 @@
         return result;
       },
     },
-    computed: {
 
-      openkey() {
-        if (
-          this.$route.name == "administrativedivision" ||
-          this.$route.name == "dictionary" ||
-          this.$route.name == "RunParameters" ||
-          this.$route.name == "systemmenu"
-        ) {
-          return ["base"];
-        }
-        if (
-          this.$route.name == "devicetypes" ||
-          this.$route.name == "brand" ||
-          this.$route.name == "DeviceModel" ||
-          this.$route.name == "deviceevent" ||
-          this.$route.name == "devicewarning"
-        ) {
-          return ["device"];
-        }
-        if (
-          this.$route.name == "customerprofile" ||
-          this.$route.name == "essentialinformation" ||
-          this.$route.name == "dpartmentManagement" ||
-          this.$route.name == "personnelManagement" ||
-          this.$route.name == "project"
-        ) {
-          return ["customerpro"];
-        }
-        if (
-          this.$route.name == "wechat" ||
-          this.$route.name == "email" ||
-          this.$route.name == "sms"
-        ) {
-          return ["message"];
-        }
-        if (
-          this.$route.name == "template" ||
-          this.$route.name == "menuauthorization" ||
-          this.$route.name == "zoningauthorization" ||
-          this.$route.name == "modelauthorization" ||
-          this.$route.name == "alertauthorization" ||
-          this.$route.name == "messageauthorization"
-        ) {
-          return ["business"];
-        }
-        if (
-          this.$route.name == "CustomerAuthorization" ||
-          this.$route.name == "Myclients"
-        ) {
-          return ["MaintenanceAuthorization"];
-        }
-        if (
-          this.$route.name == "SystemRole" ||
-          this.$route.name == "systemAccount" ||
-          this.$route.name == "CustomerRole" ||
-          this.$route.name == "CustomerUser" ||
-          this.$route.name == "MyAccount" ||
-          this.$route.name == "project"
-        ) {
-          return ["accountManagement"];
-        }
-      },
-    },
     props: {
       iscollapsed: Boolean,
     },
@@ -176,7 +152,7 @@
   .nav_icon {
     width: 14px;
     height: 14px;
-    vertical-align: middle;
+
   }
 
   .nav_title {

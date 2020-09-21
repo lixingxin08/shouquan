@@ -280,7 +280,7 @@ export default {
     },
     async getlist() {
       let res = await this.$http.post(
-        this.$api.customeraccountmylist,
+        this.$api.customerinformationlist,
         this.listparam
       );
       if (res.data.resultCode == "10000") {

@@ -78,7 +78,7 @@
               :replaceFields="replaceFields"
               :defaultExpandedKeys="defaultExpandedKeys"
               :checkedKeys="checkedKeys"
-              @checkedKeys="getcheckedKeys"
+              @checkedKeyslist="getcheckedKeys"
               @selectdata="getselectdata"
               :selectable="true"
               v-if="showtree"

@@ -11,7 +11,6 @@
   window.addEventListener(
     "message",
     function(e) {
-
       if (e.data.type !== "webpackOk") {
         if (e.data.accountId == '' || e.data.accountId == undefined) {} else {
           localStorage.setItem("usermsg", JSON.stringify(e.data), 10000000000000);
@@ -40,8 +39,6 @@ import DevicePixelRatio from './utils/device.js';
         localStorage.setItem('usermsg', JSON.stringify(usermsg))
       } else {
       }
-
-
     },
     methods: {
       setCookie: function(cname, cvalue, exdays) {

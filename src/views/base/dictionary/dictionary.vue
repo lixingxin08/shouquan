@@ -86,7 +86,9 @@
           if (this.data[i].open == true) {
             this.defaultExpandedKeys.push(this.data[i].id);
           }
+         
         }
+
         this.treedata = this.toTree(this.data);
         this.defaultSelectedKeys = [];
         if (localStorage.getItem('dictionaryId')) {

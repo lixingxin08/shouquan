@@ -14,7 +14,7 @@
       </div>
       <div class="edit_item_toast">注:50字以内，支持中英文</div>
     </div>
-    <div class="flexrow flexac edit_item">
+    <div class="flexrow flexac edit_item" v-if="gendertype">
       <div class="edit_item_title">
         <span class="col_red">*</span>人员性别:
       </div>
@@ -93,6 +93,7 @@ export default {
   data() {
     return {
       sel_data: "",
+      gendertype:true,
       form: {
         personId: "",
         realName: "",
@@ -131,13 +132,20 @@ export default {
   methods: {
     //详情接口
     async getpersondetail() {
+      this.gendertype=false
       let res = await this.$http.post(this.$api.persondetail, this.detailparam);
       if (res.data.resultCode == "10000") {
         this.form = res.data.data;
         this.form.realName = res.data.data.realName;
+        if (this.form.gender==0) {
+          this.value1="男"
+        }else{
+           this.value1="女"
+        }
       } else {
         this.$message.error(res.data.resultMsg);
       }
+          this.gendertype=true
     },
     //运行参数表单接口
     async getform() {
