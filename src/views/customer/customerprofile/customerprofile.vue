@@ -54,15 +54,16 @@
                 <div v-if="statusCode==2">备用</div>
                 <div v-if="statusCode==0">锁定</div>
               </div>
-              <div slot="Integer" class="flex_a" slot-scope="Integer">
-                <div v-if="Integer==1">是</div>
-                <div v-if="Integer==0">否</div>
+              <div slot="authTotal" class="flex_a" slot-scope="authTotal">
+                
+                <div v-if="authTotal==0">否</div>
+                <div v-else>是</div>
               </div>
-              <div slot="existDepartment" class="flex_a" slot-scope="existDepartment">
-                <div v-if="existDepartment==1">是</div>
-                <div v-if="existDepartment==0">否</div>
+              <div slot="departmentTotal" class="flex_a" slot-scope="departmentTotal">
+               
+                <div v-if="departmentTotal==0">否</div>
+                 <div v-else>是</div>
               </div>
-
               <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
                 <div class="col_red ispointer" @click="showdialogcumfile(areaName)">
@@ -148,22 +149,22 @@ export default {
           width: 108,
           align: "center",
           title: "是否授权",
-          key: "Integer",
-          dataIndex: "Integer",
+          key: "authTotal",
+          dataIndex: "authTotal",
           ellipsis: true,
           scopedSlots: {
-            customRender: "Integer",
+            customRender: "authTotal",
           },
         },
         {
           width: 158,
           align: "center",
           title: "是否建立部门",
-          key: "existDepartment",
-          dataIndex: "existDepartment",
+          key: "departmentTotal",
+          dataIndex: "departmentTotal",
           ellipsis: true,
           scopedSlots: {
-            customRender: "existDepartment",
+            customRender: "departmentTotal",
           },
         },
         {

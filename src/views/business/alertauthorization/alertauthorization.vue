@@ -117,7 +117,7 @@ export default {
       },
       listparam: {
         operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
-        customerId: "",
+        customerId: JSON.parse(localStorage.getItem("usermsg")).customerId,
       },
       form: {
         customerId: "",

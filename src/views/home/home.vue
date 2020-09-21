@@ -3,7 +3,7 @@
     <a-layout id="components-layout-demo-custom-trigger">
       <isnav :iscollapsed="collapsed"></isnav>
       <a-layout >
-        <ishead @tocollapsed="getcollapsed" @></ishead>
+        <ishead @tocollapsed="getcollapsed"></ishead>
         <a-layout-content class='scroller '>
           <keep-alive :include="isinclude">
             <router-view v-if="isRouterShow"></router-view>
@@ -28,7 +28,7 @@ export default {
     return {
       collapsed: false,
       searchdata: "",
-      isinclude: "nav,administrativedivision",
+      isinclude: "nav",
       isRouterShow: true,
     };
   },
@@ -42,6 +42,7 @@ export default {
     },
     async reload() {
       this.isRouterShow = false;
+      await this.$nextTick()
       this.isRouterShow = true;
     },
   },
