@@ -332,11 +332,13 @@ export default {
   
       if (localStorage.getItem("administrativedivisionId")) {
          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem("administrativedivisionId")));
+         console.log(111);
       } else {
            this.defaultSelectedKeys.push(this.treedata[0].id);
       }
       this.isselectdata.id = this.treedata[0].id;
-      this.isselectdata.name = this.treedata[0].name;
+      this.isselectdata.name = this.treedata[0].name; 
+      
       this.isselectdata.pid = this.treedata[0].pid;
       this.isselectdata.levelType = this.treedata[0].levelType;
       this.showtree = true;
