@@ -212,7 +212,7 @@
           this.pagination.total =0
            this.tabledata=[]
         let prame = {
-          customerId: this.isselectdata.id, //菜单id
+          departmentId: this.isselectdata.id, //菜单id
           keyword: this.pageparam.keyword, //搜索条件
           statusCode: this.pageparam.statusCode, //人员状态
           pageIndex: this.pagination.page, //页数

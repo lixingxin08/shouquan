@@ -206,7 +206,7 @@
       async getpersonpage() {
         this.tabletype = false;
         let prame = {
-          customerId: this.isselectdata.id,
+          departmentId: this.isselectdata.id,
           keyword: this.pageparam.keyword,
           statusCode: this.pageparam.statusCode,
           pageIndex: this.pagination.page,
