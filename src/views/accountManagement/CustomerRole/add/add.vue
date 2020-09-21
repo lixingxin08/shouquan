@@ -61,7 +61,6 @@
           title: "name",
           key: "id",
         },
-        cdata:'',
         defaultExpandedKeys: [],
         data: "",
         showtree: false,
@@ -147,6 +146,7 @@
 	  /* 获取角色roles List*/
       async gettree() {
         this.showtree = false;
+		 this.data=[]
         let param = {
           systemId: this.selectValue ? this.selectValue.substring(0, 3) : '',
           roleId: this.id
@@ -154,7 +154,6 @@
         let res = await this.$http.post(this.$api.rolesystemroletreelist, param);
         if (res.data.resultCode == "10000") {
           this.data = res.data.data;
-          this.cdata=res.data.data
         } else {
           this.$message.error(res.data.resultMsg);
         }
@@ -203,9 +202,7 @@
         this.filterdata = [];
         this.setfilltertree(this.treedata, this.issearchdata);
       },
-      getselectdataData(){
-        this
-      },
+   
       //过滤树搜索数据
       setfilltertree(datas, filtersdata) {
         let _that = this;
