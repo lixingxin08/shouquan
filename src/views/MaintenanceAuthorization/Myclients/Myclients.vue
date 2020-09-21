@@ -36,7 +36,7 @@
       safeguard(item) {
 		  let aa = window.location.href.split("/#");
 		  let bb = aa[0].split("/authorization");
-		  window.location.href = bb[0] + "/#/home?customerId"+item.customerId;
+		  window.location.href = bb[0] + "/#/home?customerId="+item.customerId;
       },
 
     }
