@@ -33,8 +33,10 @@
         this.tableList=res.data.data
       }
       },
-      safeguard() {
-        this.$message.success('功能未开发')
+      safeguard(item) {
+		  let aa = window.location.href.split("/#");
+		  let bb = aa[0].split("/authorization");
+		  window.location.href = bb[0] + "/#/home?customerId"+item.customerId;
       },
 
     }
