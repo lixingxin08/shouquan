@@ -35,12 +35,13 @@
           bordered
           :pagination="pagination2"
           v-if="tabletype"
-           rowKey="index2"
-        ></a-table>
-        <template
-          slot="index2"
-          slot-scope="text, record,index"
-        >{{(index+1)+((pagination2.current-1)*10)}}</template>
+          rowKey="index2"
+        >
+          <template
+            slot="index2"
+            slot-scope="text, record,index"
+          >{{(index+1)+((pagination2.current-1)*10)}}</template>
+        </a-table>
       </div>
       <div class="tree_box" v-show="listtype=='sms'">
         <a-table
@@ -49,11 +50,12 @@
           :row-selection="{ selectedRowKeys: selectedRowKeys3, onChange: onSelectChange1,type:'radio'}"
           bordered
           :pagination="pagination3"
-        ></a-table>
-        <template
-          slot="index3"
-          slot-scope="text, record,index"
-        >{{(index+1)+((pagination3.current-1)*10)}}</template>
+        >
+          <template
+            slot="index3"
+            slot-scope="text, record,index"
+          >{{(index+1)+((pagination3.current-1)*10)}}</template>
+        </a-table>
       </div>
       <div class="tree_box" v-show="listtype=='email'">
         <a-table
@@ -62,11 +64,12 @@
           :row-selection="{ selectedRowKeys: selectedRowKeys4, onChange: onSelectChange2,type:'radio' }"
           bordered
           :pagination="pagination4"
-        ></a-table>
-        <template
-          slot="index4"
-          slot-scope="text, record,index"
-        >{{(index+1)+((pagination4.current-1)*10)}}</template>
+        >
+          <template
+            slot="index4"
+            slot-scope="text, record,index"
+          >{{(index+1)+((pagination4.current-1)*10)}}</template>
+        </a-table>
       </div>
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
@@ -138,8 +141,8 @@ export default {
           width: 58,
           align: "center",
           title: "序号",
-          dataIndex: "wechatConfigId",
-          key: "wechatConfigId",
+          dataIndex: "index2",
+          key: "index2",
           ellipsis: true,
           scopedSlots: {
             customRender: "index2",

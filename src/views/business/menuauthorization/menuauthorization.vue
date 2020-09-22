@@ -365,11 +365,13 @@ export default {
       return result;
     },
     setdata() {
+      this.defaultExpandedKeys=[]
+      this.checkedKeys=[]
       for (let i = 0; i < this.data.length; i++) {
         if (this.data[i].open == true) {
           this.defaultExpandedKeys.push(this.data[i].id);
         }
-        if (this.data[i].checked == true) {
+        if (this.data[i].checked == true&&this.data[i].isParent==false) {
           this.checkedKeys.push(this.data[i].id);
         }
       }

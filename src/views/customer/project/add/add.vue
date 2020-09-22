@@ -18,6 +18,8 @@
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">合同描述:</div>
       <div style="position: relative;">
+            <a-textarea class="edit_a_input" :rows="5" :maxlength="250" placeholder="250字以内，格式不限制" v-model="form.description" />
+        <div class="edit_number">{{remarklen}}/250</div>
       </div>
 
     </div>
@@ -80,7 +82,7 @@ export default {
         projectId: "",
         projectName: "",
         contractNo: "",
-        description: "",
+        contractDes: "",
         startDate: "",
         endDate: "",
         statusCode: 0,

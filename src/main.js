@@ -71,8 +71,8 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
     // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
-    const token = "eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAwNzg1OTkwNjkyLCJ0b2tlbklkIjoiNmE4YWZiNzJmZWU5NDM1ZGI5NWExYzRjZTFmZjk3N2MiLCJ1c2VySWQiOiI0ODU2MTY2YmQxNmQ0ZjgwYWQwOTc2Y2VjZWU4NTc2OSJ9.aqh1YfEWZV8pSxuTZSioKJ6bcpN6TSsSf-dxkWoSsf0"
-    // const token = JSON.parse(localStorage.getItem('usermsg')).token || ""
+    // const token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAwNzk0Mjc3NjI4LCJ0b2tlbklkIjoiY2VlMmVhMDU1NTNlNDI0YjhhNDg4NTczOTA2MGY5MWIiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjkifQ.J-cw36KlMbXM10Gv1NKMMfJhjkmb_O7NCEdkFVUnYdk"
+        const token = JSON.parse(localStorage.getItem('usermsg')).token || ""
     config.headers.common['token'] = token
     return config;
   },
@@ -81,74 +81,74 @@ axios.interceptors.request.use(
   }
 )
 
-axios.interceptors.response.use(
-  response => {
-    let aa = JSON.parse(localStorage.getItem('usermsg'))
-    aa.token = response.headers.token
-    // localStorage.removeitem('usermsg')
-    console.log(response, "isresponse.code");
-    console.log(response.data.resultCode, "isresponse.code");
-    let thisurl = window.location.href.split('/#')
-    let bb = thisurl[0].split('/authorization')
-    // console.log(JSON.parse(response.data).code,"isresponse.code");
-    localStorage.setItem('usermsg', JSON.stringify(aa))
-    if (response.data.resultCode == "20100") {
-      message.error("令牌错误，请重新登录")
-      window.location.href = bb[0]
-    }
-    if (response.data.resultCode == "20101") {
-      message.error("未登录，请先登录")
-      window.location.href = bb[0]
-    }
-    if (response.data.code == "20102") {
-      message.error("你的账号已在其他地方登录，请重新登录")
-      window.location.href = bb[0]
-    }
-    if (response.data.resultCode == "20103") {
-      message.error("登录已过期，请重新登录！")
-      window.location.href = bb[0]
-    }
-    if (response.data.resultCode == "20104") {
-      message.error("登录已失效，请重新登录！")
-      window.location.href = bb[0]
-    }
-    if (response.data.resultCode == "20105") {
-      message.error("登录已失效，请重新登录！")
-      window.location.href = bb[0]
-    }
+// axios.interceptors.response.use(
+//   response => {
+//     let aa = JSON.parse(localStorage.getItem('usermsg'))
+//     aa.token = response.headers.token
+//     // localStorage.removeitem('usermsg')
+//     console.log(response, "isresponse.code");
+//     console.log(response.data.resultCode, "isresponse.code");
+//     let thisurl = window.location.href.split('/#')
+//     let bb = thisurl[0].split('/authorization')
+//     // console.log(JSON.parse(response.data).code,"isresponse.code");
+//     localStorage.setItem('usermsg', JSON.stringify(aa))
+//     if (response.data.resultCode == "20100") {
+//       message.error("令牌错误，请重新登录")
+//       window.location.href = bb[0]
+//     }
+//     if (response.data.resultCode == "20101") {
+//       message.error("未登录，请先登录")
+//       window.location.href = bb[0]
+//     }
+//     if (response.data.code == "20102") {
+//       message.error("你的账号已在其他地方登录，请重新登录")
+//       window.location.href = bb[0]
+//     }
+//     if (response.data.resultCode == "20103") {
+//       message.error("登录已过期，请重新登录！")
+//       window.location.href = bb[0]
+//     }
+//     if (response.data.resultCode == "20104") {
+//       message.error("登录已失效，请重新登录！")
+//       window.location.href = bb[0]
+//     }
+//     if (response.data.resultCode == "20105") {
+//       message.error("登录已失效，请重新登录！")
+//       window.location.href = bb[0]
+//     }
 
-    return response;
-  },
-  error => {
-    if (error.response) {
-      console.log(error, 'errorerrorerrorerror');
-      console.log(error.response, 'errorerrorerrorerror');
-      switch (error.response.status) {
-        case 404:
-          router.replace({
-            path: '/error404',
-          })
-        case 504:
-          router.replace({
-            path: '/error504',
-          })
-        case 500:
-          router.replace({
-            path: '/error500',
-          })
-        case 504:
-          router.replace({
-            path: '/error504',
-          })
-        case 403:
-          router.replace({
-            path: '/error403',
-          })
-      }
-    }
-    return Promise.reject(error.response.data)
-  }
-)
+//     return response;
+//   },
+//   error => {
+//     if (error.response) {
+//       console.log(error, 'errorerrorerrorerror');
+//       console.log(error.response, 'errorerrorerrorerror');
+//       switch (error.response.status) {
+//         case 404:
+//           router.replace({
+//             path: '/error404',
+//           })
+//         case 504:
+//           router.replace({
+//             path: '/error504',
+//           })
+//         case 500:
+//           router.replace({
+//             path: '/error500',
+//           })
+//         case 504:
+//           router.replace({
+//             path: '/error504',
+//           })
+//         case 403:
+//           router.replace({
+//             path: '/error403',
+//           })
+//       }
+//     }
+//     return Promise.reject(error.response.data)
+//   }
+// )
 
 
 
