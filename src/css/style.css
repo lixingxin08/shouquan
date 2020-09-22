@@ -62,13 +62,24 @@
   box-shadow: 0px 0px 16px rgba(87, 174, 255, 1);
 }
 
+.ps_flex2 {
+  position: relative;
+  left: 50%;
+  margin-top: 50px;
+  padding: 0px;border-radius: 10px;width: auto;height: 600px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 0px 16px rgba(87, 174, 255, 1);
+}
+
 .dialog_title {
   font-size: 24px;
   opacity: 1;
 }
-.edit_a_input{
-  width: 667px!important;
+
+.edit_a_input {
+  width: 667px !important;
 }
+
 .flexac {
   align-items: center;
 }
@@ -99,11 +110,12 @@
   } */
 
 
-  .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected{
-    background: #1890ff!important;
-    color: #fff!important;
-    border: 1px solid #1890ff!important;
-  }
+.ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected {
+  background: #1890ff !important;
+  color: #fff !important;
+  border: 1px solid #1890ff !important;
+}
+
 .btn_blue {
   width: 68px;
   height: 36px;
@@ -159,15 +171,18 @@
   line-height: 36px;
   cursor: pointer;
 }
+
 .col_blue {
   color: #1890FF;
 }
-.table-add-btn{
+
+.table-add-btn {
   width: 88px;
   height: 36px;
   margin-bottom: 20px;
   border-radius: 8px;
 }
+
 .col_gray {
   color: #DCDCDC;
 }
@@ -209,33 +224,40 @@
 .ispointer {
   cursor: pointer;
 }
-.text_s{
-    text-align: start;
+
+.text_s {
+  text-align: start;
 }
-.content2{
+
+.content2 {
   display: flex;
   flex-direction: column;
   background-color: #FFFFFF;
-justify-content: flex-start;
-	margin: 20px;
-}
-.right .ant-select-selection{
-  border-radius: 8px!important;
-}
-.right .ant-select-selection,.right .ant-select-selection__rendered{
-  height: 36px!important;
-  line-height: 36px!important;
-}
-.ant-upload img{
-  width: 128px!important;
-  height: 72px!important;
-
-}
-.edit_a_input{
-  width: 667px!important;
+  justify-content: flex-start;
+  margin: 20px;
 }
 
-.isline{
+.right .ant-select-selection {
+  border-radius: 8px !important;
+}
+
+.right .ant-select-selection,
+.right .ant-select-selection__rendered {
+  height: 36px !important;
+  line-height: 36px !important;
+}
+
+.ant-upload img {
+  width: 128px !important;
+  height: 72px !important;
+
+}
+
+.edit_a_input {
+  width: 667px !important;
+}
+
+.isline {
   width: 100%;
   height: 1px;
   margin-top: 20px;
@@ -250,9 +272,11 @@ justify-content: flex-start;
   max-height: 500px;
   overflow: scroll;
 }
+
 .templatetree::-webkit-scrollbar {
   display: none;
 }
+
 .templatetree_sel {
   width: 100%;
   height: 60px;
@@ -260,6 +284,7 @@ justify-content: flex-start;
   padding-left: 20px;
   border-bottom: 1px solid #d9d9d9;
 }
+
 .administrativedivision {
   height: 100%;
   width: 100%;
@@ -269,68 +294,86 @@ justify-content: flex-start;
 .isleft {
   width: 280px;
   height: 100%;
-   padding: 20px;
-   background-color: #fff;
-   overflow: scroll;
-   box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.16);
- }
- .isleft::-webkit-scrollbar {
-   display: none;
- }
- .ant-table-thead>tr>th {
-  background-color: #F6FBFF!important;
+  padding: 20px;
+  background-color: #fff;
+  overflow: scroll;
+  box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.16);
 }
-.view-title-line{
-  width: 100%;height: 0.5px;background: #DCDCDC;margin: 15px auto;
+
+.isleft::-webkit-scrollbar {
+  display: none;
 }
-.ant-table-thead > tr > th, .ant-table-tbody > tr > td{
-  padding: 10px 16px!important;
+
+.ant-table-thead>tr>th {
+  background-color: #F6FBFF !important;
 }
-.remarknum{
+
+.view-title-line {
+  width: 100%;
+  height: 0.5px;
+  background: #DCDCDC;
+  margin: 15px auto;
+}
+
+.ant-table-thead>tr>th,
+.ant-table-tbody>tr>td {
+  padding: 10px 16px !important;
+}
+
+.remarknum {
   position: absolute;
   right: 20px;
   bottom: 10px;
 }
-.right_box{
+
+.right_box {
   width: 100%;
   height: 100%;
 }
+
 .right {
   width: 1372px;
   height: 909px;
   padding-left: 20px;
   padding-top: 20px;
 }
-.right2{
-width: 1672px;
-padding-right: 20px;
+
+.right2 {
+  width: 1672px;
+  padding-right: 20px;
 }
-.right4{
+
+.right4 {
   width: 100%;
   height: 909px;
   padding-right: 20px;
 }
-.r_t{
+
+.r_t {
   color: #333;
 }
-.table{
+
+.table {
   width: 100%;
   height: 755px;
 }
 
-.item-line{
+.item-line {
   height: 20px;
   width: 1px;
   background-color: #e5e5e5;
   margin-left: 10px;
   margin-right: 10px;
 }
-.ant-table-header::-webkit-scrollbar{
-display: none;
+
+.ant-table-header::-webkit-scrollbar {
+  display: none;
 }
-.ant-table-body::-webkit-scrollbar{
-display: none;
+
+.ant-table-body::-webkit-scrollbar {
+  display: none;
 }
-.ant-table-header{
-  margin-bottom: 0!important;
+
+.ant-table-header {
+  margin-bottom: 0 !important;
 }

@@ -117,7 +117,7 @@
         let res = await this.$http.post(this.$api.accountinfodetail, param)
         if (res.data.resultCode == 10000) {
           this.config = res.data.data
-          let roleList = res.data.data.roleList //账号授权的角色列表
+
           let param2 = {
             personId: this.config.personId
           }
@@ -125,19 +125,16 @@
           if (res2.data.resultCode == 10000) {
             this.personConfig = res2.data.data
           }
-          roleList.forEach((item, index) => { //根据角色列表获取授权的菜单
-            this.getRolesTree(item.roleId)
-          })
+         
         }
+         this.getRolesTree()
       },
       /* 获取授权的列表 */
-      async getRolesTree(id) {
-        let param = {
-          roleId: id
-        }
-        let res = await this.$http.post(this.$api.rolesystemroletreelist, param);
+      async getRolesTree() {
+
+        let res = await this.$http.post(this.$api.rolesystemroleselfmunutree, {});
         if (res.data.resultCode == "10000") {
-          this.data = this.data.concat(res.data.data);
+          this.data = res.data.data;
         }
         this.treedata = this.toTree(this.data)
       },

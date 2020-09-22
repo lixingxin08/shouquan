@@ -1,6 +1,6 @@
 <template>
   <div class="ps_ab">
-    <div class="ps_flex" style="padding: 0px;border-radius: 10px;width: auto;">
+    <div class="ps_flex2" >
       <div class="dialogchoose-title flexrow flexac flexsb">选择关联人员
         <a-icon type="close" @click='closedialogchoose' />
       </div>
@@ -17,8 +17,11 @@
         <div class="btn_gray" @click="clear()">清除</div>
       </div>
       <div v-if="tabledata.length>0" class="table">
-        <a-table style='margin: 20px;' :scroll="{ x: 525,y:300 }" :columns="tablecolumns" :data-source="tabledata" bordered
-          :pagination="pagination" @change="handleTableChange" size='small'>
+        <a-table style='margin: 20px;' :scroll="{ x: 525,y:300 }" :columns="tablecolumns" :data-source="tabledata"
+          bordered :pagination="pagination" @change="handleTableChange" size='small'>
+          <div slot="departmentId" slot-scope="text, record,index">
+            {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
+          </div>
           <div slot="gender" class="flex_a" slot-scope="gender">
             <div v-if="gender==0">男</div>
             <div v-else>女</div>
@@ -71,8 +74,11 @@
         tablecolumns: [{ //table title
             align: "center",
             title: "序号",
-            width: 10,
+            width: 5,
             dataIndex: "departmentId",
+            scopedSlots: {
+              customRender: "departmentId",
+            },
             ellipsis: true,
           },
           {
@@ -132,24 +138,24 @@
       },
       /* 获取人员*/
       async getpersonpage() {
-        this.tabletype = false;
+        if (this.pagination.current == 1)
+          this.pagination.total = 0;
+        this.tabledata = []
         let prame = {
           departmentId: this.selectId, //菜单id
-          keyword: this.pageparam.keyword,//搜索条件
-          statusCode: this.pageparam.statusCode,//人员状态
+          keyword: this.pageparam.keyword, //搜索条件
+          statusCode: this.pageparam.statusCode, //人员状态
           pageIndex: this.pagination.page,
           pageSize: this.pagination.pageSize,
         };
         let res = await this.$http.post(this.$api.personpage, prame);
         if (res.data.resultCode == "10000") {
           this.tabledata = res.data.data.list;
-          if(this.pagination.current==1)
+          if (this.pagination.current == 1)
             this.pagination.total = res.data.data.length;
 
           this.istotal.type++;
-          this.tabletype = true;
         } else {
-          this.tabletype = false;
           this.$message.success(res.data.resultMsg);
         }
       },
@@ -169,7 +175,6 @@
         this.istotal.type = 1;
         this.pagination.page = 1;
         this.pagination.pageSize = 10;
-        this.isselectdata.id = "";
         this.getpersonpage();
       },
       //清除
