@@ -6,10 +6,14 @@
         :columns="tablecolumns"
         :data-source="tabledata"
         bordered
-        :pagination="false"
+        :pagination="pagination"
         :customRow="customRow"
         rowKey="index"
       >
+        <template
+          slot="index"
+          slot-scope="text, record,index"
+        >{{(index+1)+((pagination.current-1)*10)}}</template>
         <div slot="statusCode" class="flex_a" slot-scope="statusCode">
           <div v-if="statusCode==1">启用</div>
           <div v-if="statusCode==2">备用</div>
@@ -23,11 +27,18 @@
           <div class="left_title">选择授权模板</div>
           <div class="isscroll">
             <a-table
+              :scroll="{  y: 340 }"
               :columns="tablecolumns2"
               :data-source="tabledata2"
               bordered
+              :pagination="pagination2"
               :customRow="rowClick"
+              rowKey="index"
             ></a-table>
+            <template
+              slot="index2"
+              slot-scope="text, record,index"
+            >{{(index+1)+((pagination2.current-1)*10)}}</template>
           </div>
         </div>
 
@@ -59,7 +70,7 @@
                 :treedata="treedata"
                 :replaceFields="replaceFields"
                 :defaultExpandedKeys="defaultExpandedKeys"
-                @checkedKeys="getcheckedKeys"
+                @checkedKeyslist="getcheckedKeys"
                 :checkedKeys="checkedKeys"
                 v-if="showtree"
               ></is-left>
@@ -97,6 +108,19 @@ export default {
   },
   data() {
     return {
+      pagination2: {
+        total: 0,
+        pageSize: 10000, //每页中显示10条数据
+        current: 1,
+        page: 1,
+      },
+      pagination: {
+        total: 0,
+        pageSize: 10000, //每页中显示10条数据
+        current: 1,
+        page: 1,
+        hideOnSinglePage: true,
+      },
       tablecolumns: [
         {
           width: 58,
@@ -105,6 +129,9 @@ export default {
           dataIndex: "customerId",
           key: "customerId",
           ellipsis: true,
+          scopedSlots: {
+            customRender: "index",
+          },
         },
         {
           width: 141,
@@ -141,12 +168,13 @@ export default {
           width: 58,
           align: "center",
           title: "序号",
-          dataIndex: "templateId",
-          key: "templateId",
           ellipsis: true,
+          scopedSlots: {
+            customRender: "index2",
+          },
         },
         {
-          width: 220,
+          width: 170,
           align: "center",
           title: "模板名称",
           dataIndex: "templateName",
@@ -169,19 +197,22 @@ export default {
       },
       pagination: {
         total: 0,
-        pageSize: 10, //每页中显示10条数据
-        showSizeChanger: true,
-        showQuickJumper: true,
+        pageSize: 1000, //每页中显示10条数据
+        showSizeChanger: false,
+        showQuickJumper: false,
         current: 1,
         page: 1,
-        pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
-        showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
+        // pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
+        // showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
       },
       istotal: {
         type: 1,
       },
       treeprame: {
         templateId: "",
+      },
+      customertreeprame: {
+        customerId: "",
       },
       detailparame: {
         pageIndex: "",
@@ -193,15 +224,15 @@ export default {
         menuIdList: "",
         remark: "",
       },
-      rowClick: (record) => ({
+      rowClick: (record, index) => ({
         // 事件
         on: {
           click: () => {
             // 点击改行时要做的事情
             // ......
-            console.log(record, "record");
+            console.log(record, "record", index);
             this.treeprame.templateId = record.templateId;
-            this.gettree();
+            this.gettemplatetree();
           },
         },
       }),
@@ -224,12 +255,14 @@ export default {
           // 鼠标单击行
           click: (event) => {
             this.form.customerId = record.customerId;
+            this.customertreeprame.customerId = record.customerId;
+            this.gettree();
             console.log(record, "record", index);
           },
         },
       };
     },
-    async gettree() {
+    async gettemplatetree() {
       this.showtree = false;
       let res = await this.$http.post(this.$api.templatetree, this.treeprame);
       if (res.data.resultCode == "10000") {
@@ -238,6 +271,21 @@ export default {
       this.setdata();
       this.showtree = true;
       this.oldtreedata = this.treedata;
+      console.log(this.oldtreedata, 9089080);
+    },
+    async gettree() {
+      this.showtree = false;
+      let res = await this.$http.post(
+        this.$api.customertemplatetree,
+        this.customertreeprame
+      );
+      if (res.data.resultCode == "10000") {
+        this.data = res.data.data;
+      }
+      this.setdata();
+      this.showtree = true;
+      this.oldtreedata = this.treedata;
+      console.log(this.oldtreedata, 9089080);
     },
     async getlist() {
       this.tabletype = false;
@@ -252,6 +300,7 @@ export default {
           }
         }
         this.form.customerId = this.tabledata[0].customerId;
+        this.customertreeprame.customerId = this.tabledata[0].customerId;
         this.gettree();
         if (this.istotal.type == 1) {
           this.pagination.total = res.data.data.length;
@@ -351,16 +400,9 @@ export default {
       }
       _that.treedata = _that.toTree(this.filterdata);
     },
-    getselectdata(val) {
-      this.isselectdata = val;
-      this.isselectdata.id = val.id;
-      this.isselectdata.name = val.name;
-      this.isselectdata.pid = val.pid;
-      this.istotal.type = 1;
-    },
     getcheckedKeys(val) {
       console.log(val, 44444);
-      this.checkedKeys=val
+      // this.checkedKeys = val;
       this.form.menuIdList = val;
     },
     handleChange2(value, key) {
@@ -368,7 +410,7 @@ export default {
       this.showtree = false;
       this.treedata = this.oldtreedata;
       if (value == "all") {
-        // this.checkedKeys
+        this.checkedKeys;
       } else {
         let filterTreeNode = "";
         for (let i = 0; i < this.treedata.length; i++) {
@@ -441,11 +483,9 @@ export default {
 .isscroll {
   width: 100%;
   height: 100%;
-  max-height: 416px;
-  overflow: scroll;
-}
-.isscroll::-webkit-scrollbar {
-  display: none;
+  max-height: 436px;
+  padding-right: 20px;
+  box-sizing: border-box;
 }
 .tree_box_i_r {
   width: 896px;
@@ -467,10 +507,12 @@ export default {
   border-top: none;
 }
 .istree_box2 {
-  width: 50%;
+  width: 100%;
   height: 340px;
   margin: 0 auto;
   overflow: scroll;
+  padding-left: 270px;
+  box-sizing: border-box;
 }
 .istree_box2::-webkit-scrollbar {
   display: none;
