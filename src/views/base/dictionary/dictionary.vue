@@ -101,7 +101,6 @@
         localStorage.setItem('dictionaryId', JSON.stringify(val))
         this.isselectdata = val;
         if (val)
-          console.log(val)
         this.$refs.dictionarylist.getDictionnaryInfo(val)
       },
     },

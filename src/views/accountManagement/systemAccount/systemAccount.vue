@@ -2,8 +2,8 @@
   <div class="content2">
     <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
     <div class="flex_fs">
-      <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys"
-        @selectdata="getselectdata" @searchdata="getsearchdata" v-if="showtree"></is-left>
+      <is-left :treedata="treedata" :replaceFields="replaceFields" :defaultSelectedKeys="defaultSelectedKeys"
+        :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata" v-if="showtree"></is-left>
       <div>
         <div class="right" style="margin-left: 40px;padding: 0px;">
           <div class="r_top flex_f" style="margin: 0px;">
@@ -20,12 +20,12 @@
           </div>
           <div class="view-title-line"></div>
 
-<div class="flexrow">
-          <a-button type="primary" class='table-add-btn' @click="toadd({})">
-            <a-icon two-tone-color="#ffffff" type="plus" /> 新增
-          </a-button>
+          <div class="flexrow">
+            <a-button type="primary" class='table-add-btn' @click="toadd({})">
+              <a-icon two-tone-color="#ffffff" type="plus" /> 新增
+            </a-button>
           </div>
-          <div class="table" v-if="tabletype">
+          <div class="table">
             <a-table :columns="tablecolumns" :data-source="tabledata" bordered :pagination="pagination" @change="handleTableChange"
               size='small'>
               <div slot="accountId" slot-scope="text, record,index">
@@ -46,7 +46,7 @@
               </div>
             </a-table>
           </div>
-          <div class="table" v-if="!tabletype">无</div>
+
         </div>
       </div>
     </div>
@@ -139,8 +139,9 @@
             },
           },
         ],
-        tabledata: "", //表格数据
+        tabledata: [], //表格数据
         defaultExpandedKeys: [], //菜单选中key
+        defaultSelectedKeys: [],
         pageparam: { //账号请求的数据参数
           keyword: "",
           statusCode: "",
@@ -200,17 +201,25 @@
         }
         this.setdata();
         this.showtree = true;
-        this.getpersonpage();
+        if (localStorage.getItem('systemAccountid')) {
+          this.getselectdata(JSON.parse(localStorage.getItem('systemAccountid')));
+        } else {
+          this.getselectdata(this.treedata[0])
+        }
+        //this.getpersonpage();
       },
       //分页列表接口
       async getpersonpage() {
-        this.tabletype = false;
+        if (this.pagination.current == 1) {
+          this.pagination.total = 0
+        }
+        this.tabledata = []
         let prame = {
           departmentId: this.isselectdata.id,
           keyword: this.pageparam.keyword,
           statusCode: this.pageparam.statusCode,
           pageIndex: this.pagination.page,
-           adminFlag : 1, 
+          adminFlag: 1,
           pageSize: this.pagination.pageSize,
         };
         let res = await this.$http.post(this.$api.accountinfopage, prame);
@@ -219,10 +228,7 @@
           if (this.pagination.current == 1)
             this.pagination.total = res.data.data.length;
 
-          this.istotal.type++;
-          this.tabletype = true;
         } else {
-          this.tabletype = false;
           this.$message.error(res.data.resultMsg);
         }
       },
@@ -307,37 +313,20 @@
           }
         }
         this.treedata = this.toTree(this.data);
+        this.defaultSelectedKeys = [];
+        if (localStorage.getItem('systemAccountid')) {
+          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('systemAccountid')).id);
+        } else {
+          this.defaultSelectedKeys.push(this.treedata[0].id);}
       },
-      //获取树搜索数据
-      getsearchdata(val) {
-        this.issearchdata = val;
-        this.getareatree();
-        if (val == "") {
-          return;
-        }
 
-        this.filterdata = [];
-        this.setfilltertree(this.treedata, this.issearchdata);
-      },
-      //过滤树搜索数据
-      setfilltertree(datas, filtersdata) {
-        let _that = this;
-        for (var i in datas) {
-          let name = datas[i].name + "";
-          if (name.search(_that.issearchdata) != -1) {
-            _that.filterdata.push(datas[i]);
-          }
-          if (datas[i].children) {
-            _that.setfilltertree(datas[i].children);
-          }
-        }
-        _that.treedata = _that.toTree(this.filterdata);
-      },
       getselectdata(val) {
-        console.log(this.isselectdata, 98899);
-        this.isselectdata.id = val.id;
-        this.isselectdata.name = val.name;
-        this.istotal.type = 1;
+        if (!val)
+          return
+        this.isselectdata = val;
+
+        localStorage.setItem('systemAccountid', JSON.stringify(val))
+
         this.getpersonpage();
       },
       //查询

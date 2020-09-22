@@ -94,7 +94,10 @@
 <script>
   import tableTitleData from "./table.json";
   import isAdd from './adddialog.vue'
-import {postimgurl} from '../../../js/url'
+  import {
+    postimgurl
+  } from '../../../js/url'
+
   function getBase64(img, callback) {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
@@ -137,6 +140,7 @@ import {postimgurl} from '../../../js/url'
         authList: [], //鉴权类别接口
         loading: false, //是否在上传图片
         imageUrl: '', //图片地址
+        linkURL: '', //页面跳转地址
         isAdd: false, //是否添加
         menuId: '', //菜单id
         cacheData: {}, //缓存的事件
@@ -286,6 +290,7 @@ import {postimgurl} from '../../../js/url'
           authFlag: this.authFlag,
           menuIcon: this.imageUrl,
           grade: this.grade,
+          linkURL: this.getMenuLinkURL(),
           operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
           hiddenURL: JSON.stringify(this.authList),
           remark: this.remark
@@ -302,10 +307,19 @@ import {postimgurl} from '../../../js/url'
       changeAutoListState(index) {
         for (let i = 0; i < this.authList.length; i++) {
           let item = this.authList[i]
-
           item.defaultFlag = (index == i) ? 1 : 0
           this.$set(this.authList, i, item)
         }
+      },
+      getMenuLinkURL() {
+        let url = ''
+        for (let i = 0; i < this.authList.length; i++) {
+          if (this.authList[i].defaultFlag == 1) {
+            url = this.authList[i].linkURL
+            break
+          }
+        }
+        return url
       }
     },
   }

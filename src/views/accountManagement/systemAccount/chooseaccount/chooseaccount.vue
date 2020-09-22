@@ -1,13 +1,13 @@
 <template>
   <div class="ps_ab">
-    <div class="ps_flex" style="padding: 0px;border-radius: 10px;width: auto;">
+    <div class="ps_flex" style="padding: 0px;border-radius: 10px;width: 43vw;height: 60vh;">
       <div class="dialogchhoos2-title flexrow flexac flexsb">选择关联人员
         <a-icon type="close" @click='closedialogchhoos2' />
       </div>
-      <div class="r_top flex_f" style="padding: 20px;">
+      <div class="r_top flex_f" style="padding: 20px;width: 43vw;">
         <div class="r_t_text">人员姓名/手机号码:</div>
-        <div style="width: 200px;">
-                  <a-input placeholder="请输入人员姓名/手机号码" class="r_t_inp" v-model="pageparam.keyword" @keydown.enter="tosearch()" />
+        <div style="width: 10vw;">
+          <a-input placeholder="请输入人员姓名/手机号码" v-model="pageparam.keyword" @keydown.enter="tosearch()" />
         </div>
 
         <div class="r_t_text">人员状态:</div>
@@ -20,9 +20,9 @@
         <div class="btn_gray" @click="clear()">清除</div>
       </div>
       <div v-if="tabledata.length>0" class="table">
-        <a-table style='margin: 20px; width: 800px;'  :columns="tablecolumns" :data-source="tabledata" bordered
-          :pagination="pagination" @change="handleTableChange" size='small'>
-           <template slot="departmentId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</template>
+        <a-table style='margin: 20px; width: 40vw;height: 50vh;' :columns="tablecolumns" :data-source="tabledata"
+          bordered :pagination="pagination" :scroll="{ x: 525,y:300 }" @change="handleTableChange" size='small'>
+          <template slot="departmentId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</template>
           <div slot="gender" class="flex_a" slot-scope="gender">
             <div v-if="gender==0">男</div>
             <div v-else>女</div>
@@ -50,7 +50,7 @@
 
     data() {
       return {
-        statusCode: [{//人员状态
+        statusCode: [{ //人员状态
             id: 1,
             val: "正常"
           },
@@ -63,7 +63,7 @@
             val: "离岗"
           },
         ],
-        pagination: {//分页数据
+        pagination: { //分页数据
           total: 0,
           pageSize: 100, //每页中显示10条数据
           showSizeChanger: true,
@@ -72,7 +72,7 @@
           pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
           showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
         },
-        tablecolumns: [{//表格table title
+        tablecolumns: [{ //表格table title
             align: "center",
             title: "序号",
             width: 5,
@@ -94,7 +94,7 @@
           },
           {
             align: "center",
-           title: "性别",
+            title: "性别",
             width: 10,
             dataIndex: "gender",
             ellipsis: true,
@@ -120,12 +120,12 @@
             },
           },
         ],
-        tabledata: "",//表格数据
-        pageparam: {//分页请求数据
+        tabledata: "", //表格数据
+        pageparam: { //分页请求数据
           keyword: "",
           statusCode: "",
         },
-        selectId: "",//菜单id
+        selectId: "", //菜单id
         istotal: {
           type: 1,
         },
@@ -140,9 +140,9 @@
       /* 获取人员数据列表*/
       async getpersonpage() {
         this.tabletype = false;
-        if(this.pagination.current==1)
-          this.pagination.total =0
-           this.tabledata = []
+        if (this.pagination.current == 1)
+          this.pagination.total = 0
+        this.tabledata = []
         let prame = {
           departmentId: this.selectId,
           keyword: this.pageparam.keyword,
@@ -153,10 +153,10 @@
         let res = await this.$http.post(this.$api.personpage, prame);
         if (res.data.resultCode == "10000") {
           res.data.data.list.forEach((item) => {
-           // if (item.existsFlag == 0)
-              this.tabledata.push(item)
+            // if (item.existsFlag == 0)
+            this.tabledata.push(item)
           })
-          if(this.pagination.current==1)
+          if (this.pagination.current == 1)
             this.pagination.total = res.data.data.length;
 
           this.istotal.type++;
@@ -172,6 +172,7 @@
       },
       /* 分页切换数据*/
       handleTableChange(pagination) {
+
         this.pagination.page = pagination.current;
         this.pagination.current = pagination.current;
         this.pagination.pageSize = pagination.pageSize;
@@ -203,7 +204,6 @@
 </script>
 
 <style>
-
   .tree {
     text-align: left;
   }
@@ -211,12 +211,12 @@
 
   .r_t_text {
     height: 16px;
-    font-size: 12px;
+    font-size: 0.12vim;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
     text-align: left;
     color: #333333;
-flex-shrink: 0;
+    flex-shrink: 0;
     margin-right: 10px;
   }
 
@@ -224,15 +224,14 @@ flex-shrink: 0;
     background: #1890FF;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    font-size: 24px;
-    height: 72px;
+    font-size: 0.25rem;
+    height: 8vh;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
     text-align: left;
     padding-left: 20px;
     padding-right: 20px;
     color: #ffffff;
-    line-height: 14px;
   }
 
   .item {

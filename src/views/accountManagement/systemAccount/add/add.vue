@@ -14,7 +14,7 @@
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title2_zzx">人员性别:</div>
         <a-input v-if='!config.realName' :disabled='true' class='edit_a_input_zzx' placeholder="请选择人员" />
-        <a-input v-else :disabled='true' class='edit_a_input_zzx' v-model="config.gender==1?'男':'女'" :placeholder="!config.realName?'请选择人员':'无'" />
+        <a-input v-else :disabled='true' class='edit_a_input_zzx' v-model="config.gender==0?'男':'女'" :placeholder="!config.realName?'请选择人员':'无'" />
       </div>
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title2_zzx">手机号码:</div>
@@ -153,15 +153,16 @@
     methods: {
       /* 选择人员的回调人员详情*/
       confirm(config) {
+        console.log("===========",config)
         let userName = this.config.userName
         let cipher = this.config.cipher
-       let statusCode= this.config.statusCode
-       let remark=this.config.remark
+        let statusCode = this.config.statusCode
+        let remark = this.config.remark
         this.config = config
         this.config.personStatus = config.statusCode //因为人员状态的key 和账号状态的key 一样 从新赋值
         this.config.userName = userName
         this.config.cipher = cipher
-      this.config.statusCode = statusCode
+        this.config.statusCode = statusCode
         this.config.remark = remark
         this.isShow = false
       },

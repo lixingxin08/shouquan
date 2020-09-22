@@ -36,8 +36,8 @@ export default {
       let usermsg = {
         accountId: "4e815e64411c4aabab668cbee89077e8",
         customerId: "100000000000000000000000000000",
-        token:"eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAwNjkxMzUwNjMwLCJ0b2tlbklkIjoiY2M1NmEwZjQyZDc3NDNiMTgzOGI1Nzk3Y2RlZWZmNWIiLCJ1c2VySWQiOiI0ZTgxNWU2NDQxMWM0YWFiYWI2NjhjYmVlODkwNzdlOCJ9.B8e1TphWsVu1ozwBzo6rU_4_DeapOhmw-WVXfjG9Kmc",
-      };
+        token:"eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAwNzYyNDE1OTg5LCJ0b2tlbklkIjoiZTMwODNkNjgwMGUwNDgyNWFlMzdiODA4ODU2ZTExNTMiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjMifQ.KhK3JWvOs2XQOtD0EOR289q9x41ISbrg5qWdGCEcaGU",
+        };
       localStorage.setItem("usermsg", JSON.stringify(usermsg));
     } else {
     }

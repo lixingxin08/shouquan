@@ -2,9 +2,9 @@
   <div id="home">
     <a-layout id="components-layout-demo-custom-trigger">
       <isnav :iscollapsed="collapsed"></isnav>
-      <a-layout >
+      <a-layout class='scroller'>
         <ishead @tocollapsed="getcollapsed"></ishead>
-        <a-layout-content class='scroller '>
+        <a-layout-content style='margin: 20px; background-color: #FFFFFF;'>
           <keep-alive :include="isinclude">
             <router-view v-if="isRouterShow"></router-view>
           </keep-alive>
@@ -35,6 +35,11 @@ export default {
   components: {
     isnav,
     ishead,
+  },
+  created() {
+   let m = function(e){e.preventDefault();};
+   	  document.body.style.overflow='hidden';
+   	  document.addEventListener("touchmove",m,{ passive:false });//禁止页面滑动
   },
   methods: {
     getcollapsed(val) {
@@ -68,13 +73,11 @@ export default {
   color: #1890ff;
 }
 .scroller {
-  -webkit-overflow-scrolling: touch;
-  overflow-scrolling: touch;
-  color: #fff;
-  height: 90vh;
-  height: 90vh;background-color: #FFFFFF;margin: 20px;
-  min-Width:1672px;
-  margin: 20px 20px;
+ overflow: initial;
+  height: 100vh;
+
+
+  min-Width:80vw;
 }
 .scroller::-webkit-scrollbar{
   display: none;

@@ -150,17 +150,17 @@
     methods: {
       /* 选择人员后callback 数据*/
       confirm(config) {
-       let userName = this.config.userName
-         let cipher = this.config.cipher
-        let statusCode= this.config.statusCode
-        let remark=this.config.remark
-         this.config = config
-         this.config.personStatus = config.statusCode //因为人员状态的key 和账号状态的key 一样 从新赋值
-         this.config.userName = userName
-         this.config.cipher = cipher
-       this.config.statusCode = statusCode
-         this.config.remark = remark
-         this.isShow = false
+        let userName = this.config.userName
+        let cipher = this.config.cipher
+        let statusCode = this.config.statusCode
+        let remark = this.config.remark
+        this.config = config
+        this.config.personStatus = config.statusCode //因为人员状态的key 和账号状态的key 一样 从新赋值
+        this.config.userName = userName
+        this.config.cipher = cipher
+        this.config.statusCode = statusCode
+        this.config.remark = remark
+        this.isShow = false
       },
       /* 保存*/
       async submit() {

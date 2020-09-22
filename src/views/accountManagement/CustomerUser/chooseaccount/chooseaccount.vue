@@ -17,7 +17,7 @@
         <div class="btn_gray" @click="clear()">清除</div>
       </div>
       <div v-if="tabledata.length>0" class="table">
-        <a-table style='margin: 20px;' :scroll="{ x: 700 }" :columns="tablecolumns" :data-source="tabledata" bordered
+        <a-table style='margin: 20px;' :scroll="{ x: 525,y:300 }" :columns="tablecolumns" :data-source="tabledata" bordered
           :pagination="pagination" @change="handleTableChange" size='small'>
           <div slot="gender" class="flex_a" slot-scope="gender">
             <div v-if="gender==0">男</div>
@@ -145,7 +145,7 @@
           this.tabledata = res.data.data.list;
           if(this.pagination.current==1)
             this.pagination.total = res.data.data.length;
-          
+
           this.istotal.type++;
           this.tabletype = true;
         } else {
