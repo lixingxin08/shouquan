@@ -169,7 +169,7 @@ import {postimgurl} from '../../../../js/url'
           this.msgSelect = res.data.data.communicationMode
            this.brandSelect = res.data.data.brandId
           this.typeSelect = res.data.data.deviceTypeId
-          this.severSelect = res.data.data.serviceTypeId
+          this.severSelect = res.data.data.serviceType
           this.getTypeList()
           this.getBrandList()
 
