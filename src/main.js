@@ -71,8 +71,8 @@ axios.interceptors.request.use(
       // 每次发送请求之前判断vuex中是否存在token
       // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
       // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
-      // const token = JSON.parse(localStorage.getItem('usermsg')).token || ""
-      const token = JSON.parse(localStorage.getItem('usermsg')).token || ""
+      // const token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAwNzc5Mjc0NzAzLCJ0b2tlbklkIjoiYjBmZWQ0ZTFiMzljNDQ4NDgyMjk1NThlN2UwYjY2YWQiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.X8nC9yLCMuWsVUPn3t4s-zrNUvO05ImbKdizOOiXCZ4"
+          const token = JSON.parse(localStorage.getItem('usermsg')).token || ""
       config.headers.common['token'] = token
       return config;
   },

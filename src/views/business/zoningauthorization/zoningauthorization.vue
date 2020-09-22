@@ -142,7 +142,7 @@ export default {
     };
   },
   created() {
-    // this.getlist();
+    this.getlist();
     this.gettree();
   },
   computed: {
@@ -162,7 +162,10 @@ export default {
           // 鼠标单击行
           click: (event) => {
             this.customerId = record.customerId;
+            this.treeprame.customerId=record.customerId;
             console.log(record, "record", index);
+            this.gettree()
+
           },
         },
       };

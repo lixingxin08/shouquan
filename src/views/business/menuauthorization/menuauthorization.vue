@@ -33,7 +33,7 @@
               bordered
               :pagination="pagination2"
               :customRow="rowClick"
-              rowKey="index"
+              rowKey="index2"
             ></a-table>
             <template
               slot="index2"
