@@ -232,6 +232,7 @@ export default {
   text-align: left;
   color: #333333;
   margin-right: 10px;
+  visibility: hidden;
 }
 
 .r_t_inp {

@@ -8,18 +8,6 @@
 
 <script>
 import zhCN from "ant-design-vue/es/locale/zh_CN";
-window.addEventListener(
-  "message",
-  function (e) {
-    if (e.data.type !== "webpackOk") {
-      if (e.data.accountId == "" || e.data.accountId == undefined) {
-      } else {
-        localStorage.setItem("usermsg", JSON.stringify(e.data), 10000000000000);
-      }
-    }
-  },
-  false
-);
 import DevicePixelRatio from "./utils/device.js";
 export default {
   name: "App",
