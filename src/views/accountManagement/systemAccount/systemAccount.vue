@@ -219,7 +219,6 @@
           keyword: this.pageparam.keyword,
           statusCode: this.pageparam.statusCode,
           pageIndex: this.pagination.page,
-          adminFlag: 1,
           pageSize: this.pagination.pageSize,
         };
         let res = await this.$http.post(this.$api.accountinfopage, prame);
