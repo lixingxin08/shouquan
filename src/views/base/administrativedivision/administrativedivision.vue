@@ -335,11 +335,14 @@ export default {
       } else {
            this.defaultSelectedKeys.push(this.treedata[0].id);
       }
-      this.isselectdata.id = this.treedata[0].id;
-      this.isselectdata.name = this.treedata[0].name; 
-      
+    try {
+          this.isselectdata.id = this.treedata[0].id;
+      this.isselectdata.name = this.treedata[0].name;      
       this.isselectdata.pid = this.treedata[0].pid;
       this.isselectdata.levelType = this.treedata[0].levelType;
+    } catch (error) {
+      
+    }
       this.showtree = true;
     },
     //获取树搜索数据
