@@ -184,6 +184,7 @@
         return result;
       },
       setdata() {
+         this.defaultExpandedKeys=[]
         for (let i = 0; i < this.data.length; i++) {
           if (this.data[i].checked) {
             this.defaultExpandedKeys.push(this.data[i].id);

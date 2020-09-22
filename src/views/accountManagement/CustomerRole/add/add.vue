@@ -26,7 +26,7 @@
               </a-select-option>
             </a-select>
           </div>
-          <div class="tree_box_zzx"> 
+          <div class="tree_box_zzx">
 
             <is-left :treedata="treedata"  @selectdata="getselectdata"   :selectable="true" :replaceFields="replaceFields" :checkedKeys="defaultExpandedKeys"
               @checkedKeyslist="checkedKeyslist" v-if="showtree"></is-left>
@@ -185,7 +185,7 @@
       },
       setdata() {
         for (let i = 0; i < this.data.length; i++) {
-          if (this.data[i].checked) {
+          if (this.data[i].checked&&this.data[i].isParent) {
             this.defaultExpandedKeys.push(this.data[i].id);
           }
         }
@@ -222,7 +222,6 @@
         this.isselectdata.id = val.id;
         this.isselectdata.name = val.name;
         this.isselectdata.pid = val.pid;
-        this.istotal.type = 1;
       },
       checkedKeyslist(val) {
         this.defaultExpandedKeys = val

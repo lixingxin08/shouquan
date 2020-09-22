@@ -66,8 +66,8 @@
         data: [], //授权菜单原始数据
         treedata: [], //授权菜单转成后的数据
         replaceFields: { //授权列表数据参数
-          title: "name",
-          key: "id",
+          title: "menuName",
+          key: "menuId",
         },
       }
     },
@@ -125,7 +125,7 @@
           if (res2.data.resultCode == 10000) {
             this.personConfig = res2.data.data
           }
-         
+
         }
          this.getRolesTree()
       },
@@ -138,12 +138,8 @@
         }
         this.treedata = this.toTree(this.data)
       },
-      toTree(data2) {
-        let data = []
-        data2.forEach((item) => {
-          if (item.checked)
-            data.push(item)
-        })
+      toTree(data) {
+
         let result = [];
         if (!Array.isArray(data)) {
           return result;
@@ -153,10 +149,10 @@
         });
         let map = {};
         data.forEach((item) => {
-          map[item.id] = item;
+          map[item.menuId] = item;
         });
         data.forEach((item) => {
-          let parent = map[item.pid];
+          let parent = map[item.parentId];
           if (parent) {
             (parent.children || (parent.children = [])).push(item);
           } else {
