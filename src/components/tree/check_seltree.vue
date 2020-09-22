@@ -72,7 +72,8 @@ export default {
     onCheck(checkedKeys, info) {
       console.log("onCheck", checkedKeys, info,info.halfCheckedKeys);
       //this.checkedKeys=checkedKeys
-      let aa=[...checkedKeys]
+      let aa=[]
+       aa=[...checkedKeys]
         aa.push(...info.halfCheckedKeys)
         console.log(aa,777888);
       this.$emit("checkedKeyslist",aa);

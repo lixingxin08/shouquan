@@ -33,7 +33,7 @@
               bordered
               :pagination="pagination2"
               :customRow="rowClick"
-              rowKey="index"
+              rowKey="index2"
             ></a-table>
             <template
               slot="index2"
@@ -402,7 +402,7 @@ export default {
     },
     getcheckedKeys(val) {
       console.log(val, 44444);
-      // this.checkedKeys = val;
+      this.checkedKeys = val;
       this.form.menuIdList = val;
     },
     handleChange2(value, key) {

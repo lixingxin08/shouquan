@@ -35,6 +35,7 @@
           bordered
           :pagination="pagination2"
           v-if="tabletype"
+           rowKey="index2"
         ></a-table>
         <template
           slot="index2"

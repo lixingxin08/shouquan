@@ -49,7 +49,7 @@
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">权限配置:</div>
-      <div style="position: relative;">
+      <div style="position: relative">
         <div class="templatetree edit_item_tree">
           <div class="flex_f templatetree_sel">
             <span>服务子系统：</span>
@@ -59,7 +59,7 @@
                 placeholder="全部"
                 option-filter-prop="children"
                 style="width:200px;margin-right:20px;height:36px;border-radius: 8px;"
-                v-model="treeprame.templateId"
+           
                 @change="handleChange2"
                 v-if="showtree"
               >
@@ -225,9 +225,10 @@ export default {
       console.log(this.form.typeCode, 88);
     },
     handleChange2(value, key) {
-      console.log(this.treeprame.templateId, 88);
+      console.log(value, 666688);
       this.showtree = false;
       this.treedata = this.oldtreedata;
+      this.treeprame.templateId=value
       if (this.treeprame.templateId == "all") {
         this.treedata = this.oldtreedata;
       } else {
