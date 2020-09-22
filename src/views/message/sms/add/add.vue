@@ -191,6 +191,7 @@
         } else {}
       },
       async getSmsMsgList() {
+		  this.msgList=[]
         let param = {
           classCode: this.config.typeCode,
         }
@@ -203,10 +204,6 @@
               remark: item.comboBoxName
             })
           })
-        }else{
-          this.config = {
-            remark: ''
-          }
         }
       },
 
