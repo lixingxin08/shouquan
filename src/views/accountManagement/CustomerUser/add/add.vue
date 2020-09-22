@@ -268,7 +268,7 @@
           }
           this.config = config
           this.tableList.forEach((item, index) => {
-            if (item.select) {
+            if (item.selectFlag) {
               this.selectedRowKeys.push(index)
             }
           })

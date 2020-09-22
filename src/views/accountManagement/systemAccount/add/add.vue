@@ -273,7 +273,7 @@
           }
           this.config = config
           this.tableList.forEach((item, index) => { //获取分配的角色id
-            if (item.select) {
+            if (item.selectFlag) {
               this.selectedRowKeys.push(index)
             }
           })
