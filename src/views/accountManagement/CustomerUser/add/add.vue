@@ -59,7 +59,7 @@
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title2_zzx">账号描述:</div>
         <div style="position: relative;">
-          <a-textarea class='edit_a_input_zzx' :rows="5" v-model='config.remark' :maxLength='250' placeholder="500字以内，格式不限制"
+          <a-textarea class='edit_a_input_zzx' style='width: 447px;' :rows="5" v-model='config.remark' :maxLength='250' placeholder="500字以内，格式不限制"
             @change="onChangeConfig" />
           <div class="edit_number_zzx">{{num}}/250</div>
         </div>

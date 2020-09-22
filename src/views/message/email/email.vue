@@ -16,13 +16,18 @@
     </div>
     <div class="view-title-line"></div>
 
-      <a-button type="primary" class='table-add-btn' @click="toadd({})">
-        <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
-      </a-button>
-    
+    <a-button type="primary" class='table-add-btn' @click="toadd({})">
+      <a-icon two-tone-color="#ffffff" type="plus" /> 新增
+    </a-button>
+
 
     <a-table :columns="tablecolumns" :data-source="tabledata" bordered size='small' :pagination="pagination" @change="handleTableChange">
       <div slot="emailConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</div>
+      <div slot='authType' slot-scope="text, record,index">
+        {{record.authType?'是':'否'}}
+      </div>
+      <div slot='sslType' slot-scope="text, record,index"> {{record.sslType?'采用':'不采用'}}</div>
+      <div slot='debugType' slot-scope="text, record,index"> {{record.debugType?'开启':'不开窍'}}</div>
       <div slot="edit" class="flexrow flexjc" slot-scope="childTotal,areaName">
         <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
         <div class="item-line"></div>
@@ -88,6 +93,9 @@
             title: "是否身份验证",
             key: "authType",
             dataIndex: "authType",
+            scopedSlots: {
+              customRender: "authType",
+            },
           },
 
           {
@@ -96,6 +104,9 @@
             title: "采用安全链接",
             key: "sslType",
             dataIndex: "sslType",
+            scopedSlots: {
+              customRender: "sslType",
+            },
           },
 
           {
@@ -104,6 +115,9 @@
             title: "打印调试模式",
             key: "debugType",
             dataIndex: "debugType",
+            scopedSlots: {
+              customRender: "debugType",
+            },
           },
           {
             width: 158,
@@ -159,8 +173,8 @@
       //列表接口
       async getpage() {
         this.tabledata = []
-        if(this.pagination.current==1)
-        this.pagination.total = 0
+        if (this.pagination.current == 1)
+          this.pagination.total = 0
         this.runpageparam.pageIndex = this.pagination.current;
         this.runpageparam.pageSize = this.pagination.pageSize;
         let res = await this.$http.post(this.$api.emailAccountpage, this.runpageparam);
@@ -174,7 +188,7 @@
             }
           }
         } else {
-          this.tabledata=[]
+          this.tabledata = []
           this.$message.error(res.data.resultMsg);
         }
       },

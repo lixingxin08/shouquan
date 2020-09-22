@@ -151,7 +151,7 @@ import {postimgurl} from '../../../../js/url'
       this.Id = this.$route.query.id
       if (this.Id) { //编辑
         this.getModelInfo();
-      
+
       } else {
         this.getWarninngData()
       }
@@ -168,10 +168,11 @@ import {postimgurl} from '../../../../js/url'
         if (res.data.resultCode == 10000) {
           this.msgSelect = res.data.data.communicationMode
            this.brandSelect = res.data.data.brandId
-          this.getBrandList()
           this.typeSelect = res.data.data.deviceTypeId
+          this.severSelect = res.data.data.serviceType
           this.getTypeList()
-          this.severSelect = res.data.data.serviceTypeName
+          this.getBrandList()
+
           this.modelName = res.data.data.modelName
           this.modelCode = res.data.data.modelCode
           this.imageUrl = res.data.data.imageJson

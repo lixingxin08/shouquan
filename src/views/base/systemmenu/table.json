@@ -17,7 +17,10 @@
       {
         "title": "菜单类型",
         "align": "center",
-        "dataIndex": "menuTypeName",
+        "dataIndex": "menuType",
+		"scopedSlots": {
+		  "customRender": "menuType"
+		},
         "ellipsis": true
       },
       {

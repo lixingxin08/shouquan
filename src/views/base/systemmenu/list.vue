@@ -17,6 +17,13 @@
       <template slot="index" slot-scope="text, record,index">
         {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
       </template>
+      <div slot="menuType" slot-scope="text, record,index">
+        <div v-if="record.menuType==1000">子系统</div>
+        <div v-if="record.menuType==2000">子栏目</div>
+        <div v-if="record.menuType==3000">子菜单</div>
+        <div v-if="record.menuType==4000">页签</div>
+        <div v-if="record.menuType==5000">按钮</div>
+      </div>
       <template slot="authFlag" slot-scope="text, record,index">
         <div v-if="record.authFlag==0">默认拥有类</div>
         <div v-if="record.authFlag==1">系统配置类</div>

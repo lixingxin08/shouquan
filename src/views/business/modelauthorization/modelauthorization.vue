@@ -218,11 +218,9 @@ export default {
         operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       listparam: {
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
         customerId: "",
       },
       modellistparam: {
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
         customerId: "",
       },
       treemodelparam: {
@@ -235,13 +233,13 @@ export default {
         modelIdList: [],
         accountId: "",
         remark: "",
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
     };
   },
   created() {
     this.getlist();
     this.getareatree();
+    this.gettreemodellist()
   },
   methods: {
     customRow(record, index) {
@@ -254,6 +252,7 @@ export default {
             // 鼠标单击行
             click: event => {
                    this.modellistparam.customerId = record.customerId;
+                   this.getmodellist()
             console.log(record, "record", index);
             },
           },
@@ -287,7 +286,6 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.tabledata2 = res.data.data;
-
         this.tabletype2 = true;
       } else {
         this.tabledata2 = "";

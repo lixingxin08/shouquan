@@ -27,7 +27,7 @@
         },
         defaultExpandedKeys: [],
         defaultSelectedKeys: [],
-        data: "",
+        data: [],
       };
     },
     created() {
@@ -35,9 +35,6 @@
     },
     methods: {
 
-      addDictionary() { //添加字典
-        this.isShowAddDictionary = !this.isShowAddDictionary
-      },
       //数据字典树接口
       async getmenutree() {
         this.showtree = false;

@@ -111,6 +111,7 @@ export default {
   rolesystemdetail: `/account/role/detail`, //系统角色详情接口
   rolesystemrolelist: `/account/role/roleSystemList`, //系统角色查询列表接口
   rolesystemroletreelist: `/account/role/tree`, //系统treeList接口
+  rolesystemroleselfmunutree:`/account/role/selfMunutree`,//账号授权角色
 
 
 
