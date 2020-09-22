@@ -402,7 +402,7 @@ export default {
     },
     getcheckedKeys(val) {
       console.log(val, 44444);
-      // this.checkedKeys = val;
+      this.checkedKeys = val;
       this.form.menuIdList = val;
     },
     handleChange2(value, key) {

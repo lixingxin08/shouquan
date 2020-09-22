@@ -80,7 +80,7 @@ export default {
   devicetypeform: `/device/type/form`, //设备类型表单接口)
   devicetypepage: `/device/type/page`, //设备类型分页查询接口
   devicetyperemove: `/device/type/remove`, //设备类型删除接口
-  devicetypetree: `/device/type/tree`, //设备类型删除接口
+  devicetypetree: `/device/brands/tree`, //设备品牌树接口
 
   devicebrandsdetail: `/device/brands/detail`, //设备品牌查询详情接口
   devicebrandsform: `/device/brands/form`, //设备品牌表单接口
