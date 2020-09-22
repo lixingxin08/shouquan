@@ -191,7 +191,7 @@
         this.menuName = this.cacheData.menuName
         this.remark = this.cacheData.remark
         this.imageUrl = this.cacheData.menuIcon
-        this.authList = this.cacheData.authList?[]:this.cacheData.authList
+        this.authList = this.cacheData.authList?this.cacheData.authList:[]
         if (this.isAdd == 'true') {
           this.menuName = ''
           this.remark = ''
