@@ -227,9 +227,8 @@
         this.isselectdata.pid = val.pid;
       },
       checkedKeyslist(val) {
-        console.log("=============", val)
         this.defaultExpandedKeys = val
- this.defaultExpandedKeysUpload = val
+        this.defaultExpandedKeysUpload = val
       },
     },
   }
