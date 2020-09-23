@@ -17,7 +17,7 @@
         <div class="flexcolumn selet_bg_zzx">
           <div class="flexrow  flexac">
             <div style="flex-shrink: 0;margin-right: 7px;width: 100px;text-align: end;font-size: 14px;">
-              <div style="color: #333333;">  服务子系统:</div>
+              <div style="color: #333333;"> 服务子系统:</div>
 
             </div>
             <a-select :value="selectValue?selectValue:'全部'" class='selet_bg_zzx' @change="handleSelectChange">
@@ -28,8 +28,8 @@
           </div>
           <div class="tree_box_zzx">
 
-            <is-left :treedata="treedata"  @selectdata="getselectdata"   :selectable="true" :replaceFields="replaceFields" :checkedKeys="defaultExpandedKeys"
-              @checkedKeyslist="checkedKeyslist" v-if="showtree"></is-left>
+            <is-left :treedata="treedata" @selectdata="getselectdata" :selectable="true" :replaceFields="replaceFields"
+              :checkedKeys="defaultExpandedKeys" @checkedKeyslist="checkedKeyslist" v-if="showtree"></is-left>
           </div>
         </div>
       </div>
@@ -62,6 +62,7 @@
           key: "id",
         },
         defaultExpandedKeys: [],
+        defaultExpandedKeysUpload: [],
         data: "",
         showtree: false,
         num: 0 //描述长度
@@ -83,20 +84,20 @@
           this.$message.warning('角色名称不能为空')
           return
         }
-        if (this.config.roleName.length<2) {
+        if (this.config.roleName.length < 2) {
           this.$message.warning('角色名称要求2-16位')
           return
         }
-        if(!this.vify_cn16(this.config.roleName)){
+        if (!this.vify_cn16(this.config.roleName)) {
           this.$message.warning('角色名称格式不对')
           return
         }
-        if (this.defaultExpandedKeys.length <= 0) {
+        if (this.defaultExpandedKeysUpload.length <= 0) {
           this.$message.warning('请配置角色权限')
           return
         }
-        this.config.menuIdList = this.defaultExpandedKeys
-        this.config.operatorId=JSON.parse(localStorage.getItem('usermsg')).accountId
+        this.config.menuIdList = this.defaultExpandedKeysUpload
+        this.config.operatorId = JSON.parse(localStorage.getItem('usermsg')).accountId
         let res = await this.$http.post(this.$api.rolesystemform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
@@ -135,7 +136,7 @@
           this.getDetail()
           this.gettree()
         } else {
-          this.defaultExpandedKeys=[]
+          this.defaultExpandedKeys = []
           this.config = {}
         }
       },
@@ -143,10 +144,10 @@
       onChangeConfig() {
         this.num = this.config.remark.length
       },
-	  /* 获取角色roles List*/
+      /* 获取角色roles List*/
       async gettree() {
         this.showtree = false;
-		 this.data=[]
+        this.data = []
         let param = {
           systemId: this.selectValue ? this.selectValue.substring(0, 3) : '',
           roleId: this.id
@@ -185,8 +186,10 @@
       },
       setdata() {
         for (let i = 0; i < this.data.length; i++) {
-          if (this.data[i].checked&&this.data[i].isParent) {
-            this.defaultExpandedKeys.push(this.data[i].id);
+          if (this.data[i].checked) {
+            this.defaultExpandedKeysUpload.push(this.data[i].id);
+            if (!this.data[i].isParent)
+              this.defaultExpandedKeys.push(this.data[i].id);
           }
         }
         this.treedata = this.toTree(this.data);
@@ -224,8 +227,9 @@
         this.isselectdata.pid = val.pid;
       },
       checkedKeyslist(val) {
+        console.log("=============", val)
         this.defaultExpandedKeys = val
-
+ this.defaultExpandedKeysUpload = val
       },
     },
   }

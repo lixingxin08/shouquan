@@ -236,6 +236,8 @@ export default {
     },
     getselectdata(val) {
      this.form.accountId=val.id
+     this.listparam.accountId=val.id
+     this.getlist()
     },
   },
 };

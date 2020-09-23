@@ -180,9 +180,7 @@
           operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
           cipher: ''
         },
-        istotal: {
-          type: 1,
-        },
+      
       };
     },
     created() {
@@ -210,6 +208,8 @@
       },
       //分页列表接口
       async getpersonpage() {
+        if(this.treedata.length<=0)
+        return
         if (this.pagination.current == 1) {
           this.pagination.total = 0
         }
@@ -269,6 +269,8 @@
       },
       /* 添加 编辑*/
       toadd(id) {
+        if(this.treedata.length<=0)
+        return
         if (this.isselectdata.id == "") {
           this.isselectdata.id = this.treedata[0].id;
           this.isselectdata.name = this.treedata[0].name;
@@ -330,10 +332,9 @@
       },
       //查询
       tosearch() {
-        this.istotal.type = 1;
         this.pagination.page = 1;
+        this.pagination.current=1;
         this.pagination.pageSize = 10;
-        this.isselectdata.id = "";
         this.getpersonpage();
       },
       //清除
