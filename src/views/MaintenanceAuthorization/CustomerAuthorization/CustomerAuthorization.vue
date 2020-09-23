@@ -141,6 +141,7 @@ export default {
   },
   methods: {
         onSelectChange(selectedRowKeys) {
+          console.log(selectedRowKeys,7777);
       this.selectedRowKeys = selectedRowKeys;
       this.form.customerIdList=this.selectedRowKeys
     },
@@ -184,7 +185,7 @@ export default {
     async getform() {
           this.form.customerIdList=[]
       for (let i = 0; i < this.selectedRowKeys.length; i++) {
-        this.form.customerIdList.push(this.tabledata[i].customerId)      
+        this.form.customerIdList.push(this.tabledata[this.selectedRowKeys[i]].customerId)      
       }
       if (this.form.customerIdList.length == 0) {
         return this.$message.error("请选择授权客户");

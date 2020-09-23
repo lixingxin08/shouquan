@@ -48,7 +48,7 @@
                 >
                   <span>删除</span>
                 </div>
-                <div class="col_gray ispointer" v-if="val.personTotal==0">删除</div>
+                <div class="col_gray ispointer" v-if="val.personTotal!==0">删除</div>
               </div>
             </a-table>
           </div>

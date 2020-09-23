@@ -38,18 +38,19 @@
         </div>
         <div class="isright_r">
           <div class="left_title_model">型号列表</div>
-          <div class="tree_box">
+          <div class="tree_box tree_box1">
             <a-table
               :columns="tablecolumns2"
               :data-source="tabledata2"
               :row-selection="rowSelection"
               bordered
               :pagination="pagination2"
-            ></a-table>
-            <template
+            >
+              <template
               slot="index2"
               slot-scope="text, record,index"
             >{{(index+1)+((pagination2.current-1)*10)}}</template>
+            </a-table>
           </div>
         </div>
       </div>
@@ -227,7 +228,6 @@ export default {
         id: "",
         levelType: "",
       },
-      treemodeldata: "",
       customerId: "",
       form: {
         modelIdList: [],
@@ -299,7 +299,7 @@ export default {
         this.treemodelparam
       );
       if (res.data.resultCode == "10000") {
-        this.treemodeldata = res.data.data;
+        this.tabledata2 = res.data.data;
         this.tabletype2 = true;
       } else {
         return this.$message.error(res.data.resultMsg);

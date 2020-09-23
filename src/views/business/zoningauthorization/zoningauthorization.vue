@@ -35,6 +35,7 @@
           :replaceFields="replaceFields"
           :defaultExpandedKeys="defaultExpandedKeys"
           @checkedKeyslist="getcheckedKeys"
+          :checkedKeys="checkedKeys"
           v-if="showtree"
         ></is-left>
       </div>
@@ -97,6 +98,7 @@ export default {
         },
       ],
       tabledata: [],
+      checkedKeys: [],
       issearchdata: "",
       treedata: "",
       filterdata: [],
@@ -162,10 +164,11 @@ export default {
           // 鼠标单击行
           click: (event) => {
             this.customerId = record.customerId;
-            this.treeprame.customerId=record.customerId;
+            this.treeprame.customerId = record.customerId;
             console.log(record, "record", index);
-            this.gettree()
-
+            this.defaultExpandedKeys = [];
+            this.checkedKeys = [];
+            this.gettree();
           },
         },
       };
@@ -192,7 +195,7 @@ export default {
       }
     },
     async getform() {
-      this.form=[]
+      this.form = [];
       let aa = {
         customerId: "",
         areaId: "",
@@ -209,12 +212,11 @@ export default {
         return this.$message.error("请选择授权客户");
       }
       for (let k = 0; k < this.ischeck.length; k++) {
-      this.form.push(aa);
+        this.form.push(aa);
       }
       for (let j = 0; j < this.data.length; j++) {
         for (let i = 0; i < this.ischeck.length; i++) {
           if (this.ischeck[i] == this.data[j].id) {
- 
             this.form[i].customerId = this.customerId;
             this.form[i].areaId = this.data[j].id;
             this.form[i].areaName = this.data[j].name;
@@ -272,9 +274,14 @@ export default {
       return result;
     },
     setdata() {
+      this.defaultExpandedKeys = [];
+      this.checkedKeys = [];
       for (let i = 0; i < this.data.length; i++) {
         if (this.data[i].open == true) {
           this.defaultExpandedKeys.push(this.data[i].id);
+        }
+        if (this.data[i].checked == true) {
+          this.checkedKeys.push(this.data[i].id);
         }
       }
       this.treedata = this.toTree(this.data);
