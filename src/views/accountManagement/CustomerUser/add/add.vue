@@ -56,21 +56,30 @@
           </a-radio>
         </a-radio-group>
       </div>
+
+      <div class="flexrow flexac edit_item_zzx">
+        <div class="edit_item_zzx_title2_zzx"><a style="color: #FF0000;">*</a>管理员标识:</div>
+        <a-radio-group v-model='adminFlag' @change="onChangeManager">
+          <a-radio v-for="(item,index) in plainOptionsAdmin" :key="index" :value="item.key">
+            {{item.name}}
+          </a-radio>
+        </a-radio-group>
+      </div>
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title2_zzx">账号描述:</div>
         <div style="position: relative;">
-          <a-textarea class='edit_a_input_zzx' style='width: 447px;' :rows="5" v-model='config.remark' :maxLength='250' placeholder="500字以内，格式不限制"
-            @change="onChangeConfig" />
+          <a-textarea class='edit_a_input_zzx' style='width: 447px;' :rows="5" v-model='config.remark' :maxLength='250'
+            placeholder="250字以内，格式不限制" @change="onChangeConfig" />
           <div class="edit_number_zzx">{{num}}/250</div>
         </div>
       </div>
 
 
-      <div class="flexrow edit_item_zzx_title2_zzx" style="width: 100%;margin-left: 50px; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
+      <div v-if='adminFlag==0' class="flexrow edit_item_zzx_title2_zzx" style="width: 100%;margin-left: 50px; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
           style="color: #FF0000;">*</a>分配角色</div>
 
-      <a-table style='width: 447px;margin-left: 130px;' :columns="tableTitle" :data-source="tableList" :pagination='false'
-        :bordered='true' size='small' :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
+      <a-table v-if='adminFlag==0' style='width: 447px;margin-left: 130px;' :columns="tableTitle" :data-source="tableList"
+        :pagination='false' :bordered='true' size='small' :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
         <template slot="index" slot-scope="text, record,index">
           {{index+1}}
         </template>
@@ -96,6 +105,13 @@
     name: '锁定',
     key: 2
   }];
+  const plainOptionsAdmin = [{ //账号状态
+    name: '普通账号',
+    key: 0
+  }, {
+    name: '管理员账号',
+    key: 1
+  }];
   export default {
     components: {
       isChooseAccount //选择人员
@@ -103,12 +119,15 @@
     data() {
       return {
         plainOptions, //账号状态
+        plainOptionsAdmin, //管理员状态
         selectId: '', //选择的菜单id
         accountid: '', //账号id
         selectName: '', //选择名称
         config: { //页面数据
           statusCode: 1,
+
         },
+          adminFlag: 0,
         num: 0, //描述长度
         isShow: false, //是否展示选择人员列表
         tableList: [], //角色列表数据
@@ -154,6 +173,8 @@
         let cipher = this.config.cipher
         let statusCode = this.config.statusCode
         let remark = this.config.remark
+        
+
         this.config = config
         this.config.personStatus = config.statusCode //因为人员状态的key 和账号状态的key 一样 从新赋值
         this.config.userName = userName
@@ -190,15 +211,20 @@
             return
           }
         }
-        if (this.selectedRowKeys.length <= 0) {
+        if (this.config.adminFlag == 0 && this.selectedRowKeys.length <= 0) {
           this.$message.error('请关联角色')
           return
         }
         this.config.operatorId = JSON.parse(localStorage.getItem('usermsg')).accountId //操作者id
-        this.config.roleList = this.getRolesId() //获取分配的角色id
+        if (this.config.adminFlag == 0) {
+          this.config.roleList = this.getRolesId() //获取分配的角色id
+        } else {
+          this.config.roleList = []
+        }
         if (this.accountid) {
           this.config.accountId = this.accountid
         }
+        this.config.adminFlag=this.adminFlag
         let res = await this.$http.post(this.$api.accountinfoform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
@@ -212,7 +238,11 @@
         if (this.accountid) {
           this.getAccountDetail()
         } else {
-          this.config = {}
+          this.config = {
+            statusCode: 1,
+            adminFlag: 0
+          }
+          this.adminFlag=0
           this.selectedRowKeys = {}
         }
       },
@@ -246,6 +276,10 @@
       onChange(e) {
         this.config.statusCode = e.target.value
       },
+      /* 账号管理状态*/
+      onChangeManager(e) {
+        this.adminFlag = e.target.value
+      },
       /* 获取账号详情*/
       async getAccountDetail() {
         let param = {
@@ -255,6 +289,7 @@
         if (res.data.resultCode == 10000) {
           let config = {}
           config = res.data.data
+          this.adminFlag=config.adminFlag
           this.tableList = res.data.data.roleList
           let param2 = {
             personId: config.personId //人员id

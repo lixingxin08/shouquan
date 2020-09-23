@@ -15,6 +15,13 @@
               <a-select-option value>全部</a-select-option>
               <a-select-option v-for="(item,index) in statusCode" :key="index" :value="item.id">{{item.val}}</a-select-option>
             </a-select>
+            <div class="r_t_text">管理员标识:</div>
+            <a-select show-search placeholder="全部" option-filter-prop="children" style="width: 200px;margin-right:20px;height:36px;border-radius: 8px;"
+              v-model="pageparam.adminFlag" @change="handleChangeAdmin">
+              <a-select-option value>全部</a-select-option>
+              <a-select-option v-for="(item,index) in adminCode" :key="index" :value="item.id">{{item.val}}</a-select-option>
+            </a-select>
+
             <a-button type='primary' class="btn_blue btn" @click="tosearch()">查询</a-button>
             <a-button class="btn_gray" @click="clear()">清除</a-button>
           </div>
@@ -34,6 +41,10 @@
               <div slot="statusCode" class="flex_a" slot-scope="statusCode">
                 <div v-if="statusCode==1">启用</div>
                 <div v-if="statusCode==0">锁定</div>
+              </div>
+              <div slot="adminFlag" class="flex_a" slot-scope="adminFlag">
+                <div v-if="adminFlag==1">管理员账号</div>
+                <div v-if="adminFlag==0">普通账号</div>
               </div>
               <div slot="edit" class="flexrow flexjc" slot-scope="val,departmentId">
                 <div class="col_blue ispointer" @click="toadd(departmentId)">编辑</div>
@@ -120,6 +131,17 @@
           {
             width: 208,
             align: "center",
+            title: "管理员标识",
+            key: "adminFlag ",
+            dataIndex: "adminFlag",
+            ellipsis: true,
+            scopedSlots: {
+              customRender: "adminFlag",
+            },
+          },
+          {
+            width: 208,
+            align: "center",
             title: "账号状态",
             key: "statusCode",
             dataIndex: "statusCode",
@@ -145,14 +167,25 @@
         pageparam: { //账号请求的数据参数
           keyword: "",
           statusCode: "",
+          adminFlag:""
         },
+
         statusCode: [{ //人员状态下拉列表
             id: 1,
             val: "正常"
           },
           {
             id: 0,
-            val: "冻结"
+            val: "锁定"
+          },
+        ],
+        adminCode: [{ //管理员状态下拉列表
+            id: 1,
+            val: "管理员账号"
+          },
+          {
+            id: 0,
+            val: "普通账号"
           },
         ],
         data: "", //菜单原始数据
@@ -180,9 +213,7 @@
           operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
           cipher: ''
         },
-        istotal: {
-          type: 1,
-        },
+
       };
     },
     created() {
@@ -210,6 +241,8 @@
       },
       //分页列表接口
       async getpersonpage() {
+        if(this.treedata.length<=0)
+        return
         if (this.pagination.current == 1) {
           this.pagination.total = 0
         }
@@ -217,6 +250,7 @@
         let prame = {
           departmentId: this.isselectdata.id,
           keyword: this.pageparam.keyword,
+          adminFlag:this.pageparam.adminFlag,
           statusCode: this.pageparam.statusCode,
           pageIndex: this.pagination.page,
           pageSize: this.pagination.pageSize,
@@ -269,6 +303,8 @@
       },
       /* 添加 编辑*/
       toadd(id) {
+        if(this.treedata.length<=0)
+        return
         if (this.isselectdata.id == "") {
           this.isselectdata.id = this.treedata[0].id;
           this.isselectdata.name = this.treedata[0].name;
@@ -330,16 +366,16 @@
       },
       //查询
       tosearch() {
-        this.istotal.type = 1;
         this.pagination.page = 1;
+        this.pagination.current=1;
         this.pagination.pageSize = 10;
-        this.isselectdata.id = "";
         this.getpersonpage();
       },
       //清除
       clear() {
         this.pageparam.keyword = "";
         this.pageparam.statusCode = "";
+        this.pageparam.adminFlag=""
       },
       //展示删除确认框
       showdialogsys(val) {
@@ -365,6 +401,9 @@
       },
       handleChange(val) {
         this.pageparam.statusCode = val;
+      },
+      handleChangeAdmin(val) {
+        this.pageparam.adminFlag = val;
       },
     },
   };

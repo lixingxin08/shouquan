@@ -256,10 +256,9 @@ export default {
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
-      console.log(2222);
-      this.form.accountId = val.id;
-      this.listparam.accountId = this.form.accountId;
-      this.getlist();
+     this.form.accountId=val.id
+     this.listparam.accountId=val.id
+     this.getlist()
     },
   },
 };

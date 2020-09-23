@@ -92,12 +92,8 @@ axios.interceptors.response.use(
   response => {
     let aa = JSON.parse(localStorage.getItem('usermsg'))
     aa.token = response.headers.token
-    // localStorage.removeitem('usermsg')
-    console.log(response, "isresponse.code");
-    console.log(response.data.resultCode, "isresponse.code");
     let thisurl = window.location.href.split('/#')
     let bb = thisurl[0].split('/authorization')
-    // console.log(JSON.parse(response.data).code,"isresponse.code");
     localStorage.setItem('usermsg', JSON.stringify(aa))
     // if (response.data.resultCode == "20100") {
     //   message.error("令牌错误，请重新登录")
