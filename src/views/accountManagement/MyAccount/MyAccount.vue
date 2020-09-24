@@ -4,19 +4,19 @@
       <div class=" flexcolumn">
         <div class="flexrow flexac edit_item">
           <div class="edit_item_title2">人员姓名:</div>
-          <a-input :disabled='true' class='edit_a_input' v-model='personConfig.realName' placeholder="请选择人员" />
+          <a-input :disabled='true' class='edit_a_input' v-model='personConfig.realName' placeholder="无" />
         </div>
         <div class="flexrow flexac edit_item">
           <div class="edit_item_title2">所属部门:</div>
-          <a-input :disabled='true' class='edit_a_input' v-model='personConfig.position' placeholder="请选择人员" />
+          <a-input :disabled='true' class='edit_a_input' v-model='personConfig.position' placeholder="未分配" />
         </div>
         <div class="flexrow flexac edit_item">
           <div class="edit_item_title2">人员性别:</div>
-          <a-input :disabled='true' class='edit_a_input' v-model="personConfig.gender==1?'男':'女'" placeholder="请选择人员" />
+          <a-input :disabled='true' class='edit_a_input' v-model="personConfig.gender==1?'男':'女'" placeholder="未知" />
         </div>
         <div class="flexrow flexac edit_item">
           <div class="edit_item_title2">手机号码:</div>
-          <a-input :disabled='true' class='edit_a_input' v-model='personConfig.mobilePhone' placeholder="请选择人员" />
+          <a-input :disabled='true' class='edit_a_input' v-model='personConfig.mobilePhone' placeholder="无" />
         </div>
         <div class="flexrow flexac edit_item">
           <div class="edit_item_title2"><a style="color: #FF0000;">*</a>账号名称:</div>
