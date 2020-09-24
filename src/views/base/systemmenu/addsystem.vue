@@ -29,7 +29,7 @@
       </div>
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>授权类型:</div>
-        <a-select :default-value="empowerDefault" style="width: 100%;margin-right: 80px;" @change="handleSelectChange">
+        <a-select :value="authFlag" style="width: 100%;margin-right: 80px;" @change="handleSelectChange">
           <a-select-option v-for='(item,index) in empowerList' :key='index' :value="item.key">
             {{item.name}}
           </a-select-option>
@@ -191,6 +191,7 @@
         this.menuName = this.cacheData.menuName
         this.remark = this.cacheData.remark
         this.imageUrl = this.cacheData.menuIcon
+        this.authFlag=this.cacheData.authFlag
         this.authList = this.cacheData.authList?this.cacheData.authList:[]
         if (this.isAdd == 'true') {
           this.menuName = ''
