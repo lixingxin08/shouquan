@@ -249,7 +249,6 @@
         } else if (this.menuValue == '按钮') {
           this.menuType = 5000
         }
-        console.log(this.menuType)
       },
       handleSelectChange(key) { //授权类型下拉选择
         this.authFlag = key
@@ -263,7 +262,6 @@
         }
       },
       onChangeSwitch(index) { //switch 接口
-
         this.changeAutoListState(index)
       },
       async submit() { //提交保存
@@ -300,7 +298,9 @@
         let res = await this.$http.post(this.$api.menuform, param);
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
-          this.$router.go(-1)
+          this.$router.push({
+              path: '/systemmenu',
+          })
         } else {
           this.$message.error(res.data.resultMsg);
         }
