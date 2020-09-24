@@ -36,7 +36,7 @@
           this.$message.warning('请输入修改的密码');
           return
         }
-        if (!this.password.length<6 || this.password2.length<6) {
+        if (this.password.length<6 || this.password2.length<6) {
           this.$message.warning('密码要求6-16位');
           return
         }
