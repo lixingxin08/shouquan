@@ -42,11 +42,11 @@
       </div>
       <div class="flexrow flexac edit_item_zzx" v-if="!accountid">
         <div class="edit_item_zzx_title2_zzx"><a style="color: #FF0000;">*</a>账号密码:</div>
-        <a-input-password class='edit_a_input_zzx' v-model='config.cipher' :maxLength='16' placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
+        <a-input-password class='edit_a_input_zzx' v-model='cipher' :maxLength='16' placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
       </div>
       <div class="flexrow flexac edit_item_zzx" v-if="!accountid">
         <div class="edit_item_zzx_title2_zzx"><a style="color: #FF0000;">*</a>确认密码:</div>
-        <a-input-password class='edit_a_input_zzx' v-model='config.cipher2' :maxLength='16' placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
+        <a-input-password class='edit_a_input_zzx' v-model='cipher2' :maxLength='16' placeholder="6-16位，须包含数字、字母和符号，区分大小写" />
       </div>
       <div class="flexrow flexac edit_item_zzx">
         <div class="edit_item_zzx_title2_zzx"><a style="color: #FF0000;">*</a>账号状态:</div>
@@ -127,7 +127,9 @@
           statusCode: 1,
 
         },
-          adminFlag: 0,
+        adminFlag: 0,
+        cipher: "",
+        cipher2: '',
         num: 0, //描述长度
         isShow: false, //是否展示选择人员列表
         tableList: [], //角色列表数据
@@ -170,15 +172,13 @@
       /* 选择人员后callback 数据*/
       confirm(config) {
         let userName = this.config.userName
-        let cipher = this.config.cipher
         let statusCode = this.config.statusCode
         let remark = this.config.remark
-        
+
 
         this.config = config
         this.config.personStatus = config.statusCode //因为人员状态的key 和账号状态的key 一样 从新赋值
         this.config.userName = userName
-        this.config.cipher = cipher
         this.config.statusCode = statusCode
         this.config.remark = remark
         this.isShow = false
@@ -198,20 +198,20 @@
           return
         }
         if (!this.accountid) {
-          if (!this.config.cipher || !this.config.cipher2) {
+          if (!this.cipher || !this.cipher2) {
             this.$message.error('请输入密码')
             return
           }
-          if (this.config.cipher.length < 6 || this.config.cipher2.length < 6) {
+          if (this.cipher.length < 6 || this.cipher2.length < 6) {
             this.$message.error('密码长度要求6-16位')
             return
           }
-          if (this.config.cipher != this.config.cipher2) {
+          if (this.cipher != this.cipher2) {
             this.$message.error('两次密码不一致')
             return
           }
         }
-        if (this.config.adminFlag == 0 && this.selectedRowKeys.length <= 0) {
+        if (this.adminFlag == 0 && this.selectedRowKeys.length <= 0) {
           this.$message.error('请关联角色')
           return
         }
@@ -224,7 +224,8 @@
         if (this.accountid) {
           this.config.accountId = this.accountid
         }
-        this.config.adminFlag=this.adminFlag
+        this.config.cipher = this.cipher
+        this.config.adminFlag = this.adminFlag
         let res = await this.$http.post(this.$api.accountinfoform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
@@ -242,7 +243,7 @@
             statusCode: 1,
             adminFlag: 0
           }
-          this.adminFlag=0
+          this.adminFlag = 0
           this.selectedRowKeys = {}
         }
       },
@@ -289,7 +290,7 @@
         if (res.data.resultCode == 10000) {
           let config = {}
           config = res.data.data
-          this.adminFlag=config.adminFlag
+          this.adminFlag = config.adminFlag
           this.tableList = res.data.data.roleList
           let param2 = {
             personId: config.personId //人员id
