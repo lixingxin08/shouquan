@@ -187,7 +187,7 @@
       /* 新增*/
       add() {
         this.$router.push({
-          path: '/adddeviceModel',
+          path: '/adddevicemodel',
           query: {
             id: ""
           }
@@ -197,7 +197,7 @@
       paramDevice(item) {
 
         this.$router.push({
-          path: '/deviceModelParam',
+          path: '/devicemodelparam',
           query: {
             id: item.modelId
           }

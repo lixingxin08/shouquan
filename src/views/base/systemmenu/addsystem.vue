@@ -1,7 +1,7 @@
 <template>
 
-  <div class="flexcolumn" style="background-color: #FFFFFF;">
-    <div style="margin: 0 auto;">
+  <div class="flexcolumn flexjc" style="background-color: #FFFFFF;">
+    <div  style="margin: 0 auto;">
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu">上级名称:</div>
         <div class='edit_a_input_menu'>
@@ -29,7 +29,7 @@
       </div>
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>授权类型:</div>
-        <a-select :value="authFlag" style="width: 100%;margin-right: 80px;" @change="handleSelectChange">
+        <a-select :value="authFlag" style="width: 667px;margin-right: 80px;" @change="handleSelectChange">
           <a-select-option v-for='(item,index) in empowerList' :key='index' :value="item.key">
             {{item.name}}
           </a-select-option>
@@ -57,10 +57,10 @@
         </div>
       </div>
 
-      <div class="flexrow edit_item_menu_title3_menu" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
+      <div class="flexrow edit_item_menu_title3_menu" style="width:667px; margin-top: 40px;justify-item: flex-start;margin-left: 10px; margin-bottom: 10px;font-size: 14px;"><a
           style="color: #FF0000;">*</a>鉴权接口</div>
 
-      <a-table :columns="dictionaryColumns" :data-source="authList" :pagination='false' :bordered='true' size='small'>
+      <a-table :columns="dictionaryColumns" style="width:1100px;margin-left: 10px;" :data-source="authList" :pagination='false' :bordered='true' size='small'>
         <!-- <template v-for="col in ['actionName', 'linkURL', 'defaultFlag']" :slot="col" slot-scope="text, record, index">
           <div :key="col">
             <a-input style="margin: -5px 0;border: 0px;" :value="text" @change="e => handleChange(e.target.value, index, col)" />
