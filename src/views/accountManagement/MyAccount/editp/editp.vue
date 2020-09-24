@@ -1,7 +1,7 @@
 <template>
   <div class="ps_ab">
     <div class="ps_flex" style="padding: 0px;border-radius: 10px;">
-      <div class="dialog-title flexrow flexac flexsb">新增数值
+      <div class="dialog-title flexrow flexac flexsb">修改密码
         <a-icon type="close" @click='closedialog' />
       </div>
       <div class="flexrow flexac item_zzx" style="margin-top: 20px;">
@@ -41,8 +41,8 @@
           this.$message.warning('请输入修改的密码');
           return
         }
-		if (!this.password.length<5 | this.password2.length<5|this.toalword.length<5) {
-		  this.$message.warning('密码格式要求5-16位');
+		if (!this.password.length<6 | this.password2.length<6|this.toalword.length<6) {
+		  this.$message.warning('密码格式要求6-16位');
 		  return
 		}
         if (this.password2 != this.password) {

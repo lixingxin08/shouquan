@@ -202,8 +202,8 @@
             this.$message.error('请输入密码')
             return
           }
-          if (this.config.cipher.length < 5 || this.config.cipher2.length < 5) {
-            this.$message.error('密码长度要求5-16位')
+          if (this.config.cipher.length < 6 || this.config.cipher2.length < 6) {
+            this.$message.error('密码长度要求6-16位')
             return
           }
           if (this.config.cipher != this.config.cipher2) {
