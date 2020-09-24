@@ -26,7 +26,7 @@
         </div>
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信签名:</div>
-          <a-input class='edit_a_input_sms' style='width: 667px;' :maxLength='50' v-model='config.signName' placeholder="50字以内，支持中英文" />
+          <a-input class='edit_a_input_sms' style='width: 667px;' :maxLength='32' v-model='config.signName' placeholder="32字以内，支持中英文" />
           <!--     <div class="edit_item_sms_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div> -->
         </div>
         <div class="flexrow flexac edit_item_sms">
