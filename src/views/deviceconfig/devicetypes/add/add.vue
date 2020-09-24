@@ -14,7 +14,7 @@
       <div class="flexrow flexac select_item_types_email">
         <div class="select_item_types_email_title3"><a style="color: #FF0000;">*</a>类型代码:</div>
           <div class='edit_a_input_types'>
-               <a-input  v-model='typeCode':maxLength='50' placeholder="请输入类型代码" />
+               <a-input  v-model='typeCode' :maxLength='50' placeholder="请输入类型代码" />
           </div>
 
         <div class="select_item_types_email_toast">注：50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号</div>

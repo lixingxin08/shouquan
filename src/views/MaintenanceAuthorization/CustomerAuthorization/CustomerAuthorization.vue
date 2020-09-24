@@ -6,6 +6,7 @@
         :treedata="treedata"
         :replaceFields="replaceFields"
         :defaultExpandedKeys="defaultExpandedKeys"
+        :defaultSelectedKeys="defaultSelectedKeys"
         @selectdata="getselectdata"
         @searchdata="getsearchdata"
         v-if="showtree"
@@ -13,14 +14,27 @@
     </div>
     <div class="isright">
       <div class="left_title">客户列表</div>
-      <div class="tree_box">
+      <div class="tree_box tree_box22">
         <a-table
+          v-if="tabletype"
           :columns="tablecolumns"
           :data-source="tabledata"
           bordered
-          :row-selection="rowSelection"
-          :pagination="false"
-        ></a-table>
+          :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
+          :pagination="pagination"
+          rowKey="index"
+        >
+          <template
+            slot="index"
+            slot-scope="text, record,index"
+          >{{(index+1)+((pagination.current-1)*10)}}</template>
+
+          <div slot="statusCode" class="flex_a" slot-scope="statusCode">
+            <div v-if="statusCode==1">启用</div>
+            <div v-if="statusCode==0">锁定</div>
+            <div v-if="statusCode==2">备用</div>
+          </div>
+        </a-table>
       </div>
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
@@ -45,28 +59,11 @@ export default {
   },
   data() {
     return {
-      rowSelection: {
-        onChange: (selectedRowKeys, selectedRows) => {
-          console.log(
-            `selectedRowKeys: ${selectedRowKeys}`,
-            "selectedRows: ",
-            selectedRows
-          );
-        },
-        onSelect: (record, selected, selectedRows) => {
-           this.form.customerIdList=[]
-         for (let i = 0; i < selectedRows.length; i++) {
-            this.form.customerIdList.push(selectedRows[i].customerId)
-          }
-          console.log(this.form.customerIdList,66666666666);
-        },
-        onSelectAll: (selected, selectedRows, changeRows) => {
-          this.form.customerIdList=[]
-          for (let i = 0; i < selectedRows.length; i++) {
-            this.form.customerIdList.push(selectedRows[i].customerId)
-          }
-            console.log(this.form.customerIdList,77777777777);
-        },
+      pagination: {
+        total: 0,
+        pageSize: 10000, //每页中显示10条数据
+        current: 1,
+        page: 1,
       },
       tablecolumns: [
         {
@@ -76,6 +73,9 @@ export default {
           dataIndex: "customerId",
           key: "customerId",
           ellipsis: true,
+          scopedSlots: {
+            customRender: "index",
+          },
         },
         {
           width: 141,
@@ -100,9 +100,13 @@ export default {
           dataIndex: "statusCode",
           key: "statusCode",
           ellipsis: true,
+          scopedSlots: {
+            customRender: "statusCode",
+          },
         },
       ],
       tabledata: [],
+         selectedRowKeys: [],
       treedata: "",
       replaceFields: {
         title: "name",
@@ -110,15 +114,16 @@ export default {
       },
       tabletype: false,
       defaultExpandedKeys: [],
+      defaultSelectedKeys: [],
       data: "",
       showtree: false,
       treeprame: {
         accountId: "",
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       listparam: {
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
-        accountId: ""
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
+        accountId: "",
       },
       istotal: {
         type: 1,
@@ -127,15 +132,19 @@ export default {
         customerIdList: [],
         accountId: "",
         remark: "",
-          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
     };
   },
   created() {
     this.gettree();
-    this.getlist();
   },
   methods: {
+        onSelectChange(selectedRowKeys) {
+          console.log(selectedRowKeys,7777);
+      this.selectedRowKeys = selectedRowKeys;
+      this.form.customerIdList=this.selectedRowKeys
+    },
     async getlist() {
       this.tabletype = false;
       let res = await this.$http.post(
@@ -145,6 +154,12 @@ export default {
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data;
         this.istotal.type++;
+        this.selectedRowKeys=[]
+        for (let i = 0; i <  this.tabledata.length; i++) {
+        if (this.tabledata[i].selected==1) {
+          this.selectedRowKeys.push(i)
+        }
+        }
         this.tabletype = true;
       } else {
         this.$message.error(res.data.resultMsg);
@@ -153,23 +168,27 @@ export default {
 
     async gettree() {
       this.showtree = false;
-      let res = await this.$http.post(
-        this.$api.persontree,
-        this.treeprame
-      );
+      let res = await this.$http.post(this.$api.persontree, this.treeprame);
       if (res.data.resultCode == "10000") {
         this.data = res.data.data;
+        this.setdata();
+        this.showtree = true;
+        this.form.accountId = this.treedata[0].id;
+        this.listparam.accountId = this.form.accountId;
+        this.defaultSelectedKeys = [];
+        this.defaultSelectedKeys.push(this.form.accountId);
+        this.getlist();
       } else {
         this.$message.error(res.data.resultMsg);
       }
-    
-      this.setdata();
-      this.showtree = true;
-       this.form.accountId=this.treedata[0].id
     },
     async getform() {
-      if (this.form.customerIdList.length==0) {
-        return  this.$message.error('请选择授权客户')
+          this.form.customerIdList=[]
+      for (let i = 0; i < this.selectedRowKeys.length; i++) {
+        this.form.customerIdList.push(this.tabledata[this.selectedRowKeys[i]].customerId)      
+      }
+      if (this.form.customerIdList.length == 0) {
+        return this.$message.error("请选择授权客户");
       }
       let res = await this.$http.post(this.$api.customeraccountform, this.form);
       if (res.data.resultCode == "10000") {
@@ -178,7 +197,9 @@ export default {
         this.$message.error(res.data.resultMsg);
       }
     },
- toTree(data) {
+
+
+    toTree(data) {
       let result = [];
       if (!Array.isArray(data)) {
         return result;
@@ -206,7 +227,7 @@ export default {
           this.defaultExpandedKeys.push(this.data[i].id);
         }
       }
-  
+
       this.treedata = this.toTree(this.data);
     },
     //获取树搜索数据
@@ -285,6 +306,12 @@ export default {
   margin-bottom: 170px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
+}
+.tree_box22 {
+  overflow: scroll;
+}
+.tree_box22::-webkit-scrollbar {
+  display: none;
 }
 .r_b_title {
   font-size: 18px;

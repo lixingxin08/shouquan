@@ -34,7 +34,7 @@ export default {
   persondetail: `/customer/person/detail`,
   personform: `/customer/person/form`,
   personpage: `/customer/person/page`,
-  persontree: `/customer/person/tree`,
+  persontree: `/account/info/tree`,
 
   //客户档案基础信息表API
   deleteByInformationId: `/customer/information/remove`,
@@ -146,7 +146,7 @@ export default {
   //客户账号授权API
   customeraccountform: `/auth/customer-account/form`,
   customeraccountlist: `/auth/customer-account/list`,
-  customeraccountmylist: `/auth/customer-account/my-list`,
+  customeraccountmylist: `/auth/customer-account/list`,
   customerinformationlist: `/customer/information/list`,
 
 
