@@ -37,7 +37,7 @@
         "title": "操作账号",
         "align": "center",
            "ellipsis":true,
-         "dataIndex": "entityId"
+         "dataIndex": "accountId"
       },
       {
         "title": "请求时间",

@@ -15,7 +15,7 @@
         <div class="item-title-log">接口耗时:{{item.timeTotal}}毫秒</div>
         <div class="item-title-log">来源地址:{{item.remoteIP}}</div>
         <div class="item-title-log">服务地址:{{item.serverIP}}</div>
-        <div class="item-title-log">操作帐号:{{item.customerId}}</div>
+        <div class="item-title-log">操作帐号:{{item.accountId}}</div>
         <div class="item-title-log">请求时间:{{item.requestTime}}</div>
         <div class="item-title-log">入库时间:{{item.insertTime}}</div>
       </div>
