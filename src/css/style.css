@@ -348,11 +348,21 @@
   height: 909px;
   padding-right: 20px;
 }
-
+.custor_right{
+  padding-top: 20px;
+}
 .r_t {
   color: #333;
 }
-
+.r_t_text {
+  height: 16px;
+  font-size: 12px;
+  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+  font-weight: 400;
+  text-align: left;
+  color: #333333;
+  margin-right: 10px;
+}
 .table {
   width: 100%;
   height: 755px;

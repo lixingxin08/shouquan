@@ -171,8 +171,8 @@ export default {
       plainOptions: ["男", "女"],
       value1: "男",
       statusCode: [
-        { id: 1, val: "是" },
-        { id: 0, val: "否" },
+        { id: 1, val: "启用" },
+        { id: 0, val: "备用" },
       ],
     };
   },
@@ -223,6 +223,20 @@ export default {
         let a = this.form.startDate;
         this.form.startDate = this.form.endDate;
         this.form.endDate = a;
+      }
+      if (this.form.statusCode === "") {
+        return this.$message.error("请选择阶段状态");
+      }
+      if (this.form.phaseName === "") {
+        return this.$message.error("请输入阶段名称");
+      }
+      if (this.form.linkphone !== "" && !this.verPhone(this.form.linkphone)) {
+        this.form.linkphone = "";
+        return this.$message.error("联系手机格式不正确");
+      }
+      if (this.form.leader !== "" && !this.vify_cn16(this.form.leader)) {
+        this.form.leader = "";
+        return this.$message.error("项目经理格式不正确");
       }
       let res = await this.$http.post(this.$api.projectPhaseform, this.form);
       if (res.data.resultCode == "10000") {

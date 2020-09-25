@@ -34,11 +34,13 @@
               :pagination="pagination2"
               :customRow="rowClick"
               rowKey="index2"
-            ></a-table>
-            <template
+            >
+              <template
               slot="index2"
               slot-scope="text, record,index"
             >{{(index+1)+((pagination2.current-1)*10)}}</template>
+            </a-table>
+          
           </div>
         </div>
 
@@ -123,7 +125,7 @@ export default {
       },
       tablecolumns: [
         {
-          width: 58,
+          width: 68,
           align: "center",
           title: "序号",
           dataIndex: "customerId",
@@ -134,7 +136,7 @@ export default {
           },
         },
         {
-          width: 141,
+          width: 131,
           align: "center",
           title: "客户简称",
           dataIndex: "shortName",
@@ -165,7 +167,7 @@ export default {
       checkedKeys: [],
       tablecolumns2: [
         {
-          width: 58,
+          width: 68,
           align: "center",
           title: "序号",
           ellipsis: true,
@@ -174,7 +176,7 @@ export default {
           },
         },
         {
-          width: 170,
+          width: 160,
           align: "center",
           title: "模板名称",
           dataIndex: "templateName",
@@ -513,7 +515,6 @@ export default {
   height: 340px;
   margin: 0 auto;
   overflow: scroll;
-  padding-left: 270px;
   box-sizing: border-box;
 }
 .istree_box2::-webkit-scrollbar {

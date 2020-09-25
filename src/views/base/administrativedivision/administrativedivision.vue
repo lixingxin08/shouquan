@@ -423,17 +423,6 @@ export default {
 .tree {
   text-align: left;
 }
-.r_t_text {
-  width: 70px;
-  height: 16px;
-  font-size: 12px;
-  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-  font-weight: 400;
-  text-align: left;
-  color: #333333;
-  margin-right: 10px;
-}
-
 .r_t_inp {
   width: 200px;
   height: 36px;

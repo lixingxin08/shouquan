@@ -34,8 +34,9 @@
                 <div v-if="statusCode==0">备用</div>
                 <div v-if="statusCode==2">停用</div>
               </div>
-              <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
+              <div slot="edit" class="flexrow flexac flexjc" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
+                <div class="item-line"></div>
                 <div class="col_red ispointer" @click="showdialogtem(areaName)">
                   <span>删除</span>
                 </div>
@@ -222,18 +223,6 @@ export default {
   text-align: left;
 }
 
-
-
-.r_t_text {
-  height: 16px;
-  font-size: 12px;
-  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-  font-weight: 400;
-  text-align: left;
-  color: #333333;
-  margin-right: 10px;
-  visibility: hidden;
-}
 
 .r_t_inp {
   width: 200px;

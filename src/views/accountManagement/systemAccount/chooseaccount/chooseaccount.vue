@@ -199,18 +199,6 @@
     text-align: left;
   }
 
-
-  .r_t_text {
-    height: 16px;
-    font-size: 12px;
-    font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-    font-weight: 400;
-    text-align: left;
-    color: #333333;
-
-    margin-right: 10px;
-  }
-
   .dialogchoose-title {
     background: #1890FF;
     border-top-left-radius: 10px;

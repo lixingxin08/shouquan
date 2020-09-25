@@ -134,7 +134,7 @@ export default new Router({
         },
 
         {
-          path: '/RunParameters',
+          path: '/runparameters',
           name: 'RunParameters',
           meta: {
             title: '运行参数'
@@ -142,7 +142,7 @@ export default new Router({
           component: RunParameters
         },
         {
-          path: '/addRunParameters',
+          path: '/addrunparameters',
           name: 'RunParameters',
           meta: {
             title: '运行参数'
@@ -206,7 +206,7 @@ export default new Router({
           component: addbrand
         },
         {
-          path: '/DeviceModel',
+          path: '/devicemodel',
           name: 'DeviceModel',
           meta: {
             title: '设备型号'
@@ -214,7 +214,7 @@ export default new Router({
           component: DeviceModel
         },
         {
-          path: '/adddeviceModel',
+          path: '/adddevicemmodel',
           name: 'DeviceModel',
           meta: {
             title: '设备型号'
@@ -222,7 +222,7 @@ export default new Router({
           component: adddeviceModel
         },
         {
-          path: '/deviceModelParam',
+          path: '/devicemodelparam',
           name: 'DeviceModel',
           meta: {
             title: '设备型号'
@@ -230,7 +230,7 @@ export default new Router({
           component: deviceModelParam
         },
         {
-          path: '/deviceModelAtt',
+          path: '/devicemodelatt',
           name: 'DeviceModel',
           meta: {
             title: '设备型号'
@@ -296,7 +296,7 @@ export default new Router({
           component: essentialinformation
         },
         {
-          path: '/dpartmentManagement',
+          path: '/dpartmentmanagement',
           name: 'dpartmentManagement',
           meta: {
             title: '部门管理'
@@ -304,7 +304,7 @@ export default new Router({
           component: dpartmentManagement
         },
         {
-          path: '/adddpartmentManagement',
+          path: '/adddpartmentmanagement',
           name: 'dpartmentManagement',
           meta: {
             title: '部门管理'
@@ -312,7 +312,7 @@ export default new Router({
           component: adddpartmentManagement
         },
         {
-          path: '/personnelManagement',
+          path: '/personnelmanagement',
           name: 'personnelManagement',
           meta: {
             title: '人员管理'
@@ -320,7 +320,7 @@ export default new Router({
           component: personnelManagement
         },
         {
-          path: '/addpersonnelManagement',
+          path: '/addpersonnelmanagement',
           name: 'personnelManagement',
           meta: {
             title: '人员管理'
@@ -464,7 +464,7 @@ export default new Router({
           component: messageauthorization
         },
         {
-          path: '/CustomerAuthorization',
+          path: '/customerauthorization',
           name: 'CustomerAuthorization',
           meta: {
             title: '客户授权'
@@ -472,7 +472,7 @@ export default new Router({
           component: CustomerAuthorization
         },
         {
-          path: '/Myclients',
+          path: '/myclients',
           name: 'Myclients',
           meta: {
             title: '我的客户'
@@ -480,7 +480,7 @@ export default new Router({
           component: Myclients
         },
         {
-          path: '/SystemRole',
+          path: '/systemrole',
           name: 'SystemRole',
           meta: {
             title: '系统角色'
@@ -488,7 +488,7 @@ export default new Router({
           component: SystemRole
         },
         {
-          path: '/addsystemRole',
+          path: '/addsystemrole',
           name: 'SystemRole',
           meta: {
             title: '系统角色'
@@ -497,7 +497,7 @@ export default new Router({
         },
 
         {
-          path: '/systemAccount',
+          path: '/systemaccount',
           name: 'systemAccount',
           meta: {
             title: '系统帐号'
@@ -513,7 +513,7 @@ export default new Router({
           component: addsystemAccount
         },
         {
-          path: '/CustomerRole',
+          path: '/customercole',
           name: 'CustomerRole',
           meta: {
             title: '客户角色'
@@ -521,7 +521,7 @@ export default new Router({
           component: CustomerRole
         },
 		{
-		  path: '/addCustomerRole',
+		  path: '/addcustomerRole',
 		  name: 'CustomerRole',
 		  meta: {
 		    title: '客户角色'
@@ -529,7 +529,7 @@ export default new Router({
 		  component: addCustomerRole
 		},
         {
-          path: '/CustomerUser',
+          path: '/customeruser',
           name: 'CustomerUser',
           meta: {
             title: '客户帐号'
@@ -537,7 +537,7 @@ export default new Router({
           component: CustomerUser
         },
 		{
-		  path: '/addCustomerUser',
+		  path: '/addcustomeruser',
 		  name: 'CustomerUser',
 		  meta: {
 		    title: '客户帐号'
@@ -545,7 +545,7 @@ export default new Router({
 		  component: addCustomerUser
 		},
         {
-          path: '/MyAccount',
+          path: '/myaccount',
           name: 'MyAccount',
           meta: {
             title: '我的帐号'
@@ -553,7 +553,7 @@ export default new Router({
           component: MyAccount
         },
         {
-          path: '/LogManagement',
+          path: '/logmanagement',
           name: 'LogManagement',
           meta: {
             title: '日志管理'

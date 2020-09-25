@@ -2,8 +2,7 @@
   <div class="administrativedivision">
         <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
     <div class="flex_fs">
-      <div>
-        <div class="right">
+        <div class="right2 proj_box">
           <div class="r_top flex_f">
             <div class="r_t_text">项目名称:</div>
             <a-input
@@ -39,16 +38,17 @@
                 <div v-if="defaultChecked==1">已选中</div>
                 <div v-if="defaultChecked==0">未选中</div>
               </div>
-              <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
+              <div slot="edit" class="flexrow flexac flexjc" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
+                <div class="item-line"></div>
                 <div class="col_blue ispointer" @click="tostage(areaName)">阶段信息</div>
+                 <div class="item-line"></div>
                 <div class="col_red ispointer" @click="showdialogproj(areaName)">
                   <span>删除</span>
                 </div>
               </div>
             </a-table>
           </div>
-        </div>
       </div>
     </div>
 
@@ -270,16 +270,6 @@ export default {
   text-align: left;
 }
 
-.r_t_text {
-  height: 16px;
-  font-size: 12px;
-  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-  font-weight: 400;
-  text-align: left;
-  color: #333333;
-  margin-right: 10px;
-}
-
 .r_t_inp {
   width: 200px;
   height: 36px;
@@ -292,7 +282,10 @@ export default {
 .r_t_inp:focus {
   border: 1px solid #1890ff;
 }
-
+.proj_box{
+  padding-left: 20px;
+  padding-top: 20px;
+}
 .btn {
   margin-right: 20px;
   margin-left: 20px;
