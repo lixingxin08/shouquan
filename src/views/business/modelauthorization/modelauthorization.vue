@@ -121,7 +121,7 @@ export default {
       },
       tablecolumns: [
         {
-          width: 58,
+          width: 88,
           align: "center",
           title: "序号",
           dataIndex: "customerId",
@@ -431,6 +431,17 @@ export default {
 }
 .left_title_model {
   width: 120px;
+  height: 24px;
+  font-size: 18px;
+  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+  font-weight: 400;
+  text-align: left;
+  color: #333333;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.left_title {
+  width: 72px;
   height: 24px;
   font-size: 18px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;

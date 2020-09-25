@@ -1,71 +1,74 @@
 <template>
-    <div class="administrativedivision flex_fs">
-      <div class="isleft">
-         <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
-        <is-left
-          :treedata="treedata"
-          :replaceFields="replaceFields"
-          :defaultExpandedKeys="defaultExpandedKeys"
-          @selectdata="getselectdata"
-          @searchdata="getsearchdata"
-          v-if="showtree"
-        ></is-left>
-      </div>
-      <div>
-        <div class="right">
-          <div class="r_top flex_f">
-            <div class="r_t_text" @click="showdialogdpart()">部门名称</div>
-            <a-input
-              placeholder="请输入部门名称"
-              class="r_t_inp"
-              v-model="inp_data"
-              @keydown.enter="tosearch()"
-            />
-            <div class="btn_blue btn" @click="tosearch()">查询</div>
-            <div class="btn_gray" @click="clear()">清除</div>
-          </div>
-          <div class="isline"></div>
-          <div class="btn_blue btn2" @click="toadd('add')"> <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" />新增</div>
-          <div class="table" v-if="tabletype">
-            <a-table
-              :scroll="{  y: 610 }"
-              :columns="tablecolumns"
-              :data-source="tabledata"
-              bordered
-              :pagination="pagination"
-              @change="handleTableChange"
-            >
-              <template
-                slot="index"
-                slot-scope="text, record,index"
-              >{{(index+1)+((pagination.current-1)*10)}}</template>
-              <div slot="edit" class="flex_a" slot-scope="childTotal,val">
-                <div class="col_blue ispointer" @click="toadd('edit',val)">编辑</div>
-                <div
-                  class="col_red ispointer"
-                  v-if="val.personTotal==0"
-                  @click="showdialogdpart(val)"
-                >
-                  <span>删除</span>
-                </div>
-                <div class="col_gray ispointer" v-if="val.personTotal!==0">删除</div>
+  <div class="administrativedivision flex_fs">
+    <div class="isleft">
+      <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+      <is-left
+        :treedata="treedata"
+        :replaceFields="replaceFields"
+        :defaultExpandedKeys="defaultExpandedKeys"
+        :defaultSelectedKeys="defaultSelectedKeys"
+        @selectdata="getselectdata"
+        @searchdata="getsearchdata"
+        v-if="showtree"
+      ></is-left>
+    </div>
+    <div>
+      <div class="right">
+        <div class="r_top flex_f">
+          <div class="r_t_text" @click="showdialogdpart()">部门名称</div>
+          <a-input
+            placeholder="请输入部门名称"
+            class="r_t_inp"
+            v-model="inp_data"
+            @keydown.enter="tosearch()"
+          />
+          <div class="btn_blue btn" @click="tosearch()">查询</div>
+          <div class="btn_gray" @click="clear()">清除</div>
+        </div>
+        <div class="isline"></div>
+        <div class="btn_blue btn2" @click="toadd('add')">
+          <a-icon two-tone-color="#ffffff" style="margin-right: 5px;" type="plus" />新增
+        </div>
+        <div class="table" v-if="tabletype">
+          <a-table
+            :scroll="{  y: 610 }"
+            :columns="tablecolumns"
+            :data-source="tabledata"
+            bordered
+            :pagination="pagination"
+            @change="handleTableChange"
+          >
+            <template
+              slot="index"
+              slot-scope="text, record,index"
+            >{{(index+1)+((pagination.current-1)*10)}}</template>
+            <div slot="edit" class="flex_a" slot-scope="childTotal,val">
+              <div class="col_blue ispointer" @click="toadd('edit',val)">编辑</div>
+              <div
+                class="col_red ispointer"
+                v-if="val.personTotal==0"
+                @click="showdialogdpart(val)"
+              >
+                <span>删除</span>
               </div>
-            </a-table>
-          </div>
+              <div class="col_gray ispointer" v-if="val.personTotal!==0">删除</div>
+            </div>
+          </a-table>
         </div>
       </div>
     </div>
+  </div>
 </template>
 <script>
 import isLeft from "../../../components/tree/tree.vue";
 import isDeleteDialog from "../../../components/delete_confir/delete.vue";
 export default {
-   name:"dpartmentManagement",
+  name: "dpartmentManagement",
   components: {
     isLeft,
     isDeleteDialog,
   },
-  inject:['reload'],
+  inject: ["reload"],
   data() {
     return {
       ModalText: "您确定要删除吗？",
@@ -91,9 +94,9 @@ export default {
           dataIndex: "departmentId",
           key: "departmentId",
           ellipsis: true,
-            scopedSlots: {
+          scopedSlots: {
             customRender: "index",
-          },      
+          },
         },
         {
           width: 100,
@@ -134,12 +137,13 @@ export default {
       ],
       tabledata: "",
       defaultExpandedKeys: [],
+      defaultSelectedKeys: [],
       data: "",
       pagination: {
         total: 0,
         pageSize: 10, //每页中显示10条数据
         showSizeChanger: true,
-        showQuickJumper:true,
+        showQuickJumper: true,
         current: 1,
         page: 1,
         pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
@@ -152,7 +156,7 @@ export default {
         //行政区划树接口参数
         customerId: "",
         departmentId: "",
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       removeparam: {
         departmentId: "",
@@ -212,7 +216,7 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-        this.reload()
+        this.reload();
       } else {
         this.$message.error(res.data.resultMsg);
       }
@@ -276,6 +280,18 @@ export default {
         }
       }
       this.treedata = this.toTree(this.data);
+      this.defaultSelectedKeys = [];
+      if (localStorage.getItem("dpartmentManagementid")) {
+        this.defaultSelectedKeys.push(
+          JSON.parse(localStorage.getItem("dpartmentManagementid"))
+        );
+        this.isselectdata.id = JSON.parse(
+          localStorage.getItem("dpartmentManagementid")
+        );
+      } else {
+        this.defaultSelectedKeys.push(this.treedata[0].id);
+        this.isselectdata.id = this.treedata[0].id;
+      }
     },
     //获取树搜索数据
     getsearchdata(val) {
@@ -304,6 +320,7 @@ export default {
     },
     getselectdata(val) {
       this.isselectdata = val;
+      localStorage.setItem("dpartmentManagementid", JSON.stringify(val.id));
       this.istotal.type = 1;
       this.getpage();
     },
@@ -349,16 +366,6 @@ export default {
 <style scoped>
 .tree {
   text-align: left;
-}
-.r_t_text {
-  width: 70px;
-  height: 16px;
-  font-size: 12px;
-  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-  font-weight: 400;
-  text-align: left;
-  color: #333333;
-  margin-right: 10px;
 }
 
 .r_t_inp {

@@ -98,7 +98,7 @@ export default {
     return {
       tablecolumns: [
         {
-          width: 58,
+          width: 68,
           align: "center",
           title: "序号",
           dataIndex: "customerId",
@@ -109,7 +109,7 @@ export default {
           },
         },
         {
-          width: 141,
+          width: 131,
           align: "center",
           title: "客户简称",
           dataIndex: "shortName",
@@ -138,7 +138,7 @@ export default {
       },
       tablecolumns2: [
         {
-          width: 58,
+          width: 68,
           align: "center",
           title: "序号",
           dataIndex: "index2",
@@ -149,7 +149,7 @@ export default {
           },
         },
         {
-          width: 141,
+          width: 131,
           align: "center",
           title: "微信帐号别名",
           dataIndex: "wechatConfigName",
@@ -160,7 +160,7 @@ export default {
       tabledata2: [],
       tablecolumns3: [
         {
-          width: 58,
+          width: 68,
           align: "center",
           title: "序号",
           dataIndex: "smsConfigId",
@@ -171,7 +171,7 @@ export default {
           },
         },
         {
-          width: 141,
+          width: 131,
           align: "center",
           title: "短信帐号别名",
           dataIndex: "smsConfigName",
@@ -182,7 +182,7 @@ export default {
       tabledata3: [],
       tablecolumns4: [
         {
-          width: 58,
+          width: 68,
           align: "center",
           title: "序号",
           dataIndex: "emailConfigId",
@@ -193,7 +193,7 @@ export default {
           },
         },
         {
-          width: 141,
+          width: 131,
           align: "center",
           title: "邮箱帐号别名",
           dataIndex: "emailConfigName",
@@ -350,6 +350,11 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.tabledata4 = res.data.data;
+            for (let i = 0; i < this.tabledata4.length; i++) {
+          if (this.tabledata4[i].authTotal!==0) {
+            this.selectedRowKeys4.push(i)
+          }
+        }
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -360,7 +365,14 @@ export default {
         this.listparam
       );
       if (res.data.resultCode == "10000") {
+
         this.tabledata3 = res.data.data;
+            for (let i = 0; i < this.tabledata3.length; i++) {
+          if (this.tabledata3[i].authTotal!==0) {
+            this.selectedRowKeys3.push(i)
+          }
+        }
+        console.log(this.selectedRowKeys3,8999);
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -373,6 +385,11 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.tabledata2 = res.data.data;
+        for (let i = 0; i < this.tabledata2.length; i++) {
+          if (this.tabledata2[i].authTotal!==0) {
+          this.selectedRowKeys2.push(i)
+          }
+        }
         this.tabletype = true;
       } else {
         return this.$message.error(res.data.resultMsg);

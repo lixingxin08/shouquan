@@ -100,8 +100,8 @@ export default {
       plainOptions: ["男", "女"],
       value1: "男",
       statusCode: [
-        { id: 1, val: "是" },
-        { id: 0, val: "否" },
+          { id: 1, val: "启用" },
+        { id: 0, val: "备用" },
       ],
     };
   },
@@ -142,7 +142,7 @@ export default {
         if (this.form.projectName == "") {
           return this.$message.error("请输入项目名称");
         }
-        if (this.form.statusCode == "") {
+        if (this.form.statusCode === "") {
           return this.$message.error("请选择项目状态");
         }
         if (this.form.leader!=="" && !this.vify_cn16(this.form.leader)) {

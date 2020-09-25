@@ -65,7 +65,7 @@ export default {
     return {
       tablecolumns: [
         {
-          width: 58,
+          width: 68,
           align: "center",
           title: "序号",
           dataIndex: "customerId",
@@ -76,7 +76,7 @@ export default {
           },
         },
         {
-          width: 141,
+          width: 131,
           align: "center",
           title: "客户简称",
           dataIndex: "shortName",
@@ -178,7 +178,7 @@ export default {
       }
       let res = await this.$http.post(this.$api.customeralarmform, this.form);
       if (res.data.resultCode == "10000") {
-        this.$message.error("授权成功");
+        this.$message.success("授权成功");
       } else {
         return this.$message.error(res.data.resultMsg);
       }

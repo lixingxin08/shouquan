@@ -202,7 +202,7 @@ export default {
       if (this.form.templateName == "") {
         return this.$message.error("请输入模板名称");
       }
-      if (this.form.statusCode == "") {
+      if (this.form.statusCode === "") {
         return this.$message.error("请选择模板状态");
       }
       if (this.form.menuList == "") {
@@ -222,7 +222,8 @@ export default {
     },
 
     handleChange(value, key) {
-      console.log(this.form.typeCode, 88);
+      console.log(value);
+      this.form.statusCode=value
     },
     handleChange2(value, key) {
       console.log(value, 666688);
@@ -266,6 +267,7 @@ export default {
     },
     setdata() {
       this.form.menuList = [];
+      this.checkedKeys=[]
       for (let i = 0; i < this.data.length; i++) {
         this.form.menuList.push(this.data[i].id);
         if (this.data[i].open == true) {
@@ -291,6 +293,7 @@ export default {
     //过滤树搜索数据
     setfilltertree(datas, filtersdata) {
       let _that = this;
+       _that.filterdata=[]
       for (var i in datas) {
         let name = datas[i].name + "";
         if (name.search(_that.issearchdata) != -1) {

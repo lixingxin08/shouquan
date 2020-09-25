@@ -27,8 +27,7 @@
     },
     methods: {
      async getClientsList() {
-
-      let res=await this.$http.post(this.$api.customeraccountmylist,{})
+      let res=await this.$http.post(this.$api.mycustomerlist,{})
       if(res.data.resultCode==10000){
         this.tableList=res.data.data
       }

@@ -34,8 +34,8 @@
           :treedata="treedata"
           :replaceFields="replaceFields"
           :defaultExpandedKeys="defaultExpandedKeys"
-          @checkedKeyslist="getcheckedKeys"
-          :checkedKeys="checkedKeys"
+          @selectdata="getcheckedKeys"
+          :defaultSelectedKeys="checkedKeys"
           v-if="showtree"
         ></is-left>
       </div>
@@ -56,7 +56,7 @@
   </div>
 </template>
 <script>
-import isLeft from "../../../components/tree/check_seltree.vue";
+import isLeft from "../../../components/tree/tree.vue";
 import LogManagementVue from "../../LogManagement/LogManagement.vue";
 export default {
   inject: ["reload"],
@@ -67,7 +67,7 @@ export default {
     return {
       tablecolumns: [
         {
-          width: 58,
+          width: 68,
           align: "center",
           title: "序号",
           dataIndex: "customerId",
@@ -78,7 +78,7 @@ export default {
           },
         },
         {
-          width: 141,
+          width: 131,
           align: "center",
           title: "客户简称",
           dataIndex: "shortName",
@@ -145,7 +145,6 @@ export default {
   },
   created() {
     this.getlist();
-    this.gettree();
   },
   computed: {
     remarklen() {
@@ -188,8 +187,11 @@ export default {
         }
         this.customerId = this.tabledata[0].customerId;
         this.form.customerId = this.tabledata[0].customerId;
+        this.treeprame.customerId = this.tabledata[0].customerId;
+        
         this.istotal.type++;
         this.tabletype = true;
+            this.gettree();
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -229,7 +231,7 @@ export default {
 
       let res = await this.$http.post(this.$api.customerareaform, this.form);
       if (res.data.resultCode == "10000") {
-        this.$message.error("授权成功");
+        this.$message.success("授权成功");
         this.reload();
       } else {
         return this.$message.error(res.data.resultMsg);
@@ -322,7 +324,8 @@ export default {
     },
     getcheckedKeys(val) {
       console.log(val, 44444);
-      this.ischeck = val;
+      this.ischeck=[]
+      this.ischeck.push(val.id);
     },
     cancel() {
       this.reload();
@@ -373,6 +376,10 @@ export default {
   margin-bottom: 170px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
+  overflow: scroll;
+}
+.tree_box_zon::-webkit-scrollbar{
+  display: none;
 }
 .r_b_title {
   font-size: 18px;

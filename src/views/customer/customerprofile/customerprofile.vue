@@ -2,7 +2,7 @@
   <div class="administrativedivision iscusto">
       <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
     <div class="flex_fs custor_box">
-        <div class="right2">
+        <div class="right2 custor_right">
           <div class="r_top flex_f">
             <div class="r_t_text" @click="showdialogcumfile()">客户名称:</div>
             <a-input
@@ -329,16 +329,6 @@ export default {
 .iscusto{
   padding-left: 20px;
 }
-.r_t_text {
-  height: 16px;
-  font-size: 12px;
-  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-  font-weight: 400;
-  text-align: left;
-  color: #333333;
-  margin-right: 10px;
-}
-
 .r_t_inp {
   width: 200px;
   height: 36px;

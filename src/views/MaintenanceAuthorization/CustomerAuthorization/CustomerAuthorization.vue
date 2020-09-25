@@ -67,7 +67,7 @@ export default {
       },
       tablecolumns: [
         {
-          width: 58,
+          width: 68,
           align: "center",
           title: "序号",
           dataIndex: "customerId",
@@ -78,7 +78,7 @@ export default {
           },
         },
         {
-          width: 141,
+          width: 131,
           align: "center",
           title: "客户全称",
           dataIndex: "customerName",

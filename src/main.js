@@ -69,17 +69,13 @@ axios.create({
 axios.interceptors.request.use(
   config => {
     // 每次发送请求之前判断vuex中是否存在token
-    // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
-    // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
-    // const token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAwODAzMTgxODQ3LCJ0b2tlbklkIjoiZmM5ODk4NTU5YTE3NDI5ZTgzNmMwMzUzZDNlOGQ5ODgiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjkifQ.Y1L2paEj5ZdNc9Exy9jyu8eIXTSBKQGU_jQP9OArHR0"
-        // const token = JSON.parse(localStorage.getItem('usermsg')).token || ""
-     let token=""
-        if (window.location.host.indexOf("localhost") >= 0) {
-        token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAwODY1NTI4NjMwLCJ0b2tlbklkIjoiYjczNmQxMzUxOWM4NDBhOThlYjYxNDczODFiYmRkMjAiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjkifQ.dYQgpQsNDDPIVX5ILVUDaPYmFug1wIScHkUCrByav3w"
-
-      }else{
-          token = JSON.parse(localStorage.getItem('usermsg')).token || ""
-        }
+    let token = ""
+    if (window.location.host.indexOf("localhost") >= 0) {
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxMDA1NzI1NjY1LCJ0b2tlbklkIjoiOWRhMzJhMTViYzYyNDJiOWJjODU2OTYxNDVhMDk4NzQiLCJ1c2VySWQiOiI0ZTgxNWU2NDQxMWM0YWFiYWI2NjhjYmVlODkwNzdlOCJ9.pmPIbA5hizzcKNL8fZ6Wd-A7MO4iLUBO48mCuMyvdPg"
+      
+    } else {
+      token = JSON.parse(localStorage.getItem('usermsg')).token || ""
+    }
     config.headers.common['token'] = token
     return config;
   },
@@ -87,38 +83,51 @@ axios.interceptors.request.use(
     return Promise.error(error);
   }
 )
-
+let backnum = 0
 axios.interceptors.response.use(
   response => {
+    backnum++
     let aa = JSON.parse(localStorage.getItem('usermsg'))
     aa.token = response.headers.token
     let thisurl = window.location.href.split('/#')
     let bb = thisurl[0].split('/authorization')
     localStorage.setItem('usermsg', JSON.stringify(aa))
-    // if (response.data.resultCode == "20100") {
-    //   message.error("令牌错误，请重新登录")
-    //   window.location.href = bb[0]
-    // }
-    // if (response.data.resultCode == "20101") {
-    //   message.error("未登录，请先登录")
-    //   window.location.href = bb[0]
-    // }
-    // if (response.data.code == "20102") {
-    //   message.error("你的账号已在其他地方登录，请重新登录")
-    //   window.location.href = bb[0]
-    // }
-    // if (response.data.resultCode == "20103") {
-    //   message.error("登录已过期，请重新登录！")
-    //   window.location.href = bb[0]
-    // }
-    // if (response.data.resultCode == "20104") {
-    //   message.error("登录已失效，请重新登录！")
-    //   window.location.href = bb[0]
-    // }
-    // if (response.data.resultCode == "20105") {
-    //   message.error("登录已失效，请重新登录！")
-    //   window.location.href = bb[0]
-    // }
+    if (response.data.resultCode == "20100") {
+      message.error("令牌错误，请重新登录",5)
+      if (backnum >= 2) {
+        window.location.href = bb[0]
+      }
+    }
+    if (response.data.resultCode == "20101") {
+      message.error("未登录，请先登录",5)
+      if (backnum >= 3) {
+        window.location.href = bb[0]
+      }
+    }
+    if (response.data.code == "20102") {
+      message.error("你的账号已在其他地方登录，请重新登录",5)
+      if (backnum >= 3) {
+        window.location.href = bb[0]
+      }
+    }
+    if (response.data.resultCode == "20103") {
+      message.error("登录已过期，请重新登录！",5)
+      if (backnum >= 3) {
+        window.location.href = bb[0]
+      }
+    }
+    if (response.data.resultCode == "20104") {
+      message.error("登录已失效，请重新登录！",5)
+      if (backnum >= 3) {
+        window.location.href = bb[0]
+      }
+    }
+    if (response.data.resultCode == "20105") {
+      message.error("登录已失效，请重新登录！",5)
+      if (backnum >= 3) {
+        window.location.href = bb[0]
+      }
+    }
 
     return response;
   },
@@ -160,13 +169,10 @@ axios.interceptors.response.use(
 Vue.prototype.vify_cn = function (phone) {
   let myreg = /^[\u4e00-\u9fa5a-zA-Z\d_]{0,50}$/gi;
   if (myreg.test(phone) !== true) {
-
     return false;
   } else {
-
     return true;
   }
-  return true;
 };
 //校验中英文文字符
 Vue.prototype.vify_cn16 = function (phone) {
@@ -178,31 +184,24 @@ Vue.prototype.vify_cn16 = function (phone) {
 
     return true;
   }
-  return true;
 };
 //校验中文字符
 Vue.prototype.vify_cn2 = function (phone) {
   let myreg = /^[\u4e00-\u9fa5]+$/gi;
   if (myreg.test(phone) !== true) {
-    console.log(211);
     return false;
   } else {
-    console.log(3111);
     return true;
   }
-  return true;
 };
 //校验50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号
 Vue.prototype.vify_cn3 = function (phone) {
   let myreg = /^[\u4e00-\u9fa5a-z0-9A-Z\（\）\(\)\d_]{0,50}$/gi;
   if (myreg.test(phone) !== true) {
-    console.log(211);
     return false;
   } else {
-    console.log(3111);
     return true;
   }
-  return true;
 };
 
 
