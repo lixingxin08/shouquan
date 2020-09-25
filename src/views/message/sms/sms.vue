@@ -29,7 +29,7 @@
         <a-popconfirm v-if='areaName.authTotal<=0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(areaName)">
           <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
         </a-popconfirm>
-        <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'></a>
+        <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
       </div>
     </a-table>
 
