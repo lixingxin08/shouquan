@@ -127,7 +127,7 @@
         }
       },
       setShowData() { //设置展示的数据
-	  this.szList=[]
+        this.szList = []
         if (this.cacheData.dictionaryList)
           this.szList = this.cacheData.dictionaryList; //数值列表
 
@@ -137,16 +137,16 @@
         this.parentName = this.cacheData.parentName; //上级名称
         this.parentCode = this.cacheData.parentCode; //上级代码
         this.remark = this.cacheData.remark; //字典描述
-   
+
         if (this.isAdd == 'true') { //如果是新增
           this.classCode = "";
           this.className = "";
-		  this.remark=''
+          this.remark = ''
           this.parentName = this.cacheData.className; //上级名称
           this.parentCode = this.cacheData.classCode; //上级代码
           this.grade = this.cacheData.grade + 1; //字典等级
         }
-             this.congigmidLenght=this.remark.length
+        this.congigmidLenght = this.remark.length
       },
       submit() { //保存
         if (!this.className) {
@@ -200,10 +200,13 @@
         let res = await this.$http.post(this.$api.dictionaryform, param);
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
-          if (this.isAdd == 'true')
-            this.$router.go(-1)
+
           if (num)
             this.getDictionaryInfo(this.dictid);
+          else
+            this.$router.push({
+              path: '/dictionary',
+            });
         } else {
           this.$message.error(res.data.resultMsg);
         }
