@@ -127,6 +127,7 @@
         }
       },
       setShowData() { //设置展示的数据
+	  this.szList=[]
         if (this.cacheData.dictionaryList)
           this.szList = this.cacheData.dictionaryList; //数值列表
 
