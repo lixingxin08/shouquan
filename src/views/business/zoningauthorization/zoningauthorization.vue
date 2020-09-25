@@ -1,6 +1,6 @@
 <template>
   <div class="flex_f father">
-    <div class="isleftzonn">
+    <div class="isleftzonn no_pagination">
       <div class="left_title">客户列表</div>
       <a-table
         :columns="tablecolumns"
@@ -371,9 +371,9 @@ export default {
 }
 .tree_box_zon {
   width: 1232px;
-  height: 384px;
-  margin-top: 20px;
-  margin-bottom: 170px;
+  height: 520px;
+  margin-top: 16px;
+  margin-bottom: 48px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
   overflow: scroll;
@@ -396,7 +396,5 @@ export default {
   margin-top: 40px;
   text-align: center;
 }
-.rb_b_btn {
-  margin-right: 8px;
-}
+
 </style>

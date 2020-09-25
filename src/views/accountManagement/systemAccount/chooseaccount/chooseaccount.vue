@@ -16,7 +16,7 @@
         <div class="btn_blue btn" @click="tosearch()">查询</div>
         <div class="btn_gray" @click="clear()">清除</div>
       </div>
-      <div v-if="tabledata.length>0" class="table">
+      <div v-if="tabledata.length>0" class="table min_table">
         <a-table style='margin: 20px;' :scroll="{ x: 525,y:300 }" :columns="tablecolumns" :data-source="tabledata"
           bordered :pagination="pagination" @change="handleTableChange" size='small'>
           <div slot="departmentId" slot-scope="text, record,index">

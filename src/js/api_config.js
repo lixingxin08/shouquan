@@ -122,12 +122,12 @@ export default {
   templateform: `/auth/template/form`,
   templatepage: `/auth/template/page`,
   templatelist: `/auth/template/list`,
-  templatetree: `/auth/template/tree`,
+  templatetree: `/config/menu/template-tree`,
 
   //系统菜单权限API
   customertemplatedetail: `/auth/customer-template/detail`,
   customertemplateform: `/auth/customer-menu/form`,
-  customertemplatetree: `/auth/customer-menu/tree`,
+  customertemplatetree: `/config/menu/customer-tree`,
 
   //区划授权API
   customerareaform: `/auth/customer-area/form`,

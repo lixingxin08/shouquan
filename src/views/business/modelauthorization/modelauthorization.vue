@@ -1,6 +1,6 @@
 <template>
   <div class="flex_f father">
-    <div class="isleftmodel">
+    <div class="isleftmodel no_pagination">
       <div class="left_title">客户列表</div>
       <a-table
         :columns="tablecolumns"
@@ -25,7 +25,7 @@
       <div class="flex_f">
         <div class="isright_l">
           <div class="left_title_model">设备类型</div>
-          <div class="tree_box tree_box1">
+          <div class="tree_box tree_box1 isright_l_l">
             <is-left
               :treedata="treedata"
               :replaceFields="replaceFields"
@@ -459,14 +459,17 @@ export default {
 }
 .tree_box {
   width: 100%;
-  height: 384px;
+  height: 536px;
   margin-top: 20px;
-  margin-bottom: 182px;
+  margin-bottom: 40px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
 }
-.tree_box1 {
+.isright_l_l{
   padding: 20px;
+  box-sizing: border-box;
+}
+.tree_box1 {
   overflow: scroll;
 }
 .tree_box1::-webkit-scrollbar {
@@ -486,8 +489,5 @@ export default {
 .rb_b {
   margin-top: 40px;
   text-align: center;
-}
-.rb_b_btn {
-  margin-right: 8px;
 }
 </style>

@@ -1,6 +1,10 @@
 <template>
   <div class="administrativedivision">
-     <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialog
+      v-if="visible"
+      @confirm="confirm"
+      @cancle="cancel"
+    ></is-delete-dialog>
     <div class="flex_fs">
       <div>
         <div class="right right2">
@@ -10,7 +14,7 @@
               show-search
               placeholder="全部"
               option-filter-prop="children"
-              style="width: 200px;margin-right:20px"
+              style="width: 200px; margin-right: 20px"
               :filter-option="filterOption"
               v-model="runpageparam.typeCode"
               @focus="handleFocus"
@@ -19,10 +23,11 @@
             >
               <a-select-option value>全部</a-select-option>
               <a-select-option
-                v-for="(item,index) in sel_data"
+                v-for="(item, index) in sel_data"
                 :key="index"
                 :value="item.comboBoxId"
-              >{{item.comboBoxName}}</a-select-option>
+                >{{ item.comboBoxName }}</a-select-option
+              >
             </a-select>
             <div class="r_t_text" @click="showdialogrunn()">参数名称/代码:</div>
             <a-input
@@ -35,20 +40,40 @@
             <div class="btn_gray" @click="clear()">清除</div>
           </div>
           <div class="isline"></div>
-          <div class="btn_blue btn2" @click="toadd('add')"> <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增</div>
+          <div class="flex_f">
+            <a-button
+              type="primary"
+              class="table-add-btn btn2"
+              @click="toadd('add')"
+            >
+              <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button
+            >
+          </div>
           <div class="table" v-if="tabletype">
             <a-table
-              :scroll="{  y: 610 }"
+              :scroll="{ y: 610 }"
               :columns="tablecolumns"
               :data-source="tabledata"
               bordered
               :pagination="pagination"
               @change="handleTableChange"
             >
-              <div slot="edit" class="flexrow flexac flexjc" slot-scope="childTotal,areaName">
-                <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
-                     <div class="item-line"></div>
-                <div class="col_red ispointer" @click="showdialogrunn(areaName)">
+              <div
+                slot="edit"
+                class="flexrow flexac flexjc"
+                slot-scope="childTotal, areaName"
+              >
+                <div
+                  class="col_blue ispointer"
+                  @click="toadd('edit', areaName)"
+                >
+                  编辑
+                </div>
+                <div class="item-line"></div>
+                <div
+                  class="col_red ispointer"
+                  @click="showdialogrunn(areaName)"
+                >
                   <span>删除</span>
                 </div>
               </div>
@@ -57,7 +82,6 @@
         </div>
       </div>
     </div>
-   
   </div>
 </template>
 <script>
@@ -140,7 +164,7 @@ export default {
         },
       ],
       tabledata: "",
-    pagination: this.$config.pagination,
+      pagination: this.$config.pagination,
       issearchdata: "",
       removeparam: {
         parameterId: "",
@@ -207,8 +231,8 @@ export default {
     },
     //删除接口
     async getarunremove() {
-      let prame={parameterId:this.removeparam.parameterId}
-      let res = await this.$http.post(this.$api.runremove,prame);
+      let prame = { parameterId: this.removeparam.parameterId };
+      let res = await this.$http.post(this.$api.runremove, prame);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
         this.getrunpage();
@@ -232,7 +256,7 @@ export default {
           query: {
             type: val,
             id: id.parameterId,
-            typeName:id.typeName
+            typeName: id.typeName,
           },
         });
       }
@@ -260,7 +284,7 @@ export default {
       this.visible = false;
     },
     confirm() {
-        this.visible = false;
+      this.visible = false;
       this.getarunremove();
     },
     handleCancel(e) {

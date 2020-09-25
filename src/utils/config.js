@@ -1,6 +1,6 @@
 const pagination = {
   "total": 0, //总页数
-  "pageSize": 0, //每页中显示10条数据
+  "pageSize": 20, //每页中显示10条数据
   "showSizeChanger": true,
   "current": 1, //当前页
   "page": 1, //几页

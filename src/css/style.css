@@ -388,5 +388,14 @@
   margin-bottom: 0 !important;
 }
 .ant-table-body{
-  min-height: 420px!important;
+  min-height: 504px;
+}
+.min_table .ant-table-body{
+  min-height: 0px!important;
+}
+.no_pagination .ant-pagination{
+  display: none;
+}
+.rb_b_btn {
+  margin-right: 20px;
 }

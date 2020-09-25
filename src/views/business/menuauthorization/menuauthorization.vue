@@ -1,6 +1,6 @@
 <template>
   <div class="flex_f father">
-    <div class="isleft">
+    <div class="isleft no_pagination">
       <div class="left_title">客户列表</div>
       <a-table
         :columns="tablecolumns"
@@ -23,7 +23,7 @@
     </div>
     <div class="isright">
       <div class="tree_boxmenu flex_f">
-        <div class="tree_box_i tree_box_i_l">
+        <div class="tree_box_i tree_box_i_l no_pagination">
           <div class="left_title">选择授权模板</div>
           <div class="isscroll">
             <a-table
@@ -472,7 +472,7 @@ export default {
 .tree_boxmenu {
   width: 1232px;
   height: 460px;
-  margin-bottom: 170px;
+  margin-bottom: 180px;
   background: #ffffff;
 }
 .tree_box_i {
@@ -505,14 +505,14 @@ export default {
 .tree_box_i_rtree {
   width: 100%;
   padding-top: 28px;
-  height: 384px;
+  height: 512px;
   box-sizing: border-box;
   border: 1px solid #dcdcdc;
   border-top: none;
 }
 .istree_box2 {
   width: 100%;
-  height: 340px;
+  height: 4865x;
   margin: 0 auto;
   overflow: scroll;
   box-sizing: border-box;
@@ -535,7 +535,5 @@ export default {
   margin-top: 40px;
   text-align: center;
 }
-.rb_b_btn {
-  margin-right: 8px;
-}
+
 </style>

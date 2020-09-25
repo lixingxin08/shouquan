@@ -1,6 +1,6 @@
 <template>
   <div class="flex_f father">
-    <div class="isleftmsg">
+    <div class="isleftmsg no_pagination">
       <div class="left_title">客户列表</div>
       <a-table
         :columns="tablecolumns"
@@ -27,8 +27,9 @@
         <div :class="listtype=='sms'?'tab_blue':'tab_gray'" @click="changetab('sms')">短信帐号</div>
         <div :class="listtype=='email'?'tab_blue':'tab_gray'" @click="changetab('email')">邮箱帐号</div>
       </div>
-      <div class="tree_box" v-show="listtype=='wechat'">
+      <div class="messtree_box" v-show="listtype=='wechat'">
         <a-table
+         :scroll="{  y: 352 }"
           :columns="tablecolumns2"
           :data-source="tabledata2"
           :row-selection="{ selectedRowKeys: selectedRowKeys2, onChange: onSelectChange,type:'radio' }"
@@ -43,8 +44,9 @@
           >{{(index+1)+((pagination2.current-1)*10)}}</template>
         </a-table>
       </div>
-      <div class="tree_box" v-show="listtype=='sms'">
+      <div class="messtree_box" v-show="listtype=='sms'">
         <a-table
+         :scroll="{  y: 310 }"
           :columns="tablecolumns3"
           :data-source="tabledata3"
           :row-selection="{ selectedRowKeys: selectedRowKeys3, onChange: onSelectChange1,type:'radio'}"
@@ -57,8 +59,9 @@
           >{{(index+1)+((pagination3.current-1)*10)}}</template>
         </a-table>
       </div>
-      <div class="tree_box" v-show="listtype=='email'">
+      <div class="messtree_box" v-show="listtype=='email'">
         <a-table
+         :scroll="{  y: 310 }"
           :columns="tablecolumns4"
           :data-source="tabledata4"
           :row-selection="{ selectedRowKeys: selectedRowKeys4, onChange: onSelectChange2,type:'radio' }"
@@ -463,13 +466,17 @@ export default {
 .btn {
   margin-left: 20px;
 }
-.tree_box {
+.messtree_box {
   width: 1232px;
-  height: 384px;
+  height: 504px;
   margin-top: 20px;
-  margin-bottom: 170px;
+  margin-bottom: 60px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
+  overflow: scroll;
+}
+.messtree_box::-webkit-scrollbar{
+  display: none;
 }
 .r_b_title {
   font-size: 18px;
@@ -485,9 +492,6 @@ export default {
 .rb_b {
   margin-top: 40px;
   text-align: center;
-}
-.rb_b_btn {
-  margin-right: 8px;
 }
 .isright_t {
   width: 300px;
