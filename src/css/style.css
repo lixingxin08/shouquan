@@ -387,3 +387,6 @@
 .ant-table-header {
   margin-bottom: 0 !important;
 }
+.ant-table-body{
+  min-height: 420px!important;
+}

@@ -206,7 +206,7 @@
       /* 編輯*/
       editDevice(item) {
         this.$router.push({
-          path: '/adddeviceModel',
+          path: '/adddevicemodel',
           query: {
             id: item.modelId
           }

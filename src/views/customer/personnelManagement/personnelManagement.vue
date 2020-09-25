@@ -71,8 +71,9 @@
               <div v-if="existsFlag==1">是</div>
               <div v-if="existsFlag==0">否</div>
             </div>
-            <div slot="edit" class="flex_a" slot-scope="val,departmentId">
+            <div slot="edit" class="flexrow flexac flexjc" slot-scope="val,departmentId">
               <div class="col_blue ispointer" @click="toadd('edit',departmentId)">编辑</div>
+                   <div class="item-line"></div>
               <div
                 class="col_red ispointer"
                 v-if="val.existsFlag==0"

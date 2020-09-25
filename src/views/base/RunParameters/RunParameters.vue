@@ -45,8 +45,9 @@
               :pagination="pagination"
               @change="handleTableChange"
             >
-              <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
+              <div slot="edit" class="flexrow flexac flexjc" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
+                     <div class="item-line"></div>
                 <div class="col_red ispointer" @click="showdialogrunn(areaName)">
                   <span>删除</span>
                 </div>

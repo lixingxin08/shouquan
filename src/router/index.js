@@ -214,7 +214,7 @@ export default new Router({
           component: DeviceModel
         },
         {
-          path: '/adddevicemmodel',
+          path: '/adddevicemodel',
           name: 'DeviceModel',
           meta: {
             title: '设备型号'

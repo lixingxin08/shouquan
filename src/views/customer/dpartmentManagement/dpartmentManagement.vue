@@ -1,7 +1,11 @@
 <template>
   <div class="administrativedivision flex_fs">
     <div class="isleft">
-      <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+      <is-delete-dialog
+        v-if="visible"
+        @confirm="confirm"
+        @cancle="cancel"
+      ></is-delete-dialog>
       <is-left
         :treedata="treedata"
         :replaceFields="replaceFields"
@@ -27,31 +31,43 @@
         </div>
         <div class="isline"></div>
         <div class="btn_blue btn2" @click="toadd('add')">
-          <a-icon two-tone-color="#ffffff" style="margin-right: 5px;" type="plus" />新增
+          <a-icon
+            two-tone-color="#ffffff"
+            style="margin-right: 5px"
+            type="plus"
+          />新增
         </div>
         <div class="table" v-if="tabletype">
           <a-table
-            :scroll="{  y: 610 }"
+            :scroll="{ y: 610 }"
             :columns="tablecolumns"
             :data-source="tabledata"
             bordered
             :pagination="pagination"
             @change="handleTableChange"
           >
-            <template
-              slot="index"
-              slot-scope="text, record,index"
-            >{{(index+1)+((pagination.current-1)*10)}}</template>
-            <div slot="edit" class="flex_a" slot-scope="childTotal,val">
-              <div class="col_blue ispointer" @click="toadd('edit',val)">编辑</div>
+            <template slot="index" slot-scope="text, record, index">{{
+              index + 1 + (pagination.current - 1) * 10
+            }}</template>
+            <div
+              slot="edit"
+              class="flexrow flexac flexjc"
+              slot-scope="childTotal, val"
+            >
+              <div class="col_blue ispointer" @click="toadd('edit', val)">
+                编辑
+              </div>
+              <div class="item-line"></div>
               <div
                 class="col_red ispointer"
-                v-if="val.personTotal==0"
+                v-if="val.personTotal == 0"
                 @click="showdialogdpart(val)"
               >
                 <span>删除</span>
               </div>
-              <div class="col_gray ispointer" v-if="val.personTotal!==0">删除</div>
+              <div class="col_gray ispointer" v-if="val.personTotal !== 0">
+                删除
+              </div>
             </div>
           </a-table>
         </div>
@@ -282,6 +298,8 @@ export default {
       } else {
         this.defaultSelectedKeys.push(this.treedata[0].id);
         this.isselectdata.id = this.treedata[0].id;
+        this.isselectdata.name = this.treedata[0].name;
+        this.isselectdata.levelType = this.treedata[0].levelType;
       }
     },
     //获取树搜索数据
