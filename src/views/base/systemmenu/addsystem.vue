@@ -1,7 +1,7 @@
 <template>
 
-  <div class="flexcolumn" style="background-color: #FFFFFF;">
-    <div style="margin: 0 auto;">
+  <div class="flexcolumn flexjc" style="background-color: #FFFFFF;">
+    <div  style="margin: 0 auto;">
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu">上级名称:</div>
         <div class='edit_a_input_menu'>
@@ -29,7 +29,7 @@
       </div>
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>授权类型:</div>
-        <a-select :default-value="empowerDefault" style="width: 100%;margin-right: 80px;" @change="handleSelectChange">
+        <a-select :value="authFlag" style="width: 667px;margin-right: 80px;" @change="handleSelectChange">
           <a-select-option v-for='(item,index) in empowerList' :key='index' :value="item.key">
             {{item.name}}
           </a-select-option>
@@ -57,10 +57,10 @@
         </div>
       </div>
 
-      <div class="flexrow edit_item_menu_title3_menu" style="width: 100%; margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a
+      <div class="flexrow edit_item_menu_title3_menu" style="width:667px; margin-top: 40px;justify-item: flex-start;margin-left: 10px; margin-bottom: 10px;font-size: 14px;"><a
           style="color: #FF0000;">*</a>鉴权接口</div>
 
-      <a-table :columns="dictionaryColumns" :data-source="authList" :pagination='false' :bordered='true' size='small'>
+      <a-table :columns="dictionaryColumns" style="width:1100px;margin-left: 10px;" :data-source="authList" :pagination='false' :bordered='true' size='small'>
         <!-- <template v-for="col in ['actionName', 'linkURL', 'defaultFlag']" :slot="col" slot-scope="text, record, index">
           <div :key="col">
             <a-input style="margin: -5px 0;border: 0px;" :value="text" @change="e => handleChange(e.target.value, index, col)" />
@@ -191,6 +191,7 @@
         this.menuName = this.cacheData.menuName
         this.remark = this.cacheData.remark
         this.imageUrl = this.cacheData.menuIcon
+        this.authFlag=this.cacheData.authFlag
         this.authList = this.cacheData.authList?this.cacheData.authList:[]
         if (this.isAdd == 'true') {
           this.menuName = ''
@@ -248,7 +249,6 @@
         } else if (this.menuValue == '按钮') {
           this.menuType = 5000
         }
-        console.log(this.menuType)
       },
       handleSelectChange(key) { //授权类型下拉选择
         this.authFlag = key
@@ -262,7 +262,6 @@
         }
       },
       onChangeSwitch(index) { //switch 接口
-
         this.changeAutoListState(index)
       },
       async submit() { //提交保存
@@ -299,7 +298,9 @@
         let res = await this.$http.post(this.$api.menuform, param);
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
-          this.$router.go(-1)
+          this.$router.push({
+              path: '/systemmenu',
+          })
         } else {
           this.$message.error(res.data.resultMsg);
         }

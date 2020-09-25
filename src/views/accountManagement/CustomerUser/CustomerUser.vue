@@ -47,12 +47,15 @@
                 <div v-if="adminFlag==0">普通账号</div>
               </div>
               <div slot="edit" class="flexrow flexjc" slot-scope="val,departmentId">
-                <div class="col_blue ispointer" @click="toadd(departmentId)">编辑</div>
-                <div class="item-line"></div>
-                <div class="col_blue ispointer" @click="toedit(departmentId)">修改密码</div>
-                <div class="item-line"></div>
-                <div class="col_red ispointer" @click="showdialogsys(val)">
-                  <span>删除</span>
+                <div class="flexrow flexac flexjc">
+                  <a href="#" style='font-size: 12px;' @click="toadd(departmentId)">编辑</a>
+                  <div class="item-line"></div>
+                  <a href="#" style='font-size: 12px;' @click="toedit(departmentId)">修改密码</a>
+                  <div class="item-line"></div>
+                  <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(departmentId)">
+                    <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
+                  </a-popconfirm>
+                
                 </div>
               </div>
             </a-table>
@@ -167,7 +170,7 @@
         pageparam: { //账号请求的数据参数
           keyword: "",
           statusCode: "",
-          adminFlag:""
+          adminFlag: ""
         },
 
         statusCode: [{ //人员状态下拉列表
@@ -241,8 +244,8 @@
       },
       //分页列表接口
       async getpersonpage() {
-        if(this.treedata.length<=0)
-        return
+        if (this.treedata.length <= 0)
+          return
         if (this.pagination.current == 1) {
           this.pagination.total = 0
         }
@@ -250,7 +253,7 @@
         let prame = {
           departmentId: this.isselectdata.id,
           keyword: this.pageparam.keyword,
-          adminFlag:this.pageparam.adminFlag,
+          adminFlag: this.pageparam.adminFlag,
           statusCode: this.pageparam.statusCode,
           pageIndex: this.pagination.page,
           pageSize: this.pagination.pageSize,
@@ -266,7 +269,11 @@
         }
       },
       //删除接口
-      async getremove() {
+      async getremove(item) {
+        let removeparam = {
+          accountId: item.accountId,
+          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        }
         let res = await this.$http.post(
           this.$api.accountinforemove,
           this.removeparam
@@ -303,8 +310,8 @@
       },
       /* 添加 编辑*/
       toadd(id) {
-        if(this.treedata.length<=0)
-        return
+        if (this.treedata.length <= 0)
+          return
         if (this.isselectdata.id == "") {
           this.isselectdata.id = this.treedata[0].id;
           this.isselectdata.name = this.treedata[0].name;
@@ -352,7 +359,8 @@
         if (localStorage.getItem('systemAccountid')) {
           this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('systemAccountid')).id);
         } else {
-          this.defaultSelectedKeys.push(this.treedata[0].id);}
+          this.defaultSelectedKeys.push(this.treedata[0].id);
+        }
       },
 
       getselectdata(val) {
@@ -367,7 +375,7 @@
       //查询
       tosearch() {
         this.pagination.page = 1;
-        this.pagination.current=1;
+        this.pagination.current = 1;
         this.pagination.pageSize = 10;
         this.getpersonpage();
       },
@@ -375,7 +383,7 @@
       clear() {
         this.pageparam.keyword = "";
         this.pageparam.statusCode = "";
-        this.pageparam.adminFlag=""
+        this.pageparam.adminFlag = ""
       },
       //展示删除确认框
       showdialogsys(val) {

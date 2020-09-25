@@ -109,8 +109,8 @@ export default {
   rolesystemform: `/account/role/form`, //系统角色表单接口
   rolesystemremove: `/account/role/remove`, //系统角色删除接口
   rolesystemdetail: `/account/role/detail`, //系统角色详情接口
-  rolesystemrolelist: `/account/role/roleSystemList`, //系统角色查询列表接口
-  rolesystemroletreelist: `/account/role/tree`, //系统treeList接口
+  rolesystemrolelist: `/config/menu/roleSystemList`, //系统角色查询列表接口
+  rolesystemroletreelist: `/config/menu/tree`, //系统treeList接口
   rolesystemroleselfmunutree:`/account/role/selfMunutree`,//账号授权角色
 
 
@@ -198,7 +198,7 @@ export default {
   propertyvalueform: '/propertyValue/form',
 
 
-  devicetypebrandlistbyid: '/device/type/brandListByTypeId',
+  devicetypebrandlistbyid: '/device/brands/brandListByTypeId',
 
 
 
