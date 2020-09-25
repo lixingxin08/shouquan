@@ -5,7 +5,7 @@
       
       <div>
         
-        <div class="right">
+        <div class="right right2">
            <div class="r_t_text" style="font-size:18px">阶段信息</div>
            <div class="isline"></div>
           <div class="btn_blue btn2" @click="toadd('add')"> <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" />新增</div>
@@ -30,8 +30,9 @@
                 <div v-if="defaultChecked==1">已选中</div>
                 <div v-if="defaultChecked==0">未选中</div>
               </div>
-              <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
+              <div slot="edit" class="flexrow flexac flexjc" slot-scope="childTotal,areaName">
                 <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
+                   <div class="item-line"></div>
                 <div class="col_red ispointer" @click="showdialogstage(areaName)">
                   <span>删除</span>
                 </div>

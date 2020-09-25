@@ -53,5 +53,9 @@ export default {
   min-width: 1920px;
   height: 100%;
   overflow: scroll;
+  box-sizing: border-box;
+}
+#app::-webkit-scrollbar{
+  display: none;
 }
 </style>

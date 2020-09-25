@@ -71,9 +71,8 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxMDA1NzI1NjY1LCJ0b2tlbklkIjoiOWRhMzJhMTViYzYyNDJiOWJjODU2OTYxNDVhMDk4NzQiLCJ1c2VySWQiOiI0ZTgxNWU2NDQxMWM0YWFiYWI2NjhjYmVlODkwNzdlOCJ9.pmPIbA5hizzcKNL8fZ6Wd-A7MO4iLUBO48mCuMyvdPg"
-      
-    } else {
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxMDE5NTEyODU0LCJ0b2tlbklkIjoiZDAwOTM4YjQ3Yzk3NDI1NGFhMDc0MmMxNzhiM2M4M2MiLCJ1c2VySWQiOiI0ZTgxNWU2NDQxMWM0YWFiYWI2NjhjYmVlODkwNzdlOCJ9.SF9bFtlJGZj8enoUhtvEQAFCTPVuZXOjJGv2zImiUn8"
+        } else {
       token = JSON.parse(localStorage.getItem('usermsg')).token || ""
     }
     config.headers.common['token'] = token

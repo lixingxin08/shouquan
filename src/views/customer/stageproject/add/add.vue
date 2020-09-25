@@ -230,6 +230,10 @@ export default {
       if (this.form.phaseName === "") {
         return this.$message.error("请输入阶段名称");
       }
+      if (!this.vify_cn3(this.form.phaseName)) {
+          this.form.phaseName = "";
+          return this.$message.error("阶段名称格式不正确");
+        }
       if (this.form.linkphone !== "" && !this.verPhone(this.form.linkphone)) {
         this.form.linkphone = "";
         return this.$message.error("联系手机格式不正确");

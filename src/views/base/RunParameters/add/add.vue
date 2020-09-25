@@ -78,6 +78,7 @@
 <script>
 import AMap from "AMap";
 export default {
+  inject: ["reload"],
     computed: {
     parameterValuelen(){
       return this.form.parameterValue.length
@@ -151,22 +152,7 @@ export default {
       }
     },
     reset() {
-      if (this.$route.query.type == "add") {
-        this.form = {
-          parameterId: "",
-          typeCode: "",
-          parameterName: "",
-          parameterCode: "",
-          parameterValue: "",
-          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
-          description: "",
-        };
-      } else {
-        this.form.parameterName=""
-        this.form.parameterCode=""
-        this.form.parameterValue=""
-        this.form.description=""
-      }
+      this.reload()
     },
 
     onComplete(e) {

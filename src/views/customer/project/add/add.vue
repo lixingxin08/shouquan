@@ -25,11 +25,11 @@
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">合同期始:</div>
-      <a-date-picker @change="onChange()" v-model="form.startDate " placeholder="请选择日期" format="YYYY-MM-DD" class="edit_a_input" />
+      <a-date-picker @change="onChange" v-model="form.startDate " placeholder="请选择日期" format="YYYY-MM-DD" class="edit_a_input" />
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">合同期止:</div>
-      <a-date-picker @change="onChange1()" format="YYYY-MM-DD" v-model="form.endDate " placeholder="请选择日期" class="edit_a_input" />
+      <a-date-picker @change="onChange1" format="YYYY-MM-DD" v-model="form.endDate " placeholder="请选择日期" class="edit_a_input" />
     </div>
     <div class="flexrow flexac edit_item">
       <div class="edit_item_title">
@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import LogManagementVue from '../../../LogManagement/LogManagement.vue';
 export default {
   inject: ["reload"],
   data() {
@@ -187,6 +188,7 @@ export default {
       },
 
       onChange(date, dateString) {
+         console.log(date,dateString,1222);
         this.form.startDate = dateString;
       },
       onChange1(date, dateString) {
