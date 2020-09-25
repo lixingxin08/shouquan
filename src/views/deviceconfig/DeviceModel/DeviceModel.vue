@@ -76,16 +76,7 @@
         severSelect: '', //业务类别选择
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         deviceList: [], //设备型号数据
-        pagination: {
-          total: 0,
-          current: 1,
-          size: "default",
-          pageSize: 20, // 默认每页显示数量
-          showSizeChanger: true, // 显示可改变每页数量
-          pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
-          showQuickJumper: true,
-          showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
-        },
+       pagination: this.$config.pagination,
         pageSize: 20,
         pageIndex: 1,
       }

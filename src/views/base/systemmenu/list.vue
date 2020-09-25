@@ -58,16 +58,7 @@
         keyword: '', //搜索条件
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         menuList: [], //字典数据
-        pagination: {
-          total: 0, //总页数
-          pageSize: 10, //每页中显示10条数据
-          showSizeChanger: true,
-          current: 1, //当前页
-          page: 1, //几页
-          size: "default",
-          pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
-          showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
-        },
+      pagination: this.$config.pagination,
         pageSize: 20, //每页多少条
         pageIndex: 1, //当前页
         parentItem: '',

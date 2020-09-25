@@ -14,7 +14,8 @@ import api from './js/api_config.js';
 Vue.prototype.$http = axios;
 Vue.prototype.$api = api;
 import 'ant-design-vue/dist/antd.css';
-
+import config from './utils/config.js'
+Vue.prototype.$config=config
 import moment from 'moment';
 import locale from 'ant-design-vue/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';

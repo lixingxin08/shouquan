@@ -55,16 +55,7 @@
         warningSelect: '', //警报选择
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         warningList: [], //字典数据
-        pagination: {
-          total: 0,
-          size: "default",
-          current: 1,
-          pageSize: 20, // 默认每页显示数量
-          showSizeChanger: true, // 显示可改变每页数量
-          pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
-          showQuickJumper: true,
-		   showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
-        },
+      pagination: this.$config.pagination,
       }
     },
     created() {

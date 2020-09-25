@@ -38,16 +38,7 @@
         keyword: '', //搜索条件
         tableTitle: tableTitleData.data.tableTitle, //角色table标题
         tableList: [], //角色列表
-        pagination: { //分页设置
-          total: 0, //分页的条数
-          size: "default", //分页显示的大小
-          current: 1, //选择页
-          pageSize: 20, // 默认每页显示数量
-          showSizeChanger: true, // 显示可改变每页数量
-          pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
-          showQuickJumper: true,
-          showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
-        },
+      pagination: this.$config.pagination,
       }
     },
     created() { //获取角色数据

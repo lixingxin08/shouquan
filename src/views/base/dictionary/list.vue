@@ -39,16 +39,7 @@
         dictionaryColumns: tableTitleData.data.dictionaryColumns, //数值标头
         dictonaryList: [], //字典数据
         dicName: '', //搜索字典名称
-        pagination: {
-          total: 0,
-          size: "default",
-          current: 1,
-          pageSize: 20, // 默认每页显示数量
-          showSizeChanger: true, // 显示可改变每页数量
-          pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
-          showQuickJumper: true,
-          showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
-        },
+     pagination: this.$config.pagination,
         parentItem: null, //父级信息
         pageSize: 20, //请求的每页的大小
         pageIndex: 1 //请求第几页

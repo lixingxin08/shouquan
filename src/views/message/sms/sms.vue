@@ -108,16 +108,7 @@
           },
         ],
         tabledata: [],
-        pagination: {
-          total: 0,
-          pageSize: 10, //每页中显示10条数据
-          showSizeChanger: true,
-          current: 1,
-          size: "default",
-          page: 1,
-          pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
-          showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
-        },
+      pagination: this.$config.pagination,
 
         runpageparam: {
           typeCode: "",
