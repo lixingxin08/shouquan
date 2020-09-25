@@ -94,7 +94,7 @@
         if (res.data.resultCode == 10000) {
 
           this.$message.success(res.data.resultMsg);
-          if (!this.id)
+          //if (!this.id)
             this.$router.go(-1)
         } else {
           this.$message.error(res.data.resultMsg);
