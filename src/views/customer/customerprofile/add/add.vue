@@ -91,8 +91,8 @@
         <a-textarea
           class="edit_a_input"
           :rows="5"
-          :maxlength="500"
-          placeholder="500字以内，格式不限制"
+          :maxlength="250"
+          placeholder="250字以内，格式不限制"
           v-model="form.remark"
         />
         <div class="edit_number">{{remarklen}}/500</div>
@@ -236,7 +236,7 @@ export default {
           this.form.customerLogo = info.file.response.data;
           this.loading = false;
       }
-     
+
     },
     beforeUpload(file) {
       const isJpgOrPng =

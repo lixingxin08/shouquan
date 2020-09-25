@@ -160,7 +160,7 @@
         this.config.smsModelList = this.msgList
         let res = await this.$http.post(this.$api.smsform, this.config)
         if (res.data.resultCode == 10000) {
-          if (!this.id)
+         // if (!this.id)
             this.$router.go(-1)
           this.$message.success(res.data.resultMsg);
         } else {

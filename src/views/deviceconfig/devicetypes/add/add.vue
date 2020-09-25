@@ -138,7 +138,6 @@
         for (let i = 0; i < res.data.data.length; i++) {
           this.selectList = res.data.data
         }
-        console.log(res)
       },
       /* 选择品牌 */
       onSelectChange(selectedRowKeys) {
@@ -170,7 +169,7 @@
         }
         let res = await this.$http.post(this.$api.devicetypeform, param)
         if (res.data.resultCode == 10000) {
-          if (!this.deviceId)
+          //if (!this.deviceId)
             this.$router.go(-1)
           this.$message.success(res.data.resultMsg);
         } else {

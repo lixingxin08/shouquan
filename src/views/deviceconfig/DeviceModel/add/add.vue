@@ -231,7 +231,7 @@ import {postimgurl} from '../../../../js/url'
         }
         let res = await this.$http.post(this.$api.devicemodelform, param)
         if (res.data.resultCode == 10000) {
-          if (!this.Id)
+         // if (!this.Id)
             this.$router.go(-1)
           this.$message.success(res.data.resultMsg);
         } else {
