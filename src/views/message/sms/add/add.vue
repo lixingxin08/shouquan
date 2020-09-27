@@ -201,7 +201,7 @@
             this.msgList.push({
               serviceId: '',
               modelCode: item.comboBoxId,
-              remark: item.comboBoxName
+              remark: item.remark
             })
           })
         }
