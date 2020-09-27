@@ -186,11 +186,11 @@ export default {
       this.tabletype = false;
       this.runpageparam.pageIndex = this.pagination.current;
       this.runpageparam.pageSize = this.pagination.pageSize;
-      if (this.vify_cn2(this.inp_data) == true) {
+      // if (this.vify_cn2(this.inp_data) == true) {//统一放keyword
         this.runpageparam.keyword = this.inp_data;
-      } else {
-        this.runpageparam.parameterCode = this.inp_data;
-      }
+      // } else {
+      //   this.runpageparam.parameterCode = this.inp_data;
+      // }
       let res = await this.$http.post(this.$api.runpage, this.runpageparam);
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data.list;
@@ -247,6 +247,7 @@ export default {
     //清除
     clear() {
       this.inp_data = "";
+      this.runpageparam.keyword=''
       this.runpageparam.typeCode = "";
       // this.getareapage();
     },
