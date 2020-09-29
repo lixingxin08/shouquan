@@ -10,12 +10,12 @@
 
         <div class="item-title_zzx"> <a style="color: #FF0033;">*</a>密码：</div>
 
-        <a-input-password v-model='password' :maxlength='16'></a-input-password>
+        <a-input-password v-model='password' :maxLength='16'></a-input-password>
       </div>
       <div class="flexrow flexac item-zzx">
         <a style="color: #FF0033;">*</a>
         <div class="item-title_zzx">确认密码：</div>
-        <a-input-password v-model='password2' :maxlength='16'></a-input-password>
+        <a-input-password v-model='password2' :maxLength='16'></a-input-password>
       </div>
       <a-button type='primary' style='margin-top: 30px;margin-bottom: 30px;' @click='submit'>确定</a-button>
     </div>
