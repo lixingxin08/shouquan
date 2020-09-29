@@ -513,7 +513,7 @@ export default new Router({
           component: addsystemAccount
         },
         {
-          path: '/customercole',
+          path: '/customerrole',
           name: 'CustomerRole',
           meta: {
             title: '客户角色'

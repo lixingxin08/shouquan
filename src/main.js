@@ -72,8 +72,8 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxMDMzNTU4ODg1LCJ0b2tlbklkIjoiYmE1OGZlMjAyMGFkNGRhYmEzNjFiZWMzODJkZDY3M2EiLCJ1c2VySWQiOiI0ZTgxNWU2NDQxMWM0YWFiYWI2NjhjYmVlODkwNzdlOCJ9.fM-xRe01OxpaOmvtGNLJR8STGdFsahc-VOPRwb5I3s0"
-
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxMjk0MTc1MjEzLCJ0b2tlbklkIjoiMTI4ZTczZDU1ZmY3NDBjYzhiN2I4MWQxMDExYjI0NjYiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.GDQUeFbQ7-M0KiJTzsoOYdNSdMGWFfXXoaJA9_Wpmd0"
+    
     } else {
       token = JSON.parse(localStorage.getItem('usermsg')).token || ""
     }
@@ -93,6 +93,11 @@ axios.interceptors.response.use(
     let thisurl = window.location.href.split('/#')
     let bb = thisurl[0].split('/authorization')
     localStorage.setItem('usermsg', JSON.stringify(aa))
+    if (response.data.resultMsg == "执行成功，但没有获取到数据") {
+      response.data.data=[]
+      response.data.data.list=[]
+
+    }
     if (response.data.resultCode == "20100") {
       message.error("令牌错误，请重新登录",5)
       if (backnum >= 2) {

@@ -6,43 +6,69 @@
         :columns="tablecolumns"
         :data-source="tabledata"
         bordered
-        
         :pagination="pagination"
         :customRow="customRow"
       >
-        <template
-          slot="index"
-          slot-scope="text, record,index"
-        >{{(index+1)+((pagination.current-1)*10)}}</template>
+        <template slot="index" slot-scope="text, record, index">{{
+          index + 1 + (pagination.current - 1) * 10
+        }}</template>
         <div slot="statusCode" class="flex_a" slot-scope="statusCode">
-          <div v-if="statusCode==1">启用</div>
-          <div v-if="statusCode==2">备用</div>
-          <div v-if="statusCode==0">关闭</div>
+          <div v-if="statusCode == 1">启用</div>
+          <div v-if="statusCode == 2">备用</div>
+          <div v-if="statusCode == 0">关闭</div>
         </div>
       </a-table>
     </div>
     <div class="isright">
       <div class="left_title">警报列表</div>
-      <div class="tree_box_aler">
-        <is-left
-          :treedata="treedata"
-          :replaceFields="replaceFields"
-          :defaultExpandedKeys="defaultExpandedKeys"
-          @checkedKeys="getcheckedKeys"
-          :checkedKeys="checkedKeys"
-          v-if="showtree"
-        ></is-left>
+      <a-button type="primary" class="table-add-btn btn2" @click="addtogle()"
+        >添加警报</a-button
+      >
+      <div class="tree_box tree_box1 tree_box2" v-if="!addmodel">
+        <a-table
+          :columns="tablecolumns2"
+          :data-source="tabledata2"
+          bordered
+          :pagination="pagination2"
+        >
+          <template slot="index2" slot-scope="text, record, index">{{
+            index + 1 + (pagination2.current - 1) * 10
+          }}</template>
+          <template slot="edit" slot-scope="record">
+            <div class="flexrow flexac flexjc">
+              <div class="col_red ispointer" @click="getremove(record)">
+                <span>删除</span>
+              </div>
+            </div>
+          </template>
+        </a-table>
       </div>
-      <div class="r_b">
-        <div class="r_b_title">授权描述:</div>
-        <div class="rb_text">
-          <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
-          <div class="remarknum">{{remarklen}}/500</div>
+      <div v-if="addmodel">
+        <div class="add_model_t flex_b">
+          <span> 新增型号</span>
+          <a-icon type="close" style="cursor: pointer" @click="isclose()" />
         </div>
-        <div class="flex_a rb_b">
-          <div class="flex_f">
-            <div class="cancel_btn rb_b_btn" @click="cancel()">取消</div>
-            <div class="ok_btn" @click="getform()">授权</div>
+        <div class="tree_box_aler">
+          <is-left
+            :treedata="treedata"
+            :replaceFields="replaceFields"
+            :defaultExpandedKeys="defaultExpandedKeys"
+            @checkedKeyslist="getcheckedKeys"
+            :checkedKeys="checkedKeys"
+            v-if="showtree"
+          ></is-left>
+        </div>
+        <div class="r_b">
+          <div class="r_b_title">授权描述:</div>
+          <div class="rb_text">
+            <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
+            <div class="remarknum">{{ remarklen }}/500</div>
+          </div>
+          <div class="flex_a rb_b">
+            <div class="flex_f">
+              <div class="cancel_btn rb_b_btn" @click="cancel()">取消</div>
+              <div class="ok_btn" @click="getform()">授权</div>
+            </div>
           </div>
         </div>
       </div>
@@ -63,6 +89,7 @@ export default {
   },
   data() {
     return {
+      addmodel: false,
       tablecolumns: [
         {
           width: 68,
@@ -71,7 +98,7 @@ export default {
           dataIndex: "customerId",
           key: "customerId",
           ellipsis: true,
-           scopedSlots: {
+          scopedSlots: {
             customRender: "index",
           },
         },
@@ -96,12 +123,67 @@ export default {
         },
       ],
       tabledata: [],
-       pagination: {
+      pagination2: {
         total: 0,
         pageSize: 10000, //每页中显示10条数据
         current: 1,
         page: 1,
-        hideOnSinglePage:true
+        hideOnSinglePage: true,
+      },
+      tablecolumns2: [
+        {
+          width: 68,
+          align: "center",
+          title: "序号",
+          dataIndex: "customerId",
+          key: "customerId",
+          ellipsis: true,
+          scopedSlots: {
+            customRender: "index2",
+          },
+        },
+        {
+          width: 131,
+          align: "center",
+          title: "警报名称",
+          dataIndex: "alarmName",
+          key: "alarmName",
+          ellipsis: true,
+        },
+        {
+          width: 131,
+          align: "center",
+          title: "型号名称",
+          dataIndex: "customerName",
+          key: "customerName",
+          ellipsis: true,
+        },
+        {
+          width: 141,
+          align: "center",
+          title: "是否生成警报",
+          ellipsis: true,
+          scopedSlots: {
+            customRender: "statusCode",
+          },
+        },
+        {
+          width: 141,
+          align: "center",
+          title: "操作",
+          ellipsis: true,
+          scopedSlots: {
+            customRender: "edit",
+          },
+        },
+      ],
+      tabledata2: [],
+      pagination: {
+        total: 0,
+        pageSize: 10000, //每页中显示10条数据
+        current: 1,
+        page: 1,
+        hideOnSinglePage: true,
       },
       treedata: "",
       checkedKeys: [],
@@ -116,14 +198,12 @@ export default {
         customerId: "",
       },
       listparam: {
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
         customerId: JSON.parse(localStorage.getItem("usermsg")).customerId,
       },
       form: {
         customerId: "",
         alarmIdList: "",
         remark: "",
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
     };
   },
@@ -131,22 +211,31 @@ export default {
     this.getlist();
   },
   methods: {
+    addtogle() {
+      this.addmodel = true;
+      this.gettree();
+    },
+    isclose() {
+      this.addmodel = false;
+      this.getalerlist();
+    },
     customRow(record, index) {
-        return {
-          style: {
-            // 行背景色
-            'background-color': record.customerId==this.treeprame.customerId ? "#e6f7ff" : ''
-          },
-          on: {
-            // 鼠标单击行
-            click: event => {
-                   this.treeprame.customerId = record.customerId;
-                     this.gettree();
+      return {
+        style: {
+          // 行背景色
+          "background-color":
+            record.customerId == this.treeprame.customerId ? "#e6f7ff" : "",
+        },
+        on: {
+          // 鼠标单击行
+          click: (event) => {
+            this.treeprame.customerId = record.customerId;
+            this.gettree();
             console.log(record, "record", index);
-            },
           },
-        }
-      },
+        },
+      };
+    },
     async getlist() {
       this.tabletype = false;
       let res = await this.$http.post(
@@ -161,15 +250,41 @@ export default {
         }
         this.tabletype = true;
         this.treeprame.customerId = this.tabledata[0].customerId;
-        this.gettree();
+        this.getalerlist();
       } else {
         return this.$message.error(res.data.resultMsg);
       }
     },
+    async getalerlist() {
+      let parame = {
+        customerId: this.treeprame.customerId,
+      };
+      let res = await this.$http.post(this.$api.customeralarmlist, parame);
+      console.log(res, "resres");
+      if (res.data.resultCode == "10000") {
+        this.tabledata2 = res.data.data;
+        this.addmodel = false;
+      } else {
+        return this.$message.error(res.data.resultMsg);
+      }
+    },
+    async getremove(val) {
+      console.log(val, 1222);
+      let parame = {
+        customerId: this.treeprame.customerId,
+        alarmId:val.alarmId
+      };
+      let res = await this.$http.post(this.$api.customeralarmremove, parame);
+        if (res.data.resultCode == "10000") {
+          this.getalerlist()
+           return this.$message.success(res.data.resultMsg);
+        }else{
+           return this.$message.error(res.data.resultMsg);
+        }
+    },
     async getform() {
       console.log(this.checkedKeys, 55555555);
       this.form.customerId = this.treeprame.customerId;
-      this.form.alarmIdList = this.checkedKeys;
       if (this.form.alarmIdList.length == 0) {
         return this.$message.error("请选择授权区域");
       }
@@ -178,6 +293,7 @@ export default {
       }
       let res = await this.$http.post(this.$api.customeralarmform, this.form);
       if (res.data.resultCode == "10000") {
+        this.getalerlist();
         this.$message.success("授权成功");
       } else {
         return this.$message.error(res.data.resultMsg);
@@ -259,6 +375,7 @@ export default {
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
+      console.log(554444433);
       this.isselectdata = val;
       this.isselectdata.id = val.id;
       this.isselectdata.name = val.name;
@@ -313,9 +430,9 @@ export default {
 }
 .tree_box_aler {
   width: 1232px;
-  height: 502px;
+  height: 422px;
   margin-top: 16px;
-  margin-bottom: 74px;
+  margin-bottom: 60px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
 }
@@ -334,5 +451,4 @@ export default {
   margin-top: 40px;
   text-align: center;
 }
-
 </style>

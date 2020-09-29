@@ -136,6 +136,7 @@ export default {
       form: [],
       ischeck: [],
       remark: "",
+      oldAuthAreaId:"",
       listparam: {
         operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
         customerId: "",
@@ -225,6 +226,7 @@ export default {
             this.form[i].grade = this.data[j].levelType;
             this.form[i].parentId = this.data[j].pid;
             this.form[i].remark = this.remark;
+            this.form[i].oldAuthAreaId = this.oldAuthAreaId;
           }
         }
       }
@@ -284,6 +286,7 @@ export default {
         }
         if (this.data[i].checked == true) {
           this.checkedKeys.push(this.data[i].id);
+          this.oldAuthAreaId=this.data[i].id
         }
       }
       this.treedata = this.toTree(this.data);

@@ -509,6 +509,10 @@ export default {
   box-sizing: border-box;
   border: 1px solid #dcdcdc;
   border-top: none;
+    overflow: scroll;
+}
+.tree_box_i_rtree::-webkit-scrollbar {
+  display: none;
 }
 .istree_box2 {
   width: 100%;

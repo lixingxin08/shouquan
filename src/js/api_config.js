@@ -111,7 +111,7 @@ export default {
   rolesystemdetail: `/account/role/detail`, //系统角色详情接口
   rolesystemrolelist: `/config/menu/roleSystemList`, //系统角色查询列表接口
   rolesystemroletreelist: `/config/menu/tree`, //系统treeList接口
-  rolesystemroleselfmunutree:`/account/role/selfMunutree`,//账号授权角色
+  rolesystemroleselfmunutree:`/config/menu/selfMunutree`,//账号授权角色
 
 
 
@@ -136,10 +136,13 @@ export default {
   //型号授权API
   customermodelform: `/auth/customer-model/form`,
   customermodellist: `/auth/customer-model/list`,
+  customermodelremove: `/auth/customer-model/remove`,
 
   //警报授权API
   customeralarmform: `/auth/customer-alarm/form`,
   customeralarmtree: `/auth/customer-alarm/tree`,
+  customeralarmlist: `/auth/customer-alarm/list`,
+  customeralarmremove: `/auth/customer-alarm/remove`,
 
 
 
@@ -173,7 +176,7 @@ export default {
   accountinfolist: `/account/info/list`,
   accountinfopage: `/account/info/page`,
   accountinforemove: `/account/info/remove`,
-  accountinforeset: `/account/info/reset`,
+  accountinforeset: `/account/info/cipher/form`,
 
   //日志
   journalpage: `/logger/platform/page`,

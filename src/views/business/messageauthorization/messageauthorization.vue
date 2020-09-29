@@ -206,7 +206,6 @@ export default {
       ],
       tabledata4: [],
       listparam: {
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
         customerId: "",
       },
       selectedRowKeys: [],
@@ -222,7 +221,6 @@ export default {
         smsConfigId: [],
         emailConfigId: [],
         remark: "",
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       pagination2: {
         total: 0,
@@ -249,7 +247,6 @@ export default {
   },
   created() {
     this.getlist();
-    this.getwechatlist();
   },
   computed: {
     remarklen() {
@@ -297,6 +294,7 @@ export default {
           }
         }
         this.listparam.customerId = this.tabledata[0].customerId;
+            this.getwechatlist();
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -307,7 +305,8 @@ export default {
       ].emailConfigId;
       let res = await this.$http.post(this.$api.customeremailform, this.form);
       if (res.data.resultCode == "10000") {
-        this.$message.success(res.data.resultMsg);
+           this.getemaillist();
+     return   this.$message.success(res.data.resultMsg);
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -318,7 +317,8 @@ export default {
       ].wechatConfigId;
       let res = await this.$http.post(this.$api.customerwechatform, this.form);
       if (res.data.resultCode == "10000") {
-        this.$message.success(res.data.resultMsg);
+         this.getwechatlist();
+     return   this.$message.success(res.data.resultMsg);
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -329,7 +329,8 @@ export default {
       ].smsConfigId;
       let res = await this.$http.post(this.$api.customersmsform, this.form);
       if (res.data.resultCode == "10000") {
-        this.$message.success(res.data.resultMsg);
+          this.getsmslist();
+      return  this.$message.success(res.data.resultMsg);
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -353,9 +354,11 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.tabledata4 = res.data.data;
+         this.selectedRowKeys4=[]
             for (let i = 0; i < this.tabledata4.length; i++) {
           if (this.tabledata4[i].authTotal!==0) {
             this.selectedRowKeys4.push(i)
+              this.form.remark=this.tabledata2[i].remark
           }
         }
       } else {
@@ -370,9 +373,11 @@ export default {
       if (res.data.resultCode == "10000") {
 
         this.tabledata3 = res.data.data;
+         this.selectedRowKeys3=[]
             for (let i = 0; i < this.tabledata3.length; i++) {
           if (this.tabledata3[i].authTotal!==0) {
             this.selectedRowKeys3.push(i)
+              this.form.remark=this.tabledata2[i].remark
           }
         }
         console.log(this.selectedRowKeys3,8999);
@@ -388,9 +393,11 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.tabledata2 = res.data.data;
+         this.selectedRowKeys2=[]
         for (let i = 0; i < this.tabledata2.length; i++) {
           if (this.tabledata2[i].authTotal!==0) {
           this.selectedRowKeys2.push(i)
+          this.form.remark=this.tabledata2[i].remark
           }
         }
         this.tabletype = true;
@@ -400,6 +407,7 @@ export default {
     },
     changetab(val) {
       this.listtype = val;
+      this.form.remark=""
       if (val == "wechat") {
         this.getwechatlist();
       }
@@ -413,16 +421,19 @@ export default {
     onSelectChange(selectedRowKeys2) {
       console.log("selectedRowKeys changed: ", selectedRowKeys2);
       this.selectedRowKeys2 = selectedRowKeys2;
+      this.form.remark=this.tabledata2[selectedRowKeys2[0]].remark||""
     },
     //sms
     onSelectChange1(selectedRowKeys3) {
       console.log("selectedRowKeys changed: ", selectedRowKeys3);
       this.selectedRowKeys3 = selectedRowKeys3;
+         this.form.remark=this.tabledata3[selectedRowKeys3[0]].remark||""
     },
     //email
     onSelectChange2(selectedRowKeys4) {
       console.log("selectedRowKeys changed: ", selectedRowKeys4);
       this.selectedRowKeys4 = selectedRowKeys4;
+       this.form.remark=this.tabledata4[selectedRowKeys4[0]].remark||""
     },
     cancel() {
       this.reload();

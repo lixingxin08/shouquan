@@ -40,7 +40,7 @@
           >
         </div>
 
-        <div class="table" v-if="tabletype">
+        <div class="table">
           <a-table
             :scroll="{ y: 610 }"
             :columns="tablecolumns"
@@ -48,6 +48,7 @@
             bordered
             :pagination="pagination"
             @change="handleTableChange"
+             v-if="tabletype"
           >
             <template slot="index" slot-scope="text, record, index">{{
               index + 1 + (pagination.current - 1) * 10
@@ -239,19 +240,18 @@ export default {
         searchIndex: 0,
       };
       let res = await this.$http.post(this.$api.areapage, prame);
+        
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data.list;
         if (this.istotal.type == 1) {
           this.pagination.total = res.data.data.length;
         }
         this.istotal.type++;
-        this.tabletype = true;
       } else {
-        this.tabletype = true;
         this.tabledata = "";
-
         return this.$message.error(res.data.resultMsg);
       }
+       this.tabletype = true;
     },
     //行政区划删除接口
     async getarearemove() {

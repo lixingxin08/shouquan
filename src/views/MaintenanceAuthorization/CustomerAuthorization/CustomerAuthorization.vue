@@ -327,7 +327,5 @@ export default {
   margin-top: 40px;
   text-align: center;
 }
-.rb_b_btn {
-  margin-right: 8px;
-}
+
 </style>

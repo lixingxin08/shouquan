@@ -130,8 +130,8 @@ export default {
       imageUrl: "",
       sel_data: [
         { val: "启用", id: 1 },
-        { val: "备用", id: 2 },
-        { val: "锁定", id: 0 },
+        { val: "备用", id: 0 },
+        { val: "锁定", id: 2 },
       ],
       form: {
         customerId: "",

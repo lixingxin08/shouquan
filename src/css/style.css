@@ -390,6 +390,7 @@
 .ant-table-body{
   min-height: 504px;
 }
+
 .min_table .ant-table-body{
   min-height: 0px!important;
 }
@@ -398,4 +399,32 @@
 }
 .rb_b_btn {
   margin-right: 20px;
+}
+.ant-table-placeholder{
+  position: relative;
+  top: -504px;
+}
+.add_model_t {
+  margin-top: 0;
+  margin-bottom: 20px;
+  height: 36px;
+  line-height: 36px;
+  padding-right: 20px;
+  padding-left: 20px;
+  font-size: 14px;
+  box-sizing: border-box;
+  background: #f6fbff;
+}
+.left_title_model {
+  width: 100%;
+  height: 24px;
+  font-size: 18px;
+  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
+  font-weight: 400;
+  text-align: left;
+  color: #333333;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
 }
