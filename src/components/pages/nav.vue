@@ -25,6 +25,7 @@
   </a-layout-sider>
 </template>
 <script>
+
   import {
     Menu
   } from "ant-design-vue";
@@ -62,9 +63,9 @@
     name: "isnav",
     data() {
       return {
-        menudata: [], //树数据
+        menudata: [ ], //树数据
         selectedKeys: [],
-        openKeys: []
+        openKeys: [],
       };
     },
     components: {

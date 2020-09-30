@@ -133,7 +133,7 @@ export default {
       istotal: {
         type: 1,
       },
-      form: [],
+      form:{},
       ischeck: [],
       remark: "",
       oldAuthAreaId:"",
@@ -179,7 +179,6 @@ export default {
         this.$api.customerinformationlist,
         this.listparam
       );
-      console.log(res, 555555);
       if (res.data.resultCode == "10000") {
         for (let i = 0; i < res.data.data.length; i++) {
           if (res.data.data[i].statusCode == 1) {
@@ -198,38 +197,37 @@ export default {
       }
     },
     async getform() {
-      this.form = [];
-      let aa = {
-        customerId: "",
-        areaId: "",
-        areaName: "",
-        grade: "",
-        parentId: "",
-        remark: "",
-      };
-      this.ischeck = [...new Set(this.ischeck)];
-      if (this.ischeck.length == 0) {
-        return this.$message.error("请选择授权区域");
-      }
+      this.form ={};
+    
       if (this.customerId == "") {
         return this.$message.error("请选择授权客户");
       }
-      for (let k = 0; k < this.ischeck.length; k++) {
-        this.form.push(aa);
-      }
-      for (let j = 0; j < this.data.length; j++) {
-        for (let i = 0; i < this.ischeck.length; i++) {
-          if (this.ischeck[i] == this.data[j].id) {
-            this.form[i].customerId = this.customerId;
-            this.form[i].areaId = this.data[j].id;
-            this.form[i].areaName = this.data[j].name;
-            this.form[i].grade = this.data[j].levelType;
-            this.form[i].parentId = this.data[j].pid;
-            this.form[i].remark = this.remark;
-            this.form[i].oldAuthAreaId = this.oldAuthAreaId;
-          }
+        if (this.ischeck.length !== 0) {
+          for (let j = 0; j < this.data.length; j++) {
+          if (this.ischeck[0] == this.data[j].id) {
+            this.form.customerId = this.customerId;
+            this.form.areaId = this.data[j].id;
+            this.form.areaName = this.data[j].name;
+            this.form.grade = this.data[j].levelType;
+            this.form.parentId = this.data[j].pid;
+            this.form.remark = this.remark;
+            this.form.oldAuthAreaId = this.oldAuthAreaId;
         }
       }
+      }else{
+        for (let k = 0; k < this.data.length; k++) {
+         if (this.data[k].checked==true) {
+            this.form.customerId = this.customerId;
+            this.form.areaId = "";
+            this.form.areaName = "";
+            this.form.grade ="";
+            this.form.parentId ="";
+            this.form.remark = this.remark;
+            this.form.oldAuthAreaId = this.oldAuthAreaId;
+         }
+        }
+      }
+  
 
       let res = await this.$http.post(this.$api.customerareaform, this.form);
       if (res.data.resultCode == "10000") {

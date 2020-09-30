@@ -428,3 +428,9 @@
   padding-right: 20px;
   box-sizing: border-box;
 }
+.ant-menu-submenu-title{
+  text-align: left!important;
+}
+.ant-menu-item{
+  text-align: left!important;
+}

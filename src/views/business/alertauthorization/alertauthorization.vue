@@ -45,7 +45,7 @@
       </div>
       <div v-if="addmodel">
         <div class="add_model_t flex_b">
-          <span> 新增型号</span>
+          <span> 新增警报</span>
           <a-icon type="close" style="cursor: pointer" @click="isclose()" />
         </div>
         <div class="tree_box_aler">
@@ -230,7 +230,7 @@ export default {
           // 鼠标单击行
           click: (event) => {
             this.treeprame.customerId = record.customerId;
-            this.gettree();
+            this.getalerlist();
             console.log(record, "record", index);
           },
         },

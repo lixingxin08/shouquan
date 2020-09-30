@@ -111,6 +111,8 @@
                 placeholder="请输入授权个数"
               />
               <span style="font-size: 14px">注:授权个数不能大于9999</span>
+              <div style="margin-left:50px;margin-right:20px">已用个数:</div>
+              <span>{{authTotal}}</span>
             </div>
             <div class="r_b_title">授权描述:</div>
             <div class="rb_text2">
@@ -141,7 +143,7 @@
           <span><span class="col_red">*</span>授权个数:</span>
           <a-input
             class="edit_a_input"
-            v-model="form.authTotal"
+            v-model="editdata.authTotal"
             type="number"
           />
         </div>
@@ -149,7 +151,7 @@
           <span>已用个数:</span>
           <span class="edit_a_input text_s">{{ editdata.useTotal }}</span>
         </div>
-        <div class="edit_c_item flex_f">
+        <div class="edit_c_item edit_c_item_area flex_f">
           <span>授权描述:</span>
           <div class="rb_text2 edit_a_input">
             <a-textarea :maxlength="500" v-model="editdata.remark" :rows="5" />
@@ -160,7 +162,7 @@
       <div class="flex_a rb_b2">
         <div class="flex_f">
           <div class="ok_btn" @click="geteditform()">授权</div>
-          <div class="cancel_btn rb_b_btn" @click="reset()">重置</div>
+          <div class="cancel_btn rb_b_btn" @click="editreset()">重置</div>
         </div>
       </div>
     </div>
@@ -180,6 +182,7 @@ export default {
   },
   data() {
     return {
+      authTotal:"",
       checkedKeys: [],
       selectedRowKeys2: [],
       selectedRowKeys1: [],
@@ -259,7 +262,7 @@ export default {
         {
           width: 101,
           align: "center",
-          title: "型号品牌",
+          title: "设备品牌",
           dataIndex: "brandName",
           key: "brandName",
           ellipsis: true,
@@ -275,11 +278,27 @@ export default {
         {
           width: 101,
           align: "center",
-          title: "业务类别",
-          dataIndex: "serviceTypeName",
-          key: "serviceTypeName",
+          title: "授权个数",
+          dataIndex: "authTotal",
+          key: "authTotal",
           ellipsis: true,
         },
+        {
+          width: 101,
+          align: "center",
+          title: "已用个数",
+          dataIndex: "useTotal",
+          key: "useTotal",
+          ellipsis: true,
+        },
+        // {
+        //   width: 101,
+        //   align: "center",
+        //   title: "业务类别",
+        //   dataIndex: "serviceTypeName",
+        //   key: "serviceTypeName",
+        //   ellipsis: true,
+        // },
         {
           width: 101,
           align: "center",
@@ -291,7 +310,7 @@ export default {
         {
           width: 68,
           align: "center",
-          title: "设备类型",
+          title: "操作",
           ellipsis: true,
           scopedSlots: {
             customRender: "edit",
@@ -321,7 +340,7 @@ export default {
         {
           width: 141,
           align: "center",
-          title: "型号品牌",
+          title: "设备品牌",
           dataIndex: "brandName",
           key: "brandName",
           ellipsis: true,
@@ -359,7 +378,9 @@ export default {
         id: "",
         levelType: "",
         customerId: "",
+        deviceTypeId:"",
       },
+      
       customerId: "",
       form: {
         modelId: "",
@@ -368,6 +389,7 @@ export default {
         authTotal: "",
         customerId: "",
       },
+      oldeditdata:""
     };
   },
   created() {
@@ -385,9 +407,8 @@ export default {
       console.log(this.form.modelId, 111);
     },
     toedit(val) {
-      console.log(val, 5555);
-
       this.editdata = JSON.parse(JSON.stringify(val));
+      this.oldeditdata = JSON.parse(JSON.stringify(val));
 
       this.edittype = true;
     },
@@ -411,7 +432,12 @@ export default {
       this.form.modelId = "";
       this.form.authTotal = "";
       this.form.remark = "";
-      this.getareatree();
+      this.getareatree(); 
+    },
+    editreset(){
+      this.editdata=this.oldeditdata
+      this.editdata.remark=""
+
     },
     customRow(record, index) {
       return {
@@ -431,6 +457,7 @@ export default {
          this.closeedit()
             this.modellistparam.customerId = record.customerId;
             this.treeprame.customerId = record.customerId;
+            this.authTotal=record.authTotal
             this.getmodellist();
             console.log(record, "record", index);
           },
@@ -452,6 +479,8 @@ export default {
         this.modellistparam.customerId = this.tabledata[0].customerId;
         this.form.customerId = this.tabledata[0].customerId;
         this.treeprame.customerId = this.tabledata[0].customerId;
+        this.authTotal = this.tabledata[0].authTotal;
+
         this.getmodellist();
         this.tabletype = true;
       } else {
@@ -503,6 +532,7 @@ export default {
     geteditform() {
       this.form.modelId = this.editdata.modelId;
       this.form.remark = this.editdata.remark;
+      this.form.authTotal = this.editdata.authTotal;
       this.getform();
     },
     async getform() {
@@ -599,6 +629,7 @@ export default {
       this.form.modelId = "";
       this.treemodelparam.id = val.id;
       this.treemodelparam.levelType = val.levelType;
+      this.treemodelparam.deviceTypeId=val.pid
       this.gettreemodellist();
     },
     getcheckedKeys(val) {
@@ -626,10 +657,14 @@ export default {
 }
 .edit_c {
   padding-left: 100px;
+  min-height: 350px;
   box-sizing: border-box;
 }
 .edit_c_item {
   margin-top: 20px;
+}
+.edit_c_item_area{
+  margin-top: 50px;
 }
 .edit_a_input {
   margin-left: 20px;

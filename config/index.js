@@ -13,9 +13,9 @@ module.exports = {
     proxyTable: {
       '/api': {//代理api
         //target: "`",
-        target: "http://192.168.3.83:8092/authorization", //代理接口
-        // target: "http://192.168.3.101/haiot-zuul/haiot-auth", //代理接口
-        // target: "http://192.168.3.171:8092/authorization",
+        // target: "http://192.168.3.83:8092/authorization", //代理接口
+        target: "http://192.168.3.101/authorization/action", //代理接口
+        // target: "http://192.168.3.188:9089/haiot-auth",
         changeOrigin: true,//是否跨域
         allowCredentials:true,
         pathRewrite: {//重写路径
