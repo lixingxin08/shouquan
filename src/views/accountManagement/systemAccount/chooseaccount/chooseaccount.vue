@@ -166,7 +166,7 @@
       tosearch() {
         this.istotal.type = 1;
         this.pagination.page = 1;
-        this.pagination.pageSize = 10;
+        this.pagination.pageSize = 20;
         this.getpersonpage();
       },
       //清除

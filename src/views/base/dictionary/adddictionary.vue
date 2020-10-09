@@ -194,7 +194,7 @@
           classCode: classCode, //字典代码
           remark: remark, //备注
           grade: this.grade, //等级
-          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
           typeCode: typeCode //添加数值 2000 添加字典 1000
         }
         let res = await this.$http.post(this.$api.dictionaryform, param);

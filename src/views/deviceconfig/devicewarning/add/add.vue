@@ -167,7 +167,7 @@ import {postimgurl} from '../../../../js/url'
           alarmType: this.warningSelect, //警报类型
           flowImage: this.warning.flowImage, //流程示意图
           gradeno: this.warning.gradeno,
-          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId, //操作者id
+          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId, //操作者id
           remark: this.warning.remark, //警报描述
           eventIdList: this.getEventSelectList() //转警事件
         }

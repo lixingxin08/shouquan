@@ -1,6 +1,10 @@
 <template>
   <div class="administrativedivision flex_fs">
-    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialog
+      v-if="visible"
+      @confirm="confirm"
+      @cancle="cancel"
+    ></is-delete-dialog>
     <div class="isleft">
       <is-left
         :treedata="treedata"
@@ -27,61 +31,81 @@
             show-search
             placeholder="全部"
             option-filter-prop="children"
-            style="width: 200px;margin-right:20px;height:36px;border-radius: 8px;"
+            style="
+              width: 200px;
+              margin-right: 20px;
+              height: 36px;
+              border-radius: 8px;
+            "
             v-model="pageparam.statusCode"
             @change="handleChange"
           >
             <a-select-option value>全部</a-select-option>
             <a-select-option
-              v-for="(item,index) in statusCode"
+              v-for="(item, index) in statusCode"
               :key="index"
               :value="item.id"
-            >{{item.val}}</a-select-option>
+              >{{ item.val }}</a-select-option
+            >
           </a-select>
           <div class="btn_blue btn" @click="tosearch()">查询</div>
           <div class="btn_gray" @click="clear()">清除</div>
         </div>
         <div class="isline"></div>
         <div class="btn_blue btn2" @click="toadd('add')">
-          <a-icon two-tone-color="#ffffff" style="margin-right: 5px;" type="plus" />新增
+          <a-icon
+            two-tone-color="#ffffff"
+            style="margin-right: 5px"
+            type="plus"
+          />新增
         </div>
         <div class="table" v-if="tabletype">
           <a-table
-            :scroll="{  y: 610 }"
+            :scroll="{ y: 610 }"
             :columns="tablecolumns"
             :data-source="tabledata"
             bordered
             :pagination="pagination"
             @change="handleTableChange"
           >
-            <template
-              slot="index"
-              slot-scope="text, record,index"
-            >{{(index+1)+((pagination.current-1)*10)}}</template>
+            <template slot="index" slot-scope="text, record, index">{{
+              index + 1 + (pagination.current - 1) * 10
+            }}</template>
             <div slot="gender" class="flex_a" slot-scope="gender">
-              <div v-if="gender==0">男</div>
+              <div v-if="gender == 0">男</div>
               <div v-else>女</div>
             </div>
             <div slot="statusCode" class="flex_a" slot-scope="statusCode">
-              <div v-if="statusCode==1">正常</div>
-              <div v-if="statusCode==0">休假</div>
-              <div v-if="statusCode==2">离岗</div>
+              <div v-if="statusCode == 1">正常</div>
+              <div v-if="statusCode == 0">休假</div>
+              <div v-if="statusCode == 2">离岗</div>
             </div>
             <div slot="existsFlag" class="flex_a" slot-scope="existsFlag">
-              <div v-if="existsFlag==1">是</div>
-              <div v-if="existsFlag==0">否</div>
+              <div v-if="existsFlag == 1">是</div>
+              <div v-if="existsFlag == 0">否</div>
             </div>
-            <div slot="edit" class="flexrow flexac flexjc" slot-scope="val,departmentId">
-              <div class="col_blue ispointer" @click="toadd('edit',departmentId)">编辑</div>
-                   <div class="item-line"></div>
+            <div
+              slot="edit"
+              class="flexrow flexac flexjc"
+              slot-scope="val, departmentId"
+            >
+              <div
+                class="col_blue ispointer"
+                @click="toadd('edit', departmentId)"
+              >
+                编辑
+              </div>
+              <div class="item-line"></div>
               <div
                 class="col_red ispointer"
-                v-if="val.existsFlag==0"
+                v-if="val.existsFlag == 0"
                 @click="showdialogperson(val)"
               >
                 <span>删除</span>
               </div>
-              <div class="col_gray ispointer" v-if="val.existsFlag!==0">删除</div>
+              <div class="col_gray ispointer" v-if="val.existsFlag !== 0">
+                删除
+              </div>
             </div>
           </a-table>
         </div>
@@ -209,19 +233,19 @@ export default {
         { id: 2, val: "离岗" },
       ],
       data: "",
-     pagination: this.$config.pagination,
+      pagination: this.$config.pagination,
       issearchdata: "",
       filterdata: [],
 
       treeprame: {
         //树接口参数
         departmentId: "",
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
+        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
         customerId: "",
       },
       removeparam: {
         personId: "",
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
+        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
       },
       istotal: {
         type: 1,
@@ -341,11 +365,17 @@ export default {
       this.treedata = this.toTree(this.data);
       this.defaultSelectedKeys = [];
       if (localStorage.getItem("personnelManagementid")) {
-         this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem("personnelManagementid")))
-          this.isselectdata.id=JSON.parse(localStorage.getItem("personnelManagementid"))
+        this.defaultSelectedKeys.push(
+          JSON.parse(localStorage.getItem("personnelManagementid"))
+        );
+        for (let i = 0; i < this.data.length; i++) {
+          if (this.data[i].id == JSON.parse(localStorage.getItem("personnelManagementid"))) {
+            this.isselectdata = this.data[i];
+          }
+        }
       } else {
         this.defaultSelectedKeys.push(this.treedata[0].id);
-        this.isselectdata.id=this.treedata[0].id
+        this.isselectdata.id = this.treedata[0].id;
       }
     },
     //获取树搜索数据
@@ -384,7 +414,7 @@ export default {
     tosearch() {
       this.istotal.type = 1;
       this.pagination.page = 1;
-      this.pagination.pageSize = 10;
+      this.pagination.pageSize = 20;
       this.getpersonpage();
     },
     //清除

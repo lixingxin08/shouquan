@@ -198,7 +198,7 @@ export default {
         customerId: "",
       },
       listparam: {
-        customerId: JSON.parse(localStorage.getItem("usermsg")).customerId,
+        customerId: JSON.parse(localStorage.getItem("authorization")).customerId,
       },
       form: {
         customerId: "",

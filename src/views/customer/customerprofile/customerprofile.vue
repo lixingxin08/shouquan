@@ -190,7 +190,7 @@ export default {
       runpageparam: {
         statusCode: "",
         keyword: "",
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
         pageIndex: 1,
         pageSize: 10,
       },

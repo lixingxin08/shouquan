@@ -10,75 +10,97 @@
         :customRow="customRow"
         rowKey="index"
       >
-        <template
-          slot="index"
-          slot-scope="text, record,index"
-        >{{(index+1)+((pagination.current-1)*10)}}</template>
+        <template slot="index" slot-scope="text, record, index">{{
+          index + 1 + (pagination.current - 1) * 10
+        }}</template>
         <div slot="statusCode" class="flex_a" slot-scope="statusCode">
-          <div v-if="statusCode==1">启用</div>
-          <div v-if="statusCode==2">备用</div>
-          <div v-if="statusCode==0">关闭</div>
+          <div v-if="statusCode == 1">启用</div>
+          <div v-if="statusCode == 2">备用</div>
+          <div v-if="statusCode == 0">关闭</div>
         </div>
       </a-table>
     </div>
     <div class="isright">
       <div class="flex_f isright_t">
-        <div :class="listtype=='wechat'?'tab_blue':'tab_gray'" @click="changetab('wechat')">微信帐号</div>
-        <div :class="listtype=='sms'?'tab_blue':'tab_gray'" @click="changetab('sms')">短信帐号</div>
-        <div :class="listtype=='email'?'tab_blue':'tab_gray'" @click="changetab('email')">邮箱帐号</div>
+        <div
+          :class="listtype == 'wechat' ? 'tab_blue' : 'tab_gray'"
+          @click="changetab('wechat')"
+        >
+          微信帐号
+        </div>
+        <div
+          :class="listtype == 'sms' ? 'tab_blue' : 'tab_gray'"
+          @click="changetab('sms')"
+        >
+          短信帐号
+        </div>
+        <div
+          :class="listtype == 'email' ? 'tab_blue' : 'tab_gray'"
+          @click="changetab('email')"
+        >
+          邮箱帐号
+        </div>
       </div>
-      <div class="messtree_box" v-show="listtype=='wechat'">
+      <div class="messtree_box" v-show="listtype == 'wechat'">
         <a-table
-         :scroll="{  y: 352 }"
+          :scroll="{ y: 352 }"
           :columns="tablecolumns2"
           :data-source="tabledata2"
-          :row-selection="{ selectedRowKeys: selectedRowKeys2, onChange: onSelectChange,type:'radio' }"
           bordered
           :pagination="pagination2"
           v-if="tabletype"
           rowKey="index2"
         >
-          <template
-            slot="index2"
-            slot-scope="text, record,index"
-          >{{(index+1)+((pagination2.current-1)*10)}}</template>
+          <template slot="index2" slot-scope="text, record, index">
+            <a-radio
+              :checked="selectedRowKeys2 == index"
+              @click="onSelectChange(index)"
+            ></a-radio
+            >{{ index + 1 + (pagination2.current - 1) * 10 }}</template
+          >
         </a-table>
       </div>
-      <div class="messtree_box" v-show="listtype=='sms'">
+      <div class="messtree_box" v-show="listtype == 'sms'">
         <a-table
-         :scroll="{  y: 310 }"
+          :scroll="{ y: 310 }"
           :columns="tablecolumns3"
           :data-source="tabledata3"
-          :row-selection="{ selectedRowKeys: selectedRowKeys3, onChange: onSelectChange1,type:'radio'}"
           bordered
           :pagination="pagination3"
+           rowKey="index3"
         >
-          <template
-            slot="index3"
-            slot-scope="text, record,index"
-          >{{(index+1)+((pagination3.current-1)*10)}}</template>
+          <template slot="index3" slot-scope="text, record, index">
+            <a-radio
+              :checked="selectedRowKeys3 == index"
+              @click="onSelectChange1(index)"
+            ></a-radio>
+            {{ index + 1 + (pagination3.current - 1) * 10 }}</template
+          >
         </a-table>
       </div>
-      <div class="messtree_box" v-show="listtype=='email'">
+      <div class="messtree_box" v-show="listtype == 'email'">
         <a-table
-         :scroll="{  y: 310 }"
+          :scroll="{ y: 310 }"
           :columns="tablecolumns4"
           :data-source="tabledata4"
-          :row-selection="{ selectedRowKeys: selectedRowKeys4, onChange: onSelectChange2,type:'radio' }"
           bordered
           :pagination="pagination4"
+           rowKey="index4"
         >
-          <template
-            slot="index4"
-            slot-scope="text, record,index"
-          >{{(index+1)+((pagination4.current-1)*10)}}</template>
+          <template slot="index4" slot-scope="text, record, index">
+            <a-radio
+              :checked="selectedRowKeys4 == index"
+              @click="onSelectChange2(index)"
+            ></a-radio
+            >{{ index + 1 + (pagination4.current - 1) * 10 }}</template
+          >
         </a-table>
       </div>
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
           <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
-          <div class="remarknum">{{remarklen}}/500</div>
+          <div class="remarknum">{{ remarklen }}/500</div>
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
@@ -209,17 +231,17 @@ export default {
         customerId: "",
       },
       selectedRowKeys: [],
-      selectedRowKeys2: [],
-      selectedRowKeys3: [],
-      selectedRowKeys4: [],
+      selectedRowKeys2: null,
+      selectedRowKeys3: null,
+      selectedRowKeys4: null,
 
       listtype: "wechat",
       tabletype: false,
       form: {
         customerId: "",
-        wechatConfigId: [],
-        smsConfigId: [],
-        emailConfigId: [],
+        wechatConfigId: "",
+        smsConfigId: "",
+        emailConfigId: "",
         remark: "",
       },
       pagination2: {
@@ -294,43 +316,55 @@ export default {
           }
         }
         this.listparam.customerId = this.tabledata[0].customerId;
-            this.getwechatlist();
+        this.getwechatlist();
       } else {
         return this.$message.error(res.data.resultMsg);
       }
     },
     async getemailform() {
+      if (this.selectedRowKeys4) {
+        this.form.smsConfigId = this.tabledata3[
+          this.selectedRowKeys3
+        ].smsConfigId;
+      }
       this.form.emailConfigId = this.tabledata4[
-        this.selectedRowKeys4[0]
+        this.selectedRowKeys4
       ].emailConfigId;
       let res = await this.$http.post(this.$api.customeremailform, this.form);
       if (res.data.resultCode == "10000") {
-           this.getemaillist();
-     return   this.$message.success(res.data.resultMsg);
+        this.getemaillist();
+        return this.$message.success(res.data.resultMsg);
       } else {
         return this.$message.error(res.data.resultMsg);
       }
     },
     async getwechatlform() {
-      this.form.wechatConfigId = this.tabledata2[
-        this.selectedRowKeys2[0]
-      ].wechatConfigId;
+      console.log(this.selectedRowKeys2, 7777);
+      if (this.selectedRowKeys2) {
+        this.form.wechatConfigId = this.tabledata2[
+          this.selectedRowKeys2
+        ].wechatConfigId;
+      }
+
       let res = await this.$http.post(this.$api.customerwechatform, this.form);
       if (res.data.resultCode == "10000") {
-         this.getwechatlist();
-     return   this.$message.success(res.data.resultMsg);
+        this.getwechatlist();
+        return this.$message.success(res.data.resultMsg);
       } else {
         return this.$message.error(res.data.resultMsg);
       }
     },
     async getsmsform() {
-      this.form.smsConfigId = this.tabledata3[
-        this.selectedRowKeys3[0]
-      ].smsConfigId;
+      if (this.selectedRowKeys3) {
+        this.form.smsConfigId = this.tabledata3[
+          this.selectedRowKeys3
+        ].smsConfigId;
+      }
+
       let res = await this.$http.post(this.$api.customersmsform, this.form);
       if (res.data.resultCode == "10000") {
-          this.getsmslist();
-      return  this.$message.success(res.data.resultMsg);
+        this.getsmslist();
+        return this.$message.success(res.data.resultMsg);
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -354,11 +388,11 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.tabledata4 = res.data.data;
-         this.selectedRowKeys4=[]
-            for (let i = 0; i < this.tabledata4.length; i++) {
-          if (this.tabledata4[i].authTotal!==0) {
-            this.selectedRowKeys4.push(i)
-              this.form.remark=this.tabledata2[i].remark
+        this.selectedRowKeys4 = null;
+        for (let i = 0; i < this.tabledata4.length; i++) {
+          if (this.tabledata4[i].authTotal !== 0) {
+            this.selectedRowKeys4 = i;
+            this.form.remark = this.tabledata2[i].remark;
           }
         }
       } else {
@@ -371,21 +405,19 @@ export default {
         this.listparam
       );
       if (res.data.resultCode == "10000") {
-
         this.tabledata3 = res.data.data;
-         this.selectedRowKeys3=[]
-            for (let i = 0; i < this.tabledata3.length; i++) {
-          if (this.tabledata3[i].authTotal!==0) {
-            this.selectedRowKeys3.push(i)
-              this.form.remark=this.tabledata2[i].remark
+        this.selectedRowKeys3 = null;
+        for (let i = 0; i < this.tabledata3.length; i++) {
+          if (this.tabledata3[i].authTotal !== 0) {
+            this.selectedRowKeys3 = i;
+            this.form.remark = this.tabledata2[i].remark;
           }
         }
-        console.log(this.selectedRowKeys3,8999);
       } else {
         return this.$message.error(res.data.resultMsg);
       }
     },
-    async getwechatlist(val) {
+    async getwechatlist() {
       this.tabletype = false;
       let res = await this.$http.post(
         this.$api.customerwechatdetail,
@@ -393,11 +425,11 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.tabledata2 = res.data.data;
-         this.selectedRowKeys2=[]
+        this.selectedRowKeys2 = null;
         for (let i = 0; i < this.tabledata2.length; i++) {
-          if (this.tabledata2[i].authTotal!==0) {
-          this.selectedRowKeys2.push(i)
-          this.form.remark=this.tabledata2[i].remark
+          if (this.tabledata2[i].authTotal !== 0) {
+            this.selectedRowKeys2 = i;
+            this.form.remark = this.tabledata2[i].remark;
           }
         }
         this.tabletype = true;
@@ -407,7 +439,7 @@ export default {
     },
     changetab(val) {
       this.listtype = val;
-      this.form.remark=""
+      this.form.remark = "";
       if (val == "wechat") {
         this.getwechatlist();
       }
@@ -420,20 +452,32 @@ export default {
     },
     onSelectChange(selectedRowKeys2) {
       console.log("selectedRowKeys changed: ", selectedRowKeys2);
-      this.selectedRowKeys2 = selectedRowKeys2;
-      this.form.remark=this.tabledata2[selectedRowKeys2[0]].remark||""
+      if (this.selectedRowKeys2 == selectedRowKeys2) {
+        this.selectedRowKeys2 = null;
+      } else {
+        this.selectedRowKeys2 = selectedRowKeys2;
+        this.form.remark = this.tabledata2[selectedRowKeys2].remark || "";
+      }
     },
     //sms
     onSelectChange1(selectedRowKeys3) {
       console.log("selectedRowKeys changed: ", selectedRowKeys3);
-      this.selectedRowKeys3 = selectedRowKeys3;
-         this.form.remark=this.tabledata3[selectedRowKeys3[0]].remark||""
+      if (this.selectedRowKeys3 == selectedRowKeys3) {
+        this.selectedRowKeys3 = null;
+      } else {
+        this.selectedRowKeys3 = selectedRowKeys3;
+        this.form.remark = this.tabledata3[selectedRowKeys3].remark || "";
+      }
     },
     //email
     onSelectChange2(selectedRowKeys4) {
       console.log("selectedRowKeys changed: ", selectedRowKeys4);
-      this.selectedRowKeys4 = selectedRowKeys4;
-       this.form.remark=this.tabledata4[selectedRowKeys4[0]].remark||""
+      if (this.selectedRowKeys4 == selectedRowKeys4) {
+        this.selectedRowKeys4 = null;
+      } else {
+        this.selectedRowKeys4 = selectedRowKeys4;
+        this.form.remark = this.tabledata4[selectedRowKeys4].remark || "";
+      }
     },
     cancel() {
       this.reload();
@@ -486,7 +530,7 @@ export default {
   border: 1px solid #dcdcdc;
   overflow: scroll;
 }
-.messtree_box::-webkit-scrollbar{
+.messtree_box::-webkit-scrollbar {
   display: none;
 }
 .r_b_title {

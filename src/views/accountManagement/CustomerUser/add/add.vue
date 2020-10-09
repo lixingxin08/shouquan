@@ -215,7 +215,7 @@
           this.$message.error('请关联角色')
           return
         }
-        this.config.operatorId = JSON.parse(localStorage.getItem('usermsg')).accountId //操作者id
+        this.config.operatorId = JSON.parse(localStorage.getItem('authorization')).accountId //操作者id
         if (this.config.adminFlag == 0) {
           this.config.roleList = this.getRolesId() //获取分配的角色id
         } else {

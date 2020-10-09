@@ -96,7 +96,7 @@
           return
         }
         this.config.menuIdList = this.defaultExpandedKeysUpload
-        this.config.operatorId = JSON.parse(localStorage.getItem('usermsg')).accountId
+        this.config.operatorId = JSON.parse(localStorage.getItem('authorization')).accountId
         let res = await this.$http.post(this.$api.rolesystemform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);

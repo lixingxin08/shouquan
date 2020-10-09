@@ -55,7 +55,7 @@ window.addEventListener(
     if (e.data.type !== "webpackOk") {
       if (e.data.accountId == "" || e.data.accountId == undefined) {
       } else {
-        localStorage.setItem("usermsg", JSON.stringify(e.data), 10000000000000);
+        localStorage.setItem("authorization", JSON.stringify(e.data), 10000000000000);
       }
     }
   },
@@ -72,10 +72,10 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxNDY1NjYwNTA4LCJ0b2tlbklkIjoiYTkzOWRhY2MxYjFkNGM2Njg1ZjMxMzA5NzhiMDlhMzQiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.joMWuYM-4X2yxHrBX5Y5XM0VYCs3tFfwo0BiBN0-P2M"
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyMjQ0Nzk0MzM2LCJ0b2tlbklkIjoiMGNiMTgwNWI5MmY0NDFiMGIwNjlmN2RmMjg2N2IzY2IiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.kXTBol2_mRt6mhe01kB_SaZRNqEZDwhisVTyUArVKto"
 
     } else {
-      token = JSON.parse(localStorage.getItem('usermsg')).token || ""
+      token = JSON.parse(localStorage.getItem('authorization')).token || ""
     }
     config.headers.common['token'] = token
     return config;
@@ -88,9 +88,9 @@ let thisurl = window.location.href.split('/#')
 let bb = thisurl[0].split('/authorization')
 axios.interceptors.response.use(
   response => {
-    let aa = JSON.parse(localStorage.getItem('usermsg'))
+    let aa = JSON.parse(localStorage.getItem('authorization'))
     aa.token = response.headers.token
-    localStorage.setItem('usermsg', JSON.stringify(aa))
+    localStorage.setItem('authorization', JSON.stringify(aa))
     if (response.data.resultMsg == "执行成功，但没有获取到数据") {
       response.data.data=[]
       response.data.data.list=[]

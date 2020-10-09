@@ -290,7 +290,7 @@
           menuIcon: this.imageUrl,
           grade: this.grade,
           linkURL: this.getMenuLinkURL(),
-          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
           hiddenURL: JSON.stringify(this.authList),
           remark: this.remark
         }

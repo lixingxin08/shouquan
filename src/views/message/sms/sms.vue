@@ -113,7 +113,7 @@
         runpageparam: {
           typeCode: "",
           keyword: "",
-          operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
           pageIndex: 1,
           pageSize: 10,
         },
@@ -188,7 +188,7 @@
       //查询
       tosearch() {
         this.pagination.current = 1;
-        this.pagination.pageSize = 10;
+        this.pagination.pageSize = 20;
         this.getpage();
       },
       //清除

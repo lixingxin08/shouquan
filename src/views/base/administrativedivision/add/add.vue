@@ -375,8 +375,8 @@ export default {
   margin-bottom: 20px;
 }
 .dialogadminadd_inp {
-  width: 724px;
-  height: 36px;
+  width: 724px!important;
+  height: 36px!important;
   border: 1px solid #dcdcdc;
   border-radius: 8px;
 }

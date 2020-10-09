@@ -388,7 +388,7 @@ export default {
       this.isselectdata.levelType = "";
       this.istotal.type = 1;
       this.pagination.page = 1;
-      this.pagination.pageSize = 10;
+      this.pagination.pageSize = 20;
       this.getareapage();
     },
     //清除

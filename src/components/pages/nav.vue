@@ -91,7 +91,7 @@
            console.log(isurl,9999);
            let isurl2=isurl[1].split('/')
            console.log(isurl2,'isurl2isurl2isurl2isurl2');
-        let navlist=JSON.parse(localStorage.getItem("usermsg")).navlist
+        let navlist=JSON.parse(localStorage.getItem("authorization")).navlist
             for (let i = 0; i < navlist.length; i++) {
               if (navlist[i].linkURL==isurl2[0]) {
                 this.selectedKeys=navlist[i].menuName

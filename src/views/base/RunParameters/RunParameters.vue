@@ -264,7 +264,7 @@ export default {
     //查询
     tosearch() {
       this.pagination.current = 1;
-      this.pagination.pageSize = 10;
+      this.pagination.pageSize = 20;
       this.istotal.type = 1;
       this.getrunpage();
     },

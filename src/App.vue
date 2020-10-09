@@ -25,7 +25,7 @@ export default {
         accountId: "4e815e64411c4aabab668cbee89077e8",
         customerId: "100000000000000000000000000000",
         token:"eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAwNzY3NzgzMzk5LCJ0b2tlbklkIjoiNzAzMDIzOTVmMzg2NDQzMWI1OGRjMDE1ODAwMGRhNjIiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjMifQ.YFJYjYBskdXnEUt6-C2KRxqQhIKmrbd9JV89Su9N3yg"  };
-      localStorage.setItem("usermsg", JSON.stringify(usermsg));
+      localStorage.setItem("authorization", JSON.stringify(usermsg));
     } else {
     }
   },

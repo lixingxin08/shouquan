@@ -156,7 +156,7 @@
           return
         }
 
-        this.config.operatorId = JSON.parse(localStorage.getItem('usermsg')).accountId
+        this.config.operatorId = JSON.parse(localStorage.getItem('authorization')).accountId
         this.config.smsModelList = this.msgList
         let res = await this.$http.post(this.$api.smsform, this.config)
         if (res.data.resultCode == 10000) {

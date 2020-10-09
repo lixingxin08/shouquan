@@ -56,7 +56,7 @@ export default {
     },
   },
   created() {
-    this.user = JSON.parse(localStorage.getItem("usermsg"));
+    this.user = JSON.parse(localStorage.getItem("authorization"));
     this.gettitle();
   },
   watch: {

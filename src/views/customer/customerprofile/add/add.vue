@@ -124,7 +124,7 @@ export default {
     return {
       postimgurl,
       istoken: {
-        token: JSON.parse(localStorage.getItem("usermsg")).token || "",
+        token: JSON.parse(localStorage.getItem("authorization")).token || "",
       },
       loading: false,
       imageUrl: "",
@@ -145,7 +145,7 @@ export default {
         position: "",
         statusCode: "",
         remark: "",
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
+        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
       },
       detailparam: {
         customerId: "",

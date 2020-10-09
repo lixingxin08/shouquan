@@ -104,7 +104,7 @@ export default {
         departmentId: "",
         remark: "",
         email: "",
-        operatorId: JSON.parse(localStorage.getItem('usermsg')).accountId,
+        operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
       },
       detailparam: {
         personId: "",
@@ -168,7 +168,7 @@ export default {
         return this.$message.error("请输入手机号码");
       }
 
-      if (this.form.statusCode == "") {
+      if (this.form.statusCode === "") {
         return this.$message.error("请选择人员状态");
       }
       this.form.operatorId = 1;

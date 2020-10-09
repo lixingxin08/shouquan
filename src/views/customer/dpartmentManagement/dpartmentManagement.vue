@@ -155,7 +155,7 @@ export default {
       defaultExpandedKeys: [],
       defaultSelectedKeys: [],
       data: "",
-  pagination: this.$config.pagination,
+      pagination: this.$config.pagination,
       issearchdata: "",
       filterdata: [],
 
@@ -163,7 +163,7 @@ export default {
         //行政区划树接口参数
         customerId: "",
         departmentId: "",
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
+        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
       },
       removeparam: {
         departmentId: "",
@@ -232,6 +232,10 @@ export default {
       this.visible = false;
     },
     toadd(val, id) {
+      console.log(
+        this.isselectdata,
+        "this.isselectdata.id this.isselectdata.id "
+      );
       if (val == "add") {
         if (this.isselectdata.id == "") {
           this.isselectdata.id = this.treedata[0].id;
@@ -292,9 +296,14 @@ export default {
         this.defaultSelectedKeys.push(
           JSON.parse(localStorage.getItem("dpartmentManagementid"))
         );
-        this.isselectdata.id = JSON.parse(
-          localStorage.getItem("dpartmentManagementid")
-        );
+        for (let i = 0; i < this.data.length; i++) {
+          if (
+            this.data[i].id ==
+            JSON.parse(localStorage.getItem("dpartmentManagementid"))
+          ) {
+            this.isselectdata = this.data[i];
+          }
+        }
       } else {
         this.defaultSelectedKeys.push(this.treedata[0].id);
         this.isselectdata.id = this.treedata[0].id;
@@ -337,7 +346,7 @@ export default {
     tosearch() {
       this.istotal.type = 1;
       this.pagination.page = 1;
-      this.pagination.pageSize = 10;
+      this.pagination.pageSize = 20;
       this.getpage();
     },
     //清除

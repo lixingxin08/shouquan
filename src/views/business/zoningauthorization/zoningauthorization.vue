@@ -126,7 +126,7 @@ export default {
         statusCode: "",
         keyword: "",
         accountId: "",
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
+        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
         pageIndex: 1,
         pageSize: 10,
       },
@@ -138,7 +138,7 @@ export default {
       remark: "",
       oldAuthAreaId:"",
       listparam: {
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
+        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
         customerId: "",
       },
       customerId: "",

@@ -162,7 +162,7 @@ export default {
         leader: "",
         linkphone: "",
         remark: "",
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
+        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
       },
       detailparam: {
         phaseId: "",

@@ -358,7 +358,7 @@ export default {
       treedata: "",
       replaceFields: {
         title: "name",
-        key: "id",
+        key: "id pid",
       },
       defaultExpandedKeys: [],
       data: "",
@@ -366,7 +366,6 @@ export default {
       addmodel: false,
       treeprame: {
         customerId: "",
-        operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
       },
       listparam: {
         customerId: "",
@@ -561,6 +560,7 @@ export default {
 
       this.treemodelparam.id = this.treedata[0].id;
       this.treemodelparam.levelType = this.treedata[0].levelType;
+      console.log(this.treedata,8989);
       this.gettreemodellist();
       this.tabletype = true;
       this.showtree = true;
@@ -597,7 +597,7 @@ export default {
 
       this.treedata = this.toTree(this.data);
       this.checkedKeys.push(this.treedata[0].id);
-      console.log(this.checkedKeys, 77766);
+      console.log(this.treedata, 77766);
     },
     //获取树搜索数据
     getsearchdata(val) {
@@ -625,6 +625,7 @@ export default {
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
+      console.log(val,6666);
       this.selectedRowKeys2 = [];
       this.form.modelId = "";
       this.treemodelparam.id = val.id;
