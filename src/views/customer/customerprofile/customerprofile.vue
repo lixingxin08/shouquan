@@ -51,8 +51,8 @@
               >{{(index+1)+((pagination.current-1)*10)}}</template>
               <div slot="statusCode" class="flex_a" slot-scope="statusCode">
                 <div v-if="statusCode==1">启用</div>
-                <div v-if="statusCode==2">备用</div>
-                <div v-if="statusCode==0">锁定</div>
+                <div v-if="statusCode==0">备用</div>
+                <div v-if="statusCode==2">锁定</div>
               </div>
               <div slot="authTotal" class="flex_a" slot-scope="authTotal">
                 
@@ -89,7 +89,7 @@ export default {
       ModalText: "您确定要删除吗？",
       visible: false,
       tabletype: false,
-      sel_data: [{val:"启用",id:1},{val:"备用",id:2},{val:"锁定",id:0},],
+      sel_data: [{val:"启用",id:1},{val:"备用",id:0},{val:"锁定",id:2},],
       tablecolumns: [
         {
           width: 208,
@@ -256,7 +256,7 @@ export default {
     //查询
     tosearch() {
       this.pagination.current = 1;
-      this.pagination.pageSize = 10;
+      this.pagination.pageSize = 20;
       this.istotal.type = 1;
       this.getpage();
     },

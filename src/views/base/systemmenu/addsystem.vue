@@ -60,7 +60,7 @@
       <div class="flexrow edit_item_menu_title3_menu" style="width:667px; margin-top: 40px;justify-item: flex-start;margin-left: 10px; margin-bottom: 10px;font-size: 14px;"><a
           style="color: #FF0000;">*</a>鉴权接口</div>
 
-      <a-table :columns="dictionaryColumns" style="width:1100px;margin-left: 10px;" :data-source="authList" :pagination='false' :bordered='true' size='small'>
+      <a-table :columns="dictionaryColumns" class="min_table" style="width:1100px;margin-left: 10px;" :data-source="authList" :pagination='false' :bordered='true' size='small'>
         <!-- <template v-for="col in ['actionName', 'linkURL', 'defaultFlag']" :slot="col" slot-scope="text, record, index">
           <div :key="col">
             <a-input style="margin: -5px 0;border: 0px;" :value="text" @change="e => handleChange(e.target.value, index, col)" />

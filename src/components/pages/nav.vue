@@ -25,6 +25,7 @@
   </a-layout-sider>
 </template>
 <script>
+
   import {
     Menu
   } from "ant-design-vue";
@@ -62,9 +63,9 @@
     name: "isnav",
     data() {
       return {
-        menudata: [], //树数据
+        menudata: [ ], //树数据
         selectedKeys: [],
-        openKeys: []
+        openKeys: [],
       };
     },
     components: {
@@ -72,13 +73,13 @@
     },
 
     created() {
+     
       this.getMenuList();
     },
     methods: {
       handleClick(e) {
         console.log('click ', e.key);
         this.selectedKeys = [e.key]
-        localStorage.setItem("navSelectId", e.key)
       },
       openChange(e){
          console.log('open ', e);
@@ -86,8 +87,18 @@
          localStorage.setItem("navOpenId", JSON.stringify(e))
       },
       async getMenuList() {
+           let isurl=window.location.href.split('#/')
+           console.log(isurl,9999);
+           let isurl2=isurl[1].split('/')
+           console.log(isurl2,'isurl2isurl2isurl2isurl2');
+        let navlist=JSON.parse(localStorage.getItem("usermsg")).navlist
+            for (let i = 0; i < navlist.length; i++) {
+              if (navlist[i].linkURL==isurl2[0]) {
+                this.selectedKeys=navlist[i].menuName
+              }
+            }
         this.menudata = this.toTree(
-          JSON.parse(localStorage.getItem("usermsg")).navlist
+          navlist
         );
       //  this.menudata = this.toTree(js.navlist)
       },
@@ -111,9 +122,6 @@
             result.push(item);
           }
         });
-        if (localStorage.getItem("navSelectId")) {
-          this.selectedKeys = [localStorage.getItem("navSelectId")]
-        }
         if (localStorage.getItem("navOpenId")) {
           this.openKeys = JSON.parse(localStorage.getItem("navOpenId"))
         }

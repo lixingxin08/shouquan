@@ -1,6 +1,6 @@
 <template>
-  <div class="flex_f father">
-    <div class="isleftmodel">
+  <div class="flex_f father modelauthorization">
+    <div class="isleftmodel no_pagination">
       <div class="left_title">客户列表</div>
       <a-table
         :columns="tablecolumns"
@@ -8,63 +8,161 @@
         bordered
         :pagination="pagination"
         :customRow="customRow"
-         rowKey="index"
+        rowKey="index"
       >
-        <template
-          slot="index"
-          slot-scope="text, record,index"
-        >{{(index+1)+((pagination.current-1)*10)}}</template>
+        <template slot="index" slot-scope="text, record, index">{{
+          index + 1 + (pagination.current - 1) * 10
+        }}</template>
         <div slot="statusCode" class="flex_a" slot-scope="statusCode">
-          <div v-if="statusCode==1">启用</div>
-          <div v-if="statusCode==2">备用</div>
-          <div v-if="statusCode==0">关闭</div>
+          <div v-if="statusCode == 1">启用</div>
+          <div v-if="statusCode == 2">备用</div>
+          <div v-if="statusCode == 0">关闭</div>
         </div>
       </a-table>
     </div>
     <div class="isright">
-      <div class="flex_f">
-        <div class="isright_l">
-          <div class="left_title_model">设备类型</div>
-          <div class="tree_box tree_box1">
-            <is-left
-              :treedata="treedata"
-              :replaceFields="replaceFields"
-              :defaultExpandedKeys="defaultExpandedKeys"
-              @selectdata="getselectdata"
-              @checkedKeys="getcheckedKeys"
-              v-if="showtree"
-            ></is-left>
-          </div>
+      <div class="isright_r">
+        <div class="left_title_model">型号列表</div>
+        <a-button type="primary" class="table-add-btn btn2" @click="addtogle()"
+          >添加型号</a-button
+        >
+        <div class="tree_box tree_box1 tree_box2" v-if="!addmodel">
+          <a-table
+            :columns="tablecolumns2"
+            :data-source="tabledata2"
+            bordered
+            :pagination="pagination2"
+            v-if="tabletype"
+          >
+            <template slot="index2" slot-scope="text, record, index">{{
+              index + 1 + (pagination2.current - 1) * 10
+            }}</template>
+            <template slot="edit" slot-scope="record">
+              <div class="flexrow flexac flexjc">
+                <div class="col_blue ispointer" @click="toedit(record)">
+                  编辑
+                </div>
+                <div class="item-line"></div>
+                <div
+                  class="col_red ispointer"
+                  @click="getremove(record)"
+                  v-if="record.useTotal == 0"
+                >
+                  <span>删除</span>
+                </div>
+                <div
+                  class="col_gray ispointer"
+                  v-else
+                >
+                  <span>删除</span>
+                </div>
+              </div>
+            </template>
+          </a-table>
         </div>
-        <div class="isright_r">
-          <div class="left_title_model">型号列表</div>
-          <div class="tree_box tree_box1">
-            <a-table
-              :columns="tablecolumns2"
-              :data-source="tabledata2"
-              :row-selection="rowSelection"
-              bordered
-              :pagination="pagination2"
-            >
-              <template
-              slot="index2"
-              slot-scope="text, record,index"
-            >{{(index+1)+((pagination2.current-1)*10)}}</template>
-            </a-table>
+        <div class="add_model" v-if="addmodel">
+          <div class="tree_box tree_box1 tree_box2">
+            <div class="left_title_model add_model_t flex_b">
+              <span> 新增型号</span>
+              <a-icon type="close" style="cursor: pointer" @click="isclose()" />
+            </div>
+            <div class="flex_f">
+              <div class="isright_l">
+                <div class="tree_box tree_box1 tree_box3 isright_l_l">
+                  <is-left
+                    :treedata="treedata"
+                    :replaceFields="replaceFields"
+                    :defaultExpandedKeys="defaultExpandedKeys"
+                    :defaultSelectedKeys="checkedKeys"
+                    @selectdata="getselectdata"
+                    v-if="showtree"
+                  ></is-left>
+                </div>
+              </div>
+              <div class="isright_r isright_r2">
+                <div class="tree_box tree_box1 tree_box3">
+                  <a-table
+                    :columns="tablecolumns3"
+                    :data-source="tabledata2"
+                    :row-selection="{
+                      selectedRowKeys: this.selectedRowKeys2,
+                      onChange: onSelectChange2,
+                      type: 'radio',
+                    }"
+                    bordered
+                    :pagination="pagination2"
+                    v-if="tabletype"
+                  >
+                    <template slot="index2" slot-scope="text, record, index">{{
+                      index + 1 + (pagination2.current - 1) * 10
+                    }}</template>
+                  </a-table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="r_b">
+            <div class="flex_f authtotal">
+              <span>授权个数:</span>
+              <a-input
+                class="num_inpt"
+                v-model="form.authTotal"
+                type="number"
+                placeholder="请输入授权个数"
+              />
+              <span style="font-size: 14px">注:授权个数不能大于9999</span>
+              <div style="margin-left:50px;margin-right:20px">已用个数:</div>
+              <span>{{authTotal}}</span>
+            </div>
+            <div class="r_b_title">授权描述:</div>
+            <div class="rb_text2">
+              <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
+              <div class="remarknum">{{ remarklen }}/500</div>
+            </div>
+          </div>
+          <div class="flex_a rb_b2">
+            <div class="flex_f">
+              <div class="ok_btn" @click="getform()">授权</div>
+              <div class="cancel_btn rb_b_btn" @click="reset()">重置</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="r_b">
-        <div class="r_b_title">授权描述:</div>
-        <div class="rb_text">
-          <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
-          <div class="remarknum">{{remarklen}}/500</div>
+    </div>
+    <div class="isedit" v-if="edittype">
+      <div class="left_title_model add_model_t flex_b">
+        <span> 编辑</span>
+        <a-icon type="close" style="cursor: pointer" @click="closeedit()" />
+      </div>
+      <div class="edit_c">
+        <div class="edit_c_item flex_f">
+          <span>型号名称:</span>
+          <a-input class="edit_a_input" v-model="editdata.modelName" disabled />
         </div>
-        <div class="flex_a rb_b">
-          <div class="flex_f">
-            <div class="cancel_btn rb_b_btn" @click="cancel()">取消</div>
-            <div class="ok_btn" @click="getform()">授权</div>
+        <div class="edit_c_item flex_f">
+          <span><span class="col_red">*</span>授权个数:</span>
+          <a-input
+            class="edit_a_input"
+            v-model="editdata.authTotal"
+            type="number"
+          />
+        </div>
+        <div class="edit_c_item flex_f">
+          <span>已用个数:</span>
+          <span class="edit_a_input text_s">{{ editdata.useTotal }}</span>
+        </div>
+        <div class="edit_c_item edit_c_item_area flex_f">
+          <span>授权描述:</span>
+          <div class="rb_text2 edit_a_input">
+            <a-textarea :maxlength="500" v-model="editdata.remark" :rows="5" />
+            <div class="remarknum">{{ remarklen }}/500</div>
           </div>
+        </div>
+      </div>
+      <div class="flex_a rb_b2">
+        <div class="flex_f">
+          <div class="ok_btn" @click="geteditform()">授权</div>
+          <div class="cancel_btn rb_b_btn" @click="editreset()">重置</div>
         </div>
       </div>
     </div>
@@ -84,44 +182,17 @@ export default {
   },
   data() {
     return {
+      authTotal:"",
+      checkedKeys: [],
+      selectedRowKeys2: [],
+      selectedRowKeys1: [],
       remark: "",
+      addtype: false,
+      edittype: false,
       isdefaultChecked: "路灯控制器NB版",
-      rowSelection: {
-        getCheckboxProps: (record) => ({
-          props: {
-            defaultChecked: record.modelName === this.isdefaultChecked, // Column configuration not to be checked
-            name: record.modelName,
-          },
-        }),
-        onChange: (selectedRowKeys, selectedRows) => {
-          console.log(
-            `selectedRowKeys: ${selectedRowKeys}`,
-            "selectedRows: ",
-            selectedRows
-          );
-        },
-        onSelect: (record, selected, selectedRows) => {
-          console.log(record, selected, selectedRows, 2222);
-          this.form.modelIdList = [];
-          if (selectedRows.length > 0) {
-            selectedRows.forEach((item) => {
-              this.form.modelIdList.push(item.modelId);
-            });
-          }
-        },
-        onSelectAll: (selected, selectedRows, changeRows) => {
-          console.log(selected, selectedRows, changeRows, 1111);
-          this.form.modelIdList = [];
-          if (selected == true) {
-            selectedRows.forEach((item) => {
-              this.form.modelIdList.push(item.modelId);
-            });
-          }
-        },
-      },
       tablecolumns: [
         {
-          width: 88,
+          width: 68,
           align: "center",
           title: "序号",
           dataIndex: "customerId",
@@ -140,7 +211,7 @@ export default {
           ellipsis: true,
         },
         {
-          width: 141,
+          width: 131,
           align: "center",
           title: "客户状态",
           dataIndex: "statusCode",
@@ -166,9 +237,87 @@ export default {
         page: 1,
         hideOnSinglePage: true,
       },
+      editdata: {},
       tabletype: false,
-      tabletype2: false,
       tablecolumns2: [
+        {
+          width: 38,
+          align: "center",
+          title: "序号",
+          dataIndex: "modelId",
+          key: "modelId",
+          ellipsis: true,
+          scopedSlots: {
+            customRender: "index2",
+          },
+        },
+        {
+          width: 101,
+          align: "center",
+          title: "型号名称",
+          dataIndex: "modelName",
+          key: "modelName",
+          ellipsis: true,
+        },
+        {
+          width: 101,
+          align: "center",
+          title: "设备品牌",
+          dataIndex: "brandName",
+          key: "brandName",
+          ellipsis: true,
+        },
+        {
+          width: 101,
+          align: "center",
+          title: "设备类型",
+          dataIndex: "deviceTypeName",
+          key: "deviceTypeName",
+          ellipsis: true,
+        },
+        {
+          width: 101,
+          align: "center",
+          title: "授权个数",
+          dataIndex: "authTotal",
+          key: "authTotal",
+          ellipsis: true,
+        },
+        {
+          width: 101,
+          align: "center",
+          title: "已用个数",
+          dataIndex: "useTotal",
+          key: "useTotal",
+          ellipsis: true,
+        },
+        // {
+        //   width: 101,
+        //   align: "center",
+        //   title: "业务类别",
+        //   dataIndex: "serviceTypeName",
+        //   key: "serviceTypeName",
+        //   ellipsis: true,
+        // },
+        {
+          width: 101,
+          align: "center",
+          title: "挂载设备数",
+          dataIndex: "useTotal",
+          key: "useTotal",
+          ellipsis: true,
+        },
+        {
+          width: 68,
+          align: "center",
+          title: "操作",
+          ellipsis: true,
+          scopedSlots: {
+            customRender: "edit",
+          },
+        },
+      ],
+      tablecolumns3: [
         {
           width: 38,
           align: "center",
@@ -191,7 +340,7 @@ export default {
         {
           width: 141,
           align: "center",
-          title: "型号品牌",
+          title: "设备品牌",
           dataIndex: "brandName",
           key: "brandName",
           ellipsis: true,
@@ -214,6 +363,7 @@ export default {
       defaultExpandedKeys: [],
       data: "",
       showtree: false,
+      addmodel: false,
       treeprame: {
         customerId: "",
         operatorId: JSON.parse(localStorage.getItem("usermsg")).accountId,
@@ -227,37 +377,93 @@ export default {
       treemodelparam: {
         id: "",
         levelType: "",
+        customerId: "",
+        deviceTypeId:"",
       },
+      
       customerId: "",
       form: {
-        modelIdList: [],
+        modelId: "",
         accountId: "",
         remark: "",
+        authTotal: "",
+        customerId: "",
       },
+      oldeditdata:""
     };
   },
   created() {
     this.getlist();
-    this.getareatree();
-    this.gettreemodellist()
   },
   methods: {
+    onSelectChange2(selectedRowKeys3) {
+      console.log("selectedRowKeys changed: ", selectedRowKeys3);
+      this.selectedRowKeys2 = [];
+      this.form.modelId = "";
+      for (let i = 0; i < selectedRowKeys3.length; i++) {
+        this.selectedRowKeys2.push(selectedRowKeys3[i]);
+        this.form.modelId = this.tabledata2[selectedRowKeys3[i]].modelId;
+      }
+      console.log(this.form.modelId, 111);
+    },
+    toedit(val) {
+      this.editdata = JSON.parse(JSON.stringify(val));
+      this.oldeditdata = JSON.parse(JSON.stringify(val));
+
+      this.edittype = true;
+    },
+    closeedit() {
+      this.edittype = false;
+      this.editdata=""
+      this.getmodellist();
+    },
+    isclose() {
+      this.addmodel = false;
+      this.getmodellist();
+    },
+    addtogle() {
+      console.log(111);
+      this.addmodel = true;
+      this.edittype=false
+      this.getareatree();
+    },
+    reset() {
+      this.selectedRowKeys2 = [];
+      this.form.modelId = "";
+      this.form.authTotal = "";
+      this.form.remark = "";
+      this.getareatree(); 
+    },
+    editreset(){
+      this.editdata=this.oldeditdata
+      this.editdata.remark=""
+
+    },
     customRow(record, index) {
-        return {
-          style: {
-            // 行背景色
-            'background-color': record.customerId==this.modellistparam.customerId ? "#e6f7ff" : ''
-          },
-          on: {
-            // 鼠标单击行
-            click: event => {
-                   this.modellistparam.customerId = record.customerId;
-                   this.getmodellist()
+      return {
+        style: {
+          // 行背景色
+          "background-color":
+            record.customerId == this.modellistparam.customerId
+              ? "#e6f7ff"
+              : "",
+        },
+        on: {
+          // 鼠标单击行
+          click: (event) => {
+            this.selectedRowKeys1 = [];
+            this.form.modelId = "";
+            this.addmodel = false;
+         this.closeedit()
+            this.modellistparam.customerId = record.customerId;
+            this.treeprame.customerId = record.customerId;
+            this.authTotal=record.authTotal
+            this.getmodellist();
             console.log(record, "record", index);
-            },
           },
-        }
-      },
+        },
+      };
+    },
     async getlist() {
       this.tabletype = false;
       let res = await this.$http.post(
@@ -272,6 +478,9 @@ export default {
         }
         this.modellistparam.customerId = this.tabledata[0].customerId;
         this.form.customerId = this.tabledata[0].customerId;
+        this.treeprame.customerId = this.tabledata[0].customerId;
+        this.authTotal = this.tabledata[0].authTotal;
+
         this.getmodellist();
         this.tabletype = true;
       } else {
@@ -279,35 +488,57 @@ export default {
       }
     },
     async getmodellist() {
-      this.tabletype2 = false;
+      this.tabletype = false;
       let res = await this.$http.post(
         this.$api.customermodellist,
         this.modellistparam
       );
       if (res.data.resultCode == "10000") {
         this.tabledata2 = res.data.data;
-        this.tabletype2 = true;
       } else {
         this.tabledata2 = "";
         return this.$message.error(res.data.resultMsg);
       }
+      this.tabletype = true;
     },
     async gettreemodellist() {
-      this.tabletype2 = false;
+      this.treemodelparam.customerId = this.form.customerId;
       let res = await this.$http.post(
         this.$api.devicemodelrelist,
         this.treemodelparam
       );
       if (res.data.resultCode == "10000") {
         this.tabledata2 = res.data.data;
-        this.tabletype2 = true;
+      } else {
+        this.tabledata2 = "";
+        return this.$message.error(res.data.resultMsg);
+      }
+    },
+    //删除customermodelremove
+    async getremove(val) {
+      console.log(val);
+      let parame = {
+        customerId: this.form.customerId,
+        modelId: val.modelId,
+      };
+      let res = await this.$http.post(this.$api.customermodelremove, parame);
+      if (res.data.resultCode == "10000") {
+        this.getmodellist();
+        return this.$message.success(res.data.resultMsg);
       } else {
         return this.$message.error(res.data.resultMsg);
       }
     },
+    geteditform() {
+      this.form.modelId = this.editdata.modelId;
+      this.form.remark = this.editdata.remark;
+      this.form.authTotal = this.editdata.authTotal;
+      this.getform();
+    },
     async getform() {
-      this.tabletype2 = false;
-      console.log(this.form, 111111111111);
+      if (this.form.authTotal.length >= 5) {
+        return this.$message.error("授权个数不能大于9999");
+      }
       this.form.customerId = this.modellistparam.customerId;
       let res = await this.$http.post(this.$api.customermodelform, this.form);
       if (res.data.resultCode == "10000") {
@@ -318,6 +549,7 @@ export default {
     },
     async getareatree() {
       this.showtree = false;
+      this.tabletype = false;
       let res = await this.$http.post(this.$api.devicetypetree, this.treeprame);
       console.log(res, 11);
       if (res.data.resultCode == "10000") {
@@ -326,6 +558,11 @@ export default {
         return this.$message.error(res.data.resultMsg);
       }
       this.setdata();
+
+      this.treemodelparam.id = this.treedata[0].id;
+      this.treemodelparam.levelType = this.treedata[0].levelType;
+      this.gettreemodellist();
+      this.tabletype = true;
       this.showtree = true;
     },
 
@@ -357,7 +594,10 @@ export default {
           this.defaultExpandedKeys.push(this.data[i].id);
         }
       }
+
       this.treedata = this.toTree(this.data);
+      this.checkedKeys.push(this.treedata[0].id);
+      console.log(this.checkedKeys, 77766);
     },
     //获取树搜索数据
     getsearchdata(val) {
@@ -385,9 +625,11 @@ export default {
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
-      console.log(val, 544444);
+      this.selectedRowKeys2 = [];
+      this.form.modelId = "";
       this.treemodelparam.id = val.id;
       this.treemodelparam.levelType = val.levelType;
+      this.treemodelparam.deviceTypeId=val.pid
       this.gettreemodellist();
     },
     getcheckedKeys(val) {
@@ -402,6 +644,33 @@ export default {
 <style  scoped>
 .father {
   height: 100%;
+}
+.isedit {
+  position: absolute;
+  width: 1250px;
+  height: 600px;
+  right: 10px;
+  top: 100px;
+  background-color: #fff;
+  border: 1px solid #e8e8e8;
+  box-sizing: border-box;
+}
+.edit_c {
+  padding-left: 100px;
+  min-height: 350px;
+  box-sizing: border-box;
+}
+.edit_c_item {
+  margin-top: 20px;
+}
+.edit_c_item_area{
+  margin-top: 50px;
+}
+.edit_a_input {
+  margin-left: 20px;
+}
+.modelauthorization {
+  position: relative;
 }
 .isleftmodel {
   width: 400px;
@@ -419,8 +688,9 @@ export default {
   background: #ffffff;
 }
 .isright_l {
-  width: 300px;
+  width: 280px;
   margin-right: 20px;
+  margin-left: 20px;
   overflow: scroll;
 }
 .isright_l::-webkit-scrollbar {
@@ -429,17 +699,14 @@ export default {
 .isright_r {
   width: 100%;
 }
-.left_title_model {
-  width: 120px;
-  height: 24px;
-  font-size: 18px;
-  font-family: Microsoft YaHei, Microsoft YaHei-Regular;
-  font-weight: 400;
-  text-align: left;
-  color: #333333;
-  margin-top: 20px;
-  margin-bottom: 20px;
+.isright_r2 {
+  margin-right: 20px;
 }
+
+.add_model {
+  height: 800px;
+}
+
 .left_title {
   width: 72px;
   height: 24px;
@@ -459,18 +726,40 @@ export default {
 }
 .tree_box {
   width: 100%;
-  height: 384px;
+  height: 536px;
   margin-top: 20px;
-  margin-bottom: 182px;
+  margin-bottom: 40px;
   background: #ffffff;
   border: 1px solid #dcdcdc;
 }
-.tree_box1 {
+.isright_l_l {
   padding: 20px;
+  box-sizing: border-box;
+}
+.tree_box1 {
   overflow: scroll;
 }
 .tree_box1::-webkit-scrollbar {
   display: none;
+}
+.tree_box2 {
+  margin-top: 0;
+  height: 484px;
+}
+.tree_box3 {
+  margin-top: 0;
+  height: 384px;
+  margin-bottom: 5px;
+}
+.authtotal {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.num_inpt {
+  width: 200px;
+  height: 32px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 .r_b_title {
   font-size: 18px;
@@ -479,15 +768,12 @@ export default {
   text-align: left;
   color: #333333;
 }
-.rb_text {
-  margin-top: 20px;
+.rb_text2 {
+  margin-top: 10px;
   position: relative;
 }
-.rb_b {
-  margin-top: 40px;
+.rb_b2 {
+  margin-top: 20px;
   text-align: center;
-}
-.rb_b_btn {
-  margin-right: 8px;
 }
 </style>

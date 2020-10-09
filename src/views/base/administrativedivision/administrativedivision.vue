@@ -1,6 +1,10 @@
 <template>
   <div class="administrativedivision flex_fs">
-    <is-delete-dialog v-if="visible" @confirm="confirm" @cancle="cancel"></is-delete-dialog>
+    <is-delete-dialog
+      v-if="visible"
+      @confirm="confirm"
+      @cancle="cancel"
+    ></is-delete-dialog>
     <div class="isleft">
       <is-left
         :treedata="treedata"
@@ -26,32 +30,41 @@
           <div class="btn_gray" @click="clear()">清除</div>
         </div>
         <div class="isline"></div>
-        <div class="btn_blue btn2" @click="toadd('add')">
-          <a-icon two-tone-color="#ffffff" style="margin-right: 5px;" type="plus" />新增
+        <div class="flex_f">
+          <a-button
+            type="primary"
+            class="table-add-btn btn2"
+            @click="toadd('add')"
+          >
+            <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button
+          >
         </div>
-        <div class="table" v-if="tabletype">
+
+        <div class="table">
           <a-table
-            :scroll="{  y: 610 }"
+            :scroll="{ y: 610 }"
             :columns="tablecolumns"
             :data-source="tabledata"
             bordered
             :pagination="pagination"
             @change="handleTableChange"
+             v-if="tabletype"
           >
-            <template
-              slot="index"
-              slot-scope="text, record,index"
-            >{{(index+1)+((pagination.current-1)*10)}}</template>
-            <div slot="edit" class="flex_a" slot-scope="childTotal,areaName">
-              <div class="col_blue ispointer" @click="toadd('edit',areaName)">编辑</div>
+            <template slot="index" slot-scope="text, record, index">{{
+              index + 1 + (pagination.current - 1) * 10
+            }}</template>
+            <div slot="edit" class="flex_a" slot-scope="childTotal, areaName">
+              <div class="col_blue ispointer" @click="toadd('edit', areaName)">
+                编辑
+              </div>
               <div
                 class="col_red ispointer"
-                v-if="childTotal==0"
+                v-if="childTotal == 0"
                 @click="showdialogadmin(areaName)"
               >
                 <span>删除</span>
               </div>
-              <div class="col_gray ispointer" v-if="childTotal!==0">删除</div>
+              <div class="col_gray ispointer" v-if="childTotal !== 0">删除</div>
             </div>
           </a-table>
         </div>
@@ -161,7 +174,7 @@ export default {
       defaultExpandedKeys: [],
       defaultSelectedKeys: [],
       data: "",
-     pagination: this.$config.pagination,
+      pagination: this.$config.pagination,
       issearchdata: "",
       filterdata: [],
 
@@ -227,26 +240,25 @@ export default {
         searchIndex: 0,
       };
       let res = await this.$http.post(this.$api.areapage, prame);
+        
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data.list;
         if (this.istotal.type == 1) {
           this.pagination.total = res.data.data.length;
         }
         this.istotal.type++;
-        this.tabletype = true;
       } else {
-        this.tabletype = true;
         this.tabledata = "";
-
         return this.$message.error(res.data.resultMsg);
       }
+       this.tabletype = true;
     },
     //行政区划删除接口
     async getarearemove() {
       let res = await this.$http.post(this.$api.arearemove, this.removeparam);
       if (res.data.resultCode == "10000") {
         this.$message.success(res.data.resultMsg);
-            this.getareatree();
+        this.getareatree();
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -318,21 +330,21 @@ export default {
       }
       this.treedata = this.toTree(this.data);
       this.defaultSelectedKeys = [];
-  
+
       if (localStorage.getItem("administrativedivisionId")) {
-         this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem("administrativedivisionId")));
-         console.log(111);
+        this.defaultSelectedKeys.push(
+          JSON.parse(localStorage.getItem("administrativedivisionId"))
+        );
+        console.log(111);
       } else {
-           this.defaultSelectedKeys.push(this.treedata[0].id);
+        this.defaultSelectedKeys.push(this.treedata[0].id);
       }
-    try {
-          this.isselectdata.id = this.treedata[0].id;
-      this.isselectdata.name = this.treedata[0].name;      
-      this.isselectdata.pid = this.treedata[0].pid;
-      this.isselectdata.levelType = this.treedata[0].levelType;
-    } catch (error) {
-      
-    }
+      try {
+        this.isselectdata.id = this.treedata[0].id;
+        this.isselectdata.name = this.treedata[0].name;
+        this.isselectdata.pid = this.treedata[0].pid;
+        this.isselectdata.levelType = this.treedata[0].levelType;
+      } catch (error) {}
       this.showtree = true;
     },
     //获取树搜索数据

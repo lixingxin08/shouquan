@@ -72,8 +72,9 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxMDE5NTEyODU0LCJ0b2tlbklkIjoiZDAwOTM4YjQ3Yzk3NDI1NGFhMDc0MmMxNzhiM2M4M2MiLCJ1c2VySWQiOiI0ZTgxNWU2NDQxMWM0YWFiYWI2NjhjYmVlODkwNzdlOCJ9.SF9bFtlJGZj8enoUhtvEQAFCTPVuZXOjJGv2zImiUn8"
-        } else {
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxNDY1NjYwNTA4LCJ0b2tlbklkIjoiYTkzOWRhY2MxYjFkNGM2Njg1ZjMxMzA5NzhiMDlhMzQiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.joMWuYM-4X2yxHrBX5Y5XM0VYCs3tFfwo0BiBN0-P2M"
+
+    } else {
       token = JSON.parse(localStorage.getItem('usermsg')).token || ""
     }
     config.headers.common['token'] = token
@@ -83,79 +84,80 @@ axios.interceptors.request.use(
     return Promise.error(error);
   }
 )
-let backnum = 0
+let thisurl = window.location.href.split('/#')
+let bb = thisurl[0].split('/authorization')
 axios.interceptors.response.use(
   response => {
-    backnum++
     let aa = JSON.parse(localStorage.getItem('usermsg'))
     aa.token = response.headers.token
-    let thisurl = window.location.href.split('/#')
-    let bb = thisurl[0].split('/authorization')
     localStorage.setItem('usermsg', JSON.stringify(aa))
+    if (response.data.resultMsg == "执行成功，但没有获取到数据") {
+      response.data.data=[]
+      response.data.data.list=[]
+
+    }
     if (response.data.resultCode == "20100") {
       message.error("令牌错误，请重新登录",5)
-      if (backnum >= 2) {
+
         window.location.href = bb[0]
-      }
+
     }
     if (response.data.resultCode == "20101") {
       message.error("未登录，请先登录",5)
-      if (backnum >= 3) {
+
         window.location.href = bb[0]
-      }
+
     }
     if (response.data.code == "20102") {
       message.error("你的账号已在其他地方登录，请重新登录",5)
-      if (backnum >= 3) {
+
         window.location.href = bb[0]
-      }
+
     }
     if (response.data.resultCode == "20103") {
       message.error("登录已过期，请重新登录！",5)
-      if (backnum >= 3) {
+
         window.location.href = bb[0]
-      }
+
     }
     if (response.data.resultCode == "20104") {
       message.error("登录已失效，请重新登录！",5)
-      if (backnum >= 3) {
         window.location.href = bb[0]
-      }
     }
     if (response.data.resultCode == "20105") {
       message.error("登录已失效，请重新登录！",5)
-      if (backnum >= 3) {
         window.location.href = bb[0]
-      }
     }
 
     return response;
   },
   error => {
     if (error.response) {
-      console.log(error, 'errorerrorerrorerror');
-      console.log(error.response, 'errorerrorerrorerror');
-      switch (error.response.status) {
-        case 404:
-          router.replace({
-            path: '/error404',
-          })
-        case 504:
-          router.replace({
-            path: '/error504',
-          })
-        case 500:
-          router.replace({
-            path: '/error500',
-          })
-        case 504:
-          router.replace({
-            path: '/error504',
-          })
-        case 403:
-          router.replace({
-            path: '/error403',
-          })
+      console.log(error.response.status, 'errorerrorerrorerror');
+      if (error.response.status==404) {
+        router.replace({
+          path: '/error404',
+        })
+      }
+      if (error.response.status==403) {
+        router.replace({
+          path: '/error403',
+        })
+      }
+      if (error.response.status==404) {
+        router.replace({
+          path: '/error404',
+        })
+      }
+      if (error.response.status==500) {
+        router.replace({
+          path: '/error500',
+        })
+      }
+      if (error.response.status==504) {
+        router.replace({
+          path: '/error504',
+        })
       }
     }
     return Promise.reject(error.response.data)
