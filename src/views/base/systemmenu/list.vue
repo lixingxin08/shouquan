@@ -10,7 +10,7 @@
         <a-button @click='cleanKeyWord'>清除</a-button>
       </div>
     </div>
-    <a-button type="primary"class='table-add-btn' @click="add">
+    <a-button type="primary" class='table-add-btn' @click="add">
       <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
     <a-table :scroll="{  y: 610 }" :columns="dictionaryColumns" :data-source="menuList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
@@ -30,7 +30,7 @@
         <div v-if="record.authFlag==2">客户操作类</div>
         <div v-if="record.authFlag==3">均可操作类</div>
       </template>
-	    <img href="#"  slot="menuIcon" slot-scope="text, record,index" style='width: 30px;height: 30px;' :src="text">去维护</img>
+      <img href="#" slot="menuIcon" slot-scope="text, record,index" style='width: 30px;height: 30px;' :src="text">去维护</img>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="editDictionary(record)">编辑</a>
@@ -58,7 +58,7 @@
         keyword: '', //搜索条件
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         menuList: [], //字典数据
-      pagination: this.$config.pagination,
+        pagination: this.$config.pagination,
         pageSize: 20, //每页多少条
         pageIndex: 1, //当前页
         parentItem: '',
@@ -84,9 +84,9 @@
         this.getMenuData()
       },
       async getMenuData() { //获取菜单数据
-       if(this.pagination.current==1)
-       this.pagination.total = 0
-        this.menuList =[]
+        if (this.pagination.current == 1)
+          this.pagination.total = 0
+        this.menuList = []
         let param = {
           keyword: this.keyword,
           parentId: this.parentItem.id,
@@ -95,11 +95,11 @@
         };
         let res = await this.$http.post(this.$api.menupage, param);
         if (res.data.resultCode == "10000") {
-if(res.data.data){
-          this.menuList = res.data.data.list;
-          if (this.pagination.current == 1)
-            this.pagination.total = res.data.data.length;
-            }
+          if (res.data.data) {
+            this.menuList = res.data.data.list;
+            if (this.pagination.current == 1)
+              this.pagination.total = res.data.data.length;
+          }
         } else {
           this.menuList = []
         }

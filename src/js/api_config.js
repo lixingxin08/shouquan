@@ -110,7 +110,7 @@ export default {
   rolesystemremove: `/account/role/remove`, //系统角色删除接口
   rolesystemdetail: `/account/role/detail`, //系统角色详情接口
   rolesystemrolelist: `/config/menu/roleSystemList`, //系统角色查询列表接口
-  rolesystemroletreelist: `/config/menu/tree`, //系统treeList接口
+  rolesystemroletreelist: `config/menu/role-tree`, //系统treeList接口
   rolesystemroleselfmunutree:`/config/menu/selfMunutree`,//账号授权角色
 
 
