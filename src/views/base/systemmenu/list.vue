@@ -95,10 +95,11 @@
         };
         let res = await this.$http.post(this.$api.menupage, param);
         if (res.data.resultCode == "10000") {
-
+if(res.data.data){
           this.menuList = res.data.data.list;
           if (this.pagination.current == 1)
             this.pagination.total = res.data.data.length;
+            }
         } else {
           this.menuList = []
         }
