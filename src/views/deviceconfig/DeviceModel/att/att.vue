@@ -167,10 +167,10 @@
 
         if (res.data.resultCode == 10000) {
           let data = []
-          res.data.data.result.forEach((item) => {
+          res.data.data.forEach((item) => {
             if (item.parentId == '100000000000000000000000000000000000000000000000000000000000') {
               item.childrenList = []
-               res.data.data.result.forEach((childItem) => {
+               res.data.data.forEach((childItem) => {
                 if (childItem.parentId == item.propertyId) {
                   item.childrenList.push(childItem)
                 }

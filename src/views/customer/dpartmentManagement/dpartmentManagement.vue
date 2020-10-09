@@ -293,6 +293,7 @@ export default {
       this.treedata = this.toTree(this.data);
       this.defaultSelectedKeys = [];
       if (localStorage.getItem("dpartmentManagementid")) {
+        let item=JSON.parse(localStorage.getItem("dpartmentManagementid"))
         this.defaultSelectedKeys.push(
           JSON.parse(localStorage.getItem("dpartmentManagementid"))
         );
@@ -338,7 +339,7 @@ export default {
     },
     getselectdata(val) {
       this.isselectdata = val;
-      localStorage.setItem("dpartmentManagementid", JSON.stringify(val.id));
+      localStorage.setItem("dpartmentManagementid", JSON.stringify(val));
       this.istotal.type = 1;
       this.getpage();
     },

@@ -114,6 +114,7 @@
       },
       /* 获取分组信息*/
       async getProperty() {
+       
         let param = {
           deviceTypeId: this.id
         }
@@ -136,7 +137,7 @@
 
 
         } else { //没有分组信息时本地添加一个空的
-          this.groups.push({})
+           this.groups=[{}]
           this.$message.error(res.data.resultMsg);
         }
       },
