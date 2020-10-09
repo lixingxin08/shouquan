@@ -8,7 +8,7 @@
         </div>
         <div class="flexrow flexac edit_item">
           <div class="edit_item_title2">所属部门:</div>
-          <a-input :disabled='true' class='edit_a_input' v-model='personConfig.position' placeholder="未分配" />
+          <a-input :disabled='true' class='edit_a_input' v-model='personConfig.departmentName' placeholder="未分配" />
         </div>
         <div class="flexrow flexac edit_item">
           <div class="edit_item_title2">人员性别:</div>
