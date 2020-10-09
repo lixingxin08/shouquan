@@ -103,7 +103,7 @@
     key: 1
   }, {
     name: '锁定',
-    key: 2
+    key: 0
   }];
   const plainOptionsAdmin = [{ //账号状态
     name: '普通账号',
