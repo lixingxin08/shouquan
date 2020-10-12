@@ -88,7 +88,10 @@
         let res = await this.$http.post(this.$api.alramlist, param)
 
         if (res.data.resultCode == 10000) {
-          this.pagination.total = res.data.data.length;
+          if (this.pagination.current == 1){
+             this.pagination.total = res.data.data.length;
+          }
+         
           this.warningList = res.data.data.list
         } else {
           this.warningList = []
