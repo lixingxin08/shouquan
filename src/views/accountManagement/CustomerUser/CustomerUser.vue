@@ -267,7 +267,7 @@
         }
         let res = await this.$http.post(
           this.$api.accountinforemove,
-          this.removeparam
+          removeparam
         );
         if (res.data.resultCode == "10000") {
           this.$message.success(res.data.resultMsg);
