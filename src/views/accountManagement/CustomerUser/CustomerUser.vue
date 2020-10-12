@@ -267,7 +267,7 @@
         }
         let res = await this.$http.post(
           this.$api.accountinforemove,
-          this.removeparam
+          removeparam
         );
         if (res.data.resultCode == "10000") {
           this.$message.success(res.data.resultMsg);
@@ -308,7 +308,7 @@
           this.isselectdata.name = this.treedata[0].name;
         }
         this.$router.push({
-          path: "/addaccount",
+          path: "/addcustomeruser",
           query: {
             id: this.isselectdata.id,
             accountid: id.accountId,

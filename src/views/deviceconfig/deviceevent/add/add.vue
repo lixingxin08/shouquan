@@ -95,7 +95,7 @@
 
           this.$message.success(res.data.resultMsg);
           //if (!this.id)
-            this.$router.go(-1)
+            this.$router.push('/deviceevent')
         } else {
           this.$message.error(res.data.resultMsg);
         }

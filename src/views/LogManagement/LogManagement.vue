@@ -40,9 +40,11 @@
         this.showtree = false;
         let prame = {};
         let res = await this.$http.post(this.$api.menutree, prame);
-        if (res.data.resultCode == "10000") {
+        if (res.data.resultCode == "10000"&& res.data.data) {
           this.data = res.data.data;
         }
+        if(!this.data)
+        return
         this.setdata();
         this.showtree = true;
 
