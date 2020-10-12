@@ -148,9 +148,6 @@ export default {
       removeparam: {
         projectId: "",
       },
-      istotal: {
-        type: 1,
-      },
       pageparam: {
         keyword: "",
         operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
@@ -171,10 +168,9 @@ export default {
       let res = await this.$http.post(this.$api.projectpage, this.pageparam);
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data.list;
-        if (this.istotal.type == 1) {
-          this.pagination.total = res.data.data.length;
-        }
-        this.istotal.type++;
+   if (this.pagination.current == 1){
+             this.pagination.total = res.data.data.length;
+          }
         this.tabletype = true;
       } else {
         this.$message.error(res.data.resultMsg);
@@ -223,7 +219,6 @@ export default {
     tosearch() {
       this.pagination.current = 1;
       this.pagination.pageSize = 20;
-      this.istotal.type = 1;
       this.getpage();
     },
     //清除

@@ -1,11 +1,20 @@
 <template>
   <a-layout-header
-    style="background: #fff; padding: 0;text-align:left;height:60px;line-height:60px;width:100%"
+    style="
+      background: #fff;
+      padding: 0;
+      text-align: left;
+      height: 60px;
+      line-height: 60px;
+      width: 100%;
+    "
     class="flex_b"
   >
     <a-breadcrumb class="bread">
-      <a-breadcrumb-item v-for="(item,index) in title" :key="index">
-        <span :class="index==title.length-1?'color1':'color2'">{{item}}</span>
+      <a-breadcrumb-item v-for="(item, index) in title" :key="index">
+        <span :class="index == title.length - 1 ? 'color1' : 'color2'">{{
+          item
+        }}</span>
       </a-breadcrumb-item>
     </a-breadcrumb>
     <a-breadcrumb class="bread">
@@ -15,7 +24,7 @@
           <div class="head_r" @click="backhome()">返回首页</div>
           <div class="head_r head_r_last">
             <img src="../../assets/nav_img/user.png" alt class="head_r_img" />
-            {{user.realName}}
+            {{ user.realName }}
           </div>
         </div>
         <div class="flex_f" v-if="addtype">
@@ -60,13 +69,23 @@ export default {
     this.gettitle();
   },
   watch: {
-    $route: function (val,oldval) {
-      console.log(val,oldval,112);
-      if (val.path.search("/add")==0) {
+    $route: function (val, oldval) {
+      console.log(val, oldval, 6666);
+      if (val.path.search("/add") == 0) {
         this.addtype = true;
-      }else{
-         this.addtype = false;
+      } else {
+        this.addtype = false;
       }
+            this.$config.pagination = {
+          total: 0, //总页数
+          pageSize: 20, //每页中显示10条数据
+          showSizeChanger: true,
+          current: 1, //当前页
+          page: 1, //几页
+          size: "default",
+          pageSizeOptions: ["20", "50", "100"], //每页中显示的数据
+          showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
+        };
       let list = new Array();
       val.matched.forEach((item) => {
         list.push(item.meta.title);
@@ -105,7 +124,7 @@ export default {
 .head_r_last {
   margin-right: 40px;
 }
-.head_btn{
+.head_btn {
   margin-right: 80px;
   margin-top: 19px;
 }

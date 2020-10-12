@@ -207,9 +207,6 @@ export default {
         // pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
         // showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
       },
-      istotal: {
-        type: 1,
-      },
       treeprame: {
         templateId: "",
       },
@@ -304,10 +301,9 @@ export default {
         this.form.customerId = this.tabledata[0].customerId;
         this.customertreeprame.customerId = this.tabledata[0].customerId;
         this.gettree();
-        if (this.istotal.type == 1) {
-          this.pagination.total = res.data.data.length;
-        }
-        this.istotal.type++;
+        if (this.pagination.current == 1){
+             this.pagination.total = res.data.data.length;
+          }
         this.tabletype = true;
       } else {
         return this.$message.error(res.data.resultMsg);

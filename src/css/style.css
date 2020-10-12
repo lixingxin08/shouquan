@@ -78,6 +78,7 @@
 
 .edit_a_input {
   width: 667px !important;
+  line-height: 32px;
 }
 
 .flexac {
@@ -251,10 +252,6 @@
   width: 128px !important;
   height: 72px !important;
 
-}
-
-.edit_a_input {
-  width: 667px !important;
 }
 
 .isline {

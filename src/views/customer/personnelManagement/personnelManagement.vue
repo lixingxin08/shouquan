@@ -247,9 +247,6 @@ export default {
         personId: "",
         operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
       },
-      istotal: {
-        type: 1,
-      },
     };
   },
   created() {
@@ -283,10 +280,9 @@ export default {
       let res = await this.$http.post(this.$api.personpage, prame);
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data.list;
-        if (this.istotal.type == 1) {
-          this.pagination.total = res.data.data.length;
-        }
-        this.istotal.type++;
+        if (this.pagination.current == 1){
+             this.pagination.total = res.data.data.length;
+          }
         this.tabletype = true;
       } else {
         this.tabletype = false;
@@ -406,13 +402,11 @@ export default {
     getselectdata(val) {
       this.isselectdata.id = val.id;
       this.isselectdata.name = val.name;
-      this.istotal.type = 1;
       localStorage.setItem("personnelManagementid", JSON.stringify(val.id));
       this.getpersonpage();
     },
     //查询
     tosearch() {
-      this.istotal.type = 1;
       this.pagination.page = 1;
       this.pagination.pageSize = 20;
       this.getpersonpage();

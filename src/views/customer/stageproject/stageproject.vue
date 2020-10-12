@@ -139,9 +139,6 @@ export default {
       removeparam: {
         phaseId: "",
       },
-      istotal: {
-        type: 1,
-      },
       pageparam: {
         projectId: "",
         operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
@@ -166,10 +163,9 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data;
-        if (this.istotal.type == 1) {
-          this.pagination.total = res.data.data.length;
-        }
-        this.istotal.type++;
+         if (this.pagination.current == 1){
+             this.pagination.total = res.data.data.length;
+          }
         this.tabletype = true;
       } else {
         this.$message.error(res.data.resultMsg);

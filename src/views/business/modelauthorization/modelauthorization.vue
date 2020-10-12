@@ -50,10 +50,7 @@
                 >
                   <span>删除</span>
                 </div>
-                <div
-                  class="col_gray ispointer"
-                  v-else
-                >
+                <div class="col_gray ispointer" v-else>
                   <span>删除</span>
                 </div>
               </div>
@@ -73,7 +70,7 @@
                     :treedata="treedata"
                     :replaceFields="replaceFields"
                     :defaultExpandedKeys="defaultExpandedKeys"
-                    :defaultSelectedKeys="checkedKeys"
+                    :defaultSelectedKeys="defaultSelectedKeys"
                     @selectdata="getselectdata"
                     v-if="showtree"
                   ></is-left>
@@ -111,8 +108,8 @@
                 placeholder="请输入授权个数"
               />
               <span style="font-size: 14px">注:授权个数不能大于9999</span>
-              <div style="margin-left:50px;margin-right:20px">已用个数:</div>
-              <span>{{authTotal}}</span>
+              <div style="margin-left: 50px; margin-right: 20px">已用个数:</div>
+              <span>{{ authTotal }}</span>
             </div>
             <div class="r_b_title">授权描述:</div>
             <div class="rb_text2">
@@ -149,13 +146,15 @@
         </div>
         <div class="edit_c_item flex_f">
           <span>已用个数:</span>
-          <span class="edit_a_input text_s">{{ editdata.useTotal }}</span>
+          <span class="edit_a_input text_s" style="light-height: 32px">{{
+            editdata.useTotal
+          }}</span>
         </div>
         <div class="edit_c_item edit_c_item_area flex_f">
           <span>授权描述:</span>
           <div class="rb_text2 edit_a_input">
             <a-textarea :maxlength="500" v-model="editdata.remark" :rows="5" />
-            <div class="remarknum">{{ remarklen }}/500</div>
+            <div class="remarknum">{{ editremarklen }}/500</div>
           </div>
         </div>
       </div>
@@ -179,11 +178,14 @@ export default {
     remarklen() {
       return this.form.remark.length;
     },
+    editremarklen() {
+      return this.editdata.remark.length;
+    },
   },
   data() {
     return {
-      authTotal:"",
-      checkedKeys: [],
+      authTotal: "",
+      defaultSelectedKeys: [],
       selectedRowKeys2: [],
       selectedRowKeys1: [],
       remark: "",
@@ -291,14 +293,6 @@ export default {
           key: "useTotal",
           ellipsis: true,
         },
-        // {
-        //   width: 101,
-        //   align: "center",
-        //   title: "业务类别",
-        //   dataIndex: "serviceTypeName",
-        //   key: "serviceTypeName",
-        //   ellipsis: true,
-        // },
         {
           width: 101,
           align: "center",
@@ -358,7 +352,7 @@ export default {
       treedata: "",
       replaceFields: {
         title: "name",
-        key: "id pid",
+        key: "idpid",
       },
       defaultExpandedKeys: [],
       data: "",
@@ -377,9 +371,9 @@ export default {
         id: "",
         levelType: "",
         customerId: "",
-        deviceTypeId:"",
+        deviceTypeId: "",
       },
-      
+
       customerId: "",
       form: {
         modelId: "",
@@ -388,7 +382,7 @@ export default {
         authTotal: "",
         customerId: "",
       },
-      oldeditdata:""
+      oldeditdata: "",
     };
   },
   created() {
@@ -413,7 +407,7 @@ export default {
     },
     closeedit() {
       this.edittype = false;
-      this.editdata=""
+      this.editdata = "";
       this.getmodellist();
     },
     isclose() {
@@ -423,7 +417,7 @@ export default {
     addtogle() {
       console.log(111);
       this.addmodel = true;
-      this.edittype=false
+      this.edittype = false;
       this.getareatree();
     },
     reset() {
@@ -431,12 +425,10 @@ export default {
       this.form.modelId = "";
       this.form.authTotal = "";
       this.form.remark = "";
-      this.getareatree(); 
+      this.getareatree();
     },
-    editreset(){
-      this.editdata=this.oldeditdata
-      this.editdata.remark=""
-
+    editreset() {
+      this.editdata = JSON.parse(JSON.stringify(this.oldeditdata));
     },
     customRow(record, index) {
       return {
@@ -453,10 +445,10 @@ export default {
             this.selectedRowKeys1 = [];
             this.form.modelId = "";
             this.addmodel = false;
-         this.closeedit()
+            this.closeedit();
             this.modellistparam.customerId = record.customerId;
             this.treeprame.customerId = record.customerId;
-            this.authTotal=record.authTotal
+            this.authTotal = record.authTotal;
             this.getmodellist();
             console.log(record, "record", index);
           },
@@ -488,6 +480,7 @@ export default {
     },
     async getmodellist() {
       this.tabletype = false;
+      this.tabledata2 = [];
       let res = await this.$http.post(
         this.$api.customermodellist,
         this.modellistparam
@@ -502,6 +495,7 @@ export default {
     },
     async gettreemodellist() {
       this.treemodelparam.customerId = this.form.customerId;
+      this.tabledata2 = [];
       let res = await this.$http.post(
         this.$api.devicemodelrelist,
         this.treemodelparam
@@ -541,6 +535,9 @@ export default {
       this.form.customerId = this.modellistparam.customerId;
       let res = await this.$http.post(this.$api.customermodelform, this.form);
       if (res.data.resultCode == "10000") {
+          this.addmodel = false;
+           this.edittype = false;
+           this.getmodellist();
         return this.$message.success(res.data.resultMsg);
       } else {
         return this.$message.error(res.data.resultMsg);
@@ -560,7 +557,6 @@ export default {
 
       this.treemodelparam.id = this.treedata[0].id;
       this.treemodelparam.levelType = this.treedata[0].levelType;
-      console.log(this.treedata,8989);
       this.gettreemodellist();
       this.tabletype = true;
       this.showtree = true;
@@ -590,54 +586,23 @@ export default {
     },
     setdata() {
       for (let i = 0; i < this.data.length; i++) {
+        this.data[i].idpid=this.data[i].id+this.data[i].pid
         if (this.data[i].open == true) {
           this.defaultExpandedKeys.push(this.data[i].id);
         }
       }
-
+      this.defaultSelectedKeys = [];
       this.treedata = this.toTree(this.data);
-      this.checkedKeys.push(this.treedata[0].id);
-      console.log(this.treedata, 77766);
-    },
-    //获取树搜索数据
-    getsearchdata(val) {
-      this.issearchdata = val;
-      this.getareatree();
-      if (val == "") {
-        return;
-      }
-
-      this.filterdata = [];
-      this.setfilltertree(this.treedata, this.issearchdata);
-    },
-    //过滤树搜索数据
-    setfilltertree(datas, filtersdata) {
-      let _that = this;
-      for (var i in datas) {
-        let name = datas[i].name + "";
-        if (name.search(_that.issearchdata) != -1) {
-          _that.filterdata.push(datas[i]);
-        }
-        if (datas[i].children) {
-          _that.setfilltertree(datas[i].children);
-        }
-      }
-      _that.treedata = _that.toTree(this.filterdata);
+      this.defaultSelectedKeys.push(this.treedata[0].idpid);
+      console.log(this.defaultSelectedKeys, 77766);
     },
     getselectdata(val) {
-      console.log(val,6666);
       this.selectedRowKeys2 = [];
       this.form.modelId = "";
       this.treemodelparam.id = val.id;
       this.treemodelparam.levelType = val.levelType;
-      this.treemodelparam.deviceTypeId=val.pid
+      this.treemodelparam.deviceTypeId = val.pid;
       this.gettreemodellist();
-    },
-    getcheckedKeys(val) {
-      console.log(val, 44444);
-    },
-    cancel() {
-      this.reload();
     },
   },
 };
@@ -664,7 +629,7 @@ export default {
 .edit_c_item {
   margin-top: 20px;
 }
-.edit_c_item_area{
+.edit_c_item_area {
   margin-top: 50px;
 }
 .edit_a_input {

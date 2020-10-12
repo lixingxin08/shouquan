@@ -195,9 +195,6 @@ export default {
         areaName: "",
         areaId: "",
       },
-      istotal: {
-        type: 1,
-      },
     };
   },
   created() {
@@ -243,10 +240,9 @@ export default {
         
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data.list;
-        if (this.istotal.type == 1) {
-          this.pagination.total = res.data.data.length;
-        }
-        this.istotal.type++;
+        if (this.pagination.current == 1){
+             this.pagination.total = res.data.data.length;
+          }
       } else {
         this.tabledata = "";
         return this.$message.error(res.data.resultMsg);
@@ -378,7 +374,6 @@ export default {
       this.isselectdata.name = val.name;
       this.isselectdata.pid = val.pid;
       this.isselectdata.levelType = val.levelType;
-      this.istotal.type = 1;
       this.inp_data = "";
       localStorage.setItem("administrativedivisionId", JSON.stringify(val.id));
       this.getareapage();
@@ -386,7 +381,6 @@ export default {
     //查询
     tosearch() {
       this.isselectdata.levelType = "";
-      this.istotal.type = 1;
       this.pagination.page = 1;
       this.pagination.pageSize = 20;
       this.getareapage();

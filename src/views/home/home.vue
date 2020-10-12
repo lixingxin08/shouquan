@@ -5,9 +5,7 @@
       <a-layout class='scroller'>
         <ishead @tocollapsed="getcollapsed"></ishead>
         <a-layout-content style='margin: 20px; background-color: #FFFFFF;'>
-          <keep-alive :include="isinclude">
             <router-view v-if="isRouterShow"></router-view>
-          </keep-alive>
         </a-layout-content>
       </a-layout>
     </a-layout>
@@ -28,7 +26,6 @@ export default {
     return {
       collapsed: false,
       searchdata: "",
-      isinclude: "nav",
       isRouterShow: true,
     };
   },

@@ -130,9 +130,6 @@ export default {
         pageIndex: 1,
         pageSize: 10,
       },
-      istotal: {
-        type: 1,
-      },
       form:{},
       ischeck: [],
       remark: "",
@@ -188,8 +185,7 @@ export default {
         this.customerId = this.tabledata[0].customerId;
         this.form.customerId = this.tabledata[0].customerId;
         this.treeprame.customerId = this.tabledata[0].customerId;
-        
-        this.istotal.type++;
+      
         this.tabletype = true;
             this.gettree();
       } else {
@@ -321,7 +317,6 @@ export default {
       this.isselectdata.id = val.id;
       this.isselectdata.name = val.name;
       this.isselectdata.pid = val.pid;
-      this.istotal.type = 1;
     },
     getcheckedKeys(val) {
       console.log(val, 44444);

@@ -310,7 +310,6 @@ export default {
       this.isselectdata.id = val.id;
       this.isselectdata.name = val.name;
       this.isselectdata.pid = val.pid;
-      this.istotal.type = 1;
     },
     getcheckedKeys(val) {
       this.form.menuList = val;

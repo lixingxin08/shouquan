@@ -168,9 +168,6 @@ export default {
       removeparam: {
         departmentId: "",
       },
-      istotal: {
-        type: 1,
-      },
     };
   },
   created() {
@@ -206,10 +203,9 @@ export default {
       let res = await this.$http.post(this.$api.departmentpage, prame);
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data.list;
-        if (this.istotal.type == 1) {
-          this.pagination.total = res.data.data.length;
-        }
-        this.istotal.type++;
+         if (this.pagination.current == 1){
+             this.pagination.total = res.data.data.length;
+          }
         this.tabletype = true;
       } else {
         this.$message.error(res.data.resultMsg);
@@ -340,12 +336,10 @@ export default {
     getselectdata(val) {
       this.isselectdata = val;
       localStorage.setItem("dpartmentManagementid", JSON.stringify(val));
-      this.istotal.type = 1;
       this.getpage();
     },
     //查询
     tosearch() {
-      this.istotal.type = 1;
       this.pagination.page = 1;
       this.pagination.pageSize = 20;
       this.getpage();

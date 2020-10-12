@@ -125,9 +125,6 @@ export default {
         operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
         accountId: "",
       },
-      istotal: {
-        type: 1,
-      },
       form: {
         customerIdList: [],
         accountId: "",
@@ -153,7 +150,6 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data;
-        this.istotal.type++;
         this.selectedRowKeys=[]
         for (let i = 0; i <  this.tabledata.length; i++) {
         if (this.tabledata[i].selected==1) {

@@ -322,7 +322,7 @@ export default {
       }
     },
     async getemailform() {
-      if (this.selectedRowKeys4) {
+      if (this.selectedRowKeys4!==null) {
         this.form.smsConfigId = this.tabledata3[
           this.selectedRowKeys3
         ].smsConfigId;
@@ -339,8 +339,8 @@ export default {
       }
     },
     async getwechatlform() {
-      console.log(this.selectedRowKeys2, 7777);
-      if (this.selectedRowKeys2) {
+      console.log(this.selectedRowKeys2,777);
+      if (this.selectedRowKeys2!==null) {
         this.form.wechatConfigId = this.tabledata2[
           this.selectedRowKeys2
         ].wechatConfigId;
@@ -355,7 +355,7 @@ export default {
       }
     },
     async getsmsform() {
-      if (this.selectedRowKeys3) {
+      if (this.selectedRowKeys3!==null) {
         this.form.smsConfigId = this.tabledata3[
           this.selectedRowKeys3
         ].smsConfigId;
@@ -392,7 +392,7 @@ export default {
         for (let i = 0; i < this.tabledata4.length; i++) {
           if (this.tabledata4[i].authTotal !== 0) {
             this.selectedRowKeys4 = i;
-            this.form.remark = this.tabledata2[i].remark;
+            this.form.remark = this.tabledata4[i].remark;
           }
         }
       } else {
@@ -410,7 +410,7 @@ export default {
         for (let i = 0; i < this.tabledata3.length; i++) {
           if (this.tabledata3[i].authTotal !== 0) {
             this.selectedRowKeys3 = i;
-            this.form.remark = this.tabledata2[i].remark;
+            this.form.remark = this.tabledata3[i].remark;
           }
         }
       } else {
@@ -458,6 +458,7 @@ export default {
         this.selectedRowKeys2 = selectedRowKeys2;
         this.form.remark = this.tabledata2[selectedRowKeys2].remark || "";
       }
+
     },
     //sms
     onSelectChange1(selectedRowKeys3) {

@@ -117,9 +117,6 @@
           statusCode: "",
         },
         selectId: "", //选择菜单id
-        istotal: {
-          type: 1,
-        },
       }
     },
 
@@ -143,10 +140,9 @@
         let res = await this.$http.post(this.$api.personpage, prame);
         if (res.data.resultCode == "10000") {
           this.tabledata = res.data.data.list;
-          if (this.pagination.current == 1)
-            this.pagination.total = res.data.data.length;
-
-          this.istotal.type++;
+          if (this.pagination.current == 1){
+             this.pagination.total = res.data.data.length;
+          }
         } else {
           this.$message.success(res.data.resultMsg);
         }
@@ -164,7 +160,6 @@
       },
       //查询
       tosearch() {
-        this.istotal.type = 1;
         this.pagination.page = 1;
         this.pagination.pageSize = 20;
         this.getpersonpage();

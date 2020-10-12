@@ -28,7 +28,7 @@ Vue.use(Layout);
 Vue.use(Button);
 Vue.use(Icon);
 Vue.use(Select);
-Vue.use(Menu);
+Vue.use(Menu);0
 Vue.use(Input);
 Vue.use(Tree);
 Vue.use(TreeSelect);
@@ -45,10 +45,7 @@ Vue.use(Steps);
 Vue.use(Tabs);
 Vue.use(InputNumber);
 Vue.use(ConfigProvider);
-// const isDebug_mode = process.env.NODE_ENV !== 'production'
-// Vue.config.debug = isDebug_mode
-// Vue.config.devtools = isDebug_mode
-// Vue.config.productionTip = isDebug_mode
+
 window.addEventListener(
   "message",
   function (e) {
@@ -72,7 +69,7 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyMjQ0Nzk0MzM2LCJ0b2tlbklkIjoiMGNiMTgwNWI5MmY0NDFiMGIwNjlmN2RmMjg2N2IzY2IiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.kXTBol2_mRt6mhe01kB_SaZRNqEZDwhisVTyUArVKto"
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyNDk3OTQyNDg2LCJ0b2tlbklkIjoiZTc4NzY2YzU3ZTZmNDRjYjk0NGM4NWYwN2RmMTg1MTMiLCJ1c2VySWQiOiJhNmYzNWZkNjYwNWI0MjQwYjkxODE5NzdmNjBlYmViYiJ9.rxXJJWi6OtIPazPNcyIYW8JDLm7qjg7spUcj2STJzN8"
 
     } else {
       token = JSON.parse(localStorage.getItem('authorization')).token || ""

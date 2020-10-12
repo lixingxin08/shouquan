@@ -169,9 +169,6 @@ export default {
       removeparam: {
         parameterId: "",
       },
-      istotal: {
-        type: 1,
-      },
       runpageparam: {
         description: "",
         keyword: "",
@@ -220,10 +217,9 @@ export default {
         this.tabledata = res.data.data.list;
         this.runpageparam.keyword = "";
         this.runpageparam.parameterCode = "";
-        if (this.istotal.type == 1) {
-          this.pagination.total = res.data.data.length;
-        }
-        this.istotal.type++;
+     if (this.pagination.current == 1){
+             this.pagination.total = res.data.data.length;
+          }
         this.tabletype = true;
       } else {
         this.$message.error(res.data.resultMsg);
@@ -265,7 +261,6 @@ export default {
     tosearch() {
       this.pagination.current = 1;
       this.pagination.pageSize = 20;
-      this.istotal.type = 1;
       this.getrunpage();
     },
     //清除

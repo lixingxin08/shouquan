@@ -380,7 +380,6 @@ export default {
       this.isselectdata.id = val.id;
       this.isselectdata.name = val.name;
       this.isselectdata.pid = val.pid;
-      this.istotal.type = 1;
     },
     getcheckedKeys(val) {
       console.log(val, 44444);
