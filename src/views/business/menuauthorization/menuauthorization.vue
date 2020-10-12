@@ -191,6 +191,7 @@ export default {
         title: "name",
         key: "id",
       },
+      firsttype:true,
       data: "",
       showtree: false,
       listparam: {
@@ -225,11 +226,17 @@ export default {
       },
       rowClick: (record, index) => ({
         // 事件
+               style: {
+          // 行背景色
+          "background-color":
+            record.templateId == this.treeprame.templateId ? "#e6f7ff" : "",
+        },
         on: {
           click: () => {
             // 点击改行时要做的事情
             // ......
             console.log(record, "record", index);
+                this.firsttype=true
             this.treeprame.templateId = record.templateId;
             this.gettemplatetree();
           },
@@ -253,6 +260,7 @@ export default {
         on: {
           // 鼠标单击行
           click: (event) => {
+            this.firsttype=true
             this.form.customerId = record.customerId;
             this.customertreeprame.customerId = record.customerId;
             this.gettree();
@@ -326,7 +334,10 @@ export default {
     },
     async getform() {
       this.form.operatorId = 1;
-      this.form.menuIdList = this.checkedKeys;
+      if (this.firsttype==true) {      
+      }else{
+        this.form.menuIdList = this.checkedKeys;
+      }    
       if (this.form.menuIdList == "" || this.form.menuIdList == []) {
         return this.$message.error("请选择授权系统");
       }
@@ -363,8 +374,10 @@ export default {
       return result;
     },
     setdata() {
+      console.log(11222);
       this.defaultExpandedKeys=[]
       this.checkedKeys=[]
+      this.form.menuIdList=[]
       for (let i = 0; i < this.data.length; i++) {
         if (this.data[i].open == true) {
           this.defaultExpandedKeys.push(this.data[i].id);
@@ -372,36 +385,16 @@ export default {
         if (this.data[i].checked == true&&this.data[i].isParent==false) {
           this.checkedKeys.push(this.data[i].id);
         }
+         if (this.data[i].checked == true) {
+           this.form.menuIdList.push(this.data[i].id);
+        }
       }
+      
+      console.log(this.form.menuIdList,111111);
       this.treedata = this.toTree(this.data);
     },
-    //获取树搜索数据
-    getsearchdata(val) {
-      this.issearchdata = val;
-      this.gettree();
-      if (val == "") {
-        return;
-      }
-
-      this.filterdata = [];
-      this.setfilltertree(this.treedata, this.issearchdata);
-    },
-    //过滤树搜索数据
-    setfilltertree(datas, filtersdata) {
-      let _that = this;
-      for (var i in datas) {
-        let name = datas[i].name + "";
-        if (name.search(_that.issearchdata) != -1) {
-          _that.filterdata.push(datas[i]);
-        }
-        if (datas[i].children) {
-          _that.setfilltertree(datas[i].children);
-        }
-      }
-      _that.treedata = _that.toTree(this.filterdata);
-    },
     getcheckedKeys(val) {
-      console.log(val, 44444);
+      this.firsttype=false
       this.checkedKeys = val;
       this.form.menuIdList = val;
     },

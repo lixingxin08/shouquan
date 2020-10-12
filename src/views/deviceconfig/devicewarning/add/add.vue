@@ -70,7 +70,7 @@
       </div>
 
 
-      <div class="flexrow edit_item_warnings_title3" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">转警事件</div>
+      <div class="flexrow edit_item_warnings_title3" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a style="color: #FF0000;">*</a>转警事件</div>
 
       <a-table style='width: 50vw;' :columns="dictionaryColumns" :data-source="eventList" :pagination='false' :bordered='true'
         size='small' :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
@@ -247,7 +247,7 @@ import {postimgurl} from '../../../../js/url'
             this.selectedRowKeys = []
             let that = this
             for (let i = 0; i < this.eventList.length; i++) {
-              if (this.eventList[i].select)
+              if (this.eventList[i].selectFlag==1)
                 this.selectedRowKeys.push(i)
             }
           }
