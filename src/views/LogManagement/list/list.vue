@@ -70,6 +70,8 @@
       },
       async getTableData() {
         //,
+        if(!this.parentItem)
+        return
         this.tableList =[]
         if (this.pagination.current == 1)
           this.pagination.total =0;

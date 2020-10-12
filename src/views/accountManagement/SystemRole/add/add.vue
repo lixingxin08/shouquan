@@ -100,6 +100,7 @@
         this.config.operatorId = JSON.parse(localStorage.getItem('authorization')).accountId
         let res = await this.$http.post(this.$api.rolesystemform, this.config)
         if (res.data.resultCode == 10000) {
+           this.$router.push('/systemrole')
           this.$message.success(res.data.resultMsg);
         } else {
           this.$message.error(res.data.resultMsg);
