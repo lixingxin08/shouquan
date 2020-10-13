@@ -70,27 +70,27 @@
     ],
     "attList": [{
         "title": "序号",
-        "width": "3%",
+        "width": "5%",
         "align": "center",
         "scopedSlots": {
           "customRender": "index"
         }
       },
       {
-        "title": "属性名称",
         "dataIndex": "propertyName",
         "align": "center",
         "width": "15%",
         "scopedSlots": {
+          "title":"propertyNameTitle",
           "customRender": "propertyName"
         }
       },
       {
-        "title": "属性代码",
         "dataIndex": "propertyCode",
         "align": "center",
         "width": "15%",
         "scopedSlots": {
+          "title":"propertyCodeTitle",
           "customRender": "propertyCode"
         }
       },

@@ -9,8 +9,11 @@
         <a-button class='top-btn' :disabled='!item.propertyId' @click='addGroupAtt(index)'>新增属性</a-button>
         <a-button class='top-btn' :disabled='!item.propertyId' @click='deleteGroup(item)'>删除</a-button>
       </div>
+      <div class="min_table">
       <a-table v-if='item.childrenList&&item.childrenList.length>0' style='margin-top: 20px;margin-bottom: 20px;'
         :columns="dictionaryColumns" :data-source="item.childrenList" :pagination='false' :bordered='true' size='small'>
+          <div slot='propertyNameTitle'> <span style="color: #FF0033;">*</span>属性名称</div>
+            <div slot='propertyCodeTitle'> <span style="color: #FF0033;">*</span>属性代码</div>
         <template slot="index" slot-scope="text, record, index">
           <div>{{index+1}}</div>
         </template>
@@ -31,6 +34,7 @@
           </div>
         </template>
       </a-table>
+      </div>
     </div>
     <div class="flexrow flexjc flexac addbtn" @click="add">
       <a-icon two-tone-color="#ffffff" style='margin-right: 5px;' type="plus" /> 新增分组
@@ -63,6 +67,14 @@
     methods: {
       /* 保存属性 */
       async save(item, groupItem) {
+        if(!item.propertyName){
+           this.$message.warning("属性名称不能为空");
+          return
+        }
+        if(!item.propertyCode){
+          this.$message.warning("属性代码不能为空");
+          return
+        }
         let param = {
           propertyDesc: item.propertyDesc, //属性描述
           propertyName: item.propertyName, //属性名称
@@ -114,7 +126,7 @@
       },
       /* 获取分组信息*/
       async getProperty() {
-       
+
         let param = {
           deviceTypeId: this.id
         }

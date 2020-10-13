@@ -1,7 +1,7 @@
 <template>
 
   <div class="flexcolumn flexjc" style="background-color: #FFFFFF;">
-    <div  style="margin: 0 auto;">
+    <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item_menu">
         <div class="edit_item_menu_title3_menu">上级名称:</div>
         <div class='edit_a_input_menu'>
@@ -60,7 +60,8 @@
       <div class="flexrow edit_item_menu_title3_menu" style="width:667px; margin-top: 40px;justify-item: flex-start;margin-left: 10px; margin-bottom: 10px;font-size: 14px;"><a
           style="color: #FF0000;">*</a>鉴权接口</div>
 
-      <a-table :columns="dictionaryColumns" class="min_table" style="width:1100px;margin-left: 10px;" :data-source="authList" :pagination='false' :bordered='true' size='small'>
+      <a-table :columns="dictionaryColumns" class="min_table" style="width:1100px;margin-left: 10px;" :data-source="authList"
+        :pagination='false' :bordered='true' size='small'>
         <!-- <template v-for="col in ['actionName', 'linkURL', 'defaultFlag']" :slot="col" slot-scope="text, record, index">
           <div :key="col">
             <a-input style="margin: -5px 0;border: 0px;" :value="text" @change="e => handleChange(e.target.value, index, col)" />
@@ -191,8 +192,8 @@
         this.menuName = this.cacheData.menuName
         this.remark = this.cacheData.remark
         this.imageUrl = this.cacheData.menuIcon
-        this.authFlag=this.cacheData.authFlag
-        this.authList = this.cacheData.authList?this.cacheData.authList:[]
+        this.authFlag = this.cacheData.authFlag
+        this.authList = this.cacheData.authList ? this.cacheData.authList : []
         if (this.isAdd == 'true') {
           this.menuName = ''
           this.remark = ''
@@ -293,12 +294,17 @@
           hiddenURL: JSON.stringify(this.authList),
           remark: this.remark
         }
-
+        if (this.grade == 2) {
+          param.menuType = 2000
+        }
+        if (this.grade == 3) {
+          param.menuType = 3000
+        }
         let res = await this.$http.post(this.$api.menuform, param);
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg);
           this.$router.push({
-              path: '/systemmenu',
+            path: '/systemmenu',
           })
         } else {
           this.$message.error(res.data.resultMsg);
