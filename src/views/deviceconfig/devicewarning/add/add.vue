@@ -70,9 +70,9 @@
       </div>
 
 
-      <div class="flexrow edit_item_warnings_title3" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;"><a style="color: #FF0000;">*</a>转警事件</div>
+      <div class="flexrow edit_item_warnings_title3" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;margin-left: 30px;"><a style="color: #FF0000;">*</a>转警事件</div>
 
-      <a-table style='width: 50vw;' :columns="dictionaryColumns" :data-source="eventList" :pagination='false' :bordered='true'
+      <a-table style='width: 50vw;margin-left: 30px;' :columns="dictionaryColumns" :data-source="eventList" :pagination='false' :bordered='true'
         size='small' :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
         <template slot="index" slot-scope="text, record,index">
           {{index+1}}
@@ -293,7 +293,7 @@ import {postimgurl} from '../../../../js/url'
 
 <style>
   .edit_item_warnings_title3 {
-    width: 70px;
+    width: 90px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
