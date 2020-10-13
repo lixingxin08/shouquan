@@ -216,7 +216,7 @@
           return
         }
         this.config.operatorId = JSON.parse(localStorage.getItem('authorization')).accountId //操作者id
-        if (this.config.adminFlag == 0) {
+        if (this.adminFlag == 0) {
           this.config.roleList = this.getRolesId() //获取分配的角色id
         } else {
           this.config.roleList = []
