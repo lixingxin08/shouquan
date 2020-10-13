@@ -69,7 +69,7 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyNTgyNzQ1MzEwLCJ0b2tlbklkIjoiMzEzOGNmODYzZDQ4NDI0Mzg3OGI5NjY5MmEzYThhODMiLCJ1c2VySWQiOiI2ODAyMDgwNDM3MGU0MGY3OWNkNTE5ODI5MTdiY2EwMiJ9.W9JeKwFYZ8aK1fvNViMS6TIQt3gnDN7aAWHwv8v-OJY"
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyNTkyNTA5MDkwLCJ0b2tlbklkIjoiZWZiMWNlNmUzMWY4NDU2MGEwZGZjNzg4Yjg1MDllYjMiLCJ1c2VySWQiOiI2ODAyMDgwNDM3MGU0MGY3OWNkNTE5ODI5MTdiY2EwMiJ9.nvFyKHwitFCqNpIe98pCvJBkKk0aOje2WNatQQObejw"
 
     } else {
       token = JSON.parse(localStorage.getItem('authorization')).token || ""

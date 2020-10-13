@@ -13,9 +13,9 @@
     <a-button type="primary" class='table-add-btn' @click="add">
       <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
     <a-table :scroll="{  y: 610 }" :columns="dictionaryColumns" :data-source="menuList" bordered size="small"
-      :pagination="pagination" @change="handleTableChange">
+      :pagination="$config.pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
-        {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
+        {{(index+1)+(($config.pagination.current-1)*$config.pagination.pageSize)}}
       </template>
       <div slot="menuType" slot-scope="text, record,index">
         <div v-if="record.menuType==1000">子系统</div>
@@ -58,7 +58,6 @@
         keyword: '', //搜索条件
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         menuList: [], //字典数据
-        pagination: this.$config.pagination,
         pageSize: 20, //每页多少条
         pageIndex: 1, //当前页
         parentItem: '',
@@ -70,9 +69,9 @@
       handleTableChange(pagination) { //切换页数
         this.pageSize = pagination.pageSize
         this.pageIndex = pagination.current
-        this.pagination.page = pagination.current;
-        this.pagination.current = pagination.current;
-        this.pagination.pageSize = pagination.pageSize;
+        this.$config.pagination.page = pagination.current;
+        this.$config.pagination.current = pagination.current;
+        this.$config.pagination.pageSize = pagination.pageSize;
         this.getMenuData()
       },
       setMenuItem(val) { //设置当前的菜单
@@ -84,8 +83,8 @@
         this.getMenuData()
       },
       async getMenuData() { //获取菜单数据
-        if (this.pagination.current == 1)
-          this.pagination.total = 0
+        if (this.$config.pagination.current == 1)
+          this.$config.pagination.total = 0
         this.menuList = []
         let param = {
           keyword: this.keyword,
@@ -97,8 +96,8 @@
         if (res.data.resultCode == "10000") {
           if (res.data.data) {
             this.menuList = res.data.data.list;
-            if (this.pagination.current == 1)
-              this.pagination.total = res.data.data.length;
+            if (this.$config.pagination.current == 1)
+              this.$config.pagination.total = res.data.data.length;
           }
         } else {
           this.menuList = []

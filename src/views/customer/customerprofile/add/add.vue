@@ -197,7 +197,7 @@ export default {
       if (this.form.customerLogo == "") {
         return this.$message.error("请选择客户logo");
       }
-      if (this.form.statusCode == "") {
+      if (this.form.statusCode === "") {
         return this.$message.error("请选择客户状态");
       }
       if (!this.vify_cn(this.form.linkman)&&this.form.linkman!=="") {

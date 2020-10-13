@@ -44,11 +44,11 @@
             :columns="tablecolumns"
             :data-source="tabledata"
             bordered
-            :pagination="pagination"
+            :pagination="$config.pagination"
             @change="handleTableChange"
           >
             <template slot="index" slot-scope="text, record, index">{{
-              index + 1 + (pagination.current - 1) * 10
+              index + 1 + ($config.pagination.current - 1) * 10
             }}</template>
             <div
               slot="edit"
@@ -156,7 +156,6 @@ export default {
       defaultExpandedKeys: [],
       defaultSelectedKeys: [],
       data: "",
-      pagination: this.$config.pagination,
       issearchdata: "",
       filterdata: [],
 
@@ -198,14 +197,14 @@ export default {
       let prame = {
         departmentId: this.isselectdata.id,
         keyword: this.inp_data,
-        pageIndex: this.pagination.page,
-        pageSize: this.pagination.pageSize,
+        pageIndex: this.$config.pagination.page,
+        pageSize: this.$config.pagination.pageSize,
       };
       let res = await this.$http.post(this.$api.departmentpage, prame);
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data.list;
-         if (this.pagination.current == 1){
-             this.pagination.total = res.data.data.length;
+         if (this.$config.pagination.current == 1){
+             this.$config.pagination.total = res.data.data.length;
           }
 
       } else {
@@ -328,23 +327,14 @@ export default {
     },
     getselectdata(val) {
       this.isselectdata = val;
+         console.log(this.$config.pagination,777777);
       localStorage.setItem("dpartmentManagementid", JSON.stringify(val));
-            this.$config.pagination= {
-          "total": 0, //总页数
-          "pageSize": 20, //每页中显示10条数据
-          "showSizeChanger": true,
-          "current": 1, //当前页
-          "page": 1, //几页
-          "size": "default",
-          "pageSizeOptions": ["20", "50", "100"], //每页中显示的数据
-          "showTotal": (total) => `共有 ${total} 条数据`, //分页中显示总的数据
-}
       this.getpage();
     },
     //查询
     tosearch() {
-      this.pagination.page = 1;
-      this.pagination.pageSize = 20;
+      this.$config.pagination.page = 1;
+      this.$config.pagination.pageSize = 20;
       this.getpage();
     },
     //清除
@@ -369,9 +359,10 @@ export default {
     },
     //分页
     handleTableChange(pagination) {
-      this.pagination.page = pagination.current;
-      this.pagination.current = pagination.current;
-      this.pagination.pageSize = pagination.pageSize;
+      console.log(pagination,8888);
+      this.$config.pagination.page = pagination.current;
+      this.$config.pagination.current = pagination.current;
+      this.$config.pagination.pageSize = pagination.pageSize;
       this.getpage();
     },
   },

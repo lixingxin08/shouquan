@@ -32,20 +32,20 @@
 
 <style>
   .dialogdel {
-    width: 920px;
-    height: 492px;
+    width: 600px;
+    height: 392px;
     position: absolute;
     left: 50%;
     top: 250px;
-    transform: translate(-50%);
-    border: 1px solid #000;
+    transform: translate(-50%); 
+box-shadow: 0px 0px 20px #CCCCCC;
     border-radius: 8px;
     background-color: #fff;
     z-index: 2;
   }
 
   .dialogdel_t {
-    width: 920px;
+    width: 600px;
     height: 72px;
     background: #1890ff;
     border: 1px solid #1890ff;
@@ -55,7 +55,7 @@
   }
 
   .dialogdel_c {
-    height: 348px;
+    height: 248px;
     font-size: 20px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;
