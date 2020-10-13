@@ -52,9 +52,7 @@
                   <div class="item-line"></div>
                   <a href="#" style='font-size: 12px;' @click="toedit(departmentId)">修改密码</a>
                   <div class="item-line"></div>
-                  <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(departmentId)">
-                    <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
-                  </a-popconfirm>
+                 <a href="#" style='color: #FF0000;font-size: 12px;'  @click="deleteItem(record)">删除</a>
 
                 </div>
               </div>
@@ -64,7 +62,8 @@
         </div>
       </div>
     </div>
-
+  <a-popconfirm-delete ref='delete' @confirm="getremove">
+       </a-popconfirm-delete>
     <is-edit-pass-word v-if="visiblePass" @confirmPass="confirmPass" @cancle='cancelPass'></is-edit-pass-word>
   </div>
 </template>
@@ -232,6 +231,9 @@
           this.getselectdata(this.treedata[0])
         }
         //this.getpersonpage();
+      },
+      deleteItem(item){
+        this.$refs.delete.show(item)
       },
       //分页列表接口
       async getpersonpage() {

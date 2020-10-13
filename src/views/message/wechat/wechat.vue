@@ -26,14 +26,13 @@
       <div slot="edit" class="flexrow flexjc" slot-scope="childTotal,areaName">
         <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
         <div class="item-line"></div>
-        <a-popconfirm  v-if='areaName.authTotal<=0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="getremove(areaName)">
-          <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
-        </a-popconfirm>
-                 <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
+        <a href="#" v-if='areaName.authTotal<=0' style='color: #FF0000;font-size: 12px;' @click="deleteItem(areaName)">删除</a>
+        <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
       </div>
     </a-table>
 
-
+    <a-popconfirm-delete ref='delete' @confirm="getremove">
+    </a-popconfirm-delete>
   </div>
 </template>
 <script>
@@ -95,7 +94,7 @@
           },
         ],
         tabledata: [],
-      pagination: this.$config.pagination,
+        pagination: this.$config.pagination,
 
         wetchatTypeList: [{ //通信方式列表
           comboBoxId: 'account_wechat_type',
@@ -118,6 +117,9 @@
       this.getdictionarycombobox();
     },
     methods: {
+      deleteItem(item) {
+        this.$refs.delete.show(item)
+      },
       //微信类型
       async getdictionarycombobox() {
         let pram = {

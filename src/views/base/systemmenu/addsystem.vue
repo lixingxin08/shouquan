@@ -74,9 +74,7 @@
           <div class="flexrow flexac flexjc">
             <a href="#" style='font-size: 12px;' @click="editAction(record,index)">编辑</a>
             <div class="item-line"></div>
-            <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(index)">
-              <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
-            </a-popconfirm>
+           <a  href="#" style='color: #FF0000;font-size: 12px;' @click="deleteItem(record)">删除</a>
           </div>
         </template>
       </a-table>
@@ -88,6 +86,8 @@
         <a-button style="margin-left: 50px;" @click='getMenuInfo'>重置</a-button>
       </div>
     </div>
+    <a-popconfirm-delete ref='delete' @confirm="confirmDelete">
+    </a-popconfirm-delete>
     <is-add ref='add' v-show='showAddDialog' @close='closeDialog' @callback='addCallback'></is-add>
   </div>
 </template>
@@ -160,6 +160,9 @@
       }
     },
     methods: {
+      deleteItem(item){
+        this.$refs.delete.show(item)
+      },
       closeDialog() { //关闭添加接口
         this.showAddDialog = false
       },

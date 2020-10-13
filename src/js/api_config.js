@@ -203,6 +203,6 @@ export default {
 
   devicetypebrandlistbyid: '/device/brands/brandListByTypeId',
 
-
+customerpersonnotaccount:'/customer/person/not-account',//人员未绑定账号列表
 
 }

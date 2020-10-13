@@ -12,17 +12,17 @@
       <a-button type="primary" class="title_btn" @click='getWariningData'>查询</a-button>
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
-      <div class="view-title-line"></div>
-   
+    <div class="view-title-line"></div>
 
-      <a-button class='table-add-btn' type="primary"@click='edit({})'>
-        <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
-      </a-button>
-    
-    <a-table  :scroll="{  y: 610 }" :columns="dictionaryColumns" :data-source="warningList" bordered size="small"
+
+    <a-button class='table-add-btn' type="primary" @click='edit({})'>
+      <a-icon two-tone-color="#ffffff" type="plus" /> 新增
+    </a-button>
+
+    <a-table :scroll="{  y: 610 }" :columns="dictionaryColumns" :data-source="warningList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
-      {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
+        {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
       </template>
       <div slot="gradeno" slot-scope="text, record">
         <div v-if="record.gradeno==0||record.gradeno==3">忽略</div>
@@ -33,13 +33,13 @@
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
           <div class="item-line"></div>
-          <a-popconfirm  v-if='record.authTotal<=0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="deleteConfirm(record)">
-            <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
-          </a-popconfirm>
-		  <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
+          <a href="#" v-if='record.authTotal<=0' style='color: #FF0000;font-size: 12px;' @click="deleteItem(record)">删除</a>
+          <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
         </div>
       </template>
     </a-table>
+    <a-popconfirm-delete ref='delete' @confirm="deleteConfirm">
+    </a-popconfirm-delete>
   </div>
 </template>
 <script>
@@ -55,7 +55,7 @@
         warningSelect: '', //警报选择
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         warningList: [], //字典数据
-      pagination: this.$config.pagination,
+        pagination: this.$config.pagination,
       }
     },
     created() {
@@ -70,15 +70,18 @@
         this.pagination.pageSize = pagination.pageSize;
         this.getWariningData()
       },
+      deleteItem(item) {
+        this.$refs.delete.show(item)
+      },
       /* 警报类型更改*/
       handleSelectChange(e) {
         this.warningSelect = e
       },
       /* 获取警报列表事件*/
       async getWariningData() {
-         this.warningList=[]
-         if(this.pagination.current==1)
-         this.pagination.total = 0
+        this.warningList = []
+        if (this.pagination.current == 1)
+          this.pagination.total = 0
         let param = {
           keyword: this.keyword,
           alarmType: this.warningSelect,
@@ -88,10 +91,10 @@
         let res = await this.$http.post(this.$api.alramlist, param)
 
         if (res.data.resultCode == 10000) {
-          if (this.pagination.current == 1){
-             this.pagination.total = res.data.data.length;
+          if (this.pagination.current == 1) {
+            this.pagination.total = res.data.data.length;
           }
-         
+
           this.warningList = res.data.data.list
         } else {
           this.warningList = []

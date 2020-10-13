@@ -13,12 +13,12 @@
       <a-button @click='cleanKeyWord'>清除</a-button>
     </div>
     <div class="view-title-line"></div>
-    
 
-      <a-button class='table-add-btn' type="primary" @click="editDevice({})">
-        <a-icon two-tone-color="#ffffff"  type="plus" /> 新增
-      </a-button>
-   
+
+    <a-button class='table-add-btn' type="primary" @click="editDevice({})">
+      <a-icon two-tone-color="#ffffff" type="plus" /> 新增
+    </a-button>
+
     <a-table :scroll="{  y: 610 }" :columns="dictionaryColumns" :data-source="deviceList" bordered size="small"
       :pagination="pagination" @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">
@@ -29,15 +29,16 @@
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>
           <div class="item-line"></div>
-          <a-popconfirm v-if="record.modelTotal<=0" title="确定删除?" ok-text="确定" cancel-text="取消" @confirm="confirm(record)">
-            <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
-          </a-popconfirm>
+          <a href="#" v-if="record.modelTotal<=0" style='color: #FF0000;font-size: 12px;' @click="deleteItem(record)">删除</a>
+
           <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
           <div class="item-line"></div>
           <a href="#" style='font-size: 12px;' @click="deviceAtt(record)">属性</a>
         </div>
       </template>
     </a-table>
+    <a-popconfirm-delete ref='delete' @confirm="confirm">
+    </a-popconfirm-delete>
   </div>
 </template>
 <script>
@@ -53,7 +54,7 @@
         serviceType: "",
         dictionaryColumns: tableTitleData.data.dictionaryColumns,
         deviceList: [], //设备类型数据
-       pagination: this.$config.pagination,
+        pagination: this.$config.pagination,
       }
     },
     created() {
@@ -68,6 +69,9 @@
         this.pagination.pageSize = pagination.pageSize;
         this.getDeviceData()
       },
+      deleteItem(item) {
+        this.$refs.delete.show(item)
+      },
       /* 下拉查询*/
       handleSelectChange(e) {
         this.serviceType = e
@@ -75,9 +79,9 @@
       },
       /* 获取设备类型list*/
       async getDeviceData() {
-        this.deviceList=[]
-        if(this.pagination.current==1)
-        this.pagination.total = 0
+        this.deviceList = []
+        if (this.pagination.current == 1)
+          this.pagination.total = 0
         let param = {
           keyword: this.keyword,
           serviceType: this.serviceType,
