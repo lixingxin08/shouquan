@@ -76,7 +76,7 @@ export default {
       } else {
         this.addtype = false;
       }
-            this.$config.pagination = {
+          this.$config.pagination = {
           total: 0, //总页数
           pageSize: 20, //每页中显示10条数据
           showSizeChanger: true,

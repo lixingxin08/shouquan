@@ -3,6 +3,7 @@
     <div class="isleftzonn no_pagination">
       <div class="left_title">客户列表</div>
       <a-table
+         :scroll="{ y: 780 }"
         :columns="tablecolumns"
         :data-source="tabledata"
         bordered
@@ -56,7 +57,7 @@
   </div>
 </template>
 <script>
-import isLeft from "../../../components/tree/tree.vue";
+import isLeft from "../../../components/tree/tree2.vue";
 import LogManagementVue from "../../LogManagement/LogManagement.vue";
 export default {
   inject: ["reload"],
@@ -288,28 +289,30 @@ export default {
     },
 
     searchtree() {
-      this.treedata = this.oldtreedata;
+      this.treedata =JSON.parse(JSON.stringify(this.oldtreedata));
       if (this.issearchdata == "") {
         return;
       }
-      let aa = this.oldtreedata;
+  
+      let aa = JSON.parse(JSON.stringify(this.oldtreedata));
+             this.filterdata=[]
       this.setfilltertree(aa);
+      this.treedata= this.filterdata
     },
 
     //过滤树搜索数据
     setfilltertree(datas) {
       let _that = this;
-      for (var i in datas) {
+      for (let i = 0; i < datas.length; i++) {
         let name = datas[i].name + "";
-        if (name.search(_that.issearchdata) != -1) {
+        if (name.search(_that.issearchdata) != -1) {    
           _that.filterdata.push(datas[i]);
-          console.log(_that.filterdata, 22222);
         }
         if (datas[i].children) {
-          _that.setfilltertree(datas[i].children);
+          this.setfilltertree(datas[i].children)
         }
-      }
-      _that.treedata = _that.toTree(this.filterdata);
+     }
+    
     },
     getselectdata(val) {
       console.log(val, 6666);

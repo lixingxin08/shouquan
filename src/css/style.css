@@ -384,26 +384,15 @@
 .ant-table-header {
   margin-bottom: 0 !important;
 }
-.ant-table-body{
-  min-height: 504px;
-}
 
-.min_table .ant-table-body{
-  min-height: 0px!important;
-}
 .no_pagination .ant-pagination{
   display: none;
 }
 .rb_b_btn {
   margin-right: 20px;
 }
-.ant-table-placeholder{
-  position: relative;
-  top: -504px;
-}
-.min_table .ant-table-placeholder{
-  top: 0!important;
-}
+
+
 .add_model_t {
   margin-top: 0;
   margin-bottom: 20px;

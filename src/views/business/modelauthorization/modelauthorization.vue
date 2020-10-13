@@ -3,6 +3,7 @@
     <div class="isleftmodel no_pagination">
       <div class="left_title">客户列表</div>
       <a-table
+       :scroll="{ y: 780 }"
         :columns="tablecolumns"
         :data-source="tabledata"
         bordered
@@ -108,8 +109,7 @@
                 placeholder="请输入授权个数"
               />
               <span style="font-size: 14px">注:授权个数不能大于9999</span>
-              <div style="margin-left: 50px; margin-right: 20px">已用个数:</div>
-              <span>{{ authTotal }}</span>
+
             </div>
             <div class="r_b_title">授权描述:</div>
             <div class="rb_text2">
@@ -168,7 +168,7 @@
   </div>
 </template>
 <script>
-import isLeft from "../../../components/tree/tree.vue";
+import isLeft from "../../../components/tree/tree2.vue";
 export default {
   inject: ["reload"],
   components: {

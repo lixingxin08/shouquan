@@ -111,7 +111,7 @@
     inject: ['reload'],
     data() {
       return {
-        postimgurl,
+        postimgurl:postimgurl+'?businessCode=MENUICON',
         dictionaryColumns: tableTitleData.data.adddictionaryColumns,
         menuValue: '页签', //菜单类型
         menuName: '', //菜单名称
@@ -217,7 +217,6 @@
           // Get this url from response in real world.
           this.imageUrl = info.file.response.data;
           this.loading = false;
-
         }
         console.log(this.imageUrl, 88999, info);
       },
