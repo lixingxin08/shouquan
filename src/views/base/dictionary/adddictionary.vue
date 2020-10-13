@@ -48,9 +48,12 @@
         <a-button @click='submit'>保存</a-button>
         <a-button type="primary" style="margin-left: 20px;" @click='setShowData'>重置</a-button>
       </div>
-      <div v-if="isAdd!='true'" class="flexrow edit_item_dic_title3_dic" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">数值列表</div>
 
-      <a-table v-if="isAdd!='true'" :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true'
+      <div  class="flexcolumn edit_item_dic_title3_dic" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">数值列表  <div  class="flexrow edit_item_dic_title3_dic" style="margin-top: 10px;justify-item: flex-start;margin-bottom: 50px;font-size: 16px;">
+        <a-button type='primary' @click='addLine' v-if='szList.length < 999'>新增行</a-button>
+      </div></div>
+
+      <a-table  :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true'
         size='small'>
         <template v-for="col in ['className', 'classCode', 'remark']" :slot="col" slot-scope="text, record, index">
           <div :key="col">
@@ -59,20 +62,19 @@
         </template>
         <template slot="operation" slot-scope="text, record, index">
           <div class="editable-row-operations">
-            <span>
-              <a v-if='record.edit&&record.className&&record.classCode' @click="() => save(index)">保存</a>
-              <a-popconfirm v-if='record.dictionaryId' title="确定删除数值吗?" @confirm="() => cancel(record)">
-                <a style="color: ff0000;">删除</a>
-              </a-popconfirm>
+            <span class="flexrow flexjc">
+              <a style="margin-right: 20px;" v-if='record.edit&&record.className&&record.classCode' @click="() => save(index)">保存</a>
+
+              <a  href="#" style='color: #FF0000;font-size: 12px;' @click="deleteItem(record)">删除</a>
             </span>
           </div>
         </template>
       </a-table>
-      <div v-if="isAdd!='true'" class="flexrow edit_item_dic_title3_dic" style="margin-top: 10px;justify-item: flex-start;margin-bottom: 50px;font-size: 16px;">
-        <a-button type='primary' @click='addLine' v-if='szList.length < 999'>新增行</a-button>
-      </div>
+
 
     </div>
+    <a-popconfirm-delete ref='delete' @confirm="cancel">
+    </a-popconfirm-delete>
     <is-add v-if='showAddDialog' @close='closeDialog' @submitNum="addNum"></is-add>
   </div>
 </template>
@@ -110,6 +112,9 @@
       }
     },
     methods: {
+      deleteItem(item){
+        this.$refs.delete.show(item)
+      },
       closeDialog() { //关闭dialog
         this.showAddDialog = false
       },

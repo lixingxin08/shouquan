@@ -20,13 +20,13 @@
 
           <a href="#" style='font-size: 12px;' @click="editDictionary(record)">编辑</a>
           <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 20px;margin-right: 20px;"></div>
-          <a-popconfirm v-if='record.childTotal<=0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm(record)">
-            <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
-          </a-popconfirm>
+          <a v-if='record.childTotal<=0' href="#" style='color: #FF0000;font-size: 12px;' @click="deleteItem(record)">删除</a>
           <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
         </div>
       </template>
     </a-table>
+    <a-popconfirm-delete ref='delete' @confirm="confirm">
+    </a-popconfirm-delete>
   </div>
 </template>
 
@@ -65,10 +65,13 @@
         this.parentItem = val
         this.getDictionnaryData()
       },
+      deleteItem(item){
+        this.$refs.delete.show(item)
+      },
       async getDictionnaryData() {
         this.dictonaryList = []
      if(this.$config.pagination.current==1)
-     this.pagination.total = 0
+     this.$config.pagination.total = 0
         let param = {
           keyword: this.dicName,
           parentId: this.parentItem.id,

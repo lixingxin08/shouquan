@@ -20,14 +20,16 @@
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="editDevice(record)">编辑</a>
           <div class="item-line"></div>
-          <a-popconfirm v-if='record.modelTotal<=0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirm(record)">
-            <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
-          </a-popconfirm>
+            <a v-if='record.modelTotal<=0' href="#" style='color: #FF0000;font-size: 12px;' @click="deleteItem(record)">删除</a>
+
           <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
         </div>
       </template>
     </a-table>
+    <a-popconfirm-delete ref='delete' @confirm="confirm">
+       </a-popconfirm-delete>
   </div>
+ 
 </template>
 <script>
   import tableTitleData from "./table.json";
@@ -70,6 +72,9 @@
           this.brandList = []
           this.$message.error(res.data.resultMsg);
         }
+      },
+      deleteItem(item){
+        this.$refs.delete.show(item)
       },
       /* 删除品牌确定*/
       async confirm(item) {

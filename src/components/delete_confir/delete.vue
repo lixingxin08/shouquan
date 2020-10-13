@@ -17,14 +17,14 @@
 </template>
 
 <script>
-  export default{
-    methods:{
-      confirm(){
+  export default {
+    methods: {
+      confirm() {
         //  this.isremove()
         this.$emit("confirm")
       },
-      cancel(){
-         this.$emit("cancle")
+      cancel() {
+        this.$emit("cancle")
       },
     },
   }

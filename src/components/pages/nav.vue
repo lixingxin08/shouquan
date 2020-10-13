@@ -3,7 +3,8 @@
     <div class="logo_box flex_a" v-if="menuIcontype">
       <img class="logo_img" :src="menuIcon" alt />
     </div>
-    <a-menu theme="dark" mode="inline" @click="handleClick" @openChange='openChange' :selected-keys="selectedKeys" :open-keys="openKeys">
+    <a-menu theme="dark" mode="inline" @click="handleClick" @openChange='openChange' :selected-keys="selectedKeys"
+      :open-keys="openKeys">
       <!--  <a-sub-menu v-if='menudata' v-for='(item,index) in menudata' :key='index'>
         <div slot="title" class="flex_F">
           <img class="nav_icon" src="../../assets/nav_img/icon_z_jichu@2x.png" alt />
@@ -25,11 +26,10 @@
   </a-layout-sider>
 </template>
 <script>
-
   import {
     Menu
   } from "ant-design-vue";
-  //import js from './new_file.json'
+  import json from './new_file.json'
   const SubMenu = {
     template: `
         <a-sub-menu :key="menuInfo.menuName" v-bind="$props" v-on="$listeners">
@@ -65,7 +65,7 @@
     name: "isnav",
     data() {
       return {
-        menudata: [ ], //树数据
+        menudata: [], //树数据
         selectedKeys: [],
         openKeys: [],
       };
@@ -75,7 +75,7 @@
     },
 
     created() {
-     
+
       this.getMenuList();
       this.menuIcontype=false
        this.menuIcon = JSON.parse(localStorage.getItem("authorization")).menuIcon;
@@ -86,16 +86,16 @@
         console.log('click ', e.key);
         this.selectedKeys = [e.key]
       },
-      openChange(e){
-         console.log('open ', e);
-         this.openKeys=e
-         localStorage.setItem("navOpenId", JSON.stringify(e))
+      openChange(e) {
+        console.log('open ', e);
+        this.openKeys = e
+        localStorage.setItem("navOpenId", JSON.stringify(e))
       },
       async getMenuList() {
            let isurl=window.location.href.split('#/')
            console.log(isurl,9999);
            let isurl2=isurl[1].split('/')
-           console.log(isurl2,'isurl2isurl2isurl2isurl2');
+           console.log(isurl2,'isurl2isurl2isurl2isurl2');if(JSON.parse(localStorage.getItem("authorization"))){
         let navlist=JSON.parse(localStorage.getItem("authorization")).navlist
               navlist=navlist.filter(item=>item.menuType<=3000)
             for (let i = 0; i < navlist.length; i++) {
@@ -103,10 +103,16 @@
                 this.selectedKeys=navlist[i].menuName
               }
             }
-        this.menudata = this.toTree(
-          navlist
-        );
-      //  this.menudata = this.toTree(js.navlist)
+        
+          this.menudata = this.toTree(
+            navlist
+          )
+            
+        } else {
+          if (isurl[0].indexOf('localhost') >= 0){
+            this.menudata = this.toTree(json.navlist)
+            }
+        }
       },
       toTree(data) {
         let result = [];

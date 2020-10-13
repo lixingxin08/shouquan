@@ -45,6 +45,9 @@ Vue.use(Steps);
 Vue.use(Tabs);
 Vue.use(InputNumber);
 Vue.use(ConfigProvider);
+import aPopconfirmDelete from './components/popconfirm/popconfirm.vue'
+Vue.component("aPopconfirmDelete", aPopconfirmDelete);
+
 
 window.addEventListener(
   "message",

@@ -137,13 +137,13 @@
           pageIndex: this.pagination.page,
           pageSize: this.pagination.pageSize,
         };
-        let res = await this.$http.post(this.$api.personpage, prame);
+        let res = await this.$http.post(this.$api.customerpersonnotaccount, prame);
         if (res.data.resultCode == "10000") {
           this.tabledata = res.data.data.list;
           if (this.pagination.current == 1)
             this.pagination.total = res.data.data.length;
         } else {
-          this.$message.success(res.data.resultMsg);
+          this.$message.error(res.data.resultMsg);
         }
       },
       /* 取消选择人员*/
