@@ -191,7 +191,7 @@ export default {
     //数据字典下拉列表框接口
     async getdictionarycombobox() {
       let pram = {
-        classCode: "runngin_parameter_type",
+        classCode: "running_parameter_type",
       };
       let res = await this.$http.post(this.$api.dictionarycombobox, pram);
       console.log(res, 12221);

@@ -39,6 +39,7 @@
         </div>
         <div class="table" v-if="tabletype">
           <a-table
+           class="min_table"
             :scroll="{ y: 610 }"
             :columns="tablecolumns"
             :data-source="tabledata"
@@ -206,10 +207,12 @@ export default {
          if (this.pagination.current == 1){
              this.pagination.total = res.data.data.length;
           }
-        this.tabletype = true;
+
       } else {
+        this.tabledata=[]
         this.$message.error(res.data.resultMsg);
       }
+            this.tabletype = true;  
     },
     //删除接口
     async getremove() {
@@ -289,18 +292,8 @@ export default {
       this.treedata = this.toTree(this.data);
       this.defaultSelectedKeys = [];
       if (localStorage.getItem("dpartmentManagementid")) {
-        let item=JSON.parse(localStorage.getItem("dpartmentManagementid"))
-        this.defaultSelectedKeys.push(
-          JSON.parse(localStorage.getItem("dpartmentManagementid"))
-        );
-        for (let i = 0; i < this.data.length; i++) {
-          if (
-            this.data[i].id ==
-            JSON.parse(localStorage.getItem("dpartmentManagementid"))
-          ) {
-            this.isselectdata = this.data[i];
-          }
-        }
+                          this.getselectdata(JSON.parse(localStorage.getItem('dpartmentManagementid')));
+          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('dpartmentManagementid')).id);
       } else {
         this.defaultSelectedKeys.push(this.treedata[0].id);
         this.isselectdata.id = this.treedata[0].id;
@@ -336,6 +329,16 @@ export default {
     getselectdata(val) {
       this.isselectdata = val;
       localStorage.setItem("dpartmentManagementid", JSON.stringify(val));
+            this.$config.pagination= {
+          "total": 0, //总页数
+          "pageSize": 20, //每页中显示10条数据
+          "showSizeChanger": true,
+          "current": 1, //当前页
+          "page": 1, //几页
+          "size": "default",
+          "pageSizeOptions": ["20", "50", "100"], //每页中显示的数据
+          "showTotal": (total) => `共有 ${total} 条数据`, //分页中显示总的数据
+}
       this.getpage();
     },
     //查询
@@ -346,9 +349,7 @@ export default {
     },
     //清除
     clear() {
-      this.isselectdata.name = "";
       this.inp_data = "";
-      // this.getpage();
     },
     //弹窗
     showdialogdpart(val) {

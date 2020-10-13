@@ -99,7 +99,7 @@ import {postimgurl} from '../../../../js/url'
     data() {
 
       return {
-        postimgurl,
+       postimgurl:postimgurl+'?businessCode=ALARMFLOW',
         selectedRowKeys: [], //选择转警事件
         gradeList: [{ //警报等级
             comboBoxId: 1,
@@ -293,7 +293,7 @@ import {postimgurl} from '../../../../js/url'
 
 <style>
   .edit_item_warnings_title3 {
-    width: 70px;
+    width: 80px;
     font-size: 14px;
     font-family: Microsoft YaHei, Microsoft YaHei-Regular;
     font-weight: 400;

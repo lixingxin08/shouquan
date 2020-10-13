@@ -156,10 +156,12 @@ export default {
           this.selectedRowKeys.push(i)
         }
         }
-        this.tabletype = true;
+       
       } else {
+        this.tabledata=[]
         this.$message.error(res.data.resultMsg);
       }
+       this.tabletype = true;
     },
 
     async gettree() {

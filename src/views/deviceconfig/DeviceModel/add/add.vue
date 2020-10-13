@@ -118,7 +118,7 @@ import {postimgurl} from '../../../../js/url'
     data() {
 
       return {
-        postimgurl,
+       postimgurl:postimgurl+'?businessCode=DEVICEMODEL',
         dictionaryColumns: tableTitleData.data.add,
         selectedRowKeys: [],
         brandList: [], //设备品牌

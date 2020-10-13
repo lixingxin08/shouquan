@@ -122,7 +122,7 @@ export default {
   },
   data() {
     return {
-      postimgurl,
+      postimgurl:postimgurl+'?businessCode=CUSTOMERLOGO',
       istoken: {
         token: JSON.parse(localStorage.getItem("authorization")).token || "",
       },

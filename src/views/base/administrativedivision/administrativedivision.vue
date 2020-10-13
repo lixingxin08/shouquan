@@ -53,10 +53,11 @@
             <template slot="index" slot-scope="text, record, index">{{
               index + 1 + (pagination.current - 1) * 10
             }}</template>
-            <div slot="edit" class="flex_a" slot-scope="childTotal, areaName">
+            <div slot="edit" class="flexrow flexac flexjc" slot-scope="childTotal, areaName">
               <div class="col_blue ispointer" @click="toadd('edit', areaName)">
                 编辑
               </div>
+                <div class="item-line"></div>
               <div
                 class="col_red ispointer"
                 v-if="childTotal == 0"
@@ -380,16 +381,13 @@ export default {
     },
     //查询
     tosearch() {
-      this.isselectdata.levelType = "";
       this.pagination.page = 1;
       this.pagination.pageSize = 20;
       this.getareapage();
     },
     //清除
     clear() {
-      this.isselectdata.name = "";
       this.inp_data = "";
-      // this.getareapage();
     },
     //弹窗
     showdialogadmin(val) {

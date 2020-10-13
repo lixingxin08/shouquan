@@ -3,6 +3,7 @@
     <div class="isleftalar no_pagination">
       <div class="left_title">客户列表</div>
       <a-table
+       :scroll="{ y: 780 }"
         :columns="tablecolumns"
         :data-source="tabledata"
         bordered
@@ -154,8 +155,8 @@ export default {
           width: 131,
           align: "center",
           title: "型号名称",
-          dataIndex: "customerName",
-          key: "customerName",
+          dataIndex: "modelName",
+          key: "modelName",
           ellipsis: true,
         },
         {

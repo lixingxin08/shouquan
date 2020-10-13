@@ -353,22 +353,18 @@ export default {
       return result;
     },
     setdata() {
+       this.defaultSelectedKeys = [];
       for (let i = 0; i < this.data.length; i++) {
         if (this.data[i].open == true) {
           this.defaultExpandedKeys.push(this.data[i].id);
         }
       }
       this.treedata = this.toTree(this.data);
-      this.defaultSelectedKeys = [];
+     
       if (localStorage.getItem("personnelManagementid")) {
-        this.defaultSelectedKeys.push(
-          JSON.parse(localStorage.getItem("personnelManagementid"))
-        );
-        for (let i = 0; i < this.data.length; i++) {
-          if (this.data[i].id == JSON.parse(localStorage.getItem("personnelManagementid"))) {
-            this.isselectdata = this.data[i];
-          }
-        }
+                  this.getselectdata(JSON.parse(localStorage.getItem('personnelManagementid')));
+          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('personnelManagementid')).id);
+
       } else {
         this.defaultSelectedKeys.push(this.treedata[0].id);
         this.isselectdata.id = this.treedata[0].id;
@@ -402,7 +398,7 @@ export default {
     getselectdata(val) {
       this.isselectdata.id = val.id;
       this.isselectdata.name = val.name;
-      localStorage.setItem("personnelManagementid", JSON.stringify(val.id));
+      localStorage.setItem("personnelManagementid", JSON.stringify(val));
       this.getpersonpage();
     },
     //查询

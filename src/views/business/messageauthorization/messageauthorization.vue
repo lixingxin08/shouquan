@@ -3,6 +3,7 @@
     <div class="isleftmsg no_pagination">
       <div class="left_title">客户列表</div>
       <a-table
+       :scroll="{ y: 780 }"
         :columns="tablecolumns"
         :data-source="tabledata"
         bordered
