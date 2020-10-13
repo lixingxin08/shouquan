@@ -27,7 +27,7 @@
         <div style="color: #333333;margin-left: 10px;">属性分组:</div>
         <a class="title_item" style="margin-left: 20px;width: 667px;">{{item.propertyName}}</a>
       </div>
-
+<div class="min_table">
       <a-table style='margin-top: 20px;' :columns="dictionaryColumns" :data-source="item.childrenList"
         :pagination='false' :bordered='true' size='small' >
         <template slot="index" slot-scope="text, record, index">
@@ -38,6 +38,7 @@
           <a-input style="margin: -5px 0;border: 0px;" v-model='text' @change="e => handleChange(e.target.value, index2,index)"></a-input>
         </template>
       </a-table>
+      </div>
     </div>
     <div v-if="groups.length<=0" style="color: #000000;margin-top: 80px;margin-bottom: 80px;">
       暂无属性值
