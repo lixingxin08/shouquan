@@ -136,7 +136,7 @@
           }
         }
         let res = await this.$http.post(this.$api.propertyvalueform, param)
-        if (res.data.resultCode == 1000) {
+        if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
         } else {
           this.$message.error(res.data.resultMsg)
