@@ -77,20 +77,20 @@
         }
       },
       {
-        "title": "属性名称",
         "dataIndex": "propertyName",
         "align": "center",
         "width": "15%",
         "scopedSlots": {
+          "title":"propertyNameTitle",
           "customRender": "propertyName"
         }
       },
       {
-        "title": "属性代码",
         "dataIndex": "propertyCode",
         "align": "center",
         "width": "15%",
         "scopedSlots": {
+          "title":"propertyCodeTitle",
           "customRender": "propertyCode"
         }
       },
