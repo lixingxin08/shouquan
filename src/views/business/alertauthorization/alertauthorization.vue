@@ -205,6 +205,7 @@ export default {
         alarmIdList: "",
         remark: "",
       },
+      checkelists:[]
     };
   },
   created() {
@@ -283,14 +284,24 @@ export default {
         }
     },
     async getform() {
-      console.log(this.checkedKeys, 55555555);
       this.form.customerId = this.treeprame.customerId;
+      this.form.alarmIdList=[]
+      for (let i = 0; i <this.checkelists.length; i++) {
+        for (let j = 0; j < this.data.length; j++) {
+           if (this.checkelists[i]==this.data[j].id) {
+             if (this.data[j].nodeType=="alarm") {
+               this.form.alarmIdList.push(this.checkelists[i])
+             }
+           }
+        }
+      }
       if (this.form.alarmIdList.length == 0) {
         return this.$message.error("请选择授权区域");
       }
       if (this.form.customerId == "") {
         return this.$message.error("请选择授权客户");
       }
+      this.form.alarmIdList=[...new Set(this.form.alarmIdList)]
       let res = await this.$http.post(this.$api.customeralarmform, this.form);
       if (res.data.resultCode == "10000") {
         this.getalerlist();
@@ -383,7 +394,7 @@ export default {
     },
     getcheckedKeys(val) {
       console.log(val, 44444);
-      this.form.alarmIdList = val;
+      this.checkelists = val;
     },
     cancel() {
       this.reload();

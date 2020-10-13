@@ -69,7 +69,7 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyNTA3Mzg4NjI5LCJ0b2tlbklkIjoiODdkMmZhNDQzNWVjNDRiMzk0YmU4MzQzYzNmMzUyNDAiLCJ1c2VySWQiOiJhNmYzNWZkNjYwNWI0MjQwYjkxODE5NzdmNjBlYmViYiJ9.XMhJiv9tXrXdbJ36pgC-iDsfHZuc5GxRan3yI-xX7n4"
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyNTA4NTY0MzQ4LCJ0b2tlbklkIjoiMjFiN2YxYjRhZDhiNDc5OGFlOGNkM2IxZjgzYzU2NmIiLCJ1c2VySWQiOiJhNmYzNWZkNjYwNWI0MjQwYjkxODE5NzdmNjBlYmViYiJ9.Q3dbw-XPPv4zFFYL7LwIv1zrfJ70h5inzKXzi5ITkJA"
 
     } else {
       token = JSON.parse(localStorage.getItem('authorization')).token || ""
@@ -93,38 +93,38 @@ axios.interceptors.response.use(
       response.data.data.list=[]
 
     }
-    // if (response.data.resultCode == "20100") {
-    //   message.error("令牌错误，请重新登录",5)
+    if (response.data.resultCode == "20100") {
+      message.error("令牌错误，请重新登录",5)
 
-    //     window.location.href = bb[0]
+        window.location.href = bb[0]
 
-    // }
-    // if (response.data.resultCode == "20101") {
-    //   message.error("未登录，请先登录",5)
+    }
+    if (response.data.resultCode == "20101") {
+      message.error("未登录，请先登录",5)
 
-    //     window.location.href = bb[0]
+        window.location.href = bb[0]
 
-    // }
-    // if (response.data.code == "20102") {
-    //   message.error("你的账号已在其他地方登录，请重新登录",5)
+    }
+    if (response.data.code == "20102") {
+      message.error("你的账号已在其他地方登录，请重新登录",5)
 
-    //     window.location.href = bb[0]
+        window.location.href = bb[0]
 
-    // }
-    // if (response.data.resultCode == "20103") {
-    //   message.error("登录已过期，请重新登录！",5)
+    }
+    if (response.data.resultCode == "20103") {
+      message.error("登录已过期，请重新登录！",5)
 
-    //     window.location.href = bb[0]
+        window.location.href = bb[0]
 
-    // }
-    // if (response.data.resultCode == "20104") {
-    //   message.error("登录已失效，请重新登录！",5)
-    //     window.location.href = bb[0]
-    // }
-    // if (response.data.resultCode == "20105") {
-    //   message.error("登录已失效，请重新登录！",5)
-    //     window.location.href = bb[0]
-    // }
+    }
+    if (response.data.resultCode == "20104") {
+      message.error("登录已失效，请重新登录！",5)
+        window.location.href = bb[0]
+    }
+    if (response.data.resultCode == "20105") {
+      message.error("登录已失效，请重新登录！",5)
+        window.location.href = bb[0]
+    }
 
     return response;
   },
