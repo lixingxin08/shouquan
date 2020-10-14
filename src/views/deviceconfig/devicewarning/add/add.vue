@@ -174,7 +174,7 @@ import {postimgurl} from '../../../../js/url'
         let res = await this.$http.post(this.$api.alramform, param)
         if (res.data.resultCode == 10000) {
           //if (!this.id)
-            this.$router.go(-1)
+            this.$router.push('/devicewarning')
           this.$message.success(res.data.resultMsg);
         } else {
           this.$message.error(res.data.resultMsg);

@@ -48,9 +48,7 @@
 <script>
   import tableTitleData from "./table.json";
   export default {
-    components: {
-      isDeleteDialog
-    },
+   
     data() {
       return {
         isShowDelete: false,
