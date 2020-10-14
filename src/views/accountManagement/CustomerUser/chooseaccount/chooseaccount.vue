@@ -127,8 +127,6 @@
       },
       /* 获取人员*/
       async getpersonpage() {
-        if (this.pagination.current == 1)
-          this.pagination.total = 0;
         this.tabledata = []
         let prame = {
           departmentId: this.selectId, //菜单id
@@ -137,9 +135,7 @@
         };
         let res = await this.$http.post(this.$api.customerpersonnotaccount, prame);
         if (res.data.resultCode == "10000") {
-          this.tabledata = res.data.data.list;
-          if (this.pagination.current == 1)
-            this.pagination.total = res.data.data.length;
+          this.tabledata = res.data.data;
         } else {
           this.$message.error(res.data.resultMsg);
         }
