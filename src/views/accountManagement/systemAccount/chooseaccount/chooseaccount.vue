@@ -18,7 +18,7 @@
       </div>
       <div v-if="tabledata.length>0" class="table min_table">
         <a-table style='margin: 20px;' :scroll="{ x: 525,y:300 }" :columns="tablecolumns" :data-source="tabledata"
-          bordered :pagination="pagination" @change="handleTableChange" size='small'>
+          bordered :pagination="false" @change="handleTableChange" size='small'>
           <div slot="departmentId" slot-scope="text, record,index">
             {{(index+1)+((pagination.current-1)*pagination.pageSize)}}
           </div>
@@ -134,8 +134,6 @@
           departmentId: this.selectId, //菜单id
           keyword: this.pageparam.keyword, //搜索条件
           statusCode: this.pageparam.statusCode, //人员状态
-          pageIndex: this.pagination.page,
-          pageSize: this.pagination.pageSize,
         };
         let res = await this.$http.post(this.$api.customerpersonnotaccount, prame);
         if (res.data.resultCode == "10000") {
