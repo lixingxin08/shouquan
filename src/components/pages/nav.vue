@@ -1,7 +1,7 @@
 <template>
   <a-layout-sider v-model="iscollapsed" class="scroller2" :trigger="null" collapsible collapsedWidth="0">
-    <div class="logo_box flex_a">
-      <img class="logo_img" src="../../assets/nav_img/logo@2x.png" alt />
+    <div class="logo_box flex_a" v-if="menuIcontype">
+      <img class="logo_img" :src="menuIcon" alt />
     </div>
     <a-menu theme="dark" mode="inline" @click="handleClick" @openChange='openChange' :selected-keys="selectedKeys"
       :open-keys="openKeys">
@@ -50,6 +50,8 @@
     name: "SubMenu",
     // must add isSubMenu: true
     isSubMenu: true,
+    menuIcon:"",
+    menuIcontype:false,
     props: {
       ...Menu.SubMenu.props,
       menuInfo: {
@@ -75,6 +77,9 @@
     created() {
 
       this.getMenuList();
+      this.menuIcontype=false
+       this.menuIcon = JSON.parse(localStorage.getItem("authorization")).menuIcon;
+       this.menuIcontype=true
     },
     methods: {
       handleClick(e) {
@@ -87,20 +92,22 @@
         localStorage.setItem("navOpenId", JSON.stringify(e))
       },
       async getMenuList() {
-        let isurl = window.location.href.split('#/')
-        console.log(isurl, 9999);
-        let isurl2 = isurl[1].split('/')
-        console.log(isurl2, 'isurl2isurl2isurl2isurl2');
-        if (localStorage.getItem("asset")) {
-          let navlist = JSON.parse(localStorage.getItem("authorization")).navlist
-          for (let i = 0; i < navlist.length; i++) {
-            if (navlist[i].linkURL == isurl2[0]) {
-              this.selectedKeys = navlist[i].menuName
+           let isurl=window.location.href.split('#/')
+           console.log(isurl,9999);
+           let isurl2=isurl[1].split('/')
+           console.log(isurl2,'isurl2isurl2isurl2isurl2');if(JSON.parse(localStorage.getItem("authorization"))){
+        let navlist=JSON.parse(localStorage.getItem("authorization")).navlist
+              navlist=navlist.filter(item=>item.menuType<=3000)
+            for (let i = 0; i < navlist.length; i++) {
+              if (navlist[i].linkURL==isurl2[0]) {
+                this.selectedKeys=navlist[i].menuName
+              }
             }
-          }
+        
           this.menudata = this.toTree(
             navlist
-          );
+          )
+            
         } else {
           if (isurl[0].indexOf('localhost') >= 0){
             this.menudata = this.toTree(json.navlist)

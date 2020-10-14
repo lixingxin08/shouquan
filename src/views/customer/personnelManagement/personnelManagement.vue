@@ -65,11 +65,11 @@
             :columns="tablecolumns"
             :data-source="tabledata"
             bordered
-            :pagination="pagination"
+            :pagination="$config.pagination"
             @change="handleTableChange"
           >
             <template slot="index" slot-scope="text, record, index">{{
-              index + 1 + (pagination.current - 1) * 10
+              index + 1 + ($config.pagination.current - 1) * 10
             }}</template>
             <div slot="gender" class="flex_a" slot-scope="gender">
               <div v-if="gender == 0">男</div>
@@ -233,7 +233,6 @@ export default {
         { id: 2, val: "离岗" },
       ],
       data: "",
-      pagination: this.$config.pagination,
       issearchdata: "",
       filterdata: [],
 
@@ -274,14 +273,14 @@ export default {
         departmentId: this.isselectdata.id,
         keyword: this.pageparam.keyword,
         statusCode: this.pageparam.statusCode,
-        pageIndex: this.pagination.page,
-        pageSize: this.pagination.pageSize,
+        pageIndex: this.$config.pagination.page,
+        pageSize: this.$config.pagination.pageSize,
       };
       let res = await this.$http.post(this.$api.personpage, prame);
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data.list;
-        if (this.pagination.current == 1){
-             this.pagination.total = res.data.data.length;
+        if (this.$config.pagination.current == 1){
+             this.$config.pagination.total = res.data.data.length;
           }
         this.tabletype = true;
       } else {
@@ -403,8 +402,8 @@ export default {
     },
     //查询
     tosearch() {
-      this.pagination.page = 1;
-      this.pagination.pageSize = 20;
+      this.$config.pagination.page = 1;
+      this.$config.pagination.pageSize = 20;
       this.getpersonpage();
     },
     //清除
@@ -430,9 +429,9 @@ export default {
     },
     //分页
     handleTableChange(pagination) {
-      this.pagination.page = pagination.current;
-      this.pagination.current = pagination.current;
-      this.pagination.pageSize = pagination.pageSize;
+      this.$config.pagination.page = pagination.current;
+      this.$config.pagination.current = pagination.current;
+      this.$config.pagination.pageSize = pagination.pageSize;
       this.getpersonpage();
     },
     handleChange(val) {

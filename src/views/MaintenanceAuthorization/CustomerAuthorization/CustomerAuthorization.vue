@@ -20,26 +20,32 @@
           :columns="tablecolumns"
           :data-source="tabledata"
           bordered
-          :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
+          :row-selection="{
+            selectedRowKeys: selectedRowKeys,
+            onChange: onSelectChange,
+          }"
           :pagination="pagination"
           rowKey="index"
         >
-          <template
-            slot="index"
-            slot-scope="text, record,index"
-          >{{(index+1)+((pagination.current-1)*10)}}</template>
+          <template slot="index" slot-scope="text, record, index">{{
+            index + 1 + (pagination.current - 1) * 10
+          }}</template>
 
           <div slot="statusCode" class="flex_a" slot-scope="statusCode">
-            <div v-if="statusCode==1">启用</div>
-            <div v-if="statusCode==0">锁定</div>
-            <div v-if="statusCode==2">备用</div>
+            <div v-if="statusCode == 1">启用</div>
+            <div v-if="statusCode == 0">锁定</div>
+            <div v-if="statusCode == 2">备用</div>
           </div>
         </a-table>
       </div>
       <div class="r_b">
         <div class="r_b_title">授权描述:</div>
         <div class="rb_text">
-          <a-textarea placeholder="Basic usage" v-model="form.remark" :rows="5" />
+          <a-textarea
+            placeholder="Basic usage"
+            v-model="form.remark"
+            :rows="5"
+          />
         </div>
         <div class="flex_a rb_b">
           <div class="flex_f">
@@ -61,7 +67,7 @@ export default {
     return {
       pagination: {
         total: 0,
-        pageSize: 10000, //每页中显示10条数据
+        pageSize: 100000, //每页中显示10条数据
         current: 1,
         page: 1,
       },
@@ -106,7 +112,7 @@ export default {
         },
       ],
       tabledata: [],
-         selectedRowKeys: [],
+      selectedRowKeys: [],
       treedata: "",
       replaceFields: {
         title: "name",
@@ -137,10 +143,10 @@ export default {
     this.gettree();
   },
   methods: {
-        onSelectChange(selectedRowKeys) {
-          console.log(selectedRowKeys,7777);
+    onSelectChange(selectedRowKeys) {
+      console.log(selectedRowKeys, 7777);
       this.selectedRowKeys = selectedRowKeys;
-      this.form.customerIdList=this.selectedRowKeys
+      this.form.customerIdList = this.selectedRowKeys;
     },
     async getlist() {
       this.tabletype = false;
@@ -150,18 +156,17 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.tabledata = res.data.data;
-        this.selectedRowKeys=[]
-        for (let i = 0; i <  this.tabledata.length; i++) {
-        if (this.tabledata[i].selected==1) {
-          this.selectedRowKeys.push(i)
+        this.selectedRowKeys = [];
+        for (let i = 0; i < this.tabledata.length; i++) {
+          if (this.tabledata[i].selected == 1) {
+            this.selectedRowKeys.push(i);
+          }
         }
-        }
-       
       } else {
-        this.tabledata=[]
+        this.tabledata = [];
         this.$message.error(res.data.resultMsg);
       }
-       this.tabletype = true;
+      this.tabletype = true;
     },
 
     async gettree() {
@@ -171,22 +176,27 @@ export default {
         this.data = res.data.data;
         this.setdata();
         this.showtree = true;
-        this.form.accountId = this.treedata[0].id;
-        this.listparam.accountId = this.form.accountId;
+        // this.form.accountId = this.treedata[0].id;
+        this.listparam.accountId = this.treedata[0].id;
         this.defaultSelectedKeys = [];
-        this.defaultSelectedKeys.push(this.form.accountId);
+        this.defaultSelectedKeys.push( this.treedata[0].id);
         this.getlist();
       } else {
         this.$message.error(res.data.resultMsg);
       }
     },
     async getform() {
-          this.form.customerIdList=[]
+      this.form.customerIdList = [];
       for (let i = 0; i < this.selectedRowKeys.length; i++) {
-        this.form.customerIdList.push(this.tabledata[this.selectedRowKeys[i]].customerId)      
+        this.form.customerIdList.push(
+          this.tabledata[this.selectedRowKeys[i]].customerId
+        );
       }
       if (this.form.customerIdList.length == 0) {
         return this.$message.error("请选择授权客户");
+      }
+      if (this.form.accountId == "") {
+        return this.$message.error("请选择系统帐号");
       }
       let res = await this.$http.post(this.$api.customeraccountform, this.form);
       if (res.data.resultCode == "10000") {
@@ -195,7 +205,6 @@ export default {
         this.$message.error(res.data.resultMsg);
       }
     },
-
 
     toTree(data) {
       let result = [];
@@ -254,9 +263,15 @@ export default {
       _that.treedata = _that.toTree(this.filterdata);
     },
     getselectdata(val) {
-     this.form.accountId=val.id
-     this.listparam.accountId=val.id
-     this.getlist()
+      if (val.nodeType == "account") {
+        this.form.accountId = val.id;
+        this.listparam.accountId = val.id;
+      } else {
+        this.form.accountId = "";
+        this.listparam.accountId = val.id;
+      }
+
+      this.getlist();
     },
   },
 };
@@ -325,5 +340,4 @@ export default {
   margin-top: 40px;
   text-align: center;
 }
-
 </style>

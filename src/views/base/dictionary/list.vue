@@ -13,8 +13,8 @@
     <a-button type="primary" class='table-add-btn' @click="add">
       <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
     <a-table :scroll="{  y: 610 }" :columns="dictionaryColumns" :data-source="dictonaryList" bordered size="small"
-      :pagination="pagination" @change="handleTableChange">
-      <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</template>
+      :pagination="$config.pagination" @change="handleTableChange">
+      <template slot="index" slot-scope="text, record,index">{{(index+1)+(($config.pagination.current-1)*$config.pagination.pageSize)}}</template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
 
@@ -39,7 +39,6 @@
         dictionaryColumns: tableTitleData.data.dictionaryColumns, //数值标头
         dictonaryList: [], //字典数据
         dicName: '', //搜索字典名称
-        pagination: this.$config.pagination,
         parentItem: null, //父级信息
         pageSize: 20, //请求的每页的大小
         pageIndex: 1 //请求第几页
@@ -51,9 +50,9 @@
       handleTableChange(pagination) {
         this.pageSize = pagination.pageSize
         this.pageIndex = pagination.current
-        this.pagination.page = pagination.current;
-        this.pagination.current = pagination.current;
-        this.pagination.pageSize = pagination.pageSize;
+        this.$config.pagination.page = pagination.current;
+        this.$config.pagination.current = pagination.current;
+        this.$config.pagination.pageSize = pagination.pageSize;
         this.getDictionnaryData()
       },
 
@@ -71,8 +70,8 @@
       },
       async getDictionnaryData() {
         this.dictonaryList = []
-        if (this.pagination.current == 1)
-          this.pagination.total = 0
+     if(this.$config.pagination.current==1)
+     this.$config.pagination.total = 0
         let param = {
           keyword: this.dicName,
           parentId: this.parentItem.id,
@@ -82,8 +81,8 @@
         let res = await this.$http.post(this.$api.dictionarypage, param);
         if (res.data.resultCode == "10000") {
           this.dictonaryList = res.data.data.list;
-          if (this.pagination.current == 1)
-            this.pagination.total = res.data.data.length;
+          if (this.$config.pagination.current == 1)
+            this.$config.pagination.total = res.data.data.length;
           this.$forceUpdate();
         } else {
           this.dictonaryList = []
