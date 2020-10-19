@@ -39,22 +39,23 @@
       <div class="flexrow flexac edit_item_dic">
         <div class="edit_item_dic_title3_dic">字典描述:</div>
         <div style="position: relative;width: 667px;">
-          <a-textarea class='edit_a_input_dic' :maxLength='256' :rows="5" placeholder="字典描述" @change="onChangeConfig"
+          <a-textarea class='edit_a_input_dic' :maxLength='250' :rows="5" placeholder="字典描述" @change="onChangeConfig"
             v-model="remark" />
-          <div class="edit_number_dic">{{congigmidLenght}}/256</div>
+          <div class="edit_number_dic">{{congigmidLenght}}/250</div>
         </div>
       </div>
-      <div class="flexrow " style="margin-top: 30px;justify-item: flex-start;margin-left: 80px;">
-        <a-button @click='submit'>保存</a-button>
-        <a-button type="primary" style="margin-left: 20px;" @click='setShowData'>重置</a-button>
+  <div class="flexrow flexjc" style="margin-top: 30px;">
+        <a-button type="primary" @click='submit'>保存</a-button>
+        <a-button  style="margin-left: 40px;" @click='setShowData'>重置</a-button>
       </div>
 
-      <div  class="flexcolumn edit_item_dic_title3_dic" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;font-size: 16px;">数值列表  <div  class="flexrow edit_item_dic_title3_dic" style="margin-top: 10px;justify-item: flex-start;margin-bottom: 50px;font-size: 16px;">
-        <a-button type='primary' @click='addLine' v-if='szList.length < 999'>新增行</a-button>
-      </div></div>
+      <div class="flexrow edit_item_dic_title3_di flexac" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;width: auto;margin-left: 16px;font-size: 14px;">数值列表
+        <div class="flexrow edit_item_dic_title3_dic" style="justify-item: flex-start;margin-left: 10px;">
+          <a-button type='primary' @click='addLine' v-if='szList.length < 999'>新增行</a-button>
+        </div>
+      </div>
 
-      <a-table  :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true'
-        size='small'>
+      <a-table style='margin-bottom: 60px;' :columns="dictionaryColumns" :data-source="szList" :pagination='false' :bordered='true' size='small'>
         <template v-for="col in ['className', 'classCode', 'remark']" :slot="col" slot-scope="text, record, index">
           <div :key="col">
             <a-input style="margin: -5px 0;border: 0px;" :value="text" @change="e => handleChange(e.target.value, index, col)" />
@@ -63,14 +64,13 @@
         <template slot="operation" slot-scope="text, record, index">
           <div class="editable-row-operations">
             <span class="flexrow flexjc">
-              <a style="margin-right: 20px;" v-if='record.edit&&record.className&&record.classCode' @click="() => save(index)">保存</a>
-
-              <a  href="#" style='color: #FF0000;font-size: 12px;' @click="deleteItem(record)">删除</a>
+              <a style="margin-right: 20px;" v-if="record.edit&&record.className&&record.classCode&&isAdd!='true'"
+                @click="() => save(index)">保存</a>
+              <a href="#" style='color: #FF0000;font-size: 12px;' @click="deleteItem(index)">删除</a>
             </span>
           </div>
         </template>
       </a-table>
-
 
     </div>
     <a-popconfirm-delete ref='delete' @confirm="cancel">
@@ -112,7 +112,7 @@
       }
     },
     methods: {
-      deleteItem(item){
+      deleteItem(item) {
         this.$refs.delete.show(item)
       },
       closeDialog() { //关闭dialog
@@ -131,7 +131,7 @@
           this.$message.error(res.data.resultMsg);
         }
       },
-      setShowData() { //设置展示的数据
+      setShowData() { //设置展示的数据d
         this.szList = []
         if (this.cacheData.dictionaryList)
           this.szList = this.cacheData.dictionaryList; //数值列表
@@ -147,6 +147,7 @@
           this.classCode = "";
           this.className = "";
           this.remark = ''
+          this.szList = [];
           this.parentName = this.cacheData.className; //上级名称
           this.parentCode = this.cacheData.classCode; //上级代码
           this.grade = this.cacheData.grade + 1; //字典等级
@@ -187,7 +188,16 @@
         this.submitHttp(false, true, item.dictionaryId, item.className, item.classCode, item.remark, 2000)
       },
       addNum(item) { //添加数值
-        this.submitHttp(true, true, item.dictionaryId, item.autoName, item.autoCode, item.autoDescribe, 2000)
+        if (this.isAdd == 'true') {
+          this.szList.push({
+            className: item.autoName,
+            classCode: item.autoCode,
+            remark: item.autoDescribe
+          })
+          this.closeDialog()
+        } else {
+          this.submitHttp(true, true, item.dictionaryId, item.autoName, item.autoCode, item.autoDescribe, 2000)
+        }
       },
       async submitHttp(add, num, dictionaryId, className, classCode, remark, typeCode) { //保存请求
 
@@ -201,6 +211,9 @@
           grade: this.grade, //等级
           operatorId: JSON.parse(localStorage.getItem('auth')).accountId,
           typeCode: typeCode //添加数值 2000 添加字典 1000
+        }
+        if (!num && add) {
+          param.subDictionarys = this.szList
         }
         let res = await this.$http.post(this.$api.dictionaryform, param);
         if (res.data.resultCode == 10000) {
@@ -219,12 +232,16 @@
 
       },
 
-      async cancel(item) { //删除数值行
-        let param = {
-          dictionaryId: item.dictionaryId
+      async cancel(index) { //删除数值行
+        if (!this.szList[index].dictionaryId) {
+          this.szList.splice(index,1)
+        } else {
+          let param = {
+            dictionaryId: this.szList[index].dictionaryId
+          }
+          let res = await this.$http.post(this.$api.dictionaryremove, param);
+          this.getDictionaryInfo(this.dictid);
         }
-        let res = await this.$http.post(this.$api.dictionaryremove, param);
-        this.getDictionaryInfo(this.dictid);
       },
     },
   }

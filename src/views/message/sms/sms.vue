@@ -23,10 +23,14 @@
 
     <a-table :columns="tablecolumns" :data-source="tabledata" bordered size='small' :pagination="pagination" @change="handleTableChange">
       <div slot="smsConfigId" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*pagination.pageSize)}}</div>
+       <div slot='price' slot-scope="childTotal,areaName">
+         {{childTotal/1000}}元/条
+       </div>
       <div slot="edit" class="flexrow flexjc" slot-scope="childTotal,areaName">
         <div class="col_blue ispointer" @click="toadd(areaName)">编辑</div>
+
         <div class="item-line"></div>
-        
+
           <a v-if='areaName.authTotal<=0' href="#" style='color: #FF0000;font-size: 12px;' @click="deleteItem(areaName)">删除</a>
         <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
       </div>
@@ -96,6 +100,9 @@
             title: "短信价格",
             key: "price",
             dataIndex: "price",
+            scopedSlots: {
+              customRender: "price",
+            },
           },
           {
             width: 158,
@@ -156,7 +163,7 @@
             }
           }
         } else {
-           
+
           this.$message.error(res.data.resultMsg);
         }
       },

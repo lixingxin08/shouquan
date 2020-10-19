@@ -31,8 +31,8 @@
         </div>
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>短信价格:</div>
-          <a-input-number style='width: 667px;' v-model='config.price' />
-
+          <a-input style='width: 610px;' placeholder="金额范围:0.001~10元" v-model='config.price' @change='priceChange' />
+          <div class="edit_item_sms_toast">元/条</div>
         </div>
         <div class="flexrow flexac edit_item_sms">
           <div class="edit_item_sms_title2_sms"><a style="color: #FF0000;">*</a>网关类型:</div>
@@ -157,28 +157,34 @@
         }
 
         this.config.smsModelList = this.msgList
+        this.config.price = this.config.price * 1000
         let res = await this.$http.post(this.$api.smsform, this.config)
         if (res.data.resultCode == 10000) {
-         // if (!this.id)
-            this.$router.go(-1)
+          // if (!this.id)
+          this.$router.go(-1)
           this.$message.success(res.data.resultMsg);
         } else {
           this.$message.error(res.data.resultMsg);
         }
       },
-
+      priceChange(e) {
+        this.config.price = this.clearNoNum(this.config.price)
+      },
       checkMsgInputList() {
-
         let has = false
-        this.msgList.forEach((item) => {
-          if (!item.serviceId) {
-            has = true
-          }
-        })
+        console.log("===",this.msgList)
+        if (this.msgList) {
+           console.log("===",this.msgList)
+          this.msgList.forEach((item) => {
+            if (!item.serviceId) {
+              has = true
+            }
+          })
+        }
         return has
       },
 
-      /* 获取微信账号详情*/
+      /* 获取短信账号详情*/
       async getSmsInfo() {
         let param = {
           smsConfigId: this.id,
@@ -186,11 +192,14 @@
         let res = await this.$http.post(this.$api.smsdetail, param)
         if (res.data.resultCode == 10000) {
           this.config = res.data.data
+          this.config.price = this.config.price / 1000
           this.msgList = res.data.data.smsModelList
-        } else {}
+          if (this.msgList)
+            this.msgList = []
+        }
       },
       async getSmsMsgList() {
-		  this.msgList=[]
+        this.msgList = []
         let param = {
           classCode: this.config.typeCode,
         }
@@ -209,14 +218,14 @@
       checkMsgList() {
         let list = []
         let has = false
+        if(this.msgList){
         this.msgList.forEach((item) => {
           if (list.indexOf(item.serviceId) >= 0) {
             has = true
-
           } else {
             list.push(item.serviceId)
           }
-        })
+        })}
         return has
       },
       /* 修改数值*/
@@ -258,7 +267,27 @@
       /* 描述字符长度*/
       onChangeConfig() {
         this.num = this.config.remark.length
+      },
+      clearNoNum(obj) {
+        //先把非数字的都替换掉，除了数字和.
+        obj = obj.replace(/[^\d.]/g, "");
+        //保证只有出现一个.而没有多个.
+        obj = obj.replace(/\.{2,}/g, ".");
+        //必须保证第一个为数字而不是.
+        obj = obj.replace(/^\./g, "");
+        //保证.只出现一次，而不能出现两次以上
+        obj = obj.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        //只能输入四个小数 (\d\d\d\d)
+        obj = obj.replace(/^(\-)*(\d+)\.(\d\d\d).*$/, '$1$2.$3');
+        if (obj > 10) {
+          obj = "10.000"
+        }
+        if (obj.startsWith('00')) {
+          obj = "0.0"
+        }
+        return obj
       }
+
     },
   }
 </script>
