@@ -196,7 +196,7 @@
   }
 
   .treebox {
-    height: 400px;
+    height: 200px;
     width: 400px;
     margin: 20px;
     background-color: #FFFFFF;
