@@ -4,7 +4,7 @@
       <isnav :iscollapsed="collapsed"></isnav>
       <a-layout class='scroller'>
         <ishead @tocollapsed="getcollapsed"></ishead>
-        <a-layout-content style='margin: 20px; background-color: #FFFFFF;'>
+        <a-layout-content style='margin: 20px; background-color: #FFFFFF;width: 100%;height: 100%;  box-sizing: border-box; '>
             <router-view v-if="isRouterShow"></router-view>
         </a-layout-content>
       </a-layout>

@@ -1,5 +1,10 @@
 <template>
   <div class="flex_f father modelauthorization">
+        <is-delete-dialog
+      v-if="visible"
+      @confirm="confirm"
+      @cancle="cancel"
+    ></is-delete-dialog>
     <div class="isleftmodel no_pagination">
       <div class="left_title">客户列表</div>
       <a-table
@@ -46,7 +51,7 @@
                 <div class="item-line"></div>
                 <div
                   class="col_red ispointer"
-                  @click="getremove(record)"
+                  @click="showdialogperson(record)"
                   v-if="record.useTotal == 0"
                 >
                   <span>删除</span>
@@ -113,8 +118,8 @@
             </div>
             <div class="r_b_title">授权描述:</div>
             <div class="rb_text2">
-              <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
-              <div class="remarknum">{{ remarklen }}/500</div>
+              <a-textarea :maxlength="256" v-model="form.remark" :rows="5" />
+              <div class="remarknum">{{ remarklen }}/256</div>
             </div>
           </div>
           <div class="flex_a rb_b2">
@@ -169,10 +174,12 @@
 </template>
 <script>
 import isLeft from "../../../components/tree/tree2.vue";
+import isDeleteDialog from "../../../components/delete_confir/delete.vue";
 export default {
   inject: ["reload"],
   components: {
     isLeft,
+      isDeleteDialog,
   },
   computed: {
     remarklen() {
@@ -383,12 +390,23 @@ export default {
         customerId: "",
       },
       oldeditdata: "",
+      visible:false,
+      removeparam:{
+        modelId:""
+      }
     };
   },
   created() {
     this.getlist();
   },
   methods: {
+     confirm() {
+      this.visible = false;
+      this.getremove(this.removeparam)
+    },
+     cancel() {
+      this.visible = false;
+    },
     onSelectChange2(selectedRowKeys3) {
       console.log("selectedRowKeys changed: ", selectedRowKeys3);
       this.selectedRowKeys2 = [];
@@ -448,6 +466,7 @@ export default {
             this.closeedit();
             this.modellistparam.customerId = record.customerId;
             this.treeprame.customerId = record.customerId;
+             this.form.customerId= record.customerId;
             this.authTotal = record.authTotal;
             this.getmodellist();
             console.log(record, "record", index);
@@ -521,6 +540,11 @@ export default {
       } else {
         return this.$message.error(res.data.resultMsg);
       }
+    },
+       //弹窗
+    showdialogperson(val) {
+      this.removeparam.modelId = val.modelId;
+      this.visible = true;
     },
     geteditform() {
       this.form.modelId = this.editdata.modelId;

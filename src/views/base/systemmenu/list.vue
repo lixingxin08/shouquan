@@ -48,7 +48,11 @@
 <script>
   import tableTitleData from "./table.json";
   export default {
+<<<<<<< HEAD
+
+=======
    
+>>>>>>> e0a23f876db58690247cfc6fafd407ff1990c284
     data() {
       return {
         isShowDelete: false,

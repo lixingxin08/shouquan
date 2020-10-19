@@ -1,9 +1,9 @@
 import axios from 'axios'
-// import { domain } from './api_config'
-// axios.defaults.baseURL = '';
-//解决跨域
-import router from '../router/index'
-axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'action/' : '/api';
+
+let thisurl = window.location.href.split('/#')
+let bb = thisurl[0].split('/html/auth')
+let cc=bb[0]+'/zuul/auth'
+axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? cc : '/api';
 
 
 // axios.defaults.baseURL = '8088/haiot-auth';

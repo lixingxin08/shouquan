@@ -179,7 +179,6 @@
           tokenCode: this.wechat.tokenCode,
           expirationTime: this.wechat.expirationTime,
           typeCode: this.wechat.typeCode,
-          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId, //操作者id
           remark: this.wechat.remark,
           modelList: this.msgList
         }

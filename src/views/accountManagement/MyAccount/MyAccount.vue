@@ -72,7 +72,7 @@
       }
     },
     created() { //获取账号详情数据
-      this.accountid = JSON.parse(localStorage.getItem('authorization')).accountId
+      this.accountid = JSON.parse(localStorage.getItem('auth')).accountId
       if (this.accountid) {
         this.getAccountDetail()
       }
@@ -80,7 +80,7 @@
     methods: {
       /* 确认提交 */
       async submit() {
-        this.personConfig.operatorId = JSON.parse(localStorage.getItem('authorization')).accountId
+        this.personConfig.operatorId = JSON.parse(localStorage.getItem('auth')).accountId
         let res = await this.$http.post(this.$api.personform, this.personConfig)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)

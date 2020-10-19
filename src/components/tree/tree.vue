@@ -76,7 +76,7 @@ export default {
 .istree {
   width: 100%;
   text-align: left;
-  height: 90vh;
+  height: 100%;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   overflow-scrolling: touch;

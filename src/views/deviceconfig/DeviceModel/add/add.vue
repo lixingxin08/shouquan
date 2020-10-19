@@ -72,6 +72,7 @@
             class="avatar-uploader"
             :show-upload-list="false"
            :action="postimgurl"
+           :headers='loadhead'
             :before-upload="beforeUpload"
             @change="handleChange"
           >
@@ -118,7 +119,8 @@ import {postimgurl} from '../../../../js/url'
     data() {
 
       return {
-       postimgurl:postimgurl+'?businessCode=DEVICEMODEL',
+         loadhead:{token:JSON.parse(localStorage.getItem('auth')).token},
+       postimgurl:postimgurl,
         dictionaryColumns: tableTitleData.data.add,
         selectedRowKeys: [],
         brandList: [], //设备品牌
@@ -225,7 +227,6 @@ import {postimgurl} from '../../../../js/url'
           brandId: this.brandSelect, //品牌序号
           communicationMode: this.msgSelect, //通讯方式
           imageJson: this.imageUrl, //型号图例
-          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId, //操作者id
           remark: this.remark, //备注信息
           deviceAlarmList: this.getAlramList() //设备警报列表
         }
@@ -372,6 +373,9 @@ import {postimgurl} from '../../../../js/url'
 	    }
 	    if (info.file.status === "done") {
         // Get this url from response in real world.
+          let aa = JSON.parse(localStorage.getItem('auth'))
+              aa.token = info.file.response.headers.token
+              localStorage.setItem('auth', JSON.stringify(aa))
               this.imageUrl = info.file.response.data;
           this.form.customerLogo = info.file.response.data;
           this.loading = false;

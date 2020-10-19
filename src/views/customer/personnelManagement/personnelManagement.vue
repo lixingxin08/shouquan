@@ -109,7 +109,6 @@
             </div>
           </a-table>
         </div>
-        <div class="table" v-if="!tabletype">无</div>
       </div>
     </div>
   </div>
@@ -239,12 +238,10 @@ export default {
       treeprame: {
         //树接口参数
         departmentId: "",
-        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
         customerId: "",
       },
       removeparam: {
         personId: "",
-        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
       },
     };
   },
@@ -282,11 +279,11 @@ export default {
         if (this.$config.pagination.current == 1){
              this.$config.pagination.total = res.data.data.length;
           }
-        this.tabletype = true;
+      
       } else {
-        this.tabletype = false;
         this.$message.success(res.data.resultMsg);
       }
+        this.tabletype = true;
     },
     //删除接口
     async getremove() {
@@ -300,9 +297,6 @@ export default {
       } else {
         this.$message.error(res.data.resultMsg);
       }
-    },
-    confirm() {
-      this.visible = false;
     },
     toadd(val, id) {
       if (val == "add") {
@@ -421,6 +415,7 @@ export default {
       this.visible = false;
     },
     confirm() {
+       this.visible = false;
       this.getremove();
     },
     handleCancel(e) {

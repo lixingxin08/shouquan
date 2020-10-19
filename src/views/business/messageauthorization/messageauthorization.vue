@@ -323,14 +323,12 @@ export default {
       }
     },
     async getemailform() {
+      console.log(11222);
       if (this.selectedRowKeys4!==null) {
-        this.form.smsConfigId = this.tabledata3[
-          this.selectedRowKeys3
-        ].smsConfigId;
+        this.form.emailConfigId = this.tabledata4[
+          this.selectedRowKeys4
+        ].emailConfigId;
       }
-      this.form.emailConfigId = this.tabledata4[
-        this.selectedRowKeys4
-      ].emailConfigId;
       let res = await this.$http.post(this.$api.customeremailform, this.form);
       if (res.data.resultCode == "10000") {
         this.getemaillist();

@@ -92,7 +92,6 @@ export default {
         linkphone: "",
         remark: "",
         description:"",
-        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
       },
       detailparam:{
         projectId:''

@@ -156,7 +156,6 @@
           return
         }
 
-        this.config.operatorId = JSON.parse(localStorage.getItem('authorization')).accountId
         this.config.smsModelList = this.msgList
         this.config.price = this.config.price * 1000
         let res = await this.$http.post(this.$api.smsform, this.config)

@@ -163,7 +163,6 @@ export default {
         //行政区划树接口参数
         customerId: "",
         departmentId: "",
-        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
       },
       removeparam: {
         departmentId: "",

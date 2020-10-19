@@ -62,6 +62,32 @@
         });
       },
     },
+<<<<<<< HEAD
+    backhome() {
+      let aa = window.location.href.split("/#");
+      let bb = aa[0].split("/html/auth");
+      window.location.href = bb[0] + "/#/home";
+    },
+    gettitle() {
+      this.$route.matched.forEach((item) => {
+        this.title.push(item.meta.title);
+      });
+    },
+  },
+  created() {
+    this.user = JSON.parse(localStorage.getItem('auth'));
+    this.gettitle();
+  },
+  watch: {
+    $route: function (val, oldval) {
+      console.log(val, oldval, 6666);
+      if (val.path.search("/add") == 0) {
+        this.addtype = true;
+      } else {
+        this.addtype = false;
+      }
+          this.$config.pagination = {
+=======
     created() {
       this.user = JSON.parse(localStorage.getItem("authorization"));
       this.gettitle();
@@ -76,6 +102,7 @@
           this.addtype = false;
         }
         this.$config.pagination = {
+>>>>>>> e0a23f876db58690247cfc6fafd407ff1990c284
           total: 0, //总页数
           pageSize: 20, //每页中显示10条数据
           showSizeChanger: true,

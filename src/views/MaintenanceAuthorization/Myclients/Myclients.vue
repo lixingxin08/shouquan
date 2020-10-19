@@ -34,7 +34,7 @@
       },
       safeguard(item) {
 		  let aa = window.location.href.split("/#");
-		  let bb = aa[0].split("/authorization");
+		  let bb = aa[0].split("/html/auth");
 		  window.location.href = bb[0] + "/#/home?customerId="+item.customerId;
       },
 

@@ -209,7 +209,7 @@
           classCode: classCode, //字典代码
           remark: remark, //备注
           grade: this.grade, //等级
-          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
+          operatorId: JSON.parse(localStorage.getItem('auth')).accountId,
           typeCode: typeCode //添加数值 2000 添加字典 1000
         }
         if (!num && add) {

@@ -82,7 +82,6 @@
           propertyId: item.propertyId,
           deviceTypeId: this.id, //属性id 为空新增
           parentId: groupItem.propertyId, //父级属性id
-          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId
         }
         let res = await this.$http.post(this.$api.propertyform, param)
         if (res.data.resultCode == 10000) {
@@ -164,7 +163,6 @@
           propertyId: item.propertyId,
           propertyName: item.propertyName, //分组名称
           deviceTypeId: this.id, //为空 新增 不能为空编辑
-          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId //操作者id
         }
         let res = await this.$http.post(this.$api.propertyform, param)
         if (res.data.resultCode == 10000) {

@@ -124,7 +124,6 @@
         if (param) {
           param.modelId = this.id
           param.typeCode = 'sms_template_device_running'
-          param.operatorId = JSON.parse(localStorage.getItem('authorization')).accountId
           let res = await this.$http.post(this.$api.paramform, param)
           if (res.data.resultCode == 10000) {
             this.getParamData()
