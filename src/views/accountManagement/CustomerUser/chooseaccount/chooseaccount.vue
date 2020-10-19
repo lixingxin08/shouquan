@@ -111,7 +111,7 @@
             },
           },
         ],
-        tabledata: "", //列表数据
+        tabledata: [], //列表数据
         pageparam: {
           keyword: "",
           statusCode: "",
@@ -134,7 +134,7 @@
           statusCode: this.pageparam.statusCode, //人员状态
         };
         let res = await this.$http.post(this.$api.customerpersonnotaccount, prame);
-        if (res.data.resultCode == "10000") {
+        if (res.data.resultCode == 10000) {
           this.tabledata = res.data.data;
         } else {
           this.$message.error(res.data.resultMsg);
