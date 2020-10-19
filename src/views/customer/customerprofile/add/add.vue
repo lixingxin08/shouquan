@@ -31,6 +31,7 @@
           :show-upload-list="false"
           :action="postimgurl"
           :before-upload="beforeUpload"
+           :headers='loadhead'
           @change="handleChange"
         >
           <img v-if="imageUrl" :src="imageUrl" alt="file" />
@@ -122,9 +123,10 @@ export default {
   },
   data() {
     return {
-      postimgurl:postimgurl+'?businessCode=CUSTOMERLOGO',
+      loadhead:{token:JSON.parse(localStorage.getItem('auth')).token},
+      postimgurl:postimgurl,
       istoken: {
-        token: JSON.parse(localStorage.getItem("authorization")).token || "",
+        token: JSON.parse(localStorage.getItem("auth")).token || "",
       },
       loading: false,
       imageUrl: "",
@@ -145,7 +147,6 @@ export default {
         position: "",
         statusCode: "",
         remark: "",
-        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
       },
       detailparam: {
         customerId: "",
@@ -232,8 +233,12 @@ export default {
       }
       if (info.file.status === "done") {
         // Get this url from response in real world.
+              let aa = JSON.parse(localStorage.getItem('auth'))
+              aa.token = info.file.response.headers.token
+              localStorage.setItem('auth', JSON.stringify(aa))
               this.imageUrl = info.file.response.data;
           this.form.customerLogo = info.file.response.data;
+          
           this.loading = false;
       }
 

@@ -113,7 +113,6 @@
         runpageparam: {
           typeCode: "",
           keyword: "",
-          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
           pageIndex: 1,
           pageSize: 10,
         },

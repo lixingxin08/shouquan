@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 const home = () => import('@/views/home/home')
+const firstpage = () => import('@/views/firstpage/firstpage.vue')
 
 const administrativedivision = () => import('@/views/base/administrativedivision/administrativedivision') //行政区划
 const addadministrativedivision = () => import('@/views/base/administrativedivision/add/add') //行政区划新增
@@ -81,9 +82,16 @@ Vue.use(Router)
 export default new Router({
   routes: [{
       path: '',
-      redirect: '/administrativedivision'
+      redirect: '/base'
     },
-
+    {
+      path: '/base',
+      name: 'base',
+      meta: {
+        title: '首页'
+      },
+      component: firstpage,
+    },
     {
       path: '/home',
       name: 'home',

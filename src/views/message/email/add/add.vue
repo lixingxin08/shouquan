@@ -96,7 +96,6 @@
           debugType: "",
           typeCode: "",
           remark: "",
-          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId
         },
         detailparam: {
           customerId: "",
@@ -164,7 +163,6 @@
           this.$message.warning('请选择网关类型')
           return
         }
-        this.form.operatorId = JSON.parse(localStorage.getItem('authorization')).accountId
         let res = await this.$http.post(this.$api.emailAccountform, this.form);
         if (res.data.resultCode == "10000") {
           this.$message.success(res.data.resultMsg);

@@ -55,7 +55,7 @@ export default {
     },
     backhome() {
       let aa = window.location.href.split("/#");
-      let bb = aa[0].split("/authorization");
+      let bb = aa[0].split("/html/auth");
       window.location.href = bb[0] + "/#/home";
     },
     gettitle() {
@@ -65,7 +65,7 @@ export default {
     },
   },
   created() {
-    this.user = JSON.parse(localStorage.getItem("authorization"));
+    this.user = JSON.parse(localStorage.getItem('auth'));
     this.gettitle();
   },
   watch: {

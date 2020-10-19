@@ -96,7 +96,7 @@ export default {
         parameterName: "",
         parameterCode: "",
         parameterValue: "",
-        operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
+        operatorId: JSON.parse(localStorage.getItem('auth')).accountId,
         description: "",
       },
       typeName:"",

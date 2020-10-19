@@ -39,6 +39,7 @@
         <div class="edit_item_menu_title3_menu"><a style="color: #FF0000;">*</a>菜单图标:</div>
         <div class="isupload">
           <a-upload name="file" list-type="picture-card" class="avatar-uploader" :show-upload-list="false" :action="postimgurl"
+          :headers='loadhead'
             :before-upload="beforeUpload" @change="handleChangeImage">
             <img v-if="imageUrl" :src="imageUrl" alt="file" />
             <div v-else>
@@ -111,7 +112,8 @@
     inject: ['reload'],
     data() {
       return {
-        postimgurl:postimgurl+'?businessCode=MENUICON',
+        loadhead:{token:JSON.parse(localStorage.getItem('auth')).token},
+        postimgurl:postimgurl,
         dictionaryColumns: tableTitleData.data.adddictionaryColumns,
         menuValue: '页签', //菜单类型
         menuName: '', //菜单名称
@@ -216,6 +218,9 @@
         if (info.file.status === "done") {
           // Get this url from response in real world.
           this.imageUrl = info.file.response.data;
+         let aa = JSON.parse(localStorage.getItem('auth'))
+              aa.token = info.file.response.headers.token
+              localStorage.setItem('auth', JSON.stringify(aa))
           this.loading = false;
         }
         console.log(this.imageUrl, 88999, info);
@@ -293,7 +298,7 @@
           menuIcon: this.imageUrl,
           grade: this.grade,
           linkURL: this.getMenuLinkURL(),
-          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
+          operatorId: JSON.parse(localStorage.getItem('auth')).accountId,
           hiddenURL: JSON.stringify(this.authList),
           remark: this.remark
         }

@@ -110,7 +110,7 @@ export default {
       },
       pageparam: {
         keyword: "",
-        operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
+        operatorId: JSON.parse(localStorage.getItem('auth')).accountId,
         pageIndex: 1,
         pageSize: 10,
       },

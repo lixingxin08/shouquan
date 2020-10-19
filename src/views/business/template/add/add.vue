@@ -110,7 +110,6 @@ export default {
         statusCode: "",
         remark: "",
         menuList: [],
-        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
       },
       replaceFields: {
         title: "name",
@@ -182,13 +181,11 @@ export default {
       );
       if (res.data.resultCode == "10000") {
         this.form = res.data.data;
-        this.data = this.form.menuTree;
+         this.data =  res.data.data.menuTree;
         if (this.data!==undefined) {
            this.setdata();
              this.showtree = true;
-        }
-       
-      
+        } 
       } else {
         return this.$message.error(res.data.resultMsg);
       }
@@ -269,12 +266,13 @@ export default {
       this.form.menuList = [];
       this.checkedKeys=[]
       for (let i = 0; i < this.data.length; i++) {
-        this.form.menuList.push(this.data[i].id);
+      
         if (this.data[i].open == true) {
           this.defaultExpandedKeys.push(this.data[i].id);
         }
         if (this.data[i].checked == true&&this.data[i].isParent==false) {
           this.checkedKeys.push(this.data[i].id);
+            this.form.menuList.push(this.data[i].id);
         }
       }
       this.treedata = this.toTree(this.data);

@@ -50,7 +50,6 @@ export default {
         parentId: "",
         introduce: "",
         gradeno: "",
-        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
       },
       detailparam: {
         departmentId: "",

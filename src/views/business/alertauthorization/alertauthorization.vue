@@ -1,5 +1,10 @@
 <template>
   <div class="flex_f father">
+            <is-delete-dialog
+      v-if="visible"
+      @confirm="confirm"
+      @cancle="cancel"
+    ></is-delete-dialog>
     <div class="isleftalar no_pagination">
       <div class="left_title">客户列表</div>
       <a-table
@@ -37,7 +42,7 @@
           }}</template>
           <template slot="edit" slot-scope="record">
             <div class="flexrow flexac flexjc">
-              <div class="col_red ispointer" @click="getremove(record)">
+              <div class="col_red ispointer" @click="showdialogperson(record)">
                 <span>删除</span>
               </div>
             </div>
@@ -62,8 +67,8 @@
         <div class="r_b">
           <div class="r_b_title">授权描述:</div>
           <div class="rb_text">
-            <a-textarea :maxlength="500" v-model="form.remark" :rows="5" />
-            <div class="remarknum">{{ remarklen }}/500</div>
+            <a-textarea :maxlength="256" v-model="form.remark" :rows="5" />
+            <div class="remarknum">{{ remarklen }}/256</div>
           </div>
           <div class="flex_a rb_b">
             <div class="flex_f">
@@ -78,10 +83,12 @@
 </template>
 <script>
 import isLeft from "../../../components/tree/check_seltree.vue";
+import isDeleteDialog from "../../../components/delete_confir/delete.vue";
 export default {
   inject: ["reload"],
   components: {
     isLeft,
+    isDeleteDialog
   },
   computed: {
     remarklen() {
@@ -199,20 +206,36 @@ export default {
         customerId: "",
       },
       listparam: {
-        customerId: JSON.parse(localStorage.getItem("authorization")).customerId,
+        customerId: JSON.parse(localStorage.getItem("auth")).customerId,
       },
       form: {
         customerId: "",
         alarmIdList: "",
         remark: "",
       },
-      checkelists:[]
+      checkelists:[],
+      visible:false,
+      removeparam:{
+        alarmId:""
+      }
     };
   },
   created() {
     this.getlist();
   },
   methods: {
+    confirm() {
+      this.visible = false;
+      this.getremove(this.removeparam)
+    },
+     cancel() {
+      this.visible = false;
+    },
+        //弹窗
+    showdialogperson(val) {
+      this.removeparam.alarmId = val.alarmId;
+      this.visible = true;
+    },
     addtogle() {
       this.addmodel = true;
       this.gettree();
@@ -271,7 +294,6 @@ export default {
       }
     },
     async getremove(val) {
-      console.log(val, 1222);
       let parame = {
         customerId: this.treeprame.customerId,
         alarmId:val.alarmId

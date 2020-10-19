@@ -28,7 +28,7 @@ Vue.use(Layout);
 Vue.use(Button);
 Vue.use(Icon);
 Vue.use(Select);
-Vue.use(Menu);0
+Vue.use(Menu);
 Vue.use(Input);
 Vue.use(Tree);
 Vue.use(TreeSelect);
@@ -45,22 +45,21 @@ Vue.use(Steps);
 Vue.use(Tabs);
 Vue.use(InputNumber);
 Vue.use(ConfigProvider);
-import aPopconfirmDelete from './components/popconfirm/popconfirm.vue'
-Vue.component("aPopconfirmDelete", aPopconfirmDelete);
+// window.addEventListener(
+//   "message",
+//   function (e) {
+//     if (e.data.type !== "webpackOk") {
+//       if (e.data.accountId == "" || e.data.accountId == undefined) {
+//       } else {
+//         localStorage.setItem("authorization", JSON.stringify(e.data), 10000000000000);
+//       }
+//     }
+//   },
+//   false
+// );
 
-
-window.addEventListener(
-  "message",
-  function (e) {
-    if (e.data.type !== "webpackOk") {
-      if (e.data.accountId == "" || e.data.accountId == undefined) {
-      } else {
-        localStorage.setItem("authorization", JSON.stringify(e.data), 10000000000000);
-      }
-    }
-  },
-  false
-);
+let thisurl = window.location.href.split('/#')
+let bb = thisurl[0].split('/html/auth')
 
 // http response 拦截器
 axios.create({
@@ -72,10 +71,11 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyNTkyNTA5MDkwLCJ0b2tlbklkIjoiZWZiMWNlNmUzMWY4NDU2MGEwZGZjNzg4Yjg1MDllYjMiLCJ1c2VySWQiOiI2ODAyMDgwNDM3MGU0MGY3OWNkNTE5ODI5MTdiY2EwMiJ9.nvFyKHwitFCqNpIe98pCvJBkKk0aOje2WNatQQObejw"
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyODQyNDIwOTgzLCJ0b2tlbklkIjoiY2FjZjYwZjkyZTliNGU5YzlhZTE4YjdmYzgzMzRkYzAiLCJ1c2VySWQiOiJGRjIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.LaqsgkWAbD1oImgXxtc5RZCPU8b3WOgseJrnDwqJPW4"
 
     } else {
-      token = JSON.parse(localStorage.getItem('authorization')).token || ""
+      token = JSON.parse(localStorage.getItem('auth')).token || ""
+      // token = JSON.parse(localStorage.getItem('html/auth')).token || ""
     }
     config.headers.common['token'] = token
     return config;
@@ -84,13 +84,11 @@ axios.interceptors.request.use(
     return Promise.error(error);
   }
 )
-let thisurl = window.location.href.split('/#')
-let bb = thisurl[0].split('/authorization')
 axios.interceptors.response.use(
   response => {
-    let aa = JSON.parse(localStorage.getItem('authorization'))
+    let aa = JSON.parse(localStorage.getItem('auth'))
     aa.token = response.headers.token
-    localStorage.setItem('authorization', JSON.stringify(aa))
+    localStorage.setItem('auth', JSON.stringify(aa))
     if (response.data.resultMsg == "执行成功，但没有获取到数据") {
       response.data.data=[]
       response.data.data.list=[]
@@ -226,7 +224,8 @@ Vue.prototype.verPhone = function (str) {
   }
 };
 
-
+import aPopconfirmDelete from './components/popconfirm/popconfirm.vue'
+Vue.component("aPopconfirmDelete", aPopconfirmDelete);
 
 
 

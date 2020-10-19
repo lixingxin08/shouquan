@@ -197,12 +197,12 @@
         treeprame: {
           //树接口参数
           departmentId: "",
-          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
+          operatorId: JSON.parse(localStorage.getItem('auth')).accountId,
           customerId: "",
         },
         removeparam: { //删除接口参数
           accountId: "",
-          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
+          operatorId: JSON.parse(localStorage.getItem('auth')).accountId,
           cipher: ''
         },
 
@@ -264,7 +264,7 @@
       async getremove(item) {
         let removeparam = {
           accountId: item.accountId,
-          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
+          operatorId: JSON.parse(localStorage.getItem('auth')).accountId,
         }
         let res = await this.$http.post(
           this.$api.accountinforemove,

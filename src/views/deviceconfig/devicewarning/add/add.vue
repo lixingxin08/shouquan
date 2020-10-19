@@ -56,6 +56,7 @@
           class="avatar-uploader"
           :show-upload-list="false"
         :action="postimgurl"
+             :headers='loadhead'
           :before-upload="beforeUpload"
           @change="handleChange"
         >
@@ -99,7 +100,8 @@ import {postimgurl} from '../../../../js/url'
     data() {
 
       return {
-       postimgurl:postimgurl+'?businessCode=ALARMFLOW',
+          loadhead:{token:JSON.parse(localStorage.getItem('auth')).token},
+       postimgurl:postimgurl,
         selectedRowKeys: [], //选择转警事件
         gradeList: [{ //警报等级
             comboBoxId: 1,
@@ -167,7 +169,6 @@ import {postimgurl} from '../../../../js/url'
           alarmType: this.warningSelect, //警报类型
           flowImage: this.warning.flowImage, //流程示意图
           gradeno: this.warning.gradeno,
-          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId, //操作者id
           remark: this.warning.remark, //警报描述
           eventIdList: this.getEventSelectList() //转警事件
         }
@@ -188,6 +189,9 @@ import {postimgurl} from '../../../../js/url'
       }
       if (info.file.status === "done") {
         // Get this url from response in real world.
+          let aa = JSON.parse(localStorage.getItem('auth'))
+              aa.token = info.file.response.headers.token
+              localStorage.setItem('auth', JSON.stringify(aa))
           this.warning.flowImage  = info.file.response.data;
           this.loading = false;
       }

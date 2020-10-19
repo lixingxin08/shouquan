@@ -78,7 +78,7 @@
 
       this.getMenuList();
       this.menuIcontype=false
-       this.menuIcon = JSON.parse(localStorage.getItem("authorization")).menuIcon;
+       this.menuIcon = JSON.parse(localStorage.getItem("auth")).menuIcon;
        this.menuIcontype=true
     },
     methods: {
@@ -95,8 +95,8 @@
            let isurl=window.location.href.split('#/')
            console.log(isurl,9999);
            let isurl2=isurl[1].split('/')
-           console.log(isurl2,'isurl2isurl2isurl2isurl2');if(JSON.parse(localStorage.getItem("authorization"))){
-        let navlist=JSON.parse(localStorage.getItem("authorization")).navlist
+           console.log(isurl2,'isurl2isurl2isurl2isurl2');if(JSON.parse(localStorage.getItem("auth"))){
+        let navlist=JSON.parse(localStorage.getItem("auth")).navlist
               navlist=navlist.filter(item=>item.menuType<=3000)
             for (let i = 0; i < navlist.length; i++) {
               if (navlist[i].linkURL==isurl2[0]) {
@@ -160,7 +160,7 @@
     color: #fff;
     height: 100vh;
     overflow: scroll;
-    max-height: 1009px;
+    /* max-height: 1009px; */
   }
 
   .scroller2::-webkit-scrollbar {

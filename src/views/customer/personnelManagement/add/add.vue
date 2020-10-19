@@ -104,7 +104,6 @@ export default {
         departmentId: "",
         remark: "",
         email: "",
-        operatorId: JSON.parse(localStorage.getItem('authorization')).accountId,
       },
       detailparam: {
         personId: "",

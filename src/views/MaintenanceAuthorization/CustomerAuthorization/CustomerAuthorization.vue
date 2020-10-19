@@ -125,17 +125,14 @@ export default {
       showtree: false,
       treeprame: {
         accountId: "",
-        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
       },
       listparam: {
-        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
         accountId: "",
       },
       form: {
         customerIdList: [],
         accountId: "",
         remark: "",
-        operatorId: JSON.parse(localStorage.getItem("authorization")).accountId,
       },
     };
   },
