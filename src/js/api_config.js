@@ -96,6 +96,7 @@ export default {
   deviceeventdetail: `/device/event/detail`, //设备型号查询详情接口
   deviceeventform: `/device/event/form`, //设备型号表单接口
   deviceeventpage: `/device/event/page`, //设备型号分页查询接口
+  deviceeventlist: `/device/event/list`, //设备型号分页查询接口
   deviceeventremove: `/device/event/remove`, //设备型号删除接口
 
   propertylist: `/device/property/list`, //设备属性列表接口
@@ -196,6 +197,7 @@ export default {
   alramremove: `/device/alarm/remove`,
   alramdetail: `/device/alarm/detail`,
   alramform: `/device/alarm/form`,
+ alramcombobox:`/device/alarm/combobox`,
   //属性值
   propertyvaluedetail: '/propertyValue/detail',
   propertyvalueform: '/propertyValue/form',

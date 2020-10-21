@@ -5,4 +5,4 @@
 //     let bb = thisurl[0].split('/auth')
 
 // // export const postimgurl="http://139.159.249.31:18082/upload"
-export const postimgurl=JSON.parse(localStorage.getItem('auth')).fileUrlHead
+export const postimgurl=localStorage.getItem('auth')?JSON.parse(localStorage.getItem('auth')).fileUrlHead:''

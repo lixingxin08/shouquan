@@ -29,6 +29,7 @@
         </a-select>
         <div class="edit_item_warnings_toast">注：可直接选择警报类型</div>
       </div>
+
       <div class="flexrow flexac edit_item_warnings">
         <div class="edit_item_warnings_title3"><a style="color: #FF0000;">*</a>警报等级:</div>
         <a-select :value="warning.gradeno?warning.gradeno:'请选择警报类型'" class='select_item_warnings' @change="handleGradeSelectChange">
@@ -39,46 +40,75 @@
         <div class="edit_item_warnings_toast">注：可直接选择警报等级</div>
       </div>
       <div class="flexrow flexac edit_item_warnings">
-        <div class="edit_item_warnings_title3">警报描述:</div>
+        <div class="edit_item_warnings_title3"><a style="color: #FF0000;">*</a>转警模式:</div>
+        <a-select :value="conditionSelect?conditionSelect:'请选择转警模式'" class='select_item_warnings' @change="conditionSelectChange">
+          <a-select-option v-for='(item,index) in conditionList' :key='index' :value="item.comboBoxId">
+            {{item.comboBoxName}}
+          </a-select-option>
+        </a-select>
+        <div class="edit_item_warnings_toast">注：可直接选择转警模式</div>
+      </div>
+      <div class="flexrow  edit_item_warnings">
+        <div class="edit_item_warnings_title3"><a style="color: #FF0000;">*</a>转警条件:</div>
+        <a-input v-if="conditionSelect==1000||!conditionSelect" :disabled='true' style="width: 667px;" :placeholder="conditionSelect?'自动转警,无需条件':'请选择转警条件'" />
+        <div style="width: 667px;" v-if="conditionSelect==1010">
+          <a-input :disabled='true' style="width: 140px;" placeholder="持续时长(分钟)" />
+          <a-input-number style="width: 520px;font-size: 14px;" :max='1440' v-model='warning.duration'></a-input-number>
+        </div>
+        <div class="flexcolumn">
+          <div class="flexrow flexac" v-for="(itemp,indexp) in warningConList" :key='indexp' style="width: 667px;margin-bottom: 5px;"
+            v-if="conditionSelect==1020">
+            <a-select style="width: 140px;" v-model='itemp.parameterId'>
+              <a-select-option v-for='(item,index) in conditionTypeList' :key='index' :value='item.parameterId'>
+                {{item.parameterName}}
+              </a-select-option>
+            </a-select>
+            <a-select style="width: 140px;margin-left: 10px;margin-right: 10px;" v-model='itemp.operation'>
+              <a-select-option v-for='(item,index) in conditionInList' :key='index' :value='item.comboBoxId'>
+                {{item.comboBoxName}}
+              </a-select-option>
+            </a-select>
+            <a-input-number v-model='itemp.threshold' type="number" :min="itemp.parameterId==='10002000200000'?0.03:(itemp.parameterId==='10002000100000'?86:0)"
+              :max="itemp.parameterId==='10002000200000'?5.00:(itemp.parameterId==='10002000100000'?300:(itemp.parameterId==='10002000300000'?400:1))"
+              :step="itemp.parameterId=='10002000200000'||itemp.parameterId=='10002000300000'?0.01:0" style="width: 320px;font-size: 14px;"
+              @change='changNumber(indexp)'></a-input-number>
+            <a-icon v-if='warningConList.length<=15' @click='add(itemp,indexp)' type="plus-circle" style="font-size: 22px; margin-left: 5px;margin-right: 5px;" />
+            <a-icon @click='remove(indexp)' type="minus-circle" style="font-size: 22px;" />
+          </div>
+        </div>
+      </div>
+      <div class="flexrow  edit_item_warnings">
+        <div class="edit_item_warnings_title3"><a style="color: #FF0000;">*</a>转警事件:</div>
+
+        <a-table style='width: 667px' :columns="dictionaryColumns" :data-source="eventList" :pagination='false'
+          :bordered='true' size='small' :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
+          <template slot="index" slot-scope="text, record,index">
+            {{index+1}}
+          </template>
+        </a-table>
+      </div>
+      <div class="flexrow flexac edit_item_warnings">
+        <div class="edit_item_warnings_title3">流程示意图:</div>
+        <div class="isupload">
+          <a-upload name="file" list-type="picture-card" class="avatar-uploader" :show-upload-list="false" :action="postimgurl"
+            :before-upload="beforeUpload" @change="handleChange">
+            <img v-if="warning.flowImage" :src="warning.flowImage" alt="file" />
+            <div v-else>
+              <a-icon :type="loading ? 'loading' : 'plus'" />
+              <div class="ant-upload-text">Upload</div>
+            </div>
+          </a-upload>
+          <div class="col_red">支持PNG、JPEG、JPG格式，1KB至2M</div>
+        </div>
+      </div>
+      <div class="flexrow  edit_item_warnings">
+        <div class="edit_item_warnings_title3"><a style="color: #FF0000;">*</a>警报描述:</div>
         <div style="position: relative;width: 667px;">
           <a-textarea class='edit_a_input_warnings' :rows="5" v-model='warning.remark' :maxLength='250' placeholder="请输入描述"
             @change="onChangeConfig" />
           <div class="edit_number">{{warning.remark.length}}/250</div>
         </div>
       </div>
-
-      <div class="flexrow flexac edit_item_warnings">
-        <div class="edit_item_warnings_title3">流程示意图:</div>
-      <div class="isupload">
-        <a-upload
-          name="file"
-          list-type="picture-card"
-          class="avatar-uploader"
-          :show-upload-list="false"
-        :action="postimgurl"
-             :headers='loadhead'
-          :before-upload="beforeUpload"
-          @change="handleChange"
-        >
-          <img v-if="warning.flowImage" :src="warning.flowImage" alt="file" />
-          <div v-else>
-            <a-icon :type="loading ? 'loading' : 'plus'" />
-            <div class="ant-upload-text">Upload</div>
-          </div>
-        </a-upload>
-        <div class="col_red">支持PNG、JPEG、JPG格式，1KB至2M</div>
-      </div>
-      </div>
-
-
-      <div class="flexrow edit_item_warnings_title3" style="margin-top: 40px;justify-item: flex-start;margin-bottom: 10px;margin-left: 30px;"><a style="color: #FF0000;">*</a>转警事件</div>
-
-      <a-table style='width: 50vw;margin-left: 30px;' :columns="dictionaryColumns" :data-source="eventList" :pagination='false' :bordered='true'
-        size='small' :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
-        <template slot="index" slot-scope="text, record,index">
-          {{index+1}}
-        </template>
-      </a-table>
       <div class="flexrow flexjc" style="margin-top: 40px;margin-bottom: 100px;">
         <a-button type="primary" @click='submit'>保存</a-button>
         <a-button style="margin-left: 20px;" @click='reset'>重置</a-button>
@@ -89,7 +119,10 @@
 
 <script>
   import tableTitleData from "../table.json";
-import {postimgurl} from '../../../../js/url'
+  import {
+    postimgurl
+  } from '../../../../js/url.js'
+
   function getBase64(img, callback) {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
@@ -100,8 +133,7 @@ import {postimgurl} from '../../../../js/url'
     data() {
 
       return {
-          loadhead:{token:JSON.parse(localStorage.getItem('auth')).token},
-       postimgurl:postimgurl,
+        postimgurl,
         selectedRowKeys: [], //选择转警事件
         gradeList: [{ //警报等级
             comboBoxId: 1,
@@ -116,6 +148,44 @@ import {postimgurl} from '../../../../js/url'
             comboBoxName: '忽略'
           }
         ],
+        conditionList: [{ //转警条件
+            comboBoxId: 1000,
+            comboBoxName: '自动转警'
+          },
+          {
+            comboBoxId: 1010,
+            comboBoxName: '持续转警'
+          },
+          {
+            comboBoxId: 1020,
+            comboBoxName: '条件转警'
+          }
+        ],
+        conditionTypeList: [],
+        conditionInList: [{ //转警条-1=小余、-10=小余等于，0=等于，1=大于，10=大于等于
+            comboBoxId: -1,
+            comboBoxName: '小于'
+          },
+          {
+            comboBoxId: -10,
+            comboBoxName: '小余等于'
+          },
+          {
+            comboBoxId: 0,
+            comboBoxName: '等于'
+          },
+
+          {
+            comboBoxId: 1,
+            comboBoxName: '大于'
+          },
+
+          {
+            comboBoxId: 10,
+            comboBoxName: '大于等于'
+          }
+        ],
+        conditionSelect: '', //转警条件选择
         eventList: [], //转警事件
         warningTypeList: [], //转警事件列表
         warningSelect: '', //转警选择
@@ -123,6 +193,7 @@ import {postimgurl} from '../../../../js/url'
           gradeno: 0,
           remark: ''
         }, //警告信息
+        warningConList: [],
         dictionaryColumns: tableTitleData.data.add,
         num: 0, //描述长度
         id: '', //修改的id
@@ -133,10 +204,9 @@ import {postimgurl} from '../../../../js/url'
     created() {
       this.id = this.$route.query.id
       this.getCombobox()
+      this.getEventList()
       if (this.id) { //编辑
         this.getWarnInfo();
-      } else {
-        this.getEventList()
       }
     },
     methods: {
@@ -158,6 +228,10 @@ import {postimgurl} from '../../../../js/url'
           this.$message.warning('请选择警报等级')
           return
         }
+        if (!this.warning.remark) {
+          this.$message.warning('请输入警报描述')
+          return
+        }
         if (!this.selectedRowKeys) {
           this.$message.warning('请至少勾选一个转警事件')
           return
@@ -169,49 +243,57 @@ import {postimgurl} from '../../../../js/url'
           alarmType: this.warningSelect, //警报类型
           flowImage: this.warning.flowImage, //流程示意图
           gradeno: this.warning.gradeno,
+          changeModel: this.conditionSelect,
+          duration: this.warning.duration,
+          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId, //操作者id
           remark: this.warning.remark, //警报描述
-          eventIdList: this.getEventSelectList() //转警事件
+          eventList: this.getEventSelectList(), //转警事件
+          parameterValueList: []
         }
+        if (this.conditionSelect == 1020)
+          this.warningConList.forEach((item) => {
+            item.threshold = item.threshold * 100
+            param.parameterValueList.push(item)
+          })
+
         let res = await this.$http.post(this.$api.alramform, param)
         if (res.data.resultCode == 10000) {
-          //if (!this.id)
-            this.$router.push('/devicewarning')
           this.$message.success(res.data.resultMsg);
+          this.$router.push('/devicewarning')
         } else {
           this.$message.error(res.data.resultMsg);
         }
       },
-
-    handleChange(info) {
-      if (info.file.status === "uploading") {
-        this.loading = true;
-        return;
-      }
-      if (info.file.status === "done") {
-        // Get this url from response in real world.
-          let aa = JSON.parse(localStorage.getItem('auth'))
-              aa.token = info.file.response.headers.token
-              localStorage.setItem('auth', JSON.stringify(aa))
-          this.warning.flowImage  = info.file.response.data;
+      chooseEvent(eventId) {
+        this.selectEvent = eventId
+      },
+      handleChange(info) {
+        if (info.file.status === "uploading") {
+          this.loading = true;
+          return;
+        }
+        if (info.file.status === "done") {
+          // Get this url from response in real world.
+          this.warning.flowImage = info.file.response.data;
           this.loading = false;
-      }
-      console.log(this.imageUrl, 88999, info);
-    },
-    beforeUpload(file) {
-      const isJpgOrPng =
-        file.type === "image/jpeg" ||
-        file.type === "image/png" ||
-        file.type === "image/jpg";
-      if (!isJpgOrPng) {
-        this.$message.error("只能上传jpeg,jpg,png格式的图片");
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.$message.error("图片大小不能超过2MB!");
-      }
-      return isJpgOrPng && isLt2M;
-    },
-      /* 获取警报类别列表 */
+        }
+        console.log(this.imageUrl, 88999, info);
+      },
+      beforeUpload(file) {
+        const isJpgOrPng =
+          file.type === "image/jpeg" ||
+          file.type === "image/png" ||
+          file.type === "image/jpg";
+        if (!isJpgOrPng) {
+          this.$message.error("只能上传jpeg,jpg,png格式的图片");
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+          this.$message.error("图片大小不能超过2MB!");
+        }
+        return isJpgOrPng && isLt2M;
+      },
+      /* 获取警报类别 条件列表 */
       async getCombobox() {
         let param = {
           classCode: 'device_alarm_type'
@@ -220,21 +302,41 @@ import {postimgurl} from '../../../../js/url'
         if (res.data.resultCode == 10000) {
           this.warningTypeList = res.data.data
         }
+        let res1 = await this.$http.post(this.$api.alramcombobox, {})
+        if (res1.data.resultCode == 10000) {
+          this.conditionTypeList = res1.data.data
+        }
       },
+
       handleGradeSelectChange(value) {
         this.warning.gradeno = value
       },
+      conditionSelectChange(value) {
+        if (!this.warningConList)
+          this.warningConList = []
+        if (value == 1020 && this.warningConList.length <= 0) {
+          this.warningConList.push({
+            parameterId: this.conditionTypeList[0].parameterId,
+            operation: this.conditionInList[0].comboBoxId
+          })
+        }
+        this.conditionSelect = value
+
+      },
+      changNumber(index) {
+        let type = this.warningConList[index].type
+        if (type == 'current') {
+          let num = this.warningConList[index].numberValue.toString().split('.')
+          if (num.length > 1 && num[1].length > 2) {
+            this.warningConList[index].numberValue = parseFloat(num[0] + '.' + num[1].substring(0, 2))
+          }
+        } else {}
+      },
       /* 获取事件列表*/
       async getEventList() {
-        let param = {
-          pageSize: 200,
-          pageIndex: 1,
-          keyword: '',
-          eventType: ''
-        }
-        let res = await this.$http.post(this.$api.deviceeventpage, param)
+        let res = await this.$http.post(this.$api.deviceeventlist, {})
         if (res.data.resultCode == 10000) {
-          this.eventList = res.data.data.list
+          this.eventList = res.data.data
         }
       },
       /* 获取警告详情*/
@@ -245,19 +347,23 @@ import {postimgurl} from '../../../../js/url'
         let res = await this.$http.post(this.$api.alramdetail, param);
         if (res.data.resultCode == 10000) {
           this.warning = res.data.data
-          this.eventList = this.warning.eventList
-          this.warningSelect = this.warning.alarmType
-          if (this.eventList.length > 0) {
+          this.eventList = this.eventList.concat(this.warning.eventList)
+          if (this.warning.eventList.length > 0) {
             this.selectedRowKeys = []
             let that = this
-            for (let i = 0; i < this.eventList.length; i++) {
-              if (this.eventList[i].selectFlag==1)
-                this.selectedRowKeys.push(i)
+            for (let i = 0; i < this.warning.eventList.length; i++) {
+
+              this.selectedRowKeys.push(i)
             }
           }
+          this.warningSelect = this.warning.alarmType
+          this.warningConList = this.warning.parameterValueList
+          this.conditionSelect = this.warning.changeModel
         }
       },
-
+      onSelectChange(selectedRowKeys) { //选择警报类型
+        this.selectedRowKeys = selectedRowKeys;
+      },
       /* 获取关联品牌 */
       getEventSelectList() {
         let list = []
@@ -275,21 +381,29 @@ import {postimgurl} from '../../../../js/url'
       handleSelectChange(value) { //授权类型下拉选择
         this.warningSelect = value
       },
-      onSelectChange(selectedRowKeys) { //选择警报类型
-        this.selectedRowKeys = selectedRowKeys;
-      },
       /* 重置*/
       reset() {
         if (this.id) {
           this.getWarnInfo()
         } else {
           this.selectedRowKeys = []
-          this.warningSelect=''
+          this.warningSelect = ''
           this.warning = {
             gradeno: 0,
             remark: ''
           }
         }
+      },
+      add(item, index) {
+        this.warningConList.splice(index + 1, 0, {
+          parameterId: item.parameterId,
+          operation: item.operation
+        })
+      },
+      remove(index) {
+        if (this.warningConList.length == 1)
+          return
+        this.warningConList.splice(index, 1)
       }
     },
   }

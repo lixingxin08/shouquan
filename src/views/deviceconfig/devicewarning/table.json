@@ -61,26 +61,27 @@
         "scopedSlots": {
           "customRender": "index"
         },
-        "width": "7%",
+        "width": "12%",
         "align": "center"
       },
       {
         "title": "事件名称",
         "dataIndex": "eventName",
         "align": "center",
+          "ellipsis": true,
         "width": "30%"
       },
       {
         "title": "事件代码",
+          "ellipsis": true,
         "dataIndex": "eventCode",
-        "align": "center",
-        "width": "30%"
+        "align": "center"
       },
       {
         "title": "事件类型",
+         "ellipsis": true,
         "dataIndex": "eventTypeName",
         "align": "center"
-
       }
     ]
   }

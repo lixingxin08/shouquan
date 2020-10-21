@@ -82,7 +82,7 @@ Vue.use(Router)
 export default new Router({
   routes: [{
       path: '',
-      redirect: '/base'
+      redirect: '/administrativedivision'
     },
     {
       path: '/base',

@@ -15,13 +15,36 @@ Vue.prototype.$http = axios;
 Vue.prototype.$api = api;
 import 'ant-design-vue/dist/antd.css';
 import config from './utils/config.js'
-Vue.prototype.$config=config
+Vue.prototype.$config = config
 import moment from 'moment';
 import locale from 'ant-design-vue/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
-import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table, DatePicker, Switch, Popconfirm, Modal, message, Radio, Upload, Steps, Tabs, InputNumber, ConfigProvider } from 'ant-design-vue';
+import {
+  Layout,
+  Button,
+  Icon,
+  Select,
+  Dropdown,
+  Menu,
+  Input,
+  Tree,
+  TreeSelect,
+  Breadcrumb,
+  Table,
+  DatePicker,
+  Switch,
+  Popconfirm,
+  Modal,
+  message,
+  Radio,
+  Upload,
+  Steps,
+  Tabs,
+  InputNumber,
+  ConfigProvider
+} from 'ant-design-vue';
 
 Vue.use(Dropdown);
 Vue.use(Layout);
@@ -71,7 +94,8 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyODQyNDIwOTgzLCJ0b2tlbklkIjoiY2FjZjYwZjkyZTliNGU5YzlhZTE4YjdmYzgzMzRkYzAiLCJ1c2VySWQiOiJGRjIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.LaqsgkWAbD1oImgXxtc5RZCPU8b3WOgseJrnDwqJPW4"
+      token =
+        "eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAzMjUwMzQ4ODg3LCJ0b2tlbklkIjoiMDQ5YThjODQ4NTkwNGM0YTg2ZjEzMzdkNTg1ZGYyYjMiLCJ1c2VySWQiOiJGRjIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.2h-EMnO9lSNTqdq_5zo0ZqBQxddn-kwBx5XHRfpe4eo"
 
     } else {
       token = JSON.parse(localStorage.getItem('auth')).token || ""
@@ -86,45 +110,47 @@ axios.interceptors.request.use(
 )
 axios.interceptors.response.use(
   response => {
-    let aa = JSON.parse(localStorage.getItem('auth'))
-    aa.token = response.headers.token
-    localStorage.setItem('auth', JSON.stringify(aa))
+    if (localStorage.getItem('auth')) {
+      let aa = JSON.parse(localStorage.getItem('auth'))
+      aa.token = response.headers.token
+      localStorage.setItem('auth', JSON.stringify(aa))
+    }
     if (response.data.resultMsg == "执行成功，但没有获取到数据") {
-      response.data.data=[]
-      response.data.data.list=[]
+      response.data.data = []
+      response.data.data.list = []
 
     }
     if (response.data.resultCode == "20100") {
-      message.error("令牌错误，请重新登录",5)
+      message.error("令牌错误，请重新登录", 5)
 
-        window.location.href = bb[0]
+      window.location.href = bb[0]
 
     }
     if (response.data.resultCode == "20101") {
-      message.error("未登录，请先登录",5)
+      message.error("未登录，请先登录", 5)
 
-        window.location.href = bb[0]
+      window.location.href = bb[0]
 
     }
     if (response.data.code == "20102") {
-      message.error("你的账号已在其他地方登录，请重新登录",5)
+      message.error("你的账号已在其他地方登录，请重新登录", 5)
 
-        window.location.href = bb[0]
+      window.location.href = bb[0]
 
     }
     if (response.data.resultCode == "20103") {
-      message.error("登录已过期，请重新登录！",5)
+      message.error("登录已过期，请重新登录！", 5)
 
-        window.location.href = bb[0]
+      window.location.href = bb[0]
 
     }
     if (response.data.resultCode == "20104") {
-      message.error("登录已失效，请重新登录！",5)
-        window.location.href = bb[0]
+      message.error("登录已失效，请重新登录！", 5)
+      window.location.href = bb[0]
     }
     if (response.data.resultCode == "20105") {
-      message.error("登录已失效，请重新登录！",5)
-        window.location.href = bb[0]
+      message.error("登录已失效，请重新登录！", 5)
+      window.location.href = bb[0]
     }
 
     return response;
@@ -132,32 +158,33 @@ axios.interceptors.response.use(
   error => {
     if (error.response) {
       console.log(error.response.status, 'errorerrorerrorerror');
-      if (error.response.status==404) {
+      if (error.response.status == 404) {
         router.replace({
           path: '/error404',
         })
       }
-      if (error.response.status==403) {
+      if (error.response.status == 403) {
         router.replace({
           path: '/error403',
         })
       }
-      if (error.response.status==404) {
+      if (error.response.status == 404) {
         router.replace({
           path: '/error404',
         })
       }
-      if (error.response.status==500) {
+      if (error.response.status == 500) {
         router.replace({
           path: '/error500',
         })
       }
-      if (error.response.status==504) {
+      if (error.response.status == 504) {
         router.replace({
           path: '/error504',
         })
       }
     }
+    if(error.response.data)
     return Promise.reject(error.response.data)
   }
 )
@@ -166,7 +193,7 @@ axios.interceptors.response.use(
 
 
 //校验中英文文字符
-Vue.prototype.vify_cn = function (phone) {
+Vue.prototype.vify_cn = function(phone) {
   let myreg = /^[\u4e00-\u9fa5a-zA-Z\d_]{0,50}$/gi;
   if (myreg.test(phone) !== true) {
     return false;
@@ -175,7 +202,7 @@ Vue.prototype.vify_cn = function (phone) {
   }
 };
 //校验中英文文字符
-Vue.prototype.vify_cn16 = function (phone) {
+Vue.prototype.vify_cn16 = function(phone) {
   let myreg = /^[\u4e00-\u9fa5a-zA-Z\d_]{2,16}$/gi;
   if (myreg.test(phone) !== true) {
 
@@ -186,7 +213,7 @@ Vue.prototype.vify_cn16 = function (phone) {
   }
 };
 //校验中文字符
-Vue.prototype.vify_cn2 = function (phone) {
+Vue.prototype.vify_cn2 = function(phone) {
   let myreg = /^[\u4e00-\u9fa5]+$/gi;
   if (myreg.test(phone) !== true) {
     return false;
@@ -195,7 +222,7 @@ Vue.prototype.vify_cn2 = function (phone) {
   }
 };
 //校验50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号
-Vue.prototype.vify_cn3 = function (phone) {
+Vue.prototype.vify_cn3 = function(phone) {
   let myreg = /^[\u4e00-\u9fa5a-z0-9A-Z\（\）\(\)\d_]{0,50}$/gi;
   if (myreg.test(phone) !== true) {
     return false;
@@ -206,7 +233,7 @@ Vue.prototype.vify_cn3 = function (phone) {
 
 
 //验证邮箱格式
-Vue.prototype.verEmail = function (str) {
+Vue.prototype.verEmail = function(str) {
   var re = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
   if (re.test(str) !== true) {
     return false;
@@ -215,7 +242,7 @@ Vue.prototype.verEmail = function (str) {
   }
 };
 //验证手机号码
-Vue.prototype.verPhone = function (str) {
+Vue.prototype.verPhone = function(str) {
   var re = /^1[3456789]\d{9}$/
   if (re.test(str) !== true) {
     return false;
@@ -236,6 +263,8 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })
