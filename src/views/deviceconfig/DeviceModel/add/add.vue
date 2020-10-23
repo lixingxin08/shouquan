@@ -107,7 +107,9 @@
 
 <script>
   import tableTitleData from "../table.json";
-import {postimgurl} from '../../../../js/url'
+  import {
+    postimgurl
+  } from '../../../../js/url.js'
 
   function getBase64(img, callback) {
     const reader = new FileReader();
@@ -119,7 +121,7 @@ import {postimgurl} from '../../../../js/url'
     data() {
 
       return {
-         loadhead:{token:JSON.parse(localStorage.getItem('auth')).token},
+        loadhead:{token:localStorage.getItem('auth')?JSON.parse(localStorage.getItem('auth')).token:''},
        postimgurl:postimgurl,
         dictionaryColumns: tableTitleData.data.add,
         selectedRowKeys: [],
@@ -373,12 +375,15 @@ import {postimgurl} from '../../../../js/url'
 	    }
 	    if (info.file.status === "done") {
         // Get this url from response in real world.
+        if(localStorage.getItem('auth')){
           let aa = JSON.parse(localStorage.getItem('auth'))
               aa.token = info.file.response.headers.token
               localStorage.setItem('auth', JSON.stringify(aa))
+
               this.imageUrl = info.file.response.data;
           this.form.customerLogo = info.file.response.data;
           this.loading = false;
+          }
 	    }
 	    console.log(this.imageUrl, 88999, info);
 	  },

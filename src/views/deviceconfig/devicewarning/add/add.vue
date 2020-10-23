@@ -51,13 +51,13 @@
       <div class="flexrow  edit_item_warnings">
         <div class="edit_item_warnings_title3"><a style="color: #FF0000;">*</a>转警条件:</div>
         <a-input v-if="conditionSelect==1000||!conditionSelect" :disabled='true' style="width: 667px;" :placeholder="conditionSelect?'自动转警,无需条件':'请选择转警条件'" />
-        <div style="width: 667px;" v-if="conditionSelect==1010">
+        <div style="width: 667px;" v-if="conditionSelect==1020">
           <a-input :disabled='true' style="width: 140px;" placeholder="持续时长(分钟)" />
           <a-input-number style="width: 520px;font-size: 14px;" :max='1440' v-model='warning.duration'></a-input-number>
         </div>
         <div class="flexcolumn">
           <div class="flexrow flexac" v-for="(itemp,indexp) in warningConList" :key='indexp' style="width: 667px;margin-bottom: 5px;"
-            v-if="conditionSelect==1020">
+            v-if="conditionSelect==1010">
             <a-select style="width: 140px;" v-model='itemp.parameterId'>
               <a-select-option v-for='(item,index) in conditionTypeList' :key='index' :value='item.parameterId'>
                 {{item.parameterName}}
@@ -154,11 +154,11 @@
           },
           {
             comboBoxId: 1010,
-            comboBoxName: '持续转警'
+            comboBoxName: '条件转警'
           },
           {
             comboBoxId: 1020,
-            comboBoxName: '条件转警'
+            comboBoxName: '持续转警'
           }
         ],
         conditionTypeList: [],
@@ -250,7 +250,7 @@
           eventList: this.getEventSelectList(), //转警事件
           parameterValueList: []
         }
-        if (this.conditionSelect == 1020)
+        if (this.conditionSelect == 1010)
           this.warningConList.forEach((item) => {
             item.threshold = item.threshold * 100
             param.parameterValueList.push(item)
@@ -314,7 +314,7 @@
       conditionSelectChange(value) {
         if (!this.warningConList)
           this.warningConList = []
-        if (value == 1020 && this.warningConList.length <= 0) {
+        if (value == 1010 && this.warningConList.length <= 0) {
           this.warningConList.push({
             parameterId: this.conditionTypeList[0].parameterId,
             operation: this.conditionInList[0].comboBoxId
