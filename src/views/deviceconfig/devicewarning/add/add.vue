@@ -252,8 +252,18 @@
         }
         if (this.conditionSelect == 1010)
           this.warningConList.forEach((item) => {
-            item.threshold = item.threshold * 100
-            param.parameterValueList.push(item)
+            // let item2 = item
+            // item2.threshold = item2.threshold * 100
+            param.parameterValueList.push({
+              parameterId:item.parameterId,
+              alarmId:item.alarmId,
+              operation:item.operation,
+              customerId:item.customerId,
+              threshold:item.threshold*100,
+              parameterValue:item.parameterValue,
+              parameterCode:item.parameterCode,
+              parameterName:item.parameterName
+            })
           })
 
         let res = await this.$http.post(this.$api.alramform, param)
@@ -358,6 +368,9 @@
           }
           this.warningSelect = this.warning.alarmType
           this.warningConList = this.warning.parameterValueList
+          this.warningConList.forEach((item, index) => {
+            this.warningConList[index].threshold = this.warningConList[index].threshold / 100
+          })
           this.conditionSelect = this.warning.changeModel
         }
       },
