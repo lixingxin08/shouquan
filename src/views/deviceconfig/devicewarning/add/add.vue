@@ -245,7 +245,7 @@
           gradeno: this.warning.gradeno,
           changeModel: this.conditionSelect,
           duration: this.warning.duration,
-          operatorId: JSON.parse(localStorage.getItem('authorization')).accountId, //操作者id
+          //operatorId: JSON.parse(localStorage.getItem('authorization')).accountId, //操作者id
           remark: this.warning.remark, //警报描述
           eventList: this.getEventSelectList(), //转警事件
           parameterValueList: []
